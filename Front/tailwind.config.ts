@@ -14,8 +14,13 @@ const config: Config = {
       },
       backgroundColor: {
         primary: "#E0E0E0",
-        secondary: "#CE2225"
-      }
+        secondary: "#CE2225",
+        third: "#D8D8D8",
+        transparentmenu: "rgba(0, 0, 0, 0.60)",
+      },
+      fontSize: {
+        '10xl': '10.5rem',
+      },
     },
   },
   plugins: [],

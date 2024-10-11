@@ -1,20 +1,22 @@
 'use client'
 
-import Link from 'next/link';
-import React, { useState } from 'react';
-
-const Register = () => {
+import React, { useState } from "react"
+import InputPDF from "../InputPDF/InputPDF";
+const Contact = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [telephone, setTelephone] = useState('');
     const [address, setAddress] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [date, setDate] = useState('');
+    const [position, setPosition] = useState('');
 
     return (
-        <div className="absolute inset-0 w-full flex flex-col items-center justify-center m-auto min-h-screen bg-primary lg:w-2/3 2xl:w-1/2">
+        <div className="w-full flex flex-col items-center justify-center min-h-screen bg-primary ">
             <form className="w-11/12 bg-neutral-300 p-6 rounded-lg flex flex-col justify-center items-center">
-                <h2 className='w-full text-xl text-center text-neutral-800 font-extrabold'>JOIN THE FELLINI CLUB</h2>
+                <h2 className='w-full text-xl text-center text-neutral-800 font-extrabold'>JOIN OUR TEAM</h2>
+                <p className="text-neutral-800 font-bold text-center">
+                    Fill out the following form and we will contact you.
+                </p>
                 <div className="w-4/5 mb-6 relative">
                     <input
                         type="text"
@@ -86,51 +88,52 @@ const Register = () => {
                     >
                         Address
                     </label>
-                </div><div className="w-4/5 mb-6 relative">
+                </div>
+                <div className="w-4/5 mb-6 relative">
                     <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        type="text"
+                        id="position"
+                        value={position}
+                        onChange={(e) => setPosition(e.target.value)}
                         className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
                         required
                     />
                     <label
-                        htmlFor="password"
+                        htmlFor="position"
                         className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${
-                            password ? 'top-[4px] text-xs ' : ''
+                            position ? 'top-[4px] text-xs ' : ''
                         }`}
                     >
-                        Password
+                        Post of interest
                     </label>
                 </div>
                 <div className="w-4/5 mb-6 relative">
                     <input
-                        type="password"
-                        id="confirmpassword"
-                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        type="text"
+                        id="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
                         className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
                         required
                     />
                     <label
-                        htmlFor="confirmpassword"
+                        htmlFor="date"
                         className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${
-                            confirmPassword ? 'top-[4px] text-xs ' : ''
+                            date ? 'top-[4px] text-xs ' : ''
                         }`}
                     >
-                        Confirm password
+                        Application date
                     </label>
                 </div>
+                <InputPDF />
                 <button
                     type="submit"
                     className="w-4/5 bg-red-600 text-white font-bold py-2 rounded-lg hover:bg-red-700 transition duration-200"
                 >
-                    Check in
+                    Send
                 </button>
-                <Link href="/login" className='text-neutral-800 mt-2 hover:underline'>Do you already have an account? Login</Link>
             </form>
         </div>
     );
 }
-
-export default Register
+export default Contact

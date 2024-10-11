@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link';
 import React, { useState } from 'react';
 
 const Login = () => {
@@ -7,7 +8,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
 
     return (
-        <div className="w-full flex flex-col items-center min-h-screen bg-primary ">
+        <div className="absolute inset-0 w-full h-auto flex flex-col items-center justify-center bg-primary m-auto lg:w-2/3 2xl:w-1/2">
             <form className="w-11/12 bg-neutral-300 p-6 rounded-lg flex flex-col justify-center items-center">
                 <h2 className='w-full text-xl text-center text-neutral-800 font-extrabold'>INGRESÁ A CLUB FELLINI</h2>
                 <div className="w-4/5 mb-6 relative">
@@ -52,7 +53,9 @@ const Login = () => {
                 >
                     Iniciar Sesión
                 </button>
+                <Link href="/register" className='text-neutral-800 mt-2 hover:underline'>Don't have an account? Register</Link>
             </form>
+            <div className='w-full h-20'></div>
         </div>
     );
 }

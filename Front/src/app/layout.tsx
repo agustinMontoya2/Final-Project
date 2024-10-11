@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import Navbar from "../components/Navbar/Navbar"
+import Footer from "@/components/footer/Footer";
+import Navbar from "../components/NavBar/NavBar"
 import { Head } from "next/document";
 import ConditionalLayouts from "../components/ConditionalLayouts/ConditionalLayouts";
 
@@ -35,6 +36,7 @@ export default function RootLayout({
         <ConditionalLayouts>
               {children}
         </ConditionalLayouts>
+     
       </body>
     </html>
   );
