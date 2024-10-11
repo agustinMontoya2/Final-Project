@@ -2,13 +2,10 @@ import {
   Column,
   Entity,
   PrimaryGeneratedColumn,
-  OneToMany,
   ManyToOne,
   JoinColumn,
-  OneToOne,
 } from 'typeorm';
 import { Category } from 'src/categories/entities/category.entity';
-import { OrderDetail } from 'src/order/entities/orderDetail.entity';
 
 @Entity()
 export class Product {
@@ -34,4 +31,8 @@ export class Product {
 
   @Column()
   available: boolean;
+
+  //   @ManyToOne(() => ProductDetail, (productDetail) => productDetail.product)
+  //   @JoinColumn({ name: 'product_detail_id' })
+  //   product_detail: ProductDetail;
 }

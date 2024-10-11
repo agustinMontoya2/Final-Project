@@ -1,32 +1,38 @@
 import {
   Column,
   Entity,
-  ManyToOne,
   PrimaryGeneratedColumn,
   OneToOne,
-  JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { Order } from './order.entity';
-import { Product } from 'src/products/entities/product.entity';
+import { ProductDetail } from 'src/products/entities/productDetail.entity';
 
 @Entity()
 export class OrderDetail {
   @PrimaryGeneratedColumn('uuid')
-  orderDetail_id: string;
+  order_detail_id: string;
 
   //productDetail
 
   @Column()
-  orderType: string;
+  order_type: string;
 
   @Column()
-  paymentMethod: string;
+  payment_method: string;
 
   @Column()
   total: number;
 
   @OneToOne(() => Order, (order) => order.orderDetail)
   order: Order;
+
+  @OneToMany(
+    () => ProductDetail,
+    (productDetail) => productDetail.orderDetail,
+    { cascade: true },
+  )
+  productDetails: ProductDetail[];
 }
 
 /**

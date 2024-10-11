@@ -18,6 +18,9 @@ export class Order {
   @Column()
   date: Date;
 
+  @Column()
+  state: string;
+
   @ManyToOne(() => User, (user) => user.order)
   @JoinColumn({ name: 'user_id' })
   user: User;
