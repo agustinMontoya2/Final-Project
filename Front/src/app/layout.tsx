@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import Footer from "@/components/footer/Footer";
+import Footer from "@/components/Footer/Footer";
 import Navbar from "../components/NavBar/NavBar"
 import { Head } from "next/document";
 import ConditionalLayouts from "../components/ConditionalLayouts/ConditionalLayouts";
