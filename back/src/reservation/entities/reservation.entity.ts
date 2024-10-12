@@ -25,5 +25,8 @@ export class Reservation {
   date: Date;
 
   @Column()
+  time: string;
+
+  @Column()
   status: string;
 }
