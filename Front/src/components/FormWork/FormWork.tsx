@@ -2,17 +2,62 @@
 
 import React, { useState } from "react"
 import InputPDF from "../InputPDF/InputPDF";
-const Contact = () => {
+const FormWork = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [telephone, setTelephone] = useState('');
     const [address, setAddress] = useState('');
     const [date, setDate] = useState('');
     const [position, setPosition] = useState('');
+    const [file, setFile] = useState<File | null>(null);
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedFile = event.target.files?.[0];
+        if (selectedFile && selectedFile.type === "application/pdf") {
+            setFile(selectedFile);
+        } else {
+            alert("Por favor, selecciona un archivo PDF.");
+            setFile(null);
+        }
+    };
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        if (file) {
+            // Aquí puedes manejar la subida del archivo
+            console.log("Archivo seleccionado:", file);
+            // Implementa tu lógica para subir el archivo
+        } else {
+            alert("Por favor, selecciona un archivo PDF para enviar.");
+        }
+
+        const res = await fetch("api/send", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ name, email, telephone, address, date, position }),
+        });
+
+        if (res.ok) {
+            const data = await res.json();
+            console.log(data);
+
+            setName('');
+            setEmail('');
+            setTelephone('');
+            setAddress('');
+            setDate('');
+            setPosition('');
+        } else {
+            console.error("Error al enviar el formulario");
+        }
+    };
 
     return (
-        <div className="w-full flex flex-col items-center justify-center min-h-screen bg-primary ">
-            <form className="w-11/12 bg-neutral-300 p-6 rounded-lg flex flex-col justify-center items-center">
+        <div className="absolute inset-0 w-full flex flex-col items-center justify-center min-h-screen bg-primary ">
+            <form onSubmit={handleSubmit} className="w-11/12 bg-neutral-300 p-6 rounded-lg flex flex-col justify-center items-center">
                 <h2 className='w-full text-xl text-center text-neutral-800 font-extrabold'>JOIN OUR TEAM</h2>
                 <p className="text-neutral-800 font-bold text-center">
                     Fill out the following form and we will contact you.
@@ -125,7 +170,20 @@ const Contact = () => {
                         Application date
                     </label>
                 </div>
-                <InputPDF />
+                <div className="w-4/5 mb-6 relative">
+                <label className="w-full mb-6 relative">
+                    <input
+                        type="file"
+                        accept="application/pdf"
+                        onChange={handleFileChange}
+                        className="absolute inset-0 opacity-0 cursor-pointer"
+                        required
+                    />
+                    <span className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1">
+                        {file ? file.name : "Select your CV in PDF format"}
+                    </span>
+                </label>
+                </div>
                 <button
                     type="submit"
                     className="w-4/5 bg-red-600 text-white font-bold py-2 rounded-lg hover:bg-red-700 transition duration-200"
@@ -136,4 +194,4 @@ const Contact = () => {
         </div>
     );
 }
-export default Contact
+export default FormWork

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import WhatsApp from "../WhatsApp/WhatsApp";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -11,7 +12,7 @@ const Navbar = () => {
 
     return (
         <div>
-            <div className="w-full h-auto bg-secondary flex justify-evenly items-center fixed top-0 z-50">
+            <div className="w-full h-auto bg-secondary flex justify-evenly items-center fixed top-0 z-40">
                 <Link href={""} className="h-20 w-1/2 p-2 flex items-center" onClick={toggleAside}>
                     <Image src={"/assets/icon/menu.png"} alt="menu" width={45} height={45} />
                 </Link>
@@ -77,6 +78,7 @@ const Navbar = () => {
                             isOpen ? 'translate-x-0' : 'translate-x-full'
                         }`}
                     >
+                        <WhatsApp />
                     </aside>
                     <div className="w-full h-20"></div>
                 </div>

@@ -1,20 +1,36 @@
-import Image from "next/image"
-import Link from "next/link"
-import React from "react"
+import { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 
-const WhatsApp = () => {
-    return(
-<div className="relative w-16 h-16">
-            <button className="fixed right-0 bottom-0 z-50">
-                <Image
-                    src="/assets/icon/wsp.png"
-                    layout="fill"
-                    objectFit="contain"
-                    alt="numero fellini"
-                />
-            </button>
+const WhatsAppButton = () => {
+    const [isHovered, setIsHovered] = useState(false);
+
+    return (
+        <div className="fixed right-4 bottom-4 z-50 w-14 h-14">
+            <Link href={"https://wa.me/5493416899356"} target="_blank" rel="noopener noreferrer">
+                <button
+                    className="w-full h-full relative"
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                >
+                    <Image
+                        src="/assets/icon/wsp.png"
+                        layout="fill"
+                        objectFit="contain"
+                        alt="numero fellini"
+                        className={`transition-opacity duration-500 ${isHovered ? 'opacity-0' : 'opacity-100'}`}
+                    />
+                    <Image
+                        src="/assets/icon/wsphover.png"
+                        layout="fill"
+                        objectFit="contain"
+                        alt="numero fellini"
+                        className={`transition-opacity duration-500 ${isHovered ? 'opacity-100' : 'opacity-0'}`}
+                    />
+                </button>
+            </Link>
         </div>
-    )
+    );
 };
 
-export default WhatsApp
+export default WhatsAppButton;

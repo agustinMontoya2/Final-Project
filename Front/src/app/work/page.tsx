@@ -1,8 +1,8 @@
-import Contact from "@/components/Work/Work"
+import FormWork from "@/components/FormWork/FormWork"
 import React, { useState } from "react"
 const contact = () => {
     return(
-        <Contact />
+        <FormWork />
     )
 }
 export default contact
