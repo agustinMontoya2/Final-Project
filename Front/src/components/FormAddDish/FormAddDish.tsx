@@ -4,112 +4,141 @@ import { FormValues } from '@/interfaces/productoInterface';
 import React from 'react';
 
 const FormularioMenu = () => {
-const [formValues, setFormValues] = useState<FormValues>({
-    nombre: '',
-    descripcion: '',
-    precio: '',
-    imagen: null,
-});
-
-const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormValues({
-    ...formValues,
-    [name]: value,
-    });
-};
-
-const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-    setFormValues({
-        ...formValues,
-        imagen: e.target.files[0],
-    });
-    }
-};
-
-const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('nombre', formValues.nombre);
-    formData.append('descripcion', formValues.descripcion);
-    formData.append('precio', formValues.precio);
-    if (formValues.imagen) {
-    formData.append('imagen', formValues.imagen);
-    }
-
-    try {
-    const response = await fetch('/api/menus', {
-        method: 'POST',
-        body: formData,
+    const [formValues, setFormValues] = useState<FormValues>({
+        nombre: '',
+        descripcion: '',
+        precio: '',
+        imagen: null,
     });
 
-    if (response.ok) {
-        alert('Menú agregado correctamente!');
-    } else {
-        alert('Error al agregar el menú');
-    }
-    } catch (error) {
-    console.error('Error al enviar el formulario:', error);
-    alert('Ocurrió un error al intentar agregar el menú');
-    }
-};
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormValues({
+            ...formValues,
+            [name]: value,
+        });
+    };
 
-return (
-    <div className="min-h-screen bg-gray-200 flex flex-col justify-center items-center">
-    <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-6">
-        <h2 className="text-2xl font-bold text-center mb-4">Add dish</h2>
-        <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-            <input
-            type="text"
-            name="nombre"
-            placeholder="Name"
-            value={formValues.nombre}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-            required
-            />
+    const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            setFormValues({
+                ...formValues,
+                imagen: e.target.files[0],
+            });
+        }
+    };
+
+    const handleSubmit = async (e: FormEvent) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('nombre', formValues.nombre);
+        formData.append('descripcion', formValues.descripcion);
+        formData.append('precio', formValues.precio);
+        if (formValues.imagen) {
+            formData.append('imagen', formValues.imagen);
+        }
+
+        try {
+            const response = await fetch('/api/menus', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                alert('Menú agregado correctamente!');
+            } else {
+                alert('Error al agregar el menú');
+            }
+        } catch (error) {
+            console.error('Error al enviar el formulario:', error);
+            alert('Ocurrió un error al intentar agregar el menú');
+        }
+    };
+
+    return (
+        <div className="absolute inset-0 flex items-center justify-center">
+            <form className="w-11/12 bg-neutral-300 p-6 rounded-lg flex flex-col justify-center items-center" onSubmit={handleSubmit}>
+                <h2 className="w-full text-xl text-center text-neutral-800 font-extrabold">Add dish</h2>
+                <div className="w-4/5 mb-6 relative">
+                    <input
+                        type="text"
+                        name="nombre"
+                        id="nombre"
+                        placeholder="Name"
+                        value={formValues.nombre}
+                        onChange={handleChange}
+                        className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
+                        required
+                    />
+                    <label
+                        htmlFor="nombre"
+                        className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${
+                            formValues.nombre ? 'top-[4px] text-xs' : ''
+                        }`}
+                    >
+                        Name
+                    </label>
+                </div>
+                <div className="w-4/5 mb-6 relative">
+                    <textarea
+                        name="descripcion"
+                        id="descripcion"
+                        placeholder="Description"
+                        value={formValues.descripcion}
+                        onChange={handleChange}
+                        className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
+                        required
+                    />
+                    <label
+                        htmlFor="descripcion"
+                        className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${
+                            formValues.descripcion ? 'top-[4px] text-xs' : ''
+                        }`}
+                    >
+                        Description
+                    </label>
+                </div>
+                <div className="w-4/5 mb-6 relative">
+                    <input
+                        type="number"
+                        name="precio"
+                        id="precio"
+                        placeholder="Price"
+                        value={formValues.precio}
+                        onChange={handleChange}
+                        className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
+                        required
+                    />
+                    <label
+                        htmlFor="precio"
+                        className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${
+                            formValues.precio ? 'top-[4px] text-xs' : ''
+                        }`}
+                    >
+                        Price
+                    </label>
+                </div>
+                <div className="w-4/5 mb-6 relative">
+                    <label htmlFor="imagen" className="w-full flex flex-col items-center p-4 bg-gray-100 border-2 border-dashed border-gray-400 rounded-lg cursor-pointer hover:bg-gray-200 transition">
+                        <span className="text-gray-600">Click to upload an image</span>
+                        {formValues.imagen ? (
+                        <span className="mt-2 text-gray-700">{formValues.imagen.name}</span>
+                        ) : (
+                        <span className="mt-2 text-gray-500 text-sm">No file selected</span>
+                        )}
+                    </label>
+                    <input id="imagen"type="file"onChange={handleFileChange}className="hidden"required/>
+                </div>
+
+                <button
+                    type="submit"
+                    className="w-4/5 bg-red-600 text-white font-bold py-2 rounded-lg hover:bg-red-700 transition duration-200"
+                >
+                    Add dish
+                </button>
+            </form>
         </div>
-        <div className="mb-4">
-            <textarea
-            name="descripcion"
-            placeholder="Description"
-            value={formValues.descripcion}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-            required
-            />
-        </div>
-        <div className="mb-4">
-            <input
-            type="number"
-            name="precio"
-            placeholder="Price"
-            value={formValues.precio}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-            required
-            />
-        </div>
-        <div className="mb-4">
-            <input
-            type="file"
-            onChange={handleFileChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-            required
-            />
-        </div>
-        <button
-            type="submit"
-            className="w-full bg-red-600 text-white font-bold py-2 rounded-md hover:bg-red-700 transition duration-300"
-        >
-            Add dish
-        </button>
-        </form>
-    </div>
-    </div>
-);
+    );
 };
 
 export default FormularioMenu;

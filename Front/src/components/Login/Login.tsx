@@ -8,9 +8,9 @@ const Login = () => {
     const [password, setPassword] = useState('');
 
     return (
-        <div className="absolute inset-0 w-full h-auto flex flex-col items-center justify-center bg-primary m-auto lg:w-2/3 2xl:w-1/2">
+        <div className="absolute inset-0 w-full h-auto flex flex-col items-center justify-center bg-primary m-auto lg:w-2/3 2xl:w-1/2 2xl:relative 2xl:h-screen">
             <form className="w-11/12 bg-neutral-300 p-6 rounded-lg flex flex-col justify-center items-center">
-                <h2 className='w-full text-xl text-center text-neutral-800 font-extrabold'>INGRESÁ A CLUB FELLINI</h2>
+                <h2 className='w-full text-xl text-center text-neutral-800 font-extrabold'>JOIN CLUB FELLINI</h2>
                 <div className="w-4/5 mb-6 relative">
                     <input
                         type="email"
@@ -26,7 +26,7 @@ const Login = () => {
                             email ? 'top-[4px] text-xs text-red-600' : ''
                         }`}
                     >
-                        Correo Electrónico
+                        Email
                     </label>
                 </div>
                 <div className="w-4/5 mb-6 relative">
@@ -44,14 +44,14 @@ const Login = () => {
                             password ? 'top-[4px] text-xs text-red-600' : ''
                         }`}
                     >
-                        Contraseña
+                        Password
                     </label>
                 </div>
                 <button
                     type="submit"
                     className="w-4/5 bg-red-600 text-white font-bold py-2 rounded-lg hover:bg-red-700 transition duration-200"
                 >
-                    Iniciar Sesión
+                    Login
                 </button>
                 <Link href="/register" className='text-neutral-800 mt-2 hover:underline'>Don't have an account? Register</Link>
             </form>

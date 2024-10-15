@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import WhatsApp from "../WhatsApp/WhatsApp";
 
-const Navbar = () => {
+const NavBar = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleAside = () => {
@@ -87,4 +87,4 @@ const Navbar = () => {
     );
 };
 
-export default Navbar;
+export default NavBar;

@@ -56,7 +56,7 @@ const FormWork = () => {
     };
 
     return (
-        <div className="absolute inset-0 w-full flex flex-col items-center justify-center min-h-screen bg-primary ">
+        <div className="absolute inset-0 w-full flex flex-col items-center justify-center min-h-screen bg-primary 2xl:relative 2xl:h-screen 2xl:w-1/2 m-auto ">
             <form onSubmit={handleSubmit} className="w-11/12 bg-neutral-300 p-6 rounded-lg flex flex-col justify-center items-center">
                 <h2 className='w-full text-xl text-center text-neutral-800 font-extrabold'>JOIN OUR TEAM</h2>
                 <p className="text-neutral-800 font-bold text-center">
@@ -171,18 +171,18 @@ const FormWork = () => {
                     </label>
                 </div>
                 <div className="w-4/5 mb-6 relative">
-                <label className="w-full mb-6 relative">
-                    <input
-                        type="file"
-                        accept="application/pdf"
-                        onChange={handleFileChange}
-                        className="absolute inset-0 opacity-0 cursor-pointer"
-                        required
-                    />
-                    <span className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1">
-                        {file ? file.name : "Select your CV in PDF format"}
-                    </span>
-                </label>
+                    <label className="w-full block">
+                        <input
+                            type="file"
+                            accept="application/pdf"
+                            onChange={handleFileChange}
+                            className="absolute inset-0 opacity-0 cursor-pointer"
+                            required
+                        />
+                        <span className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1 block">
+                            {file ? file.name : "Select your CV in PDF format"}
+                        </span>
+                    </label>
                 </div>
                 <button
                     type="submit"

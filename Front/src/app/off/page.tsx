@@ -13,10 +13,6 @@ export default function Off() {
                 />
             </div>
             <div className="z-10 flex flex-col items-center w-full h-auto p-8">
-                {/* <div className="w-1/4 h-16 relative m-auto">
-                    <Image src="/assets/logo-white.png" alt="food" layout="fill" objectFit="contain" className=""
-                        />
-                </div> */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center -mt-36">
                         <h2 className="text-2xl font-bold">TODOS LOS DÍAS</h2>
                         <div className="flex items-center -mt-14 -mb-16">
@@ -69,7 +65,7 @@ export default function Off() {
                                     <Image src={"/assets/pin.png"} layout="fill" objectFit="contain" alt="pin"></Image>
                                 </div>
                                 <span className="text-red-500 font-extrabold text-xs bg-[url('/assets/papel.avif')] bg-cover bg-no-repeat  px-3 py-1">SÁBADO</span>
-                                <span className="text-center font-bold text-sm">Postres</span>
+                                <span className="text-center font-bold text-sm">- Postres</span>
                             </div>
                             <div className="w-1/4 flex flex-col items-center mt-5 hover:scale-110 cursor-pointer duration-500">
                                 <div className="relative w-8 h-6 -mb-3">
@@ -80,8 +76,6 @@ export default function Off() {
                                 </span>
                                 <span className="text-center font-bold text-sm">- Pastas</span>
                             </div>
-
-
                         </div>
                     </div>
             </div>

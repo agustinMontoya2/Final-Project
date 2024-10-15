@@ -12,7 +12,7 @@ const Register = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
 
     return (
-        <div className="absolute inset-0 w-full flex flex-col items-center justify-center m-auto min-h-screen bg-primary lg:w-2/3 2xl:w-1/2">
+        <div className="absolute inset-0 w-full flex flex-col items-center justify-center m-auto min-h-screen bg-primary lg:w-2/3 2xl:w-1/2 2xl:relative 2xl:h-screen">
             <form className="w-11/12 bg-neutral-300 p-6 rounded-lg flex flex-col justify-center items-center">
                 <h2 className='w-full text-xl text-center text-neutral-800 font-extrabold'>JOIN THE FELLINI CLUB</h2>
                 <div className="w-4/5 mb-6 relative">
@@ -66,7 +66,7 @@ const Register = () => {
                             telephone ? 'top-[4px] text-xs ' : ''
                         }`}
                     >
-                        Telephone
+                        Phone
                     </label>
                 </div>
                 <div className="w-4/5 mb-6 relative">
