@@ -33,3 +33,25 @@ export interface IProducts{
   category: string
   available: boolean
 }
+
+export interface ILogin{
+  email:  string;
+  password: string;
+}
+
+export interface IRegister{
+  name: string;
+  email: string;
+  telephone: string;
+  address:  string;
+  password: string;
+  confirmPassword: string;
+}
+
+export interface IReserve {
+  ubi: string;
+  date: Date;
+  mealType: string;
+  time:  string;
+  people: number;
+}
