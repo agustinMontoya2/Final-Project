@@ -7,16 +7,20 @@ export class ReservationService {
 
   constructor(private readonly repositoryReservation: ReservationRepository) {}
 
-  createReservation(createReservation: CreateReservationDto) {
-    return this.repositoryReservation.createReservation(createReservation)
+  createReservationService(createReservation: CreateReservationDto) {
+    return this.repositoryReservation.createReservationRepository(createReservation)
   }
 
-  // findAll() {
-  // }
+  findAllReservationsService() {
+   return this.repositoryReservation.findAllReservationsRepository()
 
-  // findOne(id: number) {
-  // }
+  }
 
-  // remove(id: number) {
-  // }
+  findOneReservationsService(id: string) {
+    return this.repositoryReservation.findOneReservationRepository(id)
+  }
+
+  updateReservationService(id: string) {
+    return this.repositoryReservation.updateReservationRepository(id)
+  }
 }

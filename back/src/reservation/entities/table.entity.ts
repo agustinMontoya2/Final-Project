@@ -2,7 +2,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Reservation } from './reservation.entity';
 
 @Entity({ name: 'table' })
-export class Table {
+export class TableReservation {
   @PrimaryGeneratedColumn('uuid')
   table_id: string;
 
@@ -12,8 +12,8 @@ export class Table {
   @Column()
   capacity: number;
 
-  @Column()
-  status: string;
+  @Column({default: true})
+  status: boolean;
 
   @Column()
   ubication: string;

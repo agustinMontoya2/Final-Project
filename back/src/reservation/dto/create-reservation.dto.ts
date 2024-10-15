@@ -1,4 +1,4 @@
-import { IsDateString, IsEmpty, IsNotEmpty, IsString } from 'class-validator';
+import { IsBoolean, IsDateString, IsEmpty, IsNotEmpty, IsString } from 'class-validator';
 // import { ReservationStatus } from '../enumReservation';
 
 export class CreateReservationDto {
@@ -20,12 +20,7 @@ export class CreateReservationDto {
   time: string;  
 
   @IsEmpty()
-  status: ReservationStatus.PENDING
+  @IsBoolean()
+  status: boolean
 
-}
-
-export enum ReservationStatus {
-  PENDING = 'pending',
-  CONFIRMED = 'confirmed',
-  CANCELLED = 'cancelled',
 }
