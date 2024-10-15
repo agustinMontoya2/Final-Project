@@ -52,7 +52,39 @@ export class CreateProductDto {
     description: 'Availability of the product',
     example: true,
   })
-  @IsNotEmpty({message: 'Availability is required'})
+  @IsNotEmpty({ message: 'Availability is required' })
   @IsBoolean()
   available: boolean;
+}
+
+export class productDetailDto {
+  @ApiProperty({
+    description: 'Product id',
+    example: '123e4567-e89b-12d3-a456-426655440000',
+  })
+  @IsNotEmpty({ message: 'product id is required' })
+  @IsString({ message: 'product id must be a string' })
+  @Length(3, 50, {
+    message: 'Product id must be between 3 and 50 characters',
+  })
+  product_id: string;
+
+  @ApiProperty({
+    description: 'Note of the product',
+    example: 'Without cheese',
+  })
+  @IsNotEmpty({ message: 'product note is required' })
+  @IsString({ message: 'product note must be a string' })
+  @Length(3, 50, {
+    message: 'Product note must be between 3 and 50 characters',
+  })
+  note: string;
+
+  @ApiProperty({
+    description: 'Quantity of the product',
+    example: 1,
+  })
+  @IsNumber({}, { message: 'product quantity must be a number' })
+  @IsNotEmpty({ message: 'product quantity is required' })
+  quantity: number;
 }

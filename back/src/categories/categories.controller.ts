@@ -1,15 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { CategoriesService } from './categories.service';
-import { CreateCategoryDto } from './dto/create-category.dto';
-import { UpdateCategoryDto } from './dto/update-category.dto';
-
+import { AddCategoryDto } from './dto/add-category.dto';
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Post()
-  create(@Body() createCategoryDto: CreateCategoryDto) {
-    return this.categoriesService.create(createCategoryDto);
+  create(@Body() addCategoryDto: AddCategoryDto) {
+    return this.categoriesService.create(addCategoryDto);
   }
 
   @Get()
@@ -22,12 +28,13 @@ export class CategoriesController {
     return this.categoriesService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto) {
-    return this.categoriesService.update(+id, updateCategoryDto);
-  }
-
   @Delete(':id')
+  /*************  ✨ Codeium Command ⭐  *************/
+  /**
+   * Deletes a category by ID.
+   * @param id The ID of the category to delete.
+   * @returns The deleted category.
+/******  82ae0720-1d9b-44de-bb49-a014ed972418  *******/
   remove(@Param('id') id: string) {
     return this.categoriesService.remove(+id);
   }

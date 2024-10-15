@@ -1,4 +1,5 @@
 import { IsArray, IsString } from 'class-validator';
+import { productDetailDto } from 'src/products/dto/create-product.dto';
 import { ProductDetail } from 'src/products/entities/productDetail.entity';
 
 export class CreateOrderDto {
@@ -9,10 +10,10 @@ export class CreateOrderDto {
   order_type: OrderType;
 
   payment_method: PaymentMethod;
-  // product: { product_id: string; quantity: number; note: string }[];
 
   @IsArray()
-  products: ProductDetail[];
+  // products: { product_id: string; quantity: number; note: string }[];
+  products: productDetailDto[];
 }
 
 export enum OrderType {

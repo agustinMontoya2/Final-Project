@@ -8,9 +8,10 @@ import {
   IsStrongPassword,
   Length,
 } from 'class-validator';
+import { Match } from 'src/custom-validators/match.decorator';
 // import { Match } from 'src/custom-validators/match.decorator';
 
-export class CreateUserDto {
+export class SignUpDto {
   /**
    * Name of the user must have at least 3 characters and at most 80
    * @example 'John Doe'
@@ -44,7 +45,7 @@ export class CreateUserDto {
    * Confirm password must match the password
    * @example 'Password123!'
    */
-  //   @Match('password')
+  @Match('password')
   confirmPassword: string;
 
   /**
@@ -63,7 +64,4 @@ export class CreateUserDto {
   @IsNumber()
   phone: number;
 }
-export class LoginUserDto extends PickType(CreateUserDto, [
-  'email',
-  'password',
-]) {}
+export class LogInDto extends PickType(SignUpDto, ['email', 'password']) {}

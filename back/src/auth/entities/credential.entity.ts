@@ -12,7 +12,7 @@ export class Credential {
   @PrimaryGeneratedColumn('uuid')
   credentials_id: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column()
