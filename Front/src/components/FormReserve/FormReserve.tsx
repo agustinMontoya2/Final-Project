@@ -30,7 +30,7 @@ const ReservationForm: React.FC = () => {
     };
 
     return (
-        <div className='absolute inset-0 w-full flex items-center justify-center 2xl:relative 2xl:h-screen 2xl:w-1/2 m-auto '>
+        <div className='absolute inset-0 w-full flex items-center justify-center lg:relative lg:h-screen lg:w-1/2 m-auto '>
             <form onSubmit={handleSubmit} className="w-full bg-neutral-300 p-6 rounded-lg flex flex-col justify-center items-center">
                 <h2 className='w-full text-xl text-center text-neutral-800 font-extrabold'>Reserve</h2>
                 <div  className="w-4/5 mb-6 relative">

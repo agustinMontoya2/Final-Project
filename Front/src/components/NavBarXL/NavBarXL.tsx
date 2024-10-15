@@ -23,14 +23,14 @@ export default function NavBarXL() {
             </Link>
 
             <div className='w-2/3 flex justify-evenly'>
-                <Link className="hover:drop-shadow-2xl" href={"/"}>
-                    <p className="text-white font-bold text-xl">Home</p>
+                <Link className="w-11 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/"}>
+                    <p className="text-white font-bold hover:text-xl duration-500">Home</p>
                 </Link>
-                <Link className="hover:drop-shadow-2xl" href={"/off"}>
-                    <p className="text-white font-bold text-xl">OFF</p>
+                <Link className="w-11 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/off"}>
+                    <p className="text-white font-bold hover:text-xl duration-500">OFF</p>
                 </Link>
 
-                <select name="" id="" onChange={handleChange} value={selectedCategory} className='bg-transparent text-white font-bold text-xl outline-none cursor-pointer'>
+                <select name="" id="" onChange={handleChange} value={selectedCategory} className='bg-transparent text-white font-bold hover:text-xl duration-500 outline-none cursor-pointer'>
                     <option value="" hidden>Category</option>
                     <option className='text-neutral-800 text-l hover:bg-primary' value="/pizzas">Pizzas</option>
                     <option className='text-neutral-800 text-l hover:bg-primary' value="/chopped">Chopped</option>
@@ -41,20 +41,20 @@ export default function NavBarXL() {
                     <option className='text-neutral-800 text-l hover:bg-primary' value="/tac">Sin T.A.C</option>
                 </select>
 
-                <Link className="hover:drop-shadow-2xl" href={"/order"}>
-                    <p className="text-white font-bold text-xl">Order</p>
+                <Link className="w-11 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/order"}>
+                    <p className="text-white font-bold hover:text-xl duration-500">Order</p>
                 </Link>
-                <Link className="hover:drop-shadow-2xl" href={"/reserve"}>
-                    <p className="text-white font-bold text-xl">Reserve</p>
+                <Link className="w-11 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/reserve"}>
+                    <p className="text-white font-bold hover:text-xl duration-500">Reserve</p>
                 </Link>
-                <Link className="hover:drop-shadow-2xl" href={"/login"}>
-                    <p className="text-white font-bold text-xl">Login</p>
+                <Link className="w-11 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/login"}>
+                    <p className="text-white font-bold hover:text-xl duration-500">Login</p>
                 </Link>
-                <Link className="hover:drop-shadow-2xl" href={"/register"}>
-                    <p className="text-white font-bold text-xl">Register</p>
+                <Link className="w-11 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/register"}>
+                    <p className="text-white font-bold hover:text-xl duration-500">Register</p>
                 </Link>
-                <Link className="hover:drop-shadow-2xl" href={"/user"}>
-                    <p className="text-white font-bold text-xl">Profile</p>
+                <Link className="w-11 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/user"}>
+                    <p className="text-white font-bold hover:text-xl duration-500">Profile</p>
                 </Link>
             </div>
             

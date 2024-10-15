@@ -56,7 +56,7 @@ const FormWork = () => {
     };
 
     return (
-        <div className="absolute inset-0 w-full flex flex-col items-center justify-center min-h-screen bg-primary 2xl:relative 2xl:h-screen 2xl:w-1/2 m-auto ">
+        <div className="absolute inset-0 w-full flex flex-col items-center justify-center min-h-screen bg-primary lg:relative lg:h-screen lg:w-1/2 m-auto ">
             <form onSubmit={handleSubmit} className="w-11/12 bg-neutral-300 p-6 rounded-lg flex flex-col justify-center items-center">
                 <h2 className='w-full text-xl text-center text-neutral-800 font-extrabold'>JOIN OUR TEAM</h2>
                 <p className="text-neutral-800 font-bold text-center">
