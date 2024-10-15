@@ -18,7 +18,7 @@ export class Order {
   @Column()
   date: Date;
 
-  @Column()
+  @Column({ default: 'pending' })
   state: string;
 
   @ManyToOne(() => User, (user) => user.order)

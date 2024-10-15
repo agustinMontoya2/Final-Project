@@ -17,7 +17,7 @@ export class CreateProductDto {
   @Length(3, 50, {
     message: 'Product name must be between 3 and 50 characters',
   })
-  name: string;
+  product_name: string;
 
   @ApiProperty({
     description: 'Description of the product',
@@ -46,7 +46,7 @@ export class CreateProductDto {
   @IsString({
     message: 'product image url must be a string',
   })
-  imgUrl: string;
+  image_url: string;
 
   @ApiProperty({
     description: 'Availability of the product',

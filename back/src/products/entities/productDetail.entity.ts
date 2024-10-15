@@ -18,15 +18,15 @@ export class ProductDetail {
     //   (product) => product.product_detail
   )
   @JoinColumn({ name: 'product_id' })
-  product: string;
+  product: Product;
 
   @Column()
   note: string;
 
-  @Column()
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: false })
   quantity: number;
 
-  @Column()
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: false })
   subtotal: number;
 
   @ManyToOne(() => OrderDetail, (orderDetail) => orderDetail.productDetails)

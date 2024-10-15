@@ -22,7 +22,8 @@ export class AuthService {
     credentials.user = user;
     const credential = await this.credentialRepository.save(credentials);
     if (!credential) throw new Error('error');
-    return `Welcome ${user.name}`;
+    // return `Welcome ${user.name}`;
+    return user;
   }
   async logIn(loginUserDto: LogInDto) {
     const { email, password } = loginUserDto;

@@ -14,7 +14,20 @@ export class UsersRepository {
     return await this.userRepository.find();
   }
 
+  async getUserById(user_id: string) {
+    return await this.userRepository.findOne({
+      where: { user_id },
+    });
+  }
+
   async createUser(signUpDto: SignUpDto) {
-    return await this.userRepository.save(signUpDto);
+    const user = await this.userRepository.save(signUpDto);
+    return user.user_id;
+  }
+
+  async updateUser(user_id: string, updateUserDto: any) {
+    await this.userRepository.update(user_id, updateUserDto);
+    const user = await this.getUserById(user_id);
+    return user;
   }
 }

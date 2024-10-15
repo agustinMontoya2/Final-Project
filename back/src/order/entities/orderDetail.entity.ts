@@ -21,7 +21,7 @@ export class OrderDetail {
   @Column()
   payment_method: string;
 
-  @Column()
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: false })
   total: number;
 
   @OneToOne(() => Order, (order) => order.orderDetail)
@@ -30,7 +30,7 @@ export class OrderDetail {
   @OneToMany(
     () => ProductDetail,
     (productDetail) => productDetail.orderDetail,
-    { cascade: true },
+    // { cascade: true },
   )
   productDetails: ProductDetail[];
 }
