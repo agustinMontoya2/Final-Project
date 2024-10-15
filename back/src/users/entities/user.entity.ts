@@ -1,5 +1,7 @@
+import { ApiHideProperty } from '@nestjs/swagger';
 import { Credential } from 'src/auth/entities/credential.entity';
 import { Order } from 'src/order/entities/order.entity';
+import { Reservation } from 'src/reservation/entities/reservation.entity';
 import {
   Column,
   Entity,
@@ -31,4 +33,12 @@ export class User {
   @OneToMany(() => Order, (order) => order.user)
   @JoinColumn({ name: 'order_id' })
   order: Order;
+
+  @OneToMany(() => Reservation, (reservation) => reservation.user)
+  //@JoinColumn({ name: 'reservation_id' })
+  reservations: Reservation[];
+
+  @Column({ type: 'boolean', default: false })
+  @ApiHideProperty()
+  isAdmin: boolean;
 }
