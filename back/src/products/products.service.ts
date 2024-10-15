@@ -2,12 +2,17 @@ import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductsRepository } from './products.repository';
+import { CategoriesRepository } from 'src/categories/categories.repository';
 
 @Injectable()
 export class ProductsService implements OnApplicationBootstrap {
-  constructor(private readonly productRepository: ProductsRepository) {}
+  constructor(
+    private readonly productRepository: ProductsRepository,
+    private readonly categoriesRepository: CategoriesRepository,
+  ) {}
 
   async onApplicationBootstrap() {
+    await this.categoriesRepository.preloadCategories();
     await this.productRepository.addProducts();
   }
   add() {
@@ -25,8 +30,8 @@ export class ProductsService implements OnApplicationBootstrap {
     return this.productRepository.findOne(id);
   }
 
-  update(id: string, updateProductDto: UpdateProductDto) {
-    return this.productRepository.update(id, updateProductDto);
+  update(product_id: string, updateProductDto: UpdateProductDto) {
+    return this.productRepository.update(product_id, updateProductDto);
   }
 
   remove(id: number) {

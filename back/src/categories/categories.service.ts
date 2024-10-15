@@ -1,21 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { AddCategoryDto } from './dto/add-category.dto';
+import { CategoriesRepository } from './categories.repository';
 
 @Injectable()
 export class CategoriesService {
+  constructor(private readonly categoriesRepository: CategoriesRepository) {}
+  preload() {
+    return this.categoriesRepository.preloadCategories();
+  }
   create(addCategoryDto: AddCategoryDto) {
     return 'This action adds a new category';
   }
 
-  findAll() {
-    return `This action returns all categories`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+  getCategories() {
+    return this.categoriesRepository.getCategories();
   }
 }

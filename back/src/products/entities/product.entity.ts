@@ -4,8 +4,11 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
+  ManyToMany,
 } from 'typeorm';
 import { Category } from 'src/categories/entities/category.entity';
+import { Favorities } from './favorities.entity';
+import { Cart } from './cart.entity';
 
 @Entity()
 export class Product {
@@ -35,4 +38,10 @@ export class Product {
   //   @ManyToOne(() => ProductDetail, (productDetail) => productDetail.product)
   //   @JoinColumn({ name: 'product_detail_id' })
   //   product_detail: ProductDetail;
+  @ManyToMany(() => Cart, (cart) => cart.products)
+  carts: Cart[];
+
+  // Relación ManyToMany con Favorities
+  @ManyToMany(() => Favorities, (favorities) => favorities.products)
+  favorities: Favorities[];
 }

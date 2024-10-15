@@ -14,14 +14,21 @@ export class ProductsRepository {
   ) {}
 
   getProducts() {
-    return this.productsRepository.find();
+    return this.productsRepository.find({ relations: ['category'] });
   }
   async addProducts() {
     const categories = await this.categoriesRepository.find();
+    console.log(categories);
+
     data?.map(async (element) => {
       const category = categories.find(
         (category) => category.category_name === element.category,
       );
+      console.log('************************');
+      console.log(categories); //only burguers and fries
+      console.log('************************');
+      //   console.log(element);
+      //   console.log('************************');
 
       const product = new Product();
       product.product_name = element.product_name;
@@ -39,7 +46,7 @@ export class ProductsRepository {
         .insert()
         .into(Product)
         .values(product)
-        .orUpdate(['description', 'price'], ['product_name'])
+        .orUpdate(['description', 'price', 'category_id'], ['product_name'])
         .execute();
     });
     return 'Products added';

@@ -2,6 +2,8 @@ import { ApiHideProperty } from '@nestjs/swagger';
 import { isEmpty } from 'class-validator';
 import { Credential } from 'src/auth/entities/credential.entity';
 import { Order } from 'src/order/entities/order.entity';
+import { Cart } from 'src/products/entities/cart.entity';
+import { Favorities } from 'src/products/entities/favorities.entity';
 import { Reservation } from 'src/reservation/entities/reservation.entity';
 import {
   Column,
@@ -42,4 +44,12 @@ export class User {
   @Column({ type: 'boolean', default: false })
   @ApiHideProperty()
   isAdmin: boolean;
+
+  @OneToOne(() => Cart, (cart) => cart.user)
+  @JoinColumn({ name: 'cart_id' })
+  cart: Cart;
+
+  @OneToOne(() => Favorities, (favorities) => favorities.user)
+  @JoinColumn({ name: 'favorities_id' })
+  favorities: Favorities;
 }
