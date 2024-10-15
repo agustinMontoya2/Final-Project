@@ -29,12 +29,6 @@ export class CategoriesController {
   }
 
   @Delete(':id')
-  /*************  ✨ Codeium Command ⭐  *************/
-  /**
-   * Deletes a category by ID.
-   * @param id The ID of the category to delete.
-   * @returns The deleted category.
-/******  82ae0720-1d9b-44de-bb49-a014ed972418  *******/
   remove(@Param('id') id: string) {
     return this.categoriesService.remove(+id);
   }
