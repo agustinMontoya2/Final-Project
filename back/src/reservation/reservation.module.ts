@@ -1,41 +1,15 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  Put,
-} from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ReservationService } from './reservation.service';
-import { CreateReservationDto } from './dto/create-reservation.dto';
+import { ReservationController } from './reservation.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Reservation } from './entities/reservation.entity';
+import { User } from 'src/users/entities/user.entity';
+import { TableReservation } from './entities/table.entity';
+import { ReservationRepository } from './reservation.repository';
 
-@Controller('reservation')
-export class ReservationController {
-  constructor(private readonly reservationService: ReservationService) {}
-
-  @Get('/preload')
-  tablesPreloadController() {
-    return this.reservationService.tablesPreloadService()
-  }
-
-  @Get()
-  findAllReservationsController() {
-    return this.reservationService.findAllReservationsService();
-  }
-
-  @Post('create')
-  createReservationController(@Body() createReservationDto: CreateReservationDto) {
-    return this.reservationService.createReservationService(createReservationDto);
-  }
-
-  @Get(':id')
-  findOneReservationsController(@Param('id') id: string) {
-    return this.reservationService.findOneReservationsService(id);
-  }
-
-  @Put(':id')
-  updateReservationController(@Param('id') id: string) {
-    return this.reservationService.updateReservationService(id);
-  }
-
-}
+@Module({
+  imports: [TypeOrmModule.forFeature([Reservation, User, TableReservation])],
+  controllers: [ReservationController],
+  providers: [ReservationService, ReservationRepository],
+})
+export class ReservationModule {}
