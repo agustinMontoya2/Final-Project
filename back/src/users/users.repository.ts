@@ -29,22 +29,24 @@ export class UsersRepository {
     console.log('creating user...');
 
     const user = await this.userRepository.create(signUpDto);
-    const cart = new Cart();
-    const favorities = new Favorities();
+    const userCart = new Cart();
+    const userFavorities = new Favorities();
 
-    const savedCart = await this.cartRepository.save(cart);
-    const savedFavorities = await this.favoritiesRepository.save(favorities);
+    const savedCart = await this.cartRepository.save(userCart);
+    const savedFavorities =
+      await this.favoritiesRepository.save(userFavorities);
 
     user.cart = savedCart;
     user.favorities = savedFavorities;
     const savedUser = await this.userRepository.save(user);
 
-    cart.user = savedUser;
-    favorities.user = savedUser;
-    await this.cartRepository.save(cart);
-    await this.favoritiesRepository.save(favorities);
+    userCart.user = savedUser;
+    userFavorities.user = savedUser;
+    await this.cartRepository.save(userCart);
+    await this.favoritiesRepository.save(userFavorities);
 
-    return savedUser.user_id;
+    const { cart, favorities, ...userWithoutRelations } = savedUser;
+    return userWithoutRelations;
   }
 
   async updateUser(user_id: string, updateUserDto: any) {
