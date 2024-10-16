@@ -20,7 +20,7 @@ export class Favorities {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToMany(() => ProductDetail, (product) => product.favorities)
+  @ManyToMany(() => Product, (product) => product.favorities)
   @JoinTable({
     name: 'favorities_products', // Nombre de la tabla intermedia
     joinColumn: {
@@ -28,9 +28,9 @@ export class Favorities {
       referencedColumnName: 'favorities_id',
     },
     inverseJoinColumn: {
-      name: 'product_detail_id', // Columna que refiere a Product
-      referencedColumnName: 'product_detail_id',
+      name: 'productid', // Columna que refiere a Product
+      referencedColumnName: 'product_id',
     },
   })
-  productDetail: ProductDetail[];
+  product: Product[];
 }

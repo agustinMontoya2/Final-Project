@@ -38,8 +38,4 @@ export class ProductDetail {
 
   @ManyToMany(() => Cart, (cart) => cart.productDetail)
   carts: Cart[];
-
-  // Relación ManyToMany con Favorities
-  @ManyToMany(() => Favorities, (favorities) => favorities.productDetail)
-  favorities: Favorities[];
 }

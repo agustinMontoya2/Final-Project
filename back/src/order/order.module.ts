@@ -9,6 +9,8 @@ import { User } from 'src/users/entities/user.entity';
 import { Product } from 'src/products/entities/product.entity';
 import { OrderDetail } from './entities/orderDetail.entity';
 import { ProductDetail } from 'src/products/entities/productDetail.entity';
+import { UsersModule } from 'src/users/users.module';
+import { ProductsModule } from 'src/products/products.module';
 
 @Module({
   imports: [
@@ -19,6 +21,8 @@ import { ProductDetail } from 'src/products/entities/productDetail.entity';
       Product,
       ProductDetail,
     ]),
+    UsersModule,
+    ProductsModule,
   ],
   controllers: [OrderController],
   providers: [OrderService, OrderRepository],
