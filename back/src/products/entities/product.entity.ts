@@ -38,10 +38,4 @@ export class Product {
   //   @ManyToOne(() => ProductDetail, (productDetail) => productDetail.product)
   //   @JoinColumn({ name: 'product_detail_id' })
   //   product_detail: ProductDetail;
-  @ManyToMany(() => Cart, (cart) => cart.products)
-  carts: Cart[];
-
-  // Relación ManyToMany con Favorities
-  @ManyToMany(() => Favorities, (favorities) => favorities.products)
-  favorities: Favorities[];
 }

@@ -12,6 +12,7 @@ import {
 import { UsersService } from './users.service';
 import { SignUpDto } from 'src/auth/dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { productDetailDto } from 'src/products/dto/create-product.dto';
 
 @Controller('users')
 export class UsersController {
@@ -38,5 +39,13 @@ export class UsersController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
+  }
+
+  @Post('cart/:id')
+  addToCart(
+    @Body() productDetail: productDetailDto,
+    @Param('id') user_id: string,
+  ) {
+    return this.usersService.addToCart(productDetail, user_id);
   }
 }

@@ -7,9 +7,13 @@ import { User } from 'src/users/entities/user.entity';
 import { Credential } from './entities/credential.entity';
 import { Cart } from 'src/products/entities/cart.entity';
 import { Favorities } from 'src/products/entities/favorities.entity';
+import { ProductsModule } from 'src/products/products.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Credential, Cart, Favorities])],
+  imports: [
+    TypeOrmModule.forFeature([User, Credential, Cart, Favorities]),
+    ProductsModule,
+  ],
   controllers: [AuthController],
   providers: [AuthService, UsersRepository],
 })

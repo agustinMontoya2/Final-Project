@@ -9,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Product } from './product.entity';
+import { ProductDetail } from './productDetail.entity';
 
 @Entity()
 export class Favorities {
@@ -19,7 +20,7 @@ export class Favorities {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToMany(() => Product, (product) => product.favorities)
+  @ManyToMany(() => ProductDetail, (product) => product.favorities)
   @JoinTable({
     name: 'favorities_products', // Nombre de la tabla intermedia
     joinColumn: {
@@ -27,9 +28,9 @@ export class Favorities {
       referencedColumnName: 'favorities_id',
     },
     inverseJoinColumn: {
-      name: 'product_id', // Columna que refiere a Product
-      referencedColumnName: 'product_id',
+      name: 'product_detail_id', // Columna que refiere a Product
+      referencedColumnName: 'product_detail_id',
     },
   })
-  products: Product[];
+  productDetail: ProductDetail[];
 }
