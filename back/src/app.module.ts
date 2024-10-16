@@ -7,6 +7,7 @@ import { CategoriesModule } from './categories/categories.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { typeOrmConfig } from './config/typeorm';
+import { ReservationModule } from './reservation/reservation.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { typeOrmConfig } from './config/typeorm';
     OrderModule,
     CategoriesModule,
     TypeOrmModule,
+    ReservationModule,
   ],
   controllers: [],
   providers: [],

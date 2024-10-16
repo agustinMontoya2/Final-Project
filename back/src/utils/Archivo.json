@@ -1,0 +1,42 @@
+[
+    {
+    "product_id": "123e4567-e89b-12d3-a456-426655440000",
+    "product_name": "Cheese Burguer",
+    "price": 199.99,
+    "description": "The biggest cheeseburguer in the world",
+    "image_url":
+      "https://www.cheeseburgers.com/images/cheeseburgers/cheeseburgers.png",
+    "available": true, 
+    "category": "Burguers"
+  },
+{
+    "product_id": "123e4567-e89b-12d3-a456-426655440001",
+    "product_name": "Fries",
+    "price": 199.99,
+    "description": "The biggest cheeseburguer in the world",
+    "image_url":
+      "https://www.cheeseburgers.com/images/cheeseburgers/cheeseburgers.png",
+    "available": true,
+    "category": "Fries"
+},
+{
+    "product_id": "123e4567-e89b-12d3-a456-426655440002",
+    "product_name": "Hamburger",
+    "price": 199.99,
+    "description": "The biggest cheeseburguer in the world",
+    "image_url":
+      "https://www.cheeseburgers.com/images/cheeseburgers/cheeseburgers.png",
+    "available": true,
+    "category": "Hamburgers"
+}, 
+{
+    "product_id": "123e4567-e89b-12d3-a456-426655440003",
+    "product_name": "Pizza",
+    "price": 199.99,
+    "description": "The biggest cheeseburguer in the world",
+    "image_url":
+      "https://www.cheeseburgers.com/images/cheeseburgers/cheeseburgers.png",
+    "available": true,
+    "category": "Pizza"
+}   
+]

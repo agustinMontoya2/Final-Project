@@ -1,23 +1,37 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { ProductsRepository } from './products.repository';
+import { CategoriesRepository } from 'src/categories/categories.repository';
 
 @Injectable()
-export class ProductsService {
+export class ProductsService implements OnApplicationBootstrap {
+  constructor(
+    private readonly productRepository: ProductsRepository,
+    private readonly categoriesRepository: CategoriesRepository,
+  ) {}
+
+  async onApplicationBootstrap() {
+    await this.categoriesRepository.preloadCategories();
+    await this.productRepository.addProducts();
+  }
+  add() {
+    return this.productRepository.addProducts();
+  }
   create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+    return this.productRepository.create(createProductDto);
   }
 
   findAll() {
-    return `This action returns all products`;
+    return this.productRepository.getProducts();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  findOne(id: string) {
+    return this.productRepository.findOne(id);
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  update(product_id: string, updateProductDto: UpdateProductDto) {
+    return this.productRepository.update(product_id, updateProductDto);
   }
 
   remove(id: number) {
