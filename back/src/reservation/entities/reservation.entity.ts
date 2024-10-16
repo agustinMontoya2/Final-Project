@@ -5,7 +5,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Table } from './table.entity';
+import { TableReservation } from './table.entity';
 import { User } from 'src/users/entities/user.entity';
 
 @Entity()
@@ -13,9 +13,9 @@ export class Reservation {
   @PrimaryGeneratedColumn('uuid')
   reservation_id: string;
 
-  @ManyToOne(() => Table, (table) => table.reservations)
+  @ManyToOne(() => TableReservation, (table) => table.reservations)
   @JoinColumn({ name: 'table_id' })
-  table: Table;
+  table: TableReservation;
 
   @ManyToOne(() => User, (user) => user.reservations)
   @JoinColumn({ name: 'user_id' })
@@ -28,5 +28,5 @@ export class Reservation {
   time: string;
 
   @Column()
-  status: string;
+  status: boolean;
 }

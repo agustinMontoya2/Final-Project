@@ -1,4 +1,4 @@
-import { ApiHideProperty, ApiProperty, PickType } from '@nestjs/swagger';
+import { ApiHideProperty, PickType } from '@nestjs/swagger';
 import {
   IsEmail,
   IsEmpty,
