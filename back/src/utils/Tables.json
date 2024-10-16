@@ -1,0 +1,178 @@
+[
+    {
+      "table_id": "4d94c8a4-6e0c-4b3c-8156-7cb451aeae01",
+      "table_number": 1,
+      "capacity": 4,
+      "status": true,
+      "ubication": "Exterior"
+    },
+    {
+      "table_id": "572f97f9-0f8a-457e-bb24-632c4676fbd2",
+      "table_number": 2,
+      "capacity": 4,
+      "status": true,
+      "ubication": "Exterior"
+    },
+    {
+      "table_id": "c9723c28-63f7-4eb0-a8ff-98148b91b7f3",
+      "table_number": 3,
+      "capacity": 4,
+      "status": true,
+      "ubication": "Exterior"
+    },
+    {
+      "table_id": "b8d1569b-4392-4b0f-b10f-d02e8f3c15d5",
+      "table_number": 4,
+      "capacity": 4,
+      "status": true,
+      "ubication": "Exterior"
+    },
+    {
+      "table_id": "9bc20f95-f191-4f5b-9ae7-7b9dbcc80866",
+      "table_number": 5,
+      "capacity": 6,
+      "status": true,
+      "ubication": "Exterior"
+    },
+    {
+      "table_id": "2f4c9d10-75df-4b3e-8187-9e32ecbc6802",
+      "table_number": 6,
+      "capacity": 4,
+      "status": true,
+      "ubication": "Interior"
+    },
+    {
+      "table_id": "e64f55d0-d992-4b4d-95e3-e05a54878b8d",
+      "table_number": 7,
+      "capacity": 4,
+      "status": true,
+      "ubication": "Interior"
+    },
+    {
+      "table_id": "bc72bfb7-fb35-43e6-badb-07319fdb82c5",
+      "table_number": 8,
+      "capacity": 2,
+      "status": true,
+      "ubication": "Interior"
+    },
+    {
+      "table_id": "43a8bc9a-48b6-4f42-b7ef-04aabe268b08",
+      "table_number": 9,
+      "capacity": 2,
+      "status": true,
+      "ubication": "Interior"
+    },
+    {
+      "table_id": "2b7ae2a9-2c9b-46c7-bcfa-b27bfb84d5cc",
+      "table_number": 10,
+      "capacity": 6,
+      "status": true,
+      "ubication": "Interior"
+    },
+    {
+      "table_id": "2ffb16f1-fb71-4b80-8da3-2d5b8b7f9f30",
+      "table_number": 11,
+      "capacity": 4,
+      "status": true,
+      "ubication": "Rooftop"
+    },
+    {
+      "table_id": "da945a4b-22ef-41e5-b03e-b59cfd80e7f6",
+      "table_number": 12,
+      "capacity": 4,
+      "status": true,
+      "ubication": "Rooftop"
+    },
+    {
+      "table_id": "f2cde4d3-e5f3-4a28-9e59-f798b528e47e",
+      "table_number": 13,
+      "capacity": 2,
+      "status": true,
+      "ubication": "Rooftop"
+    },
+    {
+      "table_id": "f0311598-0b0a-4fb9-ae43-fd273c7d02df",
+      "table_number": 14,
+      "capacity": 2,
+      "status": true,
+      "ubication": "Rooftop"
+    },
+    {
+      "table_id": "e885fe2b-cba7-4522-bc1b-987cfa08f5ab",
+      "table_number": 15,
+      "capacity": 6,
+      "status": true,
+      "ubication": "Rooftop"
+    },
+    {
+      "table_id": "32e2c4c6-82b7-488e-88e5-fda236eb0e2b",
+      "table_number": 16,
+      "capacity": 4,
+      "status": true,
+      "ubication": "Exterior"
+    },
+    {
+      "table_id": "5829da19-86f9-4c68-b220-5a2a9f456fbe",
+      "table_number": 17,
+      "capacity": 4,
+      "status": true,
+      "ubication": "Exterior"
+    },
+    {
+      "table_id": "7ab6796f-222d-47d4-b72a-41075fa4d57d",
+      "table_number": 18,
+      "capacity": 6,
+      "status": true,
+      "ubication": "Exterior"
+    },
+    {
+      "table_id": "9bcfd671-cf69-4b09-b29f-8ae2d15e6d4d",
+      "table_number": 19,
+      "capacity": 4,
+      "status": true,
+      "ubication": "Interior"
+    },
+    {
+      "table_id": "817dab7b-722a-4cde-9515-cd56f6719956",
+      "table_number": 20,
+      "capacity": 2,
+      "status": true,
+      "ubication": "Interior"
+    },
+    {
+      "table_id": "6d4e4a62-94b9-49a0-91a9-b0f6c2f92fbe",
+      "table_number": 21,
+      "capacity": 4,
+      "status": true,
+      "ubication": "Rooftop"
+    },
+    {
+      "table_id": "e8f6e63b-1f3d-4ba6-85c2-cc6933cdef62",
+      "table_number": 22,
+      "capacity": 6,
+      "status": true,
+      "ubication": "Rooftop"
+    },
+    {
+      "table_id": "86d0a536-b84e-4a58-b593-4d8238963f25",
+      "table_number": 23,
+      "capacity": 4,
+      "status": true,
+      "ubication": "Exterior"
+    },
+    {
+      "table_id": "ae4b0b10-939f-44c2-9b08-aba5b4db6a65",
+      "table_number": 24,
+      "capacity": 6,
+      "status": true,
+      "ubication": "Interior"
+    },
+    {
+      "table_id": "2be0f330-6607-497a-9919-9c83d5b469db",
+      "table_number": 25,
+      "capacity": 2,
+      "status": true,
+      "ubication": "Rooftop"
+    }
+  ]
+  

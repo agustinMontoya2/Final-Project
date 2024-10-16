@@ -1,5 +1,6 @@
 import { IsArray, IsEmpty, IsString } from 'class-validator';
 import { productDetailDto } from 'src/products/dto/create-product.dto';
+import { ProductDetail } from 'src/products/entities/productDetail.entity';
 
 export class CreateOrderDto {
   @IsString()

@@ -12,8 +12,8 @@ export class TableReservation {
   @Column()
   capacity: number;
 
-  @Column({default: true})
-  status: boolean;
+  @Column()
+  status: string;
 
   @Column()
   ubication: string;

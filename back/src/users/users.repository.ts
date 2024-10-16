@@ -26,17 +26,25 @@ export class UsersRepository {
   }
 
   async createUser(signUpDto: SignUpDto) {
+    console.log('creating user...');
+
     const user = await this.userRepository.create(signUpDto);
     const cart = new Cart();
     const favorities = new Favorities();
-    user.cart = cart;
-    user.favorities = favorities;
+
+    const savedCart = await this.cartRepository.save(cart);
+    const savedFavorities = await this.favoritiesRepository.save(favorities);
+
+    user.cart = savedCart;
+    user.favorities = savedFavorities;
     const savedUser = await this.userRepository.save(user);
+
     cart.user = savedUser;
     favorities.user = savedUser;
     await this.cartRepository.save(cart);
     await this.favoritiesRepository.save(favorities);
-    return user.user_id;
+
+    return savedUser.user_id;
   }
 
   async updateUser(user_id: string, updateUserDto: any) {
