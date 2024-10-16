@@ -3,7 +3,6 @@ import {
   IsEmail,
   IsEmpty,
   IsNotEmpty,
-  IsNumber,
   IsString,
   IsStrongPassword,
   Length,
@@ -61,7 +60,8 @@ export class SignUpDto {
    * @example '123456789'
    */
   @IsNotEmpty()
-  @IsNumber()
-  phone: number;
+  @IsString()
+  @Length(8, 13)
+  phone: string;
 }
 export class LogInDto extends PickType(SignUpDto, ['email', 'password']) {}

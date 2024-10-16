@@ -13,7 +13,7 @@ export class TableReservation {
   capacity: number;
 
   @Column()
-  status: string;
+  status: boolean;
 
   @Column()
   ubication: string;

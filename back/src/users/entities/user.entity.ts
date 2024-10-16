@@ -23,7 +23,7 @@ export class User {
   name: string;
 
   @Column()
-  phone: number;
+  phone: string;
 
   @Column()
   address: string;

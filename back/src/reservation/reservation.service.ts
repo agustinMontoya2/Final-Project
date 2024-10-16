@@ -1,21 +1,30 @@
 import { Injectable } from '@nestjs/common';
+import { ReservationRepository } from './reservation.repository';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 
 @Injectable()
 export class ReservationService {
-  create(createReservationDto: CreateReservationDto) {
-    return 'This action adds a new reservation';
+
+  constructor(private readonly repositoryReservation: ReservationRepository) {}
+
+  tablesPreloadService() {
+    return this.repositoryReservation.preloadTablesRepository()
   }
 
-  findAll() {
-    return `This action returns all reservation`;
+  createReservationService(createReservationDto: CreateReservationDto) {
+    return this.repositoryReservation.createReservationRepository(createReservationDto)
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} reservation`;
+  findAllReservationsService() {
+    return this.repositoryReservation.findAllReservationsRepository()
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} reservation`;
+   findOneReservationsService(id: string) {
+    return this.repositoryReservation.findOneReservationRepository(id)
   }
+
+  updateReservationService(id: string) {
+    return this.repositoryReservation.updateReservationRepository(id)
+  }
+
 }

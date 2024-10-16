@@ -28,5 +28,5 @@ export class Reservation {
   time: string;
 
   @Column()
-  status: boolean;
+  status?: boolean;
 }
