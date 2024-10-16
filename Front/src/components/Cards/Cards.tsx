@@ -7,24 +7,31 @@ const Cards = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const APIURL = process.env.NEXT_PUBLIC_API_URL;
-console.log(APIURL);
-
   useEffect(() => {
     const fetchCharacters = async () => {
       try {
+        console.log("Fetching characters...");
+        
         const response = await fetch(
-            `${APIURL}/products`
+          "http://localhost:3000/products", {mode: 'no-cors'}
         );
+        
+        
         if (!response.ok) {
-          throw new Error("Error fetching data");
+          console.log("Error fetching data");
+          
+          // throw new Error("Error fetching data");
         }
         const data = await response.json();
-        console.log(data.results);
+        console.log(data);
+        
+        // console.log(response);
         
         setCharacters(data.results);
       } catch (error) {
-        throw new Error("error");
+        console.log(error);
+        
+        // throw new Error("error");
       } finally {
         setLoading(false);
       }
