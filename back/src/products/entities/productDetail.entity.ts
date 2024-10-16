@@ -3,10 +3,13 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Product } from './product.entity';
+import { Cart } from './cart.entity';
+import { Favorities } from './favorities.entity';
 
 @Entity()
 export class ProductDetail {
@@ -32,4 +35,7 @@ export class ProductDetail {
   @ManyToOne(() => OrderDetail, (orderDetail) => orderDetail.productDetails)
   @JoinColumn({ name: 'order_detail_id' })
   orderDetail: OrderDetail;
+
+  @ManyToMany(() => Cart, (cart) => cart.productDetail)
+  carts: Cart[];
 }

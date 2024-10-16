@@ -10,6 +10,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Product } from './product.entity';
+import { ProductDetail } from './productDetail.entity';
 
 @Entity()
 export class Cart {
@@ -20,7 +21,7 @@ export class Cart {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToMany(() => Product, (product) => product.carts)
+  @ManyToMany(() => ProductDetail, (product) => product.carts)
   @JoinTable({
     name: 'cart_products', // Nombre de la tabla intermedia
     joinColumn: {
@@ -28,9 +29,9 @@ export class Cart {
       referencedColumnName: 'cart_id',
     },
     inverseJoinColumn: {
-      name: 'product_id', // Nombre de la columna que hace referencia a Product
-      referencedColumnName: 'product_id',
+      name: 'product_detail_id', // Nombre de la columna que hace referencia a Product
+      referencedColumnName: 'product_detail_id',
     },
   })
-  products: Product[];
+  productDetail: ProductDetail[];
 }

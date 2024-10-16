@@ -1,18 +1,25 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { SignUpDto } from 'src/auth/dto/create-user.dto';
 import { Cart } from 'src/products/entities/cart.entity';
 import { Favorities } from 'src/products/entities/favorities.entity';
+import { productDetailDto } from 'src/products/dto/create-product.dto';
+import { Product } from 'src/products/entities/product.entity';
+import { ProductDetail } from 'src/products/entities/productDetail.entity';
 
 @Injectable()
 export class UsersRepository {
   constructor(
-    @InjectRepository(User) private userRepository: Repository<User>,
-    @InjectRepository(Cart) private cartRepository: Repository<Cart>,
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(Product)
+    private readonly productRepository: Repository<Product>,
+    @InjectRepository(ProductDetail)
+    private readonly productDetailRepository: Repository<ProductDetail>,
+    @InjectRepository(Cart) private readonly cartRepository: Repository<Cart>,
     @InjectRepository(Favorities)
-    private favoritiesRepository: Repository<Favorities>,
+    private readonly favoritiesRepository: Repository<Favorities>,
   ) {}
 
   async getUsers() {
@@ -20,9 +27,10 @@ export class UsersRepository {
   }
 
   async getUserById(user_id: string) {
-    return await this.userRepository.findOne({
+    const user = await this.userRepository.findOne({
       where: { user_id },
     });
+    return user ? user : null;
   }
 
   async createUser(signUpDto: SignUpDto) {
@@ -53,5 +61,85 @@ export class UsersRepository {
     await this.userRepository.update(user_id, updateUserDto);
     const user = await this.getUserById(user_id);
     return user;
+  }
+
+  async addToCart(productDetail: productDetailDto, user: User) {
+    console.log('repository');
+    console.log(productDetail, user);
+
+    const cart = await this.cartRepository.findOne({
+      where: { user },
+      relations: ['productDetail'],
+    });
+    if (!cart) throw new NotFoundException('Cart not found');
+    console.log(cart);
+
+    const { product_id, quantity, note } = productDetail;
+    const product = await this.productRepository.findOne({
+      where: { product_id },
+    });
+    if (!product || product.available === false)
+      throw new NotFoundException('Product not found or not available');
+
+    const productDetailEntity = new ProductDetail();
+    productDetailEntity.note = note;
+    productDetailEntity.quantity = quantity;
+    productDetailEntity.subtotal = product.price * quantity;
+    productDetailEntity.product = product;
+    console.log(productDetailEntity);
+
+    cart.productDetail.push(productDetailEntity);
+
+    console.log(cart);
+    console.log(cart.productDetail);
+
+    await this.productDetailRepository.save(productDetailEntity);
+    await this.cartRepository.save(cart);
+    const userCart = await this.cartRepository.findOne({
+      where: { user },
+      relations: ['productDetail'],
+    });
+    return userCart;
+  }
+
+  async addToFavoritiesRepository(product_id: string, user: User) {
+    const favorities = await this.favoritiesRepository.findOne({
+      where: { user },
+      relations: ['product'],
+    });
+    if (!favorities) throw new NotFoundException('Favorities not found');
+    const product = await this.productRepository.findOne({
+      where: { product_id },
+    });
+    if (!product) throw new NotFoundException('Product not found');
+    favorities.product.push(product);
+    console.log(favorities);
+    console.log(favorities.product);
+
+    await this.favoritiesRepository.save(favorities);
+
+    const userFavorities = await this.favoritiesRepository.findOne({
+      where: { user },
+      relations: ['product'],
+    });
+    return userFavorities;
+  }
+
+  async getUserFavoritiesRepository(user: User) {
+    const favorities = await this.favoritiesRepository.findOne({
+      where: { user },
+      relations: ['product'],
+    });
+    if (!favorities) throw new NotFoundException('Favorities not found');
+    return favorities;
+  }
+
+  getCart(user: User) {
+    const cart = this.cartRepository.findOne({
+      where: { user },
+      relations: ['productDetail', 'productDetail.product'],
+    });
+    if (!cart) throw new NotFoundException('Cart not found');
+    return cart;
   }
 }
