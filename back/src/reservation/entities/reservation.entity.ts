@@ -25,8 +25,17 @@ export class Reservation {
   date: Date;
 
   @Column()
+  mealType: string;
+
+  @Column()
+  ubication: string;
+
+  @Column()
+  peopleCount: number;
+
+  @Column()
   time: string;
 
   @Column()
-  status: boolean;
+  status?: boolean;
 }

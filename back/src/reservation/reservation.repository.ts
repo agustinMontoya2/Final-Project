@@ -6,10 +6,10 @@ import {
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Reservation } from './entities/reservation.entity';
-import { Repository, Table } from 'typeorm';
+import { Repository } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { TableReservation } from './entities/table.entity';
-import { IsUUID } from 'class-validator';
+import { isUUID } from 'class-validator';
 import * as tables from '../utils/Tables.json';
 
 @Injectable()
@@ -22,13 +22,16 @@ export class ReservationRepository {
     private readonly tableRepository: Repository<TableReservation>,
   ) {}
 
-  async createReservationRepository(date, time, user_id, table_id) {
-    if (!IsUUID(user_id)) {
+  async createReservationRepository(createReservationDto: CreateReservationDto) {
+    const {user_id, table_id, time, date, peopleCount, ubication, mealType} = createReservationDto
+
+    if (!isUUID(user_id)) {
       throw new BadRequestException('User ID not valid');
     }
-    if (!IsUUID(table_id)) {
+    if (!isUUID(table_id)) {
       throw new BadRequestException('Table ID not valid');
     }
+
     const user = await this.userRepository.findOne({ where: { user_id } });
     if (!user) {
       throw new NotFoundException('User not found');
@@ -38,14 +41,20 @@ export class ReservationRepository {
       throw new NotFoundException('Table not found or not available');
     }
 
-    const reservation = await this.reservationRepository.save({
+    
+
+    await this.reservationRepository.save({
       table,
       user,
       date,
       time,
+      ubication,
+      mealType,
+      peopleCount,
+      status: true
     });
 
-    return reservation;
+    return 'Reservation made successfully';
   }
 
   async findAllReservationsRepository() {
@@ -90,22 +99,30 @@ export class ReservationRepository {
     return reservation;
   }
 
-  preloadTables() {
-    //   tables?.map(async (element) => {
-    //     const table = new TableReservation();
-    //     table.table_number = element.table_number;
-    //     table.capacity = element.capacity;
-    //     table.ubication = element.ubication;
-    //     table.status = element.status;
-
-    //     await this.tableRepository
-    //       .createQueryBuilder()
-    //       .insert()
-    //       .into(TableReservation)
-    //       .values(table)
-    //       .orUpdate(['ubication', 'status'], ['capacity'])
-    //       .execute();
-    //   });
+  async preloadTablesRepository() {
+    for (const element of tables) {
+      const existingTable = await this.tableRepository.findOneBy({
+        table_number: element.table_number,
+      });
+  
+      let table: TableReservation;
+  
+      if (existingTable) {
+        existingTable.ubication = element.ubication;
+        existingTable.status = element.status;
+        table = existingTable;
+      } else {
+        table = this.tableRepository.create({
+          table_number: element.table_number,
+          capacity: element.capacity,
+          ubication: element.ubication,
+          status: element.status,
+        });
+      }
+  
+      await this.tableRepository.save(table);
+    }
+  
     return 'Tables added';
   }
 }
