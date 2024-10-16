@@ -5,6 +5,7 @@ import { UsersRepository } from 'src/users/users.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Credential } from './entities/credential.entity';
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -12,6 +13,7 @@ export class AuthService {
     @InjectRepository(Credential)
     private credentialRepository: Repository<Credential>,
   ) {}
+
   async signUp(credentials, userDto) {
     const repeatedUser = await this.credentialRepository.findOne({
       where: { email: credentials.email },
@@ -25,6 +27,7 @@ export class AuthService {
     // return `Welcome ${user.name}`;
     return user;
   }
+
   async logIn(loginUserDto: LogInDto) {
     const { email, password } = loginUserDto;
     const user = await this.credentialRepository.findOne({ where: { email } });
