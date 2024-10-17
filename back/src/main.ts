@@ -5,15 +5,15 @@ import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  
+
   app.enableCors({
-    origin: 'http://localhost:4000', 
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', 
-    credentials: true, 
+    origin: 'http://localhost:4000',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
   });
 
   app.useGlobalPipes(new ValidationPipe());
-  
+
   const config = new DocumentBuilder()
     .setTitle('Restaurant Order Management API')
     .setDescription(
@@ -25,7 +25,7 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-  
+
   await app.listen(3000);
 }
 
