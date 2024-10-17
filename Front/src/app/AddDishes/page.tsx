@@ -1,7 +1,18 @@
-import React from 'react'
+'use client'
+import React, { useEffect } from 'react'
 import FormularioMenu from '@/components/FormAddDish/FormAddDish'
+import { useRouter } from 'next/navigation';
 
-const addDish = () => {
+const AddDish = () => {
+    const router = useRouter();
+
+    useEffect(() => {
+        const userSession = localStorage.getItem("userSession");
+        if (!userSession) {
+            router.push('/login');
+        } 
+    }, [router]);
+    
 return (
     <div>
         <FormularioMenu/>
@@ -9,4 +20,4 @@ return (
 )
 }
 
-export default addDish;
+export default AddDish;

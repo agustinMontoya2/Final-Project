@@ -1,8 +1,18 @@
+'use client'
 import FormWork from "@/components/FormWork/FormWork"
-import React, { useState } from "react"
-const contact = () => {
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react"
+const Contact = () => {
+    const router = useRouter();
+
+    useEffect(() => {
+        const userSession = localStorage.getItem("userSession");
+        if (!userSession) {
+            router.push('/login');
+        } 
+    }, [router]);
     return(
         <FormWork />
     )
 }
-export default contact
+export default Contact;

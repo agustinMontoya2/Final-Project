@@ -12,16 +12,11 @@ export class Credential {
   @PrimaryGeneratedColumn('uuid')
   credentials_id: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column()
   password: string;
-
-  @Column({ type: 'boolean', default: false })
-  //@ApiHideProperty() -- falta instalar swagger
-  //   @isEmpty()
-  isAdmin: boolean;
 
   @OneToOne(() => User, (user) => user.credential)
   @JoinColumn({ name: 'user_id' })

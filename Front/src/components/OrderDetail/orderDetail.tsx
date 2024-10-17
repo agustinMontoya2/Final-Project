@@ -41,7 +41,7 @@ if (loading) {
     return <p>Cargando detalles del pedido...</p>;
 }
 if (error) {
-    return <p>Error: {error}</p>;
+    return <p>Error : {error}</p>;
 }
 if (!pedido) {
     return <p>No se encontró el pedido.</p>;

@@ -7,6 +7,8 @@ import { CategoriesModule } from './categories/categories.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { typeOrmConfig } from './config/typeorm';
+import { ReservationModule } from './reservation/reservation.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -23,6 +25,14 @@ import { typeOrmConfig } from './config/typeorm';
     OrderModule,
     CategoriesModule,
     TypeOrmModule,
+    ReservationModule,
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_SECRET,
+      signOptions: {
+        expiresIn: '1h',
+      },
+    }),
   ],
   controllers: [],
   providers: [],

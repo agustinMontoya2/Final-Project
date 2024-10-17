@@ -1,26 +1,73 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
-
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { LogInDto } from './dto/create-user.dto';
+import { UsersRepository } from 'src/users/users.repository';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Credential } from './entities/credential.entity';
+import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
+  constructor(
+    private readonly userRepository: UsersRepository,
+    @InjectRepository(Credential)
+    private credentialRepository: Repository<Credential>,
+    private readonly jwtService: JwtService,
+  ) {}
+
+  async signUp(credentials, userDto) {
+    const repeatedUser = await this.credentialRepository.findOne({
+      where: { email: credentials.email },
+    });
+    if (repeatedUser) throw new BadRequestException('Email already exists');
+    const user = await this.userRepository.createUser(userDto);
+    if (!user) throw new Error('error');
+    const hashedPassword = await bcrypt.hash(credentials.password, 10);
+    credentials.password = hashedPassword;
+    credentials.user = user;
+    const credential = await this.credentialRepository.save(credentials);
+    if (!credential) throw new Error('error');
+    // return `Welcome ${user.name}`;
+    return user;
   }
 
-  findAll() {
-    return `This action returns all auth`;
-  }
+  async logIn(loginUserDto: LogInDto) {
+    // const { email, password } = loginUserDto;
+    // const user = await this.credentialRepository.findOne({ where: { email } });
+    // if (user && user.password === password) return user;
+    // throw new BadRequestException('Invalid credentials');
+    // // return this.credentialRepository()
+    const authUser = await this.credentialRepository.findOne({
+      where: { email: loginUserDto.email },
+      relations: ['user'],
+    });
+    if (!authUser) throw new UnauthorizedException('Invalid credentials');
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
+    const validatePassword = await bcrypt.compare(
+      loginUserDto.password,
+      authUser.password,
+    );
+    if (!validatePassword)
+      throw new UnauthorizedException('Invalid credentials');
 
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
+    const payload = {
+      id: authUser.credentials_id,
+      email: authUser.email,
+      isAdmin: authUser.user.isAdmin,
+    };
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+    const token = this.jwtService.sign(payload);
+
+    const { isAdmin, ...userWithoutAdmin } = authUser.user;
+
+    return {
+      user: userWithoutAdmin,
+      email: authUser.email,
+      token,
+    };
   }
 }

@@ -10,10 +10,12 @@
   },
   "dependencies": {
     "date-fns": "^4.1.0",
+    "izitoast": "^1.4.0",
     "next": "14.2.14",
     "react": "^18",
     "react-dom": "^18",
-    "resend": "^4.0.0"
+    "resend": "^4.0.0",
+    "sweetalert2": "^11.14.3"
   },
   "devDependencies": {
     "@iconify/tailwind": "^1.1.3",
