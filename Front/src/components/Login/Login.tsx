@@ -8,8 +8,7 @@ import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 
 const Login = () => {
-
-    const router = useRouter()
+    const router = useRouter();
 
     const initialState = {
         email: "",
@@ -28,26 +27,31 @@ const Login = () => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        console.log("Datos del formulario enviados:", userData); // 1. Muestra los datos que se están enviando
+
         try {
             const response = await formLogin(userData);
-            localStorage.setItem("userSession", JSON.stringify({response}))
+            console.log("Respuesta del servidor:", response); // 2. Muestra la respuesta del servidor
+            localStorage.setItem("userSession", JSON.stringify({response}));
+            
             Swal.fire({
                 title: 'You have successfully logged in!',
                 icon: 'success',
                 confirmButtonText: 'accept',
                 confirmButtonColor: "#1988f0"
-            })
-            router.back();
+            });
+
+            router.push("/login");
         } catch (error) {
+            console.error("Error durante el inicio de sesión:", error); // 3. Muestra cualquier error en el bloque catch
             Swal.fire({
                 title: 'Error',
                 text: 'Invalid credentials',
                 icon: 'error',
                 confirmButtonColor: "#ff2323"
-            })
+            });
         }
-    
-};
+    };
 
     const renderInput = (type: string, name: keyof ILogin, label: string) => {
         return (
