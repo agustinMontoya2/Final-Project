@@ -12,7 +12,8 @@ export class ReservationService {
   }
 
   createReservationService(createReservationDto: CreateReservationDto) {
-    return this.repositoryReservation.createReservationRepository(createReservationDto)
+    const {user_id, time, date, peopleCount, ubication} = createReservationDto
+    return this.repositoryReservation.createReservationRepository(user_id, time, date, peopleCount, ubication)
   }
 
   findAllReservationsService() {

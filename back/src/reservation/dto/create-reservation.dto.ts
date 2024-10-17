@@ -6,10 +6,6 @@ export class CreateReservationDto {
   user_id: string;
 
   @IsNotEmpty()
-  @IsUUID()
-  table_id: string;
-
-  @IsNotEmpty()
   @IsDateString()
   date: Date;
 
@@ -18,14 +14,10 @@ export class CreateReservationDto {
   time: string;
 
   @IsNotEmpty()
-  @IsString()
-  mealType: string;
+  @IsNumber()
+  peopleCount: number;
 
   @IsNotEmpty()
   @IsString()
   ubication: string;
-
-  @IsNotEmpty()
-  @IsNumber()
-  peopleCount: number;
 }

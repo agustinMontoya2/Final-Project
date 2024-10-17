@@ -22,39 +22,58 @@ export class ReservationRepository {
     private readonly tableRepository: Repository<TableReservation>,
   ) {}
 
-  async createReservationRepository(createReservationDto: CreateReservationDto) {
-    const {user_id, table_id, time, date, peopleCount, ubication, mealType} = createReservationDto
+  async createReservationRepository(user_id, time, date, peopleCount, ubication) {
 
+    console.log("creating reservation");
+    
     if (!isUUID(user_id)) {
       throw new BadRequestException('User ID not valid');
     }
-    if (!isUUID(table_id)) {
-      throw new BadRequestException('Table ID not valid');
-    }
+   
 
     const user = await this.userRepository.findOne({ where: { user_id } });
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    const table = await this.tableRepository.findOneBy({ table_id });
-    if (!table || !table.status) {
-      throw new NotFoundException('Table not found or not available');
-    }
+  
+    // searching reservation occupied tables
+    const reservationsToday = await this.reservationRepository.find({where: {date: date, status: true}, relations: ['table']});
+    const reservationsTime: Reservation[] = reservationsToday.filter(reservation => reservation.time === time);
+    /**
+     * Reservation:
+     * {
+     * Table: {
+     * table_number: 1,
+     * capacity: 4,
+     * ubication: exterior,
+     * }
+     * User: *****
+     * Date: 17/10/2024
+     * time: 02:00hs
+     * PeopleCount: 4
+     * status: true
+     * }
+     */
+    const tablesOccupied: TableReservation[] = reservationsTime.map( reservation => reservation.table)
+    if (tablesOccupied.length < 0) {
 
-    
+    const allTables = await this.tableRepository.find();
+    if (!allTables || allTables.length === 0) throw new BadRequestException('No tables found');
 
+    const tablesAvailable = allTables.filter ( table => !tablesOccupied.some(occupiedTable => occupiedTable.table_id === table.table_id)); 
+
+    if (tablesAvailable.length === 0) throw new BadRequestException('No tables available');
+}
     await this.reservationRepository.save({
-      table,
       user,
       date,
       time,
-      ubication,
-      mealType,
       peopleCount,
       status: true
     });
 
     return 'Reservation made successfully';
+    
   }
 
   async findAllReservationsRepository() {
