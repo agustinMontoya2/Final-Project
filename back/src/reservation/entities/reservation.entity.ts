@@ -30,6 +30,9 @@ export class Reservation {
   @Column()
   time: string;
 
-  @Column()
+  @Column({ default: true })
   status: boolean;
+
+  @Column()
+  timeEnd: string;
 }

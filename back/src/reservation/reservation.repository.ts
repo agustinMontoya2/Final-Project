@@ -22,58 +22,89 @@ export class ReservationRepository {
     private readonly tableRepository: Repository<TableReservation>,
   ) {}
 
-  async createReservationRepository(user_id, time, date, peopleCount, ubication) {
+  async createReservationRepository(
+    user_id,
+    time,
+    date,
+    peopleCount,
+    ubication,
+  ) {
+    console.log('creating reservation');
 
-    console.log("creating reservation");
-    
     if (!isUUID(user_id)) {
       throw new BadRequestException('User ID not valid');
     }
-   
 
     const user = await this.userRepository.findOne({ where: { user_id } });
     if (!user) {
       throw new NotFoundException('User not found');
     }
-  
-    // searching reservation occupied tables
-    const reservationsToday = await this.reservationRepository.find({where: {date: date, status: true}, relations: ['table']});
-    const reservationsTime: Reservation[] = reservationsToday.filter(reservation => reservation.time === time);
-    /**
-     * Reservation:
-     * {
-     * Table: {
-     * table_number: 1,
-     * capacity: 4,
-     * ubication: exterior,
-     * }
-     * User: *****
-     * Date: 17/10/2024
-     * time: 02:00hs
-     * PeopleCount: 4
-     * status: true
-     * }
-     */
-    const tablesOccupied: TableReservation[] = reservationsTime.map( reservation => reservation.table)
-    if (tablesOccupied.length < 0) {
 
-    const allTables = await this.tableRepository.find();
-    if (!allTables || allTables.length === 0) throw new BadRequestException('No tables found');
+    const [hour, minutes] = time.split(':').map(Number);
+    const endTime = new Date(date);
+    endTime.setHours(hour + 2, minutes);
+    const timeEnd = endTime.toTimeString().slice(0, 5);
 
-    const tablesAvailable = allTables.filter ( table => !tablesOccupied.some(occupiedTable => occupiedTable.table_id === table.table_id)); 
-
-    if (tablesAvailable.length === 0) throw new BadRequestException('No tables available');
-}
-    await this.reservationRepository.save({
-      user,
-      date,
-      time,
-      peopleCount,
-      status: true
+    const reservationsToday = await this.reservationRepository.find({
+      where: { date: date, status: true },
+      relations: ['table'],
     });
 
+    const conflictingReservations = reservationsToday.filter((reservation) => {
+      const [startHours1, startMinutes1] = reservation.time
+        .split(':')
+        .map(Number);
+      const [endHours1, endMinutes1] = reservation.timeEnd
+        .split(':')
+        .map(Number);
+      const [startHours2, startMinutes2] = time.split(':').map(Number);
+      const [endHours2, endMinutes2] = timeEnd.split(':').map(Number);
+
+      const start1 = startHours1 * 60 + startMinutes1;
+      const end1 = endHours1 * 60 + endMinutes1;
+      const start2 = startHours2 * 60 + startMinutes2;
+      const end2 = endHours2 * 60 + endMinutes2;
+
+      return !(end1 <= start2 || end2 <= start1); // Verificar solapamiento
+    });
+
+    const tablesOccupied: TableReservation[] = conflictingReservations.map(
+      (reservation) => reservation.table,
+    );
+    const allTables = await this.tableRepository.find();
+    console.log(allTables);
+
+    if (!allTables || allTables.length === 0)
+      throw new BadRequestException('No tables found');
+    let tablesAvailable = allTables.filter(
+      (table) =>
+        table.ubication === ubication &&
+        !tablesOccupied.some(
+          (occupiedTable) => occupiedTable.table_id === table.table_id,
+        ),
+    );
+
+    if (tablesAvailable.length === 0)
+      throw new BadRequestException('No tables available');
+
+    const tableAvailable = tablesAvailable[0];
+    tableAvailable.status = false;
+
+    await this.tableRepository.save(tableAvailable);
+
+    const reservation = new Reservation();
+    reservation.user = user;
+    reservation.date = date;
+    reservation.time = time;
+    reservation.timeEnd = timeEnd;
+    reservation.peopleCount = peopleCount;
+    reservation.table = tableAvailable;
+
+    console.log(reservation);
+
+    await this.reservationRepository.save(reservation);
+
     return 'Reservation made successfully';
-    
   }
 
   async findAllReservationsRepository() {
@@ -123,9 +154,9 @@ export class ReservationRepository {
       const existingTable = await this.tableRepository.findOneBy({
         table_number: element.table_number,
       });
-  
+
       let table: TableReservation;
-  
+
       if (existingTable) {
         existingTable.ubication = element.ubication;
         existingTable.status = element.status;
@@ -138,10 +169,10 @@ export class ReservationRepository {
           status: element.status,
         });
       }
-  
+
       await this.tableRepository.save(table);
     }
-  
+
     return 'Tables added';
   }
 }
