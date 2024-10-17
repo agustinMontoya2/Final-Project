@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import BackButton from '../BackButton/BackButton';
+import Dropdown from '../Dropdowm/Dropdown';
 
 function NavBarMD() {
     const [selectedCategory, setSelectedCategory] = useState("");
@@ -38,12 +39,8 @@ function NavBarMD() {
                     <Link href={"/reserve"}>
                         <p className="text-white font-bold text-2xl">Reserve</p>
                     </Link>
-                    <Link href={"/login"}>
-                        <p className="text-white font-bold text-2xl">Login</p>
-                    </Link>
-                    <Link href={"/register"}>
-                        <p className="text-white font-bold text-2xl">Register</p>
-                    </Link>
+                    
+                    <Dropdown />
                 </div>
             </div>
             <div className='w-10 mt-24 -mb-48 p-4 cursor-pointer z-50 fixed'>

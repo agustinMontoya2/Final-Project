@@ -26,21 +26,13 @@ const ReservationForm: React.FC = () => {
         setFormData((prev) => ({
             ...prev,
             [name]: value,
-<<<<<<< HEAD
-            ...(name === 'mealType' && { time: '' }), // Reset time if mealType changes
-=======
             ...(name === 'mealType' && { time: '' }),
->>>>>>> 5aafe71698d23b71caba73ca1a13671d113793a4
         }));
     };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log(formData);
-<<<<<<< HEAD
-        // manejar la lógica de reserva
-=======
->>>>>>> 5aafe71698d23b71caba73ca1a13671d113793a4
     };
 
     

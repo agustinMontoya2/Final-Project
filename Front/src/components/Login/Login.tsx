@@ -1,21 +1,15 @@
 'use client'
 
 import { ILogin } from '@/interfaces/productoInterface';
-<<<<<<< HEAD
-=======
 import { formLogin } from '@/lib/server/auth';
->>>>>>> 5aafe71698d23b71caba73ca1a13671d113793a4
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 
 const Login = () => {
-<<<<<<< HEAD
-=======
     const router = useRouter();
 
->>>>>>> 5aafe71698d23b71caba73ca1a13671d113793a4
     const initialState = {
         email: "",
         password: "",
@@ -25,11 +19,6 @@ const Login = () => {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
-<<<<<<< HEAD
-        setUserData({ ...userData, [name]: value });
-    };
-
-=======
         setUserData({
             ...userData, 
             [name]: value
@@ -64,7 +53,6 @@ const Login = () => {
     };
 
 
->>>>>>> 5aafe71698d23b71caba73ca1a13671d113793a4
     const renderInput = (type: string, name: keyof ILogin, label: string) => {
         return (
             <div className="w-4/5 mb-6 relative">
@@ -91,13 +79,8 @@ const Login = () => {
 
     return (
         <div className="absolute inset-0 w-full h-auto flex flex-col items-center justify-center bg-primary m-auto lg:w-2/3 2xl:w-1/2 2xl:relative 2xl:h-screen">
-<<<<<<< HEAD
-            <form className="w-11/12 bg-neutral-300 p-6 rounded-lg flex flex-col justify-center items-center">
-                <h2 className='w-full text-xl text-center text-neutral-800 font-extrabold'>JOIN CLUB FELLINI</h2>
-=======
             <form className="w-11/12 bg-neutral-300 p-6 rounded-lg flex flex-col justify-center items-center" onSubmit={handleSubmit}>
-                <h2 className='w-full text-xl text-center text-neutral-800 font-extrabold'>LOGIN IN FELLINI BAR</h2>
->>>>>>> 5aafe71698d23b71caba73ca1a13671d113793a4
+                <h1 className='w-full text-xl text-center text-neutral-800 font-extrabold'>LOGIN IN FELLINI BAR</h1>
                 {renderInput("email", "email", "Email")}
                 {renderInput("password", "password", "Password")}
                 <button
@@ -113,8 +96,4 @@ const Login = () => {
     );
 }
 
-<<<<<<< HEAD
 export default Login;
-=======
-export default Login;
->>>>>>> 5aafe71698d23b71caba73ca1a13671d113793a4

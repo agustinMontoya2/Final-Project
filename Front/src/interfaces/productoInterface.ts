@@ -33,19 +33,6 @@ export interface IProducts {
   available: boolean;
 }
 
-<<<<<<< HEAD
-export interface IProducts{
-  id: string
-  name: string
-  price: number
-  description: string
-  imagen_url: string
-  category: string
-  available: boolean
-}
-
-=======
->>>>>>> 5aafe71698d23b71caba73ca1a13671d113793a4
 export interface ILogin{
   email:  string;
   password: string;
@@ -54,11 +41,7 @@ export interface ILogin{
 export interface IRegister{
   name: string;
   email: string;
-<<<<<<< HEAD
-  telephone: string;
-=======
   phone: string;
->>>>>>> 5aafe71698d23b71caba73ca1a13671d113793a4
   address:  string;
   password: string;
   confirmPassword: string;
@@ -70,9 +53,6 @@ export interface IReserve {
   mealType: string;
   time:  string;
   people: number;
-<<<<<<< HEAD
-}
-=======
 }
 
 export interface IUserSession {
@@ -93,4 +73,3 @@ export interface IProductsDetails {
   subtotal: string;
   product: IProducts;
 }
->>>>>>> 5aafe71698d23b71caba73ca1a13671d113793a4

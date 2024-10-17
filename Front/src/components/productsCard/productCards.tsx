@@ -1,5 +1,6 @@
 "use client"
 import { IProducts } from "@/interfaces/productoInterface";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from 'react'
 
@@ -12,15 +13,18 @@ const ProductCardsview: React.FC<IProducts> = ({ product_id, price, description,
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center h-screen justify-center">
       <div className="flex flex-col items-center p-2 w-1/4 bg-third rounded-lg">
-
         <div className="mb-4 ">
-          <img
-            src={image_url}
-            alt=""
-            className="w-40% h-auto rounded-lg"
-          />
+          <div className="relative w-64 h-64">
+            <Image
+                src={image_url}
+                alt={name}
+                layout="fill"
+                objectFit="contain"
+                className="w-full h-auto"
+            />
+          </div>
         </div>
         <div className="text-center">
           <h2 className="text-gray-900 text-xl font-bold mb-2">{name}</h2>
@@ -28,16 +32,16 @@ const ProductCardsview: React.FC<IProducts> = ({ product_id, price, description,
           <p className="text-gray-900 text-lg font-semibold mb-4">{price}</p>
         </div>
         <div>
-          <input
+          <textarea
             type="text"
             value={userMessage}
             onChange={handleMessageChange}
-            placeholder="Sin tomate..."
+            placeholder="Aclarcaciones..."
             className="border text-black border-gray-300 rounded px-2 py-1 mb-4 w-full"
           />
         </div>
         <div>
-          <button className="bg-secondary text-black px-4 py-2 rounded hover:bg-secondary-dark">
+          <button className="bg-secondary text-white font-semibold px-4 py-2 rounded hover:bg-red-700">
             Add to Cart
           </button>
         </div>

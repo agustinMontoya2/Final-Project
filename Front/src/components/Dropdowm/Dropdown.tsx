@@ -65,7 +65,7 @@ export default function Dropdown() {
             <div className={`absolute right-0 mt-2 w-44 bg-white border rounded shadow-lg z-10 transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
                 {userSession ? (
                     <>
-                        <Link className="block w-full text-left px-4 py-2 hover:bg-gray-100" href={"/user"}>
+                        <Link className="block w-full text-left px-4 py-2 hover:bg-gray-100" href={"/profile"}>
                             <p className="text-black font-bold">Profile</p>
                         </Link>
                         <button
