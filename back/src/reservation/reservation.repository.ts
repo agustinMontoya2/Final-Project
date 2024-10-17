@@ -45,10 +45,22 @@ export class ReservationRepository {
     endTime.setHours(hour + 2, minutes);
     const timeEnd = endTime.toTimeString().slice(0, 5);
 
+    console.log('first date');
+
+    console.log(date);
+
     const reservationsToday = await this.reservationRepository.find({
-      where: { date: date, status: true },
+      where: { date, table: { ubication } },
       relations: ['table'],
     });
+    console.log('reservated today');
+    console.log(reservationsToday);
+    console.log(
+      await this.reservationRepository.find({
+        where: { date },
+        relations: ['table'],
+      }),
+    );
 
     const conflictingReservations = reservationsToday.filter((reservation) => {
       const [startHours1, startMinutes1] = reservation.time
@@ -67,11 +79,17 @@ export class ReservationRepository {
 
       return !(end1 <= start2 || end2 <= start1); // Verificar solapamiento
     });
+    console.log('conflicting reservations');
+    console.log(conflictingReservations);
 
     const tablesOccupied: TableReservation[] = conflictingReservations.map(
       (reservation) => reservation.table,
     );
+    console.log('tables occupied');
+    console.log(tablesOccupied);
+
     const allTables = await this.tableRepository.find();
+    console.log('all tables');
     console.log(allTables);
 
     if (!allTables || allTables.length === 0)
@@ -85,10 +103,14 @@ export class ReservationRepository {
     );
 
     if (tablesAvailable.length === 0)
-      throw new BadRequestException('No tables available');
+      throw new BadRequestException(`No tables available in ${ubication}`);
+    console.log(
+      '*****************************************************************',
+    );
 
     const tableAvailable = tablesAvailable[0];
-    tableAvailable.status = false;
+    console.log('table available');
+    console.log(tableAvailable);
 
     await this.tableRepository.save(tableAvailable);
 
@@ -100,7 +122,16 @@ export class ReservationRepository {
     reservation.peopleCount = peopleCount;
     reservation.table = tableAvailable;
 
+    console.log('reservation to save');
     console.log(reservation);
+
+    console.log('date saved');
+
+    console.log(date);
+
+    console.log('reservation date');
+
+    console.log(reservation.date);
 
     await this.reservationRepository.save(reservation);
 
