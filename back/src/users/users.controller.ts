@@ -1,16 +1,14 @@
 import {
   Controller,
   Get,
-  Post,
   Body,
-  Patch,
   Param,
   Delete,
   ParseUUIDPipe,
   Put,
+  Post,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { SignUpDto } from 'src/auth/dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { productDetailDto } from 'src/products/dto/create-product.dto';
 import { Product } from 'src/products/entities/product.entity';

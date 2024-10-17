@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Reservation } from './reservation.entity';
 
-@Entity({ name: 'table' })
+@Entity({ name: 'tables' })
 export class TableReservation {
   @PrimaryGeneratedColumn('uuid')
   table_id: string;

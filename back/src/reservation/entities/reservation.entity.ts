@@ -25,8 +25,14 @@ export class Reservation {
   date: Date;
 
   @Column()
-  time: string;
+  peopleCount: number;
 
   @Column()
-  status?: boolean;
+  time: string;
+
+  @Column({ default: true })
+  status: boolean;
+
+  @Column()
+  timeEnd: string;
 }

@@ -1,11 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  Put,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put } from '@nestjs/common';
 import { ReservationService } from './reservation.service';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 
@@ -15,7 +8,7 @@ export class ReservationController {
 
   @Get('/preload')
   tablesPreloadController() {
-    return this.reservationService.tablesPreloadService()
+    return this.reservationService.tablesPreloadService();
   }
 
   @Get()
@@ -23,9 +16,13 @@ export class ReservationController {
     return this.reservationService.findAllReservationsService();
   }
 
-  @Post('create')
-  createReservationController(@Body() createReservationDto: CreateReservationDto) {
-    return this.reservationService.createReservationService(createReservationDto);
+  @Post()
+  createReservationController(
+    @Body() createReservationDto: CreateReservationDto,
+  ) {
+    return this.reservationService.createReservationService(
+      createReservationDto,
+    );
   }
 
   @Get(':id')
@@ -37,5 +34,4 @@ export class ReservationController {
   updateReservationController(@Param('id') id: string) {
     return this.reservationService.updateReservationService(id);
   }
-
 }

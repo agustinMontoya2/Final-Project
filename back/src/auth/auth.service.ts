@@ -4,7 +4,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { LogInDto } from './dto/create-user.dto';
-import { SignUpDto } from './dto/create-user.dto';
 import { UsersRepository } from 'src/users/users.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
