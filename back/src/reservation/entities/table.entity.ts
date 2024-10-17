@@ -10,9 +10,6 @@ export class TableReservation {
   table_number: number;
 
   @Column()
-  capacity: number;
-
-  @Column()
   status: boolean;
 
   @Column()

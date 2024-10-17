@@ -90,33 +90,23 @@ export class ReservationRepository {
     if (tablesAvailable.length === 0)
       throw new BadRequestException(`No tables available in ${ubication}`);
 
-    const lastIndex = Number(peopleCount / 4);
+    const tableForPeoples = Math.ceil(peopleCount / 4);
+    if (tablesAvailable.length < tableForPeoples)
+      throw new BadRequestException(
+        `No tables available for ${peopleCount} people in ${ubication}`,
+      );
 
-    const tableAvailable = tablesAvailable[0];
+    for (let i = 0; i < tableForPeoples; i++) {
+      const reservation = new Reservation();
+      reservation.user = user;
+      reservation.date = date;
+      reservation.time = time;
+      reservation.timeEnd = timeEnd;
+      reservation.peopleCount = peopleCount;
+      reservation.table = tablesAvailable[i];
 
-    await this.tableRepository.save(tableAvailable);
-
-    const reservation = new Reservation();
-    reservation.user = user;
-    reservation.date = date;
-    reservation.time = time;
-    reservation.timeEnd = timeEnd;
-    reservation.peopleCount = peopleCount;
-    reservation.table = tableAvailable;
-
-    console.log('reservation to save');
-    console.log(reservation);
-
-    console.log('date saved');
-
-    console.log(date);
-
-    console.log('reservation date');
-
-    console.log(reservation.date);
-
-    await this.reservationRepository.save(reservation);
-
+      await this.reservationRepository.save(reservation);
+    }
     return 'Reservation made successfully';
   }
 
@@ -177,7 +167,6 @@ export class ReservationRepository {
       } else {
         table = this.tableRepository.create({
           table_number: element.table_number,
-          capacity: element.capacity,
           ubication: element.ubication,
           status: element.status,
         });
