@@ -42,13 +42,13 @@ export class ReservationRepository {
 
     const [hour, minutes] = time.split(':').map(Number);
     const endTime = new Date(date);
-    endTime.setHours(hour + 2, minutes);
+    endTime.setHours(hour + 5, minutes);
     console.log(endTime.toTimeString());
 
     const timeEnd = endTime.toTimeString().slice(0, 5);
 
     const reservationsToday = await this.reservationRepository.find({
-      where: { date, table: { ubication } },
+      where: { date, table: { ubication }, status: true },
       relations: ['table'],
     });
 
@@ -103,6 +103,7 @@ export class ReservationRepository {
       reservation.time = time;
       reservation.timeEnd = timeEnd;
       reservation.peopleCount = peopleCount;
+
       reservation.table = tablesAvailable[i];
 
       await this.reservationRepository.save(reservation);
@@ -130,18 +131,20 @@ export class ReservationRepository {
     return reservation;
   }
 
-  async updateReservationRepository(id: string) {
+  async cancelReservationRepository(reservation_id: string) {
     const reservation = await this.reservationRepository.findOneBy({
-      reservation_id: id,
+      reservation_id,
     });
 
     if (!reservation) {
-      throw new NotFoundException(`Reserva con ID ${id} no encontrada.`);
+      throw new NotFoundException(
+        `Reservation with ID ${reservation_id} not found.`,
+      );
     }
 
     if (reservation.status === false) {
       throw new BadRequestException(
-        `La reserva con ID ${id} ya está cancelada.`,
+        `Reservation with ID ${reservation_id} already cancelled.`,
       );
     }
 

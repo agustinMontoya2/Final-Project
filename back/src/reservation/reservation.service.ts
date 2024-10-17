@@ -30,7 +30,7 @@ export class ReservationService {
     return this.repositoryReservation.findOneReservationRepository(id);
   }
 
-  updateReservationService(id: string) {
-    return this.repositoryReservation.updateReservationRepository(id);
+  cancelReservationService(id: string) {
+    return this.repositoryReservation.cancelReservationRepository(id);
   }
 }
