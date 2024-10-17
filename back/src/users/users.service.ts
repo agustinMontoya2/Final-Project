@@ -58,4 +58,19 @@ export class UsersService {
 
     return this.usersRepository.addToFavoritiesRepository(product_id, user);
   }
+
+  async removeCartService(product_detail_id: string) {
+    if (!isUUID(product_detail_id))
+      throw new BadRequestException('Product Detail ID not valid');
+    return this.usersRepository.removeCart(product_detail_id);
+  }
+
+  async removeFavoritiesService(product_id: string, user_id: string) {
+    if (!isUUID(product_id))
+      throw new BadRequestException('Product ID not valid');
+    if (!isUUID(user_id)) throw new BadRequestException('User ID not valid');
+    const user = await this.findOne(user_id);
+    if (!user) throw new NotFoundException('User not found');
+    return this.usersRepository.removeFavorities(product_id, user);
+  }
 }
