@@ -29,9 +29,22 @@ export class UsersController {
     return this.usersService.getUserFavoritiesService(user_id);
   }
 
+  @Delete('favorities/:id')
+  removeFavorities(
+    @Param('id') user_id: string,
+    @Body('product_id') product_id: string,
+  ) {
+    return this.usersService.removeFavoritiesService(product_id, user_id);
+  }
+
   @Get('cart/:id')
   getCart(@Param('id') user_id: string) {
     return this.usersService.getCart(user_id);
+  }
+
+  @Delete('cart/:id')
+  removeCart(@Param('id') product_detail_id: string) {
+    return this.usersService.removeCartService(product_detail_id);
   }
 
   @Get(':id')

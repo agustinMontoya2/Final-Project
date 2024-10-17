@@ -142,4 +142,30 @@ export class UsersRepository {
     if (!cart) throw new NotFoundException('Cart not found');
     return cart;
   }
+
+  async removeCart(product_detail_id: string) {
+    const productDetail = await this.productDetailRepository.findOne({
+      where: { product_detail_id },
+    });
+    if (!productDetail) throw new NotFoundException('Product Detail not found');
+    await this.productDetailRepository.remove(productDetail);
+    return 'Product removed from cart successfully';
+  }
+
+  async removeFavorities(product_id: string, user: User) {
+    const favorities = await this.favoritiesRepository.findOne({
+      where: { user },
+      relations: ['product'],
+    });
+    if (!favorities) throw new NotFoundException('Favorities not found');
+    const product = await this.productRepository.findOne({
+      where: { product_id },
+    });
+    if (!product) throw new NotFoundException('Product not found');
+    favorities.product = favorities.product.filter(
+      (product) => product.product_id !== product_id,
+    );
+    await this.favoritiesRepository.save(favorities);
+    return 'Product removed from favorities successfully';
+  }
 }
