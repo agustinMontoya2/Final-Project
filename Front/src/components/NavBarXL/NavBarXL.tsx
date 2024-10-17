@@ -38,6 +38,9 @@ export default function NavBarXL() {
                     <Link className="w-11 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/"}>
                         <p className="text-white font-bold hover:text-neutral-300 duration-500">Home</p>
                     </Link>
+                    <Link className="w-11 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/menu"}>
+                        <p className="text-white font-bold hover:text-neutral-300 duration-500">Menú</p>
+                    </Link>
                     <Link className="w-11 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/off"}>
                         <p className="text-white font-bold hover:text-neutral-300 duration-500">OFF</p>
                     </Link>

@@ -2,6 +2,7 @@
 
 import { getProductsDB } from "@/Helpers/products.helper";
 import { IProducts } from "@/interfaces/productoInterface";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -15,7 +16,6 @@ const Cards = () => {
             try {
                 const productsData = await getProductsDB();
                 setProducts(productsData);
-
             } catch (error) {
                 console.error("Error fetching products:", error);
             } finally {
@@ -32,37 +32,43 @@ const Cards = () => {
     };
 
     if (loading) {
-        return <div>Cargando productos...</div>; 
+        return <div>Cargando productos...</div>;
     }
 
     return (
         <div>
             <h1 className="text-2xl font-bold mb-2 text-black flex justify-center text-center">Menu</h1>
-            <div className="flex flex-wrap">
+            <div className="w-[80%] h-auto flex flex-wrap justify-evenly m-auto">
                 {products.map((product) => (
-                    <Link href={`/product/${product.product_id}`} key={product.product_id}>
-                        <div
-                            className="flex items-center bg-third p-4 rounded-sm shadow-md m-1 w-full md:w-1/2 lg:w-1/3 relative hover:after:content-[''] hover:after:absolute hover:after:w-full hover:after:h-2 hover:after:bg-gradient-to-r hover:after:from-blue-500 hover:after:to-purple-500 hover:after:bottom-0 hover:after:left-0 hover:after:blur-md hover:after:opacity-100 hover:after:transition-all"
-                        >
-                            <img
-                                src={product.image_url}
-                                alt={product.name}
-                                className="w-32 h-32 object-cover rounded-lg mr-4"
-                            />
-                            <div>
-                                <h2 className="text-black text-xl font-semibold">{product.name}</h2>
-                                <p className="text-black text-sm font-semibold">{product.description}</p>
-                                <p className="text-black">Price: ${product.price}</p>
+                    <Link href={`/product/${product.product_id}`} key={product.product_id} className="w-[30%] h-44 flex items-center bg-primary shadow-2xl rounded-xl my-6 px-5">
+                            <div className="w-1/2">
+                                <div className="relative w-36 h-36">
+                                    <Image
+                                        src={"https://thefoodtech.com/wp-content/uploads/2022/05/burguer-king-hamburguesas-sin-ingredientes-artificiales-828x548.jpg"}
+                                        alt={product.name}
+                                        layout="fill"
+                                        objectFit="contain"
+                                    />
+                                </div>
                             </div>
-                            <div>
-                                <button
-                                    className="bg-secondary"
-                                    onClick={handleAddToCart}
-                                >
-                                    Cart
-                                </button>
+                            <div className="w-1/2">
+                                <div>
+                                    <h2 className="text-black text-xl font-semibold">Burger {product.name}</h2>
+                                    <p className="text-black text-sm">
+                                        <b>Description:</b>
+                                        {product.description}
+                                    </p>
+                                    <p className="text-black text-sm"><b>Price:</b> ${product.price}</p>
+                                </div>
+                                <div className="flex justify-end z-50 -mt-8">
+                                    <button
+                                        className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
+                                        onClick={handleAddToCart}
+                                    >
+                                        Cart
+                                    </button>
+                                </div>
                             </div>
-                        </div>
                     </Link>
                 ))}
             </div>

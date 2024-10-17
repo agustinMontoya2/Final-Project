@@ -17,17 +17,14 @@ const NavBar = () => {
                 <Link href={""} className="h-20 w-1/2 p-2 flex items-center" onClick={toggleAside}>
                     <Image src={"/assets/icon/menu.png"} alt="menu" width={45} height={45} />
                 </Link>
-
                 <Link href={"/"} className="h-18 w-1/2 p-2 flex justify-end">
                     <Image src={"/assets/logo-white.png"} alt="logo" width={100} height={45} />
                 </Link>
-
                 <div>
                     <aside
                         className={`fixed top-0 left-0 w-2/3 h-full overflow-y-auto bg-primary text-white shadow-lg z-10 transform transition-transform duration-300 ${
                             isOpen ? 'translate-x-0' : '-translate-x-full'
-                        }`}
-                    >
+                        }`}>
                         <div className="h-3/4 flex flex-col p-4">
                             <div className="w-2/3 h-14 flex justify-between items-center">
                                 <div onClick={toggleAside} className="w-14 h-full flex items-center">
