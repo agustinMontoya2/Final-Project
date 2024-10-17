@@ -27,11 +27,9 @@ const Login = () => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log("Datos del formulario enviados:", userData); // 1. Muestra los datos que se están enviando
 
         try {
             const response = await formLogin(userData);
-            console.log("Respuesta del servidor:", response); // 2. Muestra la respuesta del servidor
             localStorage.setItem("userSession", JSON.stringify({response}));
             
             Swal.fire({
@@ -40,10 +38,8 @@ const Login = () => {
                 confirmButtonText: 'accept',
                 confirmButtonColor: "#1988f0"
             });
-
             router.push("/login");
         } catch (error) {
-            console.error("Error durante el inicio de sesión:", error); // 3. Muestra cualquier error en el bloque catch
             Swal.fire({
                 title: 'Error',
                 text: 'Invalid credentials',

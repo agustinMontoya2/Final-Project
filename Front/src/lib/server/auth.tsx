@@ -26,7 +26,6 @@ export async function formRegister(userData: IRegister) {
 
 
 export async function formLogin(userData: ILogin) {
-    console.log("Datos de inicio de sesión enviados:", userData); // 1. Muestra los datos del usuario que se están enviando
 
     try {
         const response = await fetch(`${APIURL}/auth/login`, {
@@ -37,19 +36,18 @@ export async function formLogin(userData: ILogin) {
             body: JSON.stringify(userData)
         });
 
-        console.log("Respuesta del servidor:", response); // 2. Muestra la respuesta del servidor
+        console.log("Respuesta del servidor:", response); r
 
         if (response.ok) {
             const responseData = await response.json();
-            console.log("Inicio de sesión exitoso:", responseData); // 3. Muestra los datos de respuesta en caso de éxito
+            console.log("Inicio de sesión exitoso:", responseData); 
             return responseData;
         } else {
-            const errorData = await response.json(); // Obtiene el mensaje de error del servidor
-            console.error("Error en la respuesta del servidor:", errorData); // 4. Muestra el error de respuesta
+            const errorData = await response.json(); 
             throw Error(errorData.message || "Falló el login");
         }
     } catch (error: any) {
-        console.error("Error durante el proceso de inicio de sesión:", error); // 5. Muestra cualquier error en el bloque catch
+        console.error("Error durante el proceso de inicio de sesión:", error); 
     }
 }
 export async function formReserve(userData: IReserve) {
