@@ -1,6 +1,5 @@
 'use client';
 import React, { useState } from 'react';
-import Swal from 'sweetalert2';
 
 function FormContact() {
     const [formData, setFormData] = useState({
@@ -26,15 +25,8 @@ function FormContact() {
         });
 
         if (res.ok) {
-            await res.json();
+            await res.json(); 
             setFormData({ name: '', email: '', msg: '' });
-            Swal.fire({
-                title: "Sent",
-                text: "Thank you for contacting Club Fellini",
-                icon: "success",
-                confirmButtonText: "accept",
-                confirmButtonColor: "#1988f0"
-            })
         } else {
             console.error("Error al enviar el formulario");
         }

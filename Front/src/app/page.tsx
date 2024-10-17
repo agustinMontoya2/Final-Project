@@ -1,32 +1,8 @@
-'use client'
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 
 export default function Home() {
-  const [userSession, setUserSession] = useState(null);
-  const Swal = require('sweetalert2')
-
-  useEffect(() => {
-    const session = localStorage.getItem('userSession');
-    if (session) {
-        setUserSession(JSON.parse(session));
-    }
-  }, []);
-
-  const  handleLogin = () => {
-    if (!userSession) {
-      Swal.fire({
-        title: 'To make a reservation, you must log in',
-        icon: 'warning',
-        confirmButtonText: 'accept',
-        confirmButtonColor: "#1988f0"
-    })
-    }
-  }
-
-
   return (
     <div>
       <div className="w-full h-40 flex justify-center items-center relative">
@@ -39,7 +15,7 @@ export default function Home() {
         <Link href={"/off"} className="w-10/12 h-14 m-auto mt-8 border-4 border-red-600 rounded-xl hover:bg-secondary duration-500 shadow-2xl">
             <h3 className="w-full h-full flex justify-center items-center text-red-600 text-xl font-extrabold hover:text-white">50% OFF</h3>
         </Link>
-        <Link href={"/reserve"} onClick={handleLogin} className="w-10/12 h-14 m-auto mt-8 border-4 border-red-600 rounded-xl hover:bg-red-600 duration-500 shadow-2xl">
+        <Link href={"/reserve"} className="w-10/12 h-14 m-auto mt-8 border-4 border-red-600 rounded-xl hover:bg-red-600 duration-500 shadow-2xl">
             <h3 className="w-full h-full flex justify-center items-center text-red-600 text-xl font-extrabold hover:text-white">RESERVE</h3>
         </Link>
         <Link href={"/contact"} className="w-10/12 h-14 m-auto mt-8 border-4 border-red-600 rounded-xl hover:bg-red-600 duration-500 shadow-2xl">
@@ -49,19 +25,12 @@ export default function Home() {
             <h3 className="w-full h-full flex justify-center items-center text-red-600 text-xl font-extrabold hover:text-white">WORK WITH US
             </h3>
         </Link>
-        {
-          !userSession ? (<>
-            <Link href={"/register"} className="w-10/12 h-14 m-auto mt-8 border-4 border-red-600 rounded-xl hover:bg-red-600 duration-500 shadow-2xl">
-              <h3 className="w-full h-full flex justify-center items-center text-red-600 text-xl font-extrabold hover:text-white">REGISTER</h3>
-            </Link>
-            <Link href={"/login"} className="w-10/12 h-14 m-auto mt-8 border-4 border-red-600 rounded-xl hover:bg-red-600 duration-500 shadow-2xl">
-                <h3 className="w-full h-full flex justify-center items-center text-red-600 text-xl font-extrabold hover:text-white">LOGIN</h3>
-            </Link> </>) :  (<>
-              <Link href={"/user"} className="w-10/12 h-14 m-auto mt-8 border-4 border-red-600 rounded-xl hover:bg-red-600 duration-500 shadow-2xl">
-                <h3 className="w-full h-full flex justify-center items-center text-red-600 text-xl font-extrabold hover:text-white">PROFILE</h3>
-              </Link>
-            </>)
-        }
+        <Link href={"/register"} className="w-10/12 h-14 m-auto mt-8 border-4 border-red-600 rounded-xl hover:bg-red-600 duration-500 shadow-2xl">
+            <h3 className="w-full h-full flex justify-center items-center text-red-600 text-xl font-extrabold hover:text-white">REGISTER</h3>
+        </Link>
+        <Link href={"/login"} className="w-10/12 h-14 m-auto mt-8 border-4 border-red-600 rounded-xl hover:bg-red-600 duration-500 shadow-2xl">
+            <h3 className="w-full h-full flex justify-center items-center text-red-600 text-xl font-extrabold hover:text-white">LOGIN</h3>
+        </Link>
       </div>
     </div>
   );

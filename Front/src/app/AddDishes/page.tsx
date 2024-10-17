@@ -1,4 +1,3 @@
-'use client'
 import React, { useEffect } from 'react'
 import FormularioMenu from '@/components/FormAddDish/FormAddDish'
 import { useRouter } from 'next/navigation';

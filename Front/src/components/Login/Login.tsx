@@ -5,7 +5,7 @@ import { formLogin } from '@/lib/server/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 const Login = () => {
     const router = useRouter();
@@ -38,7 +38,7 @@ const Login = () => {
                 confirmButtonText: 'accept',
                 confirmButtonColor: "#1988f0"
             });
-            router.push("/login");
+            router.push("/menu");
         } catch (error) {
             Swal.fire({
                 title: 'Error',

@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from "react"
-import Swal from "sweetalert2";
+import InputPDF from "../InputPDF/InputPDF";
 const FormWork = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -16,12 +16,7 @@ const FormWork = () => {
         if (selectedFile && selectedFile.type === "application/pdf") {
             setFile(selectedFile);
         } else {
-            Swal.fire({
-                title: "Error",
-                text: "Please select a PDF file",
-                icon: "error",
-                confirmButtonColor: "#1988f0"
-            })
+            alert("Por favor, selecciona un archivo PDF.");
             setFile(null);
         }
     };
@@ -34,12 +29,7 @@ const FormWork = () => {
             console.log("Archivo seleccionado:", file);
             // Implementa tu lógica para subir el archivo
         } else {
-            Swal.fire({
-                title: "Error",
-                text: "Please select a PDF file to send",
-                icon: "error",
-                confirmButtonColor: "#ff2323"
-            })
+            alert("Por favor, selecciona un archivo PDF para enviar.");
         }
 
         const res = await fetch("api/send", {
@@ -53,13 +43,7 @@ const FormWork = () => {
         if (res.ok) {
             const data = await res.json();
             console.log(data);
-            Swal.fire({
-                title: "Sent",
-                text: "Thank you for considering working at Club Fellini Bar!",
-                icon: "success",
-                confirmButtonText: "accept",
-                confirmButtonColor: "#1988f0"
-            })
+
             setName('');
             setEmail('');
             setTelephone('');

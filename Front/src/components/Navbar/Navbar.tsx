@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import WhatsApp from "../WhatsApp/WhatsApp";
-import BackButton from "../BackButton/BackButton";
 
 const NavBar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -83,9 +82,6 @@ const NavBar = () => {
                     </aside>
                     <div className="w-full h-20"></div>
                 </div>
-            </div>
-            <div className='w-10 mt-30 -mb-48 bg-yellow-400 p-4 cursor-pointer z-50 fixed'>
-                <BackButton />
             </div>
         </div>
     );

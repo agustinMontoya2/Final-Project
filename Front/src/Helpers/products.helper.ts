@@ -6,7 +6,6 @@ export async function getProductsDB(): Promise<IProducts[]> {
   try {
     const res = await fetch(`${APIURL}/products`, {
       next: { revalidate: 60 },
-      // mode: "no-cors",
     });
     const products: IProducts[] = await res.json();
     return products;

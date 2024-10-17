@@ -7,7 +7,7 @@ const WhatsAppButton = () => {
 
     return (
         <div className="fixed right-4 bottom-4 z-50 w-14 h-14">
-            <Link href={"https://wa.me/5493415965650"} target="_blank" rel="noopener noreferrer">
+            <Link href={"https://wa.me/5493416899356"} target="_blank" rel="noopener noreferrer">
                 <button
                     className="w-full h-full relative"
                     onMouseEnter={() => setIsHovered(true)}

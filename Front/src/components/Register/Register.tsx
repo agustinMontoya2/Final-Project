@@ -5,7 +5,6 @@ import { formRegister } from '@/lib/server/auth';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Swal from 'sweetalert2';
 
 const Register = () => {
 
@@ -32,19 +31,8 @@ const Register = () => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        try {
-            await formRegister(userData);
-            Swal.fire({
-                title: 'You have successfully registered!',
-                icon: 'success',
-                confirmButtonText: 'accept',
-                confirmButtonColor: "#1988f0"
-            })
-            router.push("/login")
-        } catch (error) {
-            console.log(error);
-            
-        }
+        await formRegister(userData);
+
         router.push("/login")
     };
     

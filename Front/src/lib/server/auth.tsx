@@ -20,7 +20,7 @@ export async function formRegister(userData: IRegister) {
             throw new Error("Falló el registro: " + JSON.stringify(errorResponse.message));
         }
     } catch (error: any) {
-        console.error("Error en la petición:", error); // Log aquí para errores
+        console.error("Error en la petición:", error); 
     }
 }
 
@@ -36,7 +36,7 @@ export async function formLogin(userData: ILogin) {
             body: JSON.stringify(userData)
         });
 
-        console.log("Respuesta del servidor:", response); r
+        console.log("Respuesta del servidor:", response); 
 
         if (response.ok) {
             const responseData = await response.json();
