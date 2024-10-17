@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import Footer from "@/components/Footer/Footer";
-import Navbar from "../components/NavBar/NavBar"
+
 import { Head } from "next/document";
 import ConditionalLayouts from "../components/ConditionalLayouts/ConditionalLayouts";
 
@@ -31,12 +30,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} flex flex-col justify-between antialiased`}
       >
         <ConditionalLayouts>
-              {children}
+          {children}
         </ConditionalLayouts>
-     
+
       </body>
     </html>
   );

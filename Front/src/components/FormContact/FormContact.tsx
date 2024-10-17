@@ -1,5 +1,9 @@
 'use client';
 import React, { useState } from 'react';
+<<<<<<< HEAD
+=======
+import Swal from 'sweetalert2';
+>>>>>>> 5aafe71698d23b71caba73ca1a13671d113793a4
 
 function FormContact() {
     const [formData, setFormData] = useState({
@@ -25,8 +29,20 @@ function FormContact() {
         });
 
         if (res.ok) {
+<<<<<<< HEAD
             await res.json(); // Handle the response if needed
             setFormData({ name: '', email: '', msg: '' }); // Reset form
+=======
+            await res.json();
+            setFormData({ name: '', email: '', msg: '' });
+            Swal.fire({
+                title: "Sent",
+                text: "Thank you for contacting Club Fellini",
+                icon: "success",
+                confirmButtonText: "accept",
+                confirmButtonColor: "#1988f0"
+            })
+>>>>>>> 5aafe71698d23b71caba73ca1a13671d113793a4
         } else {
             console.error("Error al enviar el formulario");
         }
