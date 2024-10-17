@@ -5,7 +5,7 @@ import { formLogin } from '@/lib/server/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
 const Login = () => {
     const router = useRouter();
@@ -32,13 +32,16 @@ const Login = () => {
             const response = await formLogin(userData);
             localStorage.setItem("userSession", JSON.stringify({response}));
             
+
             Swal.fire({
                 title: 'You have successfully logged in!',
                 icon: 'success',
                 confirmButtonText: 'accept',
                 confirmButtonColor: "#1988f0"
+
             });
             router.push("/menu");
+
         } catch (error) {
             Swal.fire({
                 title: 'Error',
@@ -48,6 +51,7 @@ const Login = () => {
             });
         }
     };
+
 
     const renderInput = (type: string, name: keyof ILogin, label: string) => {
         return (
