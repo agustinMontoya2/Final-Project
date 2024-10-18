@@ -67,10 +67,10 @@ export class UsersController {
 
   @Post('cart/:id')
   addToCart(
-    @Body() productDetail: productDetailDto,
+    @Body() productDetailDto: productDetailDto,
     @Param('id') user_id: string,
   ) {
-    return this.usersService.addToCart(productDetail, user_id);
+    return this.usersService.addToCart(productDetailDto, user_id);
   }
 
   @Post('favorities/:id')

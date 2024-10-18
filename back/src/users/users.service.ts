@@ -40,8 +40,11 @@ export class UsersService {
     if (!user) throw new NotFoundException('User not found');
     return this.usersRepository.getCart(user);
   }
-  async addToCart(productDetail: productDetailDto, user_id: string) {
+  async addToCart(productDetailDto: productDetailDto, user_id: string) {
     console.log('service');
+    const quantity = productDetailDto.quantity ?? 1;
+
+    const productDetail = { ...productDetailDto, quantity };
 
     console.log(productDetail, user_id);
 

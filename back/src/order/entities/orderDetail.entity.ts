@@ -33,6 +33,9 @@ export class OrderDetail {
     // { cascade: true },
   )
   productDetails: ProductDetail[];
+
+  @Column()
+  note: string;
 }
 
 /**

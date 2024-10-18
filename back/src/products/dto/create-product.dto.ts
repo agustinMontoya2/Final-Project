@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import {
   IsBoolean,
   IsNotEmpty,
@@ -71,21 +72,9 @@ export class productDetailDto {
   product_id: string;
 
   @ApiProperty({
-    description: 'Note of the product',
-    example: 'Without cheese',
-  })
-  @IsOptional()
-  @IsString({ message: 'product note must be a string' })
-  @Length(3, 50, {
-    message: 'Product note must be between 3 and 50 characters',
-  })
-  note?: string;
-
-  @ApiProperty({
     description: 'Quantity of the product',
     example: 1,
   })
   @IsNumber({}, { message: 'product quantity must be a number' })
-  @IsOptional()
-  quantity?: number;
+  quantity: number = 1;
 }

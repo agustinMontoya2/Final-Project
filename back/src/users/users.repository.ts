@@ -65,34 +65,28 @@ export class UsersRepository {
   }
 
   async addToCart(productDetail: productDetailDto, user: User) {
-    console.log('repository');
-    console.log(productDetail, user);
-
     const cart = await this.cartRepository.findOne({
       where: { user },
       relations: ['productDetail'],
     });
     if (!cart) throw new NotFoundException('Cart not found');
-    console.log(cart);
 
-    const { product_id, quantity, note } = productDetail;
+    const { product_id, quantity } = productDetail;
     const product = await this.productRepository.findOne({
       where: { product_id },
     });
     if (!product || product.available === false)
       throw new NotFoundException('Product not found or not available');
+    console.log(product.price);
 
     const productDetailEntity = new ProductDetail();
-    productDetailEntity.note = note;
     productDetailEntity.quantity = quantity;
-    productDetailEntity.subtotal = product.price * quantity;
+    productDetailEntity.subtotal = Number(product.price) * Number(quantity);
     productDetailEntity.product = product;
     console.log(productDetailEntity);
 
     cart.productDetail.push(productDetailEntity);
-
-    console.log(cart);
-    console.log(cart.productDetail);
+    console.log(quantity);
 
     await this.productDetailRepository.save(productDetailEntity);
     await this.cartRepository.save(cart);
