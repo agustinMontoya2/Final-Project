@@ -45,7 +45,7 @@ const Cards = () => {
                                 <div className="relative w-36 h-36">
                                     <Image
                                         src={product.image_url}
-                                        alt={product.name}
+                                        alt={product.product_name}
                                         layout="fill"
                                         objectFit="contain"
                                         className="w-full h-auto"
@@ -54,7 +54,7 @@ const Cards = () => {
                             </div>
                             <div className="w-1/2">
                                 <div>
-                                    <h2 className="text-black text-xl font-semibold">Burger {product.name}</h2>
+                                    <h2 className="text-black text-xl font-semibold">{product.product_name}</h2>
                                     <p className="w-full text-black text-sm line-clamp-2">
                                         <b>Description:</b>
                                         {product.description}
