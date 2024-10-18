@@ -40,6 +40,7 @@ export class ReservationRepository {
     if (!user) {
       throw new NotFoundException('User not found');
     }
+    console.log('searching tables...');
 
     const tablesAvailable = await this.getTablesAvailablesRepository(
       date,
@@ -47,6 +48,7 @@ export class ReservationRepository {
       timeEnd,
       ubication,
     );
+    console.log(tablesAvailable);
 
     if (tablesAvailable.length === 0)
       throw new BadRequestException(`No tables available in ${ubication}`);
@@ -90,7 +92,7 @@ export class ReservationRepository {
 
     if (!reservation) {
       throw new NotFoundException(
-        `Reserva con ID ${reservation_id} no encontrada.`,
+        `Reservation with id ${reservation_id} not found`,
       );
     }
     return reservation;
@@ -110,22 +112,35 @@ export class ReservationRepository {
     });
 
     if (!reservation) throw new NotFoundException('Reservation not found');
-
-    const tablesAvailable = await this.getTablesAvailablesRepository(
+    const newReservation = {
+      ...reservation,
       date,
       timeStart,
       timeEnd,
+      peopleCount,
       ubication,
+    };
+    return newReservation;
+
+    const tablesAvailable = await this.getTablesAvailablesRepository(
+      newReservation.date,
+      newReservation.timeStart,
+      newReservation.timeEnd,
+      newReservation.ubication,
     );
 
     if (tablesAvailable.length === 0)
-      throw new BadRequestException(`No tables available in ${ubication}`);
+      throw new BadRequestException(
+        `No tables available in ${newReservation.ubication}`,
+      );
 
     const tableForPeoples = Math.ceil(peopleCount / 4);
     if (tablesAvailable.length < tableForPeoples)
       throw new BadRequestException(
-        `No tables available for ${peopleCount} people in ${ubication}`,
+        `No tables available for ${peopleCount} people in ${newReservation.ubication}`,
       );
+
+    return newReservation;
   }
   async cancelReservationRepository(reservation_id: string) {
     const reservation = await this.reservationRepository.findOneBy({
@@ -180,23 +195,29 @@ export class ReservationRepository {
       where: { date, table: { ubication }, status: true },
       relations: ['table'],
     });
-    const conflictingReservations = reservationsToday.filter((reservation) => {
-      const [startHours1, startMinutes1] = reservation.time
-        .split(':')
-        .map(Number);
-      const [endHours1, endMinutes1] = reservation.timeEnd
-        .split(':')
-        .map(Number);
-      const [startHours2, startMinutes2] = timeStart.split(':').map(Number);
-      const [endHours2, endMinutes2] = timeEnd.split(':').map(Number);
+    const conflictingReservations = reservationsToday.filter(
+      (reservationToday) => {
+        const [startHoursReservationToday, startMinutesReservationToday] =
+          reservationToday.time.split(':').map(Number);
+        const [endHoursReservationToday, endMinutesReservationToday] =
+          reservationToday.timeEnd.split(':').map(Number);
+        const [startHoursNew, startMinutesNew] = timeStart
+          .split(':')
+          .map(Number);
+        const [endHoursNew, endMinutesNew] = timeEnd.split(':').map(Number);
 
-      const start1 = startHours1 * 60 + startMinutes1;
-      const end1 = endHours1 * 60 + endMinutes1;
-      const start2 = startHours2 * 60 + startMinutes2;
-      const end2 = endHours2 * 60 + endMinutes2;
+        const startToday =
+          startHoursReservationToday * 60 + startMinutesReservationToday;
+        const endToday =
+          endHoursReservationToday * 60 + endMinutesReservationToday;
+        const startNew = startHoursNew * 60 + startMinutesNew;
+        const endNew = endHoursNew * 60 + endMinutesNew;
 
-      return end1 <= start2 || end2 <= start1;
-    });
+        return !(endToday <= startNew || endNew <= startToday);
+      },
+    );
+    console.log(conflictingReservations);
+
     const tablesOccupied: TableReservation[] = conflictingReservations
       .map((reservation) => reservation.table)
       .flat();
@@ -213,6 +234,7 @@ export class ReservationRepository {
           (occupiedTable) => occupiedTable.table_id === table.table_id,
         ),
     );
+    console.log(tablesAvailable);
 
     return tablesAvailable;
   }

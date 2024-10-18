@@ -35,19 +35,19 @@ export class ReservationController {
     return this.reservationService.findOneReservationsService(id);
   }
 
+  @Put('cancel/:id')
+  cancelReservationController(@Param('id') id: string) {
+    return this.reservationService.cancelReservationService(id);
+  }
   @Put(':id')
   updateReservationController(
     @Param('id') id: string,
     @Body() UpdateReservationDto: UpdateReservationDto,
   ) {
+    return 'this endpoint is not ready yet';
     return this.reservationService.updateReservationService(
       id,
       UpdateReservationDto,
     );
-  }
-
-  @Put('cancel/:id')
-  cancelReservationController(@Param('id') id: string) {
-    return this.reservationService.cancelReservationService(id);
   }
 }
