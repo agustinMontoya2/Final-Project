@@ -24,7 +24,7 @@ export class ReservationRepository {
 
   async createReservationRepository(
     user_id,
-    time,
+    timeStart,
     date,
     peopleCount,
     ubication,
@@ -39,40 +39,24 @@ export class ReservationRepository {
     if (!user) {
       throw new NotFoundException('User not found');
     }
-
-    const [hour, minutes] = time.split(':').map(Number);
+    const [hour, minutes] = timeStart.split(':').map(Number);
     const endTime = new Date(date);
     endTime.setHours(hour + 5, minutes);
     console.log(endTime.toTimeString());
 
     const timeEnd = endTime.toTimeString().slice(0, 5);
 
-    const reservationsToday = await this.reservationRepository.find({
-      where: { date, table: { ubication }, status: true },
-      relations: ['table'],
-    });
+    const conflictingReservations =
+      await this.getConflictingReservationsRepository(
+        date,
+        timeStart,
+        timeEnd,
+        ubication,
+      );
 
-    const conflictingReservations = reservationsToday.filter((reservation) => {
-      const [startHours1, startMinutes1] = reservation.time
-        .split(':')
-        .map(Number);
-      const [endHours1, endMinutes1] = reservation.timeEnd
-        .split(':')
-        .map(Number);
-      const [startHours2, startMinutes2] = time.split(':').map(Number);
-      const [endHours2, endMinutes2] = timeEnd.split(':').map(Number);
-
-      const start1 = startHours1 * 60 + startMinutes1;
-      const end1 = endHours1 * 60 + endMinutes1;
-      const start2 = startHours2 * 60 + startMinutes2;
-      const end2 = endHours2 * 60 + endMinutes2;
-
-      return !(end1 <= start2 || end2 <= start1);
-    });
-
-    const tablesOccupied: TableReservation[] = conflictingReservations.map(
-      (reservation) => reservation.table,
-    );
+    const tablesOccupied: TableReservation[] = conflictingReservations
+      .map((reservation) => reservation.table)
+      .flat();
 
     const allTables = await this.tableRepository.find();
 
@@ -96,18 +80,19 @@ export class ReservationRepository {
         `No tables available for ${peopleCount} people in ${ubication}`,
       );
 
+    const reservation = new Reservation();
+
+    reservation.user = user;
+    reservation.date = date;
+    reservation.time = timeStart;
+    reservation.timeEnd = timeEnd;
+    reservation.peopleCount = peopleCount;
+    reservation.table = [];
     for (let i = 0; i < tableForPeoples; i++) {
-      const reservation = new Reservation();
-      reservation.user = user;
-      reservation.date = date;
-      reservation.time = time;
-      reservation.timeEnd = timeEnd;
-      reservation.peopleCount = peopleCount;
-
-      reservation.table = tablesAvailable[i];
-
-      await this.reservationRepository.save(reservation);
+      reservation.table.push(tablesAvailable[i]);
     }
+    await this.reservationRepository.save(reservation);
+
     return 'Reservation made successfully';
   }
 
@@ -120,13 +105,16 @@ export class ReservationRepository {
     return reservations;
   }
 
-  async findOneReservationRepository(id: string) {
-    const reservation = await this.reservationRepository.findOneBy({
-      reservation_id: id,
+  async findOneReservationRepository(reservation_id: string) {
+    const reservation = await this.reservationRepository.findOne({
+      where: { reservation_id },
+      relations: ['table', 'user'],
     });
 
     if (!reservation) {
-      throw new NotFoundException(`Reserva con ID ${id} no encontrada.`);
+      throw new NotFoundException(
+        `Reserva con ID ${reservation_id} no encontrada.`,
+      );
     }
     return reservation;
   }
@@ -177,5 +165,36 @@ export class ReservationRepository {
     }
 
     return 'Tables added';
+  }
+
+  async getConflictingReservationsRepository(
+    date,
+    timeStart,
+    timeEnd,
+    ubication,
+  ) {
+    const reservationsToday = await this.reservationRepository.find({
+      where: { date, table: { ubication }, status: true },
+      relations: ['table'],
+    });
+    const conflictingReservations = reservationsToday.filter((reservation) => {
+      const [startHours1, startMinutes1] = reservation.time
+        .split(':')
+        .map(Number);
+      const [endHours1, endMinutes1] = reservation.timeEnd
+        .split(':')
+        .map(Number);
+      const [startHours2, startMinutes2] = timeStart.split(':').map(Number);
+      const [endHours2, endMinutes2] = timeEnd.split(':').map(Number);
+
+      const start1 = startHours1 * 60 + startMinutes1;
+      const end1 = endHours1 * 60 + endMinutes1;
+      const start2 = startHours2 * 60 + startMinutes2;
+      const end2 = endHours2 * 60 + endMinutes2;
+
+      return end1 <= start2 || end2 <= start1;
+    });
+
+    return conflictingReservations;
   }
 }

@@ -1,4 +1,10 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Reservation } from './reservation.entity';
 
 @Entity({ name: 'tables' })
@@ -10,11 +16,8 @@ export class TableReservation {
   table_number: number;
 
   @Column()
-  status: boolean;
-
-  @Column()
   ubication: string;
 
-  @OneToMany(() => Reservation, (reservation) => reservation.table)
+  @ManyToMany(() => Reservation, (reservation) => reservation.table)
   reservations: Reservation[];
 }
