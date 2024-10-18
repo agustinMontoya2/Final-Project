@@ -12,6 +12,7 @@ import { UsersModule } from 'src/users/users.module';
 import { ProductsRepository } from 'src/products/products.repository';
 import { Product } from 'src/products/entities/product.entity';
 import { ProductDetail } from 'src/products/entities/productDetail.entity';
+import { MailService } from 'src/mail/mail.service';
 
 @Module({
   imports: [
@@ -26,6 +27,6 @@ import { ProductDetail } from 'src/products/entities/productDetail.entity';
     UsersModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, UsersRepository],
+  providers: [AuthService, UsersRepository, MailService],
 })
 export class AuthModule {}
