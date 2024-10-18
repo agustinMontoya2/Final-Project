@@ -1,6 +1,9 @@
 import { Controller, Get, Post, Body, Param, Put } from '@nestjs/common';
 import { ReservationService } from './reservation.service';
-import { CreateReservationDto } from './dto/create-reservation.dto';
+import {
+  CreateReservationDto,
+  UpdateReservationDto,
+} from './dto/create-reservation.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @Controller('reservation')
@@ -33,6 +36,17 @@ export class ReservationController {
   }
 
   @Put(':id')
+  updateReservationController(
+    @Param('id') id: string,
+    @Body() UpdateReservationDto: UpdateReservationDto,
+  ) {
+    return this.reservationService.updateReservationService(
+      id,
+      UpdateReservationDto,
+    );
+  }
+
+  @Put('cancel/:id')
   cancelReservationController(@Param('id') id: string) {
     return this.reservationService.cancelReservationService(id);
   }

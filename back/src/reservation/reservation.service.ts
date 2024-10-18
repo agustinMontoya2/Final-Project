@@ -13,9 +13,12 @@ export class ReservationService {
   createReservationService(createReservationDto: CreateReservationDto) {
     const { user_id, time, date, peopleCount, ubication } =
       createReservationDto;
+    const timeStart = this.getTimes(time, date)[0];
+    const timeEnd = this.getTimes(time, date)[1];
     return this.repositoryReservation.createReservationRepository(
       user_id,
-      time,
+      timeStart,
+      timeEnd,
       date,
       peopleCount,
       ubication,
@@ -30,7 +33,31 @@ export class ReservationService {
     return this.repositoryReservation.findOneReservationRepository(id);
   }
 
+  updateReservationService(user_id: string, UpdateReservationDto) {
+    const { date, time, peopleCount, ubication } = UpdateReservationDto;
+    const timeStart = this.getTimes(time, date)[0];
+    const timeEnd = this.getTimes(time, date)[1];
+    return this.repositoryReservation.updateReservationRepository(
+      user_id,
+      date,
+      timeStart,
+      timeEnd,
+      peopleCount,
+      ubication,
+    );
+  }
   cancelReservationService(id: string) {
     return this.repositoryReservation.cancelReservationRepository(id);
+  }
+
+  getTimes(timeStart, date) {
+    const [hour, minutes] = timeStart.split(':').map(Number);
+    const endTime = new Date(date);
+    endTime.setHours(hour + 5, minutes);
+    console.log(endTime.toTimeString());
+
+    const timeEnd = endTime.toTimeString().slice(0, 5);
+
+    return [timeStart, timeEnd];
   }
 }
