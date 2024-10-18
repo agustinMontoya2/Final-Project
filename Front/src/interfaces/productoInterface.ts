@@ -57,12 +57,12 @@ export interface IReserve {
 
 export interface IUserSession {
   token: string;
+  email: string;
   user: {
       address: string;
-      email: string;
       id: number;
       name: string;
-      telephone: string;
+      phone: string;
       orders:[]
   }
 }

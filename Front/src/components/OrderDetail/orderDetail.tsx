@@ -1,12 +1,10 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation'; 
-import { Pedido, Plato } from '@/interfaces/productoInterface'
+import { Pedido } from '@/interfaces/productoInterface'
 
 const OrderDetail = () => {
 
-const router = useRouter();
 const { id } = useParams();
 
 const [pedido, setPedido] = useState<Pedido | null>(null);
@@ -25,11 +23,15 @@ useEffect(() => {
         setPedido(data);
         setLoading(false);
         }
-    } catch (error) {
-        setError(error.message);
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            setError(error.message);
+        } else {
+            setError("An unknown error occurred");
+        }
         setLoading(false);
     }
-    };
+};
 
     fetchPedido();
 }, [id]);

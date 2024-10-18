@@ -1,10 +1,10 @@
 'use client'
 import React from 'react';
 import { usePathname } from 'next/navigation';
-import NavBar from '../NavBar/NavBar';
+import NavBar from '@/components/Navbar/Navbar';
 import NavBarMD from '../NavBarMD/NavBarMD';
 import BottomNavBar from '../BottomNavBar/BottomNavBar';
-import Footer from '../Footer/Footer';
+import Footer from '@/components/footer/Footer';
 import NavBarXL from '../NavBarXL/NavBarXL';
 
 const ConditionalLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {

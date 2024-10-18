@@ -1,11 +1,11 @@
 "use client"
 import { IProducts } from "@/interfaces/productoInterface";
-import { useRouter } from "next/navigation";
+
 import React, { useState } from 'react'
 
-const ProductCardsview: React.FC<IProducts> = ({ product_id, price, description, image_url, name }) => {
+const ProductCardsview: React.FC<IProducts> = ({  price, description, image_url, name }) => {
   const [userMessage, setUserMessage] = useState<string>(" ")
-  const router = useRouter();
+
 
   const handleMessageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserMessage(event.target.value);

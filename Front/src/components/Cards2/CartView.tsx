@@ -1,4 +1,4 @@
-import { getProductsDBdetail } from '@/helpers/products.helper'
+import { getProductsDBdetail } from '@/Helpers/products.helper'
 import React from 'react'
 
 const CartView = async () => {

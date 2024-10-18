@@ -2,11 +2,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
+import Swal from "sweetalert2";
 
 export default function Home() {
   const [userSession, setUserSession] = useState(null);
-  const Swal = require('sweetalert2')
+
 
   useEffect(() => {
     const session = localStorage.getItem('userSession');

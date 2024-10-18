@@ -11,9 +11,6 @@ export default function BackButton() {
   return (
     <div onClick={handleBack} className='w-8 h-8 cursor-pointer flex items-center '>
         <Image src="/assets/icon/back.png" width="30" height="30" alt=""></Image>
-        {/* <p className='text-neutral-800 font-bold'>
-            BACK
-        </p> */}
     </div>
   )
 }

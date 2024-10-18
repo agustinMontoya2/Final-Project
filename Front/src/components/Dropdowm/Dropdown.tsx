@@ -4,26 +4,31 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react'
 import Swal from 'sweetalert2'
 
-
-
 export default function Dropdown() {
     const [userSession, setUserSession] = useState(null);
     const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
     
-    const Swal = require('sweetalert2')
-
-
     const toggleDropdown = () => {
-            setIsOpen(!isOpen);
-        };
+        setIsOpen(!isOpen);
+    };
 
-    useEffect(() => {
+    const updateSession = () => {
         const session = localStorage.getItem('userSession');
         if (session) {
             setUserSession(JSON.parse(session));
+        } else {
+            setUserSession(null); 
         }
+    };
+
+    useEffect(() => {
+        updateSession();
+        window.addEventListener("userSessionUpdated", updateSession);
+        return () => {
+            window.removeEventListener("userSessionUpdated", updateSession);
+        };
     }, []);
 
     const handleClickOutside = (event: MouseEvent) => {
@@ -53,6 +58,7 @@ export default function Dropdown() {
                 localStorage.removeItem('userSession');
                 setUserSession(null);
                 router.push('/');
+                window.dispatchEvent(new Event("userSessionUpdated"));
             }
         });
     };
@@ -89,5 +95,5 @@ export default function Dropdown() {
                 )}
             </div>
         </div>
-    )
+    );
 }

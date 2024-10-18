@@ -1,6 +1,8 @@
-export async function postReservation(userData: ILogin) {
+import { IReserve } from "@/interfaces/productoInterface";
+
+export async function formReserve(userData: IReserve) {
     try {
-        const response = await fetch(`http:localhost:3000/auth/login`, {
+        const response = await fetch(`http:locallhost:3000/`, {
             method: "POST",
             headers: {
                 "Content-type": "application/json"
@@ -10,9 +12,13 @@ export async function postReservation(userData: ILogin) {
         if(response.ok) {
             return response.json()
         } else {
-            throw Error("Falló el login")
+            throw Error("Falló el registro")
         }
-    } catch (error: any) {
-        console.log(error);
+    } catch (error: unknown) {
+        if(error instanceof Error) {
+            throw error;
+        }else{
+            throw new Error("An unknow error occurred")
+        }
     }
 }
