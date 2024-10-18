@@ -29,7 +29,9 @@ export interface IProducts {
   price: number;
   description: string;
   image_url: string;
-  category: string;
+  category:{
+    category_name:string;
+  }
   available: boolean;
 }
 
@@ -60,7 +62,7 @@ export interface IUserSession {
   email: string;
   user: {
       address: string;
-      id: number;
+      id: string;
       name: string;
       phone: string;
       orders:[]
@@ -72,4 +74,10 @@ export interface IProductsDetails {
   quantity: string;
   subtotal: string;
   product: IProducts;
+}
+
+export interface ICartData {
+  userId: string;
+  order_type: string;
+  products: IProducts[];
 }

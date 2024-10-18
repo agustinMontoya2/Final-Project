@@ -1,7 +1,8 @@
 "use client";
 
 import { getProductsDB } from "@/Helpers/products.helper";
-import { IProducts } from "@/interfaces/productoInterface";
+import { ICartData, IProducts, IUserSession } from "@/interfaces/productoInterface";
+import { cart } from "@/lib/server/cart";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -11,6 +12,24 @@ const Cards = () => {
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState<string>("");
     const [searchTerm, setSearchTerm] = useState<string>("");
+    const [userData,  setUserData] = useState<IUserSession>();
+
+
+    useEffect(() => {
+        console.log("Componente montado, verificando userSession...");
+        const userData = localStorage.getItem("userSession");
+        if (userData) {
+            try {
+                const parsedData = JSON.parse(userData);
+                console.log("Datos de usuario parseados:", parsedData);
+                setUserData(parsedData);
+            } catch (error) {
+                console.error("Error parsing user data:", error);
+            }
+        } else {
+            console.log("No se encontró userSession en localStorage");
+        }
+    }, []);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -27,9 +46,24 @@ const Cards = () => {
         fetchProducts();
     }, []);
 
-    const handleAddToCart = async () => {
-        console.log("se hizo click");
-        // Aquí va la lógica de agregar al carrito
+    const handleAddToCart = async (product: IProducts) => {
+        if (!userData || !userData.user || !userData.user.id) {
+            console.error("No se encontró información del usuario.");
+            return;
+        }
+    
+        const cartData: ICartData = {
+            userId: userData.user.id, // Asegúrate de que esto sea una cadena
+            order_type: "delivery", // Cambia según sea necesario
+            products: [product], // Array de productos
+        };
+    
+        try {
+            const result = await cart(cartData);
+            console.log("Producto agregado:", result);
+        } catch (error) {
+            console.error("Error al agregar producto:", error);
+        }
     };
 
     const filteredProducts = products.filter((product) => {
@@ -85,11 +119,11 @@ const Cards = () => {
                                     {product.description}
                                 </p>
                             </div>
-                            <div className="w-full flex justify-between items-center z-50">
+                            <div className="w-full flex justify-between items-center">
                                 <p className="text-black text-sm"><b>Price:</b> ${product.price}</p>
                                 <button
                                     className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
-                                    onClick={handleAddToCart}
+                                    onClick={() => handleAddToCart(product)}
                                 >
                                     Cart
                                 </button>

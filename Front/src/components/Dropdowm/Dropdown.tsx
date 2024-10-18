@@ -1,34 +1,25 @@
-import Image from 'next/image'
-import Link from 'next/link'
+import { IUserSession } from '@/interfaces/productoInterface';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useRef, useState } from 'react'
-import Swal from 'sweetalert2'
+import React, { useEffect, useRef, useState } from 'react';
+import Swal from 'sweetalert2';
 
 export default function Dropdown() {
-    const [userSession, setUserSession] = useState(null);
+    const [userSession, setUserSession] = useState<IUserSession | null>(null);
     const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
-    
+
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
 
-    const updateSession = () => {
+    useEffect(() => {
         const session = localStorage.getItem('userSession');
         if (session) {
             setUserSession(JSON.parse(session));
-        } else {
-            setUserSession(null); 
         }
-    };
-
-    useEffect(() => {
-        updateSession();
-        window.addEventListener("userSessionUpdated", updateSession);
-        return () => {
-            window.removeEventListener("userSessionUpdated", updateSession);
-        };
     }, []);
 
     const handleClickOutside = (event: MouseEvent) => {
@@ -52,8 +43,8 @@ export default function Dropdown() {
             showCancelButton: true,
             confirmButtonText: 'Yes, logout',
             cancelButtonText: 'Cancel',
-            confirmButtonColor: "#1988f0"
-        }).then((result: any) => {
+            confirmButtonColor: "#1988f0",
+        }).then((result) => {
             if (result.isConfirmed) {
                 localStorage.removeItem('userSession');
                 setUserSession(null);
@@ -64,15 +55,27 @@ export default function Dropdown() {
     };
 
     return (
-        <div className="relative" ref={dropdownRef}>
-            <div className='w-12 h-12 cursor-pointer' onClick={toggleDropdown}>
+        <div className="relative flex items-center" ref={dropdownRef}>
+            <div className='w-12 h-12 cursor-pointer relative' onClick={toggleDropdown}>
                 <Image src="/assets/icon/profile.png" layout='fill' objectFit='contain' alt='' />
             </div>
-            <div className={`absolute right-0 mt-2 w-44 bg-white border rounded shadow-lg z-10 transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
+            {userSession && userSession.user && (
+                <p className='text-white font-semibold ml-2'>{userSession.user.name}</p>
+            )}
+            <div className={`absolute right-0 mt-2 w-44 bg-white border rounded shadow-lg z-10 transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'h-auto opacity-100' : 'max-h-0 opacity-0'}`}>
                 {userSession ? (
                     <>
                         <Link className="block w-full text-left px-4 py-2 hover:bg-gray-100" href={"/profile"}>
                             <p className="text-black font-bold">Profile</p>
+                        </Link>
+                        <Link className="block w-full text-left px-4 py-2 hover:bg-gray-100" href={"/reservations"}>
+                            <p className="text-black font-bold">My reservations</p>
+                        </Link>
+                        <Link className="block w-full text-left px-4 py-2 hover:bg-gray-100" href={"/favorites"}>
+                            <p className="text-black font-bold">Favorite dishes</p>
+                        </Link>
+                        <Link className="block w-full text-left px-4 py-2 hover:bg-gray-100" href={"/orders"}>
+                            <p className="text-black font-bold">My orders</p>
                         </Link>
                         <button
                             className="w-full text-left px-4 py-2 flex justify-between hover:bg-gray-100 text-black font-bold"
