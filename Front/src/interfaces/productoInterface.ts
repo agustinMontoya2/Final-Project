@@ -25,7 +25,7 @@ export interface Pedido {
 
 export interface IProducts {
   product_id: string;
-  name: string;
+  product_name: string;
   price: number;
   description: string;
   image_url: string;
@@ -33,16 +33,16 @@ export interface IProducts {
   available: boolean;
 }
 
-export interface ILogin{
-  email:  string;
+export interface ILogin {
+  email: string;
   password: string;
 }
 
-export interface IRegister{
+export interface IRegister {
   name: string;
   email: string;
   phone: string;
-  address:  string;
+  address: string;
   password: string;
   confirmPassword: string;
 }
@@ -51,20 +51,20 @@ export interface IReserve {
   ubi: string;
   date: Date;
   mealType: string;
-  time:  string;
+  time: string;
   people: number;
 }
 
 export interface IUserSession {
   token: string;
   user: {
-      address: string;
-      email: string;
-      id: number;
-      name: string;
-      telephone: string;
-      orders:[]
-  }
+    address: string;
+    email: string;
+    id: number;
+    name: string;
+    telephone: string;
+    orders: [];
+  };
 }
 export interface IProductsDetails {
   product_detail_id: string;
