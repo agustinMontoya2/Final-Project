@@ -1,0 +1,43 @@
+[
+    {
+      "table_id": "4d94c8a4-6e0c-4b3c-8156-7cb451aeae01",
+      "table_number": 1,
+      "ubication": "Exterior"
+    },
+    {
+      "table_id": "572f97f9-0f8a-457e-bb24-632c4676fbd2",
+      "table_number": 2,
+      "ubication": "Exterior"
+    },
+    {
+      "table_id": "c9723c28-63f7-4eb0-a8ff-98148b91b7f3",
+      "table_number": 3,
+      "ubication": "Interior"
+    },
+    {
+      "table_id": "b8d1569b-4392-4b0f-b10f-d02e8f3c15d5",
+      "table_number": 4,
+      "ubication": "Interior"
+    },
+    {
+      "table_id": "9bc20f95-f191-4f5b-9ae7-7b9dbcc80866",
+      "table_number": 5,
+      "ubication": "Rooftop"
+    },
+    {
+      "table_id": "2f4c9d10-75df-4b3e-8187-9e32ecbc6802",
+      "table_number": 6,
+      "ubication": "Rooftop"
+    },
+    {
+      "table_id": "9bc20f95-f191-4f5b-9ae7-7b9dbcc80868",
+      "table_number": 7,
+      "ubication": "Rooftop"
+    },
+    {
+      "table_id": "2f4c9d10-75df-4b3e-8187-9e32ecbc6801",
+      "table_number": 8,
+      "ubication": "Rooftop"
+    }
+  ]
+  
