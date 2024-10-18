@@ -7,10 +7,11 @@ import { User } from 'src/users/entities/user.entity';
 import { Credential } from './entities/credential.entity';
 import { Cart } from 'src/products/entities/cart.entity';
 import { Favorities } from 'src/products/entities/favorities.entity';
+import { MailService } from 'src/mail/mail.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, Credential, Cart, Favorities])],
   controllers: [AuthController],
-  providers: [AuthService, UsersRepository],
+  providers: [AuthService, UsersRepository, MailService],
 })
 export class AuthModule {}

@@ -9,6 +9,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { typeOrmConfig } from './config/typeorm';
 import { ReservationModule } from './reservation/reservation.module';
 import { JwtModule } from '@nestjs/jwt';
+import { FileUploadModule } from './fileUpload/fileUpload.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { JwtModule } from '@nestjs/jwt';
     CategoriesModule,
     TypeOrmModule,
     ReservationModule,
+    FileUploadModule,
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET,
