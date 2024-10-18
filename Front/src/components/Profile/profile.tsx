@@ -76,7 +76,7 @@ const ProfileV = () => {
                 </div>
             </div>
 
-            <div>
+            <div >
                 <button 
                     onClick={handleClick} 
                     className="w-4/5 bg-red-600 text-white font-bold py-2 rounded-lg hover:bg-red-700 transition duration-200"

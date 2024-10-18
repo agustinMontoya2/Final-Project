@@ -14,7 +14,7 @@ const CartView = async () => {
             <div className='relative w-40 h-40'>
               <Image
                 src={productDetail.product.image_url}
-                alt={productDetail.product.name}
+                alt={productDetail.product.product_name}
                 layout="fill"
                 objectFit="contain"
                 className="w-full h-auto"

@@ -28,13 +28,9 @@ export async function getProductsById(id: string): Promise<IProducts> {
     console.log("Buscando producto con ID:", id);
     if (!productfiltered) throw new Error("No existe el producto");
     return productfiltered;
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-        throw new Error(error.message);
-    } else {
-        throw new Error("An unknown error occurred"); 
-    }
-}
+  } catch (error: any) {
+    throw new Error(error);
+  }
 }
 
 export async function getProductsDBdetail(): Promise<IProductsDetails[]> {

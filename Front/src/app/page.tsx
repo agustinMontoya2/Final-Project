@@ -57,7 +57,7 @@ export default function Home() {
             <Link href={"/login"} className="w-10/12 h-14 m-auto mt-8 border-4 border-red-600 rounded-xl hover:bg-red-600 duration-500 shadow-2xl">
                 <h3 className="w-full h-full flex justify-center items-center text-red-600 text-xl font-extrabold hover:text-white">LOGIN</h3>
             </Link> </>) :  (<>
-              <Link href={"/user"} className="w-10/12 h-14 m-auto mt-8 border-4 border-red-600 rounded-xl hover:bg-red-600 duration-500 shadow-2xl">
+              <Link href={"/profile"} className="w-10/12 h-14 m-auto mt-8 border-4 border-red-600 rounded-xl hover:bg-red-600 duration-500 shadow-2xl">
                 <h3 className="w-full h-full flex justify-center items-center text-red-600 text-xl font-extrabold hover:text-white">PROFILE</h3>
               </Link>
             </>)
