@@ -1,5 +1,5 @@
 import ProductCardsview from "@/components/productsCard/productCards";
-import { getProductsById } from "@/helpers/products.helper";
+import { getProductsById } from "@/Helpers/products.helper";
 
 import React from 'react'
 

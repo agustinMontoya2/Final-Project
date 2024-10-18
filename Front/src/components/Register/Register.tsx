@@ -33,19 +33,33 @@ const Register = () => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
-            await formRegister(userData);
-            Swal.fire({
-                title: 'You have successfully registered!',
-                icon: 'success',
-                confirmButtonText: 'accept',
-                confirmButtonColor: "#1988f0"
-            })
-            router.push("/login")
-        } catch (error) {
-            console.log(error);
-            
+            const response = await formRegister(userData);
+
+            if (response) {
+                Swal.fire({
+                    title: 'register successfully',
+                    icon: 'success',
+                    timer: 1000
+                });
+                router.push("/login");
+            }
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                Swal.fire({
+                    title: 'Error',
+                    text: error.message,
+                    icon: 'error',
+                    timer: 2000
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'An unknown error occurred',
+                    icon: 'error',
+                    timer: 2000
+                });
+            }
         }
-        router.push("/login")
     };
     
 
@@ -68,7 +82,7 @@ const Register = () => {
         </div>
     );
 
-  
+
     return (
         <div className="absolute inset-0 w-full flex flex-col items-center justify-center m-auto min-h-screen bg-primary lg:w-2/3 2xl:w-1/2 2xl:relative 2xl:h-screen">
             <form className="w-11/12 bg-neutral-300 p-6 rounded-lg flex flex-col justify-center items-center" onSubmit={handleSubmit}>

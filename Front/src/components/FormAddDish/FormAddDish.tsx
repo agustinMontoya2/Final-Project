@@ -5,9 +5,9 @@ import React from 'react';
 
 const FormularioMenu = () => {
     const [formValues, setFormValues] = useState<FormValues>({
-        nombre: '',
+        name: '',
         descripcion: '',
-        precio: '',
+        price: '',
         imagen: null,
     });
 
@@ -31,9 +31,9 @@ const FormularioMenu = () => {
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append('nombre', formValues.nombre);
+        formData.append('nombre', formValues.name);
         formData.append('descripcion', formValues.descripcion);
-        formData.append('precio', formValues.precio);
+        formData.append('precio', formValues.price);
         if (formValues.imagen) {
             formData.append('imagen', formValues.imagen);
         }
@@ -65,7 +65,7 @@ const FormularioMenu = () => {
                         name="nombre"
                         id="nombre"
                         placeholder="Name"
-                        value={formValues.nombre}
+                        value={formValues.name}
                         onChange={handleChange}
                         className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
                         required
@@ -73,7 +73,7 @@ const FormularioMenu = () => {
                     <label
                         htmlFor="nombre"
                         className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${
-                            formValues.nombre ? 'top-[4px] text-xs' : ''
+                            formValues.price ? 'top-[4px] text-xs' : ''
                         }`}
                     >
                         Name
@@ -104,7 +104,7 @@ const FormularioMenu = () => {
                         name="precio"
                         id="precio"
                         placeholder="Price"
-                        value={formValues.precio}
+                        value={formValues.price}
                         onChange={handleChange}
                         className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
                         required
@@ -112,7 +112,7 @@ const FormularioMenu = () => {
                     <label
                         htmlFor="precio"
                         className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${
-                            formValues.precio ? 'top-[4px] text-xs' : ''
+                            formValues.price ? 'top-[4px] text-xs' : ''
                         }`}
                     >
                         Price

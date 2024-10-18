@@ -1,3 +1,5 @@
+'use client'
+import ProfileV from "@/components/Profile/profile";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
@@ -13,7 +15,7 @@ const Profile = () => {
 
     return (
         <div>
-            
+            <ProfileV/>
         </div>
     )
 }

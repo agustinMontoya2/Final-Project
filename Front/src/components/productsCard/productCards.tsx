@@ -1,12 +1,11 @@
 "use client"
 import { IProducts } from "@/interfaces/productoInterface";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import React, { useState } from 'react'
 
-const ProductCardsview: React.FC<IProducts> = ({ product_id, price, description, image_url, name }) => {
+const ProductCardsview: React.FC<IProducts> = ({ price, description, image_url, product_name }) => {
   const [userMessage, setUserMessage] = useState<string>(" ")
-  const router = useRouter();
+
 
   const handleMessageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserMessage(event.target.value);
@@ -19,7 +18,7 @@ const ProductCardsview: React.FC<IProducts> = ({ product_id, price, description,
           <div className="relative w-64 h-64">
             <Image
                 src={image_url}
-                alt={name}
+                alt={product_name}
                 layout="fill"
                 objectFit="contain"
                 className="w-full h-auto"
@@ -27,7 +26,7 @@ const ProductCardsview: React.FC<IProducts> = ({ product_id, price, description,
           </div>
         </div>
         <div className="text-center">
-          <h2 className="text-gray-900 text-xl font-bold mb-2">{name}</h2>
+          <h2 className="text-gray-900 text-xl font-bold mb-2">{product_name}</h2>
           <p className="text-gray-900 mb-2">{description}</p>
           <p className="text-gray-900 text-lg font-semibold mb-4">{price}</p>
         </div>

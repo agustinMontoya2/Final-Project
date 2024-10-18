@@ -1,4 +1,4 @@
-import { ILogin, IRegister, IReserve } from "../../interfaces/productoInterface";
+import { ILogin, IRegister } from "../../interfaces/productoInterface";
 
 const APIURL = process.env.NEXT_PUBLIC_API_URL
 
@@ -7,19 +7,23 @@ export async function formRegister(userData: IRegister) {
         const response = await fetch(`${APIURL}/auth/signup`, {
             method: "POST",
             headers: {
-                "Content-type": "application/json"
+                "Content-type": "application/json",
             },
-            body: JSON.stringify(userData)
+            body: JSON.stringify(userData),
         });
 
         if (response.ok) {
             return response.json();
         } else {
             const errorResponse = await response.json();
-            throw new Error("Falló el registro: " + JSON.stringify(errorResponse.message));
+            throw new Error(errorResponse.message || "Registration failed");
         }
-    } catch (error: any) {
-        console.error("Error en la petición:", error); 
+    } catch (error: unknown) {
+        if(error instanceof Error) {
+            throw error;
+        }else{
+            throw new Error("An unknow error occurred")
+        }
     }
 }
 
@@ -34,9 +38,6 @@ export async function formLogin(userData: ILogin) {
             },
             body: JSON.stringify(userData)
         });
-
-        console.log("Respuesta del servidor:", response); 
-
         if (response.ok) {
             const responseData = await response.json();
             console.log("Inicio de sesión exitoso:", responseData); 
@@ -45,25 +46,11 @@ export async function formLogin(userData: ILogin) {
             const errorData = await response.json(); 
             throw Error(errorData.message || "Falló el login");
         }
-    } catch (error: any) {
-        console.error("Error durante el proceso de inicio de sesión:", error); 
-    }
-}
-export async function formReserve(userData: IReserve) {
-    try {
-        const response = await fetch(`http:locallhost:3000/`, {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(userData)
-        })
-        if(response.ok) {
-            return response.json()
-        } else {
-            throw Error("Falló el registro")
+    } catch (error: unknown) {
+        if(error instanceof Error) {
+            throw error;
+        }else{
+            throw new Error("An unknow error occurred")
         }
-    } catch (error: any) {
-        console.log(error);
     }
 }

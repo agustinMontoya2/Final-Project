@@ -1,5 +1,4 @@
-import type { Config } from "tailwindcss";
-const lineClamp = require('@tailwindcss/line-clamp');
+import lineClamp from '@tailwindcss/line-clamp';
 // import lineClamp from '@tailwindcss/line-line-clamp';
 
 module.exports = {

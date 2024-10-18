@@ -10,9 +10,13 @@ export async function getProductsDB(): Promise<IProducts[]> {
     });
     const products: IProducts[] = await res.json();
     return products;
-  } catch (error: any) {
-    throw new Error(error);
-  }
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+        throw new Error(error.message);
+    } else {
+        throw new Error("An unknown error occurred"); 
+    }
+}
 }
 
 export async function getProductsById(id: string): Promise<IProducts> {
@@ -36,7 +40,11 @@ export async function getProductsDBdetail(): Promise<IProductsDetails[]> {
     });
     const products: IProductsDetails[] = await res.json();
     return products;
-  } catch (error: any) {
-    throw new Error(error);
-  }
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+        throw new Error(error.message); 
+    } else {
+        throw new Error("An unknown error occurred"); 
+    }
+}
 }

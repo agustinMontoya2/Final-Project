@@ -1,10 +1,10 @@
-'use client'
+'use client';
 import React from 'react';
 import { usePathname } from 'next/navigation';
-import NavBar from '../NavBar/NavBar';
+import NavBar from '@/components/Navbar/Navbar';
 import NavBarMD from '../NavBarMD/NavBarMD';
 import BottomNavBar from '../BottomNavBar/BottomNavBar';
-import Footer from '../Footer/Footer';
+import Footer from '@/components/footer/Footer';
 import NavBarXL from '../NavBarXL/NavBarXL';
 
 const ConditionalLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -13,7 +13,7 @@ const ConditionalLayout: React.FC<{ children: React.ReactNode }> = ({ children }
   const hidden = pathname !== '/';
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen"> 
       <div className='block md:hidden'>
         {hidden && <NavBar />}
       </div>
@@ -24,17 +24,16 @@ const ConditionalLayout: React.FC<{ children: React.ReactNode }> = ({ children }
         {hidden && <NavBarXL />}
       </div>
 
-      <main className={hidden ? "pt-16 pb-16" : ""}>
+      <main className={`flex-grow ${hidden ? "pt-16 pb-16" : ""}`}>
         {children}
       </main>
       
       <div className='block 2xl:hidden'>
-        {hidden && <BottomNavBar/>}
+        {hidden && <BottomNavBar />}
       </div>
-      <div className='hidden 2xl:block'>
-        <Footer />
-      </div>
-    </>
+      
+      <Footer />
+    </div>
   );
 };
 

@@ -1,4 +1,4 @@
-import { getProductsDBdetail } from '@/helpers/products.helper'
+import { getProductsDBdetail } from '@/Helpers/products.helper'
 import Image from 'next/image';
 import React from 'react'
 
@@ -14,7 +14,7 @@ const CartView = async () => {
             <div className='relative w-40 h-40'>
               <Image
                 src={productDetail.product.image_url}
-                alt={productDetail.product.name}
+                alt={productDetail.product.product_name}
                 layout="fill"
                 objectFit="contain"
                 className="w-full h-auto"

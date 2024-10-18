@@ -14,7 +14,7 @@ const Login = () => {
         email: "",
         password: "",
     };
-    
+
     const [userData, setUserData] = useState<ILogin>(initialState);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,28 +30,37 @@ const Login = () => {
 
         try {
             const response = await formLogin(userData);
-            localStorage.setItem("userSession", JSON.stringify({response}));
-            
-
-            Swal.fire({
-                title: 'You have successfully logged in!',
-                icon: 'success',
-                confirmButtonText: 'accept',
-                confirmButtonColor: "#1988f0"
-
-            });
-            router.push("/menu");
-
-        } catch (error) {
-            Swal.fire({
-                title: 'Error',
-                text: 'Invalid credentials',
-                icon: 'error',
-                confirmButtonColor: "#ff2323"
-            });
+            if (response && response.user) {
+                localStorage.setItem("userSession", JSON.stringify(response));
+                window.dispatchEvent(new Event("userSessionUpdated"));
+                Swal.fire({
+                    title: 'logged successfully!',
+                    icon: 'success',
+                    timer: 1000
+                });
+                router.push("/menu");
+            } else {
+                throw new Error("User not found");
+            }
+        } catch (error: unknown) {
+            if(error instanceof Error){
+                Swal.fire({
+                    title: 'Error',
+                    text: error.message, 
+                    icon: 'error',
+                    timer: 2000
+                });
+            }
+            else{
+                Swal.fire({
+                    title: 'Error',
+                    text:'Invalid credentials or user does not exist',
+                    icon: 'error',
+                    timer: 2000
+                });
+            }
         }
     };
-
 
     const renderInput = (type: string, name: keyof ILogin, label: string) => {
         return (
@@ -89,7 +98,7 @@ const Login = () => {
                 >
                     Login
                 </button>
-                <Link href="/register" className='text-neutral-800 mt-2 hover:underline'>Don't have an account? Register</Link>
+                <Link href="/register" className='text-neutral-800 mt-2 hover:underline'>Don&apos;t have an account? Register</Link>
             </form>
             <div className='w-full h-20'></div>
         </div>

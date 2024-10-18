@@ -6,7 +6,7 @@ const nextConfig = {
       "thefoodtech.com",
       "example.com",
       "especiasmontero.com",
-    ], // Agrega aquí los dominios permitidos
+    ],
   },
 };
 

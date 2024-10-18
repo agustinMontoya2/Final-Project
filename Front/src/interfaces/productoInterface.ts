@@ -57,14 +57,14 @@ export interface IReserve {
 
 export interface IUserSession {
   token: string;
+  email: string;
   user: {
-    address: string;
-    email: string;
-    id: number;
-    name: string;
-    telephone: string;
-    orders: [];
-  };
+      address: string;
+      id: number;
+      name: string;
+      phone: string;
+      orders:[]
+  }
 }
 export interface IProductsDetails {
   product_detail_id: string;
