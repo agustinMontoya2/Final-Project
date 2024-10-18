@@ -165,13 +165,11 @@ export class ReservationRepository {
 
       if (existingTable) {
         existingTable.ubication = element.ubication;
-        existingTable.status = element.status;
         table = existingTable;
       } else {
         table = this.tableRepository.create({
           table_number: element.table_number,
           ubication: element.ubication,
-          status: element.status,
         });
       }
 
