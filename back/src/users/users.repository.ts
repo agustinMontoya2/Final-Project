@@ -29,6 +29,7 @@ export class UsersRepository {
   async getUserById(user_id: string) {
     const user = await this.userRepository.findOne({
       where: { user_id },
+      relations: ['cart', 'favorities', 'reservations'],
     });
     return user ? user : null;
   }

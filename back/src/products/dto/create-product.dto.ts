@@ -3,6 +3,7 @@ import {
   IsBoolean,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   Length,
 } from 'class-validator';
@@ -73,18 +74,18 @@ export class productDetailDto {
     description: 'Note of the product',
     example: 'Without cheese',
   })
-  @IsNotEmpty({ message: 'product note is required' })
+  @IsOptional()
   @IsString({ message: 'product note must be a string' })
   @Length(3, 50, {
     message: 'Product note must be between 3 and 50 characters',
   })
-  note: string;
+  note?: string;
 
   @ApiProperty({
     description: 'Quantity of the product',
     example: 1,
   })
   @IsNumber({}, { message: 'product quantity must be a number' })
-  @IsNotEmpty({ message: 'product quantity is required' })
-  quantity: number;
+  @IsOptional()
+  quantity?: number;
 }

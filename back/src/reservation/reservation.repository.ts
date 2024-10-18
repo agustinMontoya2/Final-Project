@@ -24,7 +24,8 @@ export class ReservationRepository {
 
   async createReservationRepository(
     user_id,
-    time,
+    timeStart,
+    timeEnd,
     date,
     peopleCount,
     ubication,
@@ -39,53 +40,15 @@ export class ReservationRepository {
     if (!user) {
       throw new NotFoundException('User not found');
     }
+    console.log('searching tables...');
 
-    const [hour, minutes] = time.split(':').map(Number);
-    const endTime = new Date(date);
-    endTime.setHours(hour + 2, minutes);
-    console.log(endTime.toTimeString());
-
-    const timeEnd = endTime.toTimeString().slice(0, 5);
-
-    const reservationsToday = await this.reservationRepository.find({
-      where: { date, table: { ubication } },
-      relations: ['table'],
-    });
-
-    const conflictingReservations = reservationsToday.filter((reservation) => {
-      const [startHours1, startMinutes1] = reservation.time
-        .split(':')
-        .map(Number);
-      const [endHours1, endMinutes1] = reservation.timeEnd
-        .split(':')
-        .map(Number);
-      const [startHours2, startMinutes2] = time.split(':').map(Number);
-      const [endHours2, endMinutes2] = timeEnd.split(':').map(Number);
-
-      const start1 = startHours1 * 60 + startMinutes1;
-      const end1 = endHours1 * 60 + endMinutes1;
-      const start2 = startHours2 * 60 + startMinutes2;
-      const end2 = endHours2 * 60 + endMinutes2;
-
-      return !(end1 <= start2 || end2 <= start1);
-    });
-
-    const tablesOccupied: TableReservation[] = conflictingReservations.map(
-      (reservation) => reservation.table,
+    const tablesAvailable = await this.getTablesAvailablesRepository(
+      date,
+      timeStart,
+      timeEnd,
+      ubication,
     );
-
-    const allTables = await this.tableRepository.find();
-
-    if (!allTables || allTables.length === 0)
-      throw new BadRequestException('No tables found');
-
-    let tablesAvailable = allTables.filter(
-      (table) =>
-        table.ubication === ubication &&
-        !tablesOccupied.some(
-          (occupiedTable) => occupiedTable.table_id === table.table_id,
-        ),
-    );
+    console.log(tablesAvailable);
 
     if (tablesAvailable.length === 0)
       throw new BadRequestException(`No tables available in ${ubication}`);
@@ -96,17 +59,19 @@ export class ReservationRepository {
         `No tables available for ${peopleCount} people in ${ubication}`,
       );
 
-    for (let i = 0; i < tableForPeoples; i++) {
-      const reservation = new Reservation();
-      reservation.user = user;
-      reservation.date = date;
-      reservation.time = time;
-      reservation.timeEnd = timeEnd;
-      reservation.peopleCount = peopleCount;
-      reservation.table = tablesAvailable[i];
+    const reservation = new Reservation();
 
-      await this.reservationRepository.save(reservation);
+    reservation.user = user;
+    reservation.date = date;
+    reservation.time = timeStart;
+    reservation.timeEnd = timeEnd;
+    reservation.peopleCount = peopleCount;
+    reservation.table = [];
+    for (let i = 0; i < tableForPeoples; i++) {
+      reservation.table.push(tablesAvailable[i]);
     }
+    await this.reservationRepository.save(reservation);
+
     return 'Reservation made successfully';
   }
 
@@ -119,29 +84,78 @@ export class ReservationRepository {
     return reservations;
   }
 
-  async findOneReservationRepository(id: string) {
-    const reservation = await this.reservationRepository.findOneBy({
-      reservation_id: id,
+  async findOneReservationRepository(reservation_id: string) {
+    const reservation = await this.reservationRepository.findOne({
+      where: { reservation_id },
+      relations: ['table', 'user'],
     });
 
     if (!reservation) {
-      throw new NotFoundException(`Reserva con ID ${id} no encontrada.`);
+      throw new NotFoundException(
+        `Reservation with id ${reservation_id} not found`,
+      );
     }
     return reservation;
   }
 
-  async updateReservationRepository(id: string) {
+  async updateReservationRepository(
+    reservation_id: string,
+    date,
+    timeStart,
+    timeEnd,
+    peopleCount,
+    ubication,
+  ) {
+    const reservation = await this.reservationRepository.findOne({
+      where: { reservation_id },
+      relations: ['table'],
+    });
+
+    if (!reservation) throw new NotFoundException('Reservation not found');
+    const newReservation = {
+      ...reservation,
+      date,
+      timeStart,
+      timeEnd,
+      peopleCount,
+      ubication,
+    };
+    return newReservation;
+
+    const tablesAvailable = await this.getTablesAvailablesRepository(
+      newReservation.date,
+      newReservation.timeStart,
+      newReservation.timeEnd,
+      newReservation.ubication,
+    );
+
+    if (tablesAvailable.length === 0)
+      throw new BadRequestException(
+        `No tables available in ${newReservation.ubication}`,
+      );
+
+    const tableForPeoples = Math.ceil(peopleCount / 4);
+    if (tablesAvailable.length < tableForPeoples)
+      throw new BadRequestException(
+        `No tables available for ${peopleCount} people in ${newReservation.ubication}`,
+      );
+
+    return newReservation;
+  }
+  async cancelReservationRepository(reservation_id: string) {
     const reservation = await this.reservationRepository.findOneBy({
-      reservation_id: id,
+      reservation_id,
     });
 
     if (!reservation) {
-      throw new NotFoundException(`Reserva con ID ${id} no encontrada.`);
+      throw new NotFoundException(
+        `Reservation with ID ${reservation_id} not found.`,
+      );
     }
 
     if (reservation.status === false) {
       throw new BadRequestException(
-        `La reserva con ID ${id} ya está cancelada.`,
+        `Reservation with ID ${reservation_id} already cancelled.`,
       );
     }
 
@@ -174,5 +188,54 @@ export class ReservationRepository {
     }
 
     return 'Tables added';
+  }
+
+  async getTablesAvailablesRepository(date, timeStart, timeEnd, ubication) {
+    const reservationsToday = await this.reservationRepository.find({
+      where: { date, table: { ubication }, status: true },
+      relations: ['table'],
+    });
+    const conflictingReservations = reservationsToday.filter(
+      (reservationToday) => {
+        const [startHoursReservationToday, startMinutesReservationToday] =
+          reservationToday.time.split(':').map(Number);
+        const [endHoursReservationToday, endMinutesReservationToday] =
+          reservationToday.timeEnd.split(':').map(Number);
+        const [startHoursNew, startMinutesNew] = timeStart
+          .split(':')
+          .map(Number);
+        const [endHoursNew, endMinutesNew] = timeEnd.split(':').map(Number);
+
+        const startToday =
+          startHoursReservationToday * 60 + startMinutesReservationToday;
+        const endToday =
+          endHoursReservationToday * 60 + endMinutesReservationToday;
+        const startNew = startHoursNew * 60 + startMinutesNew;
+        const endNew = endHoursNew * 60 + endMinutesNew;
+
+        return !(endToday <= startNew || endNew <= startToday);
+      },
+    );
+    console.log(conflictingReservations);
+
+    const tablesOccupied: TableReservation[] = conflictingReservations
+      .map((reservation) => reservation.table)
+      .flat();
+
+    const allTables = await this.tableRepository.find();
+
+    if (!allTables || allTables.length === 0)
+      throw new BadRequestException('No tables found');
+
+    let tablesAvailable = allTables.filter(
+      (table) =>
+        table.ubication === ubication &&
+        !tablesOccupied.some(
+          (occupiedTable) => occupiedTable.table_id === table.table_id,
+        ),
+    );
+    console.log(tablesAvailable);
+
+    return tablesAvailable;
   }
 }

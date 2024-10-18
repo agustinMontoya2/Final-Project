@@ -2,6 +2,8 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -13,9 +15,21 @@ export class Reservation {
   @PrimaryGeneratedColumn('uuid')
   reservation_id: string;
 
-  @ManyToOne(() => TableReservation, (table) => table.reservations)
-  @JoinColumn({ name: 'table_id' })
-  table: TableReservation;
+  @ManyToMany(() => TableReservation, (table) => table.reservations, {
+    cascade: true,
+  })
+  @JoinTable({
+    name: 'reservation_tables', // Nombre de la tabla intermedia
+    joinColumn: {
+      name: 'reservation_id', // Nombre de la columna en la tabla intermedia que hará referencia a Reservation
+      referencedColumnName: 'reservation_id', // Nombre de la columna de la entidad Reservation
+    },
+    inverseJoinColumn: {
+      name: 'table_id', // Nombre de la columna en la tabla intermedia que hará referencia a TableReservation
+      referencedColumnName: 'table_id', // Nombre de la columna de la entidad TableReservation
+    },
+  })
+  table: TableReservation[];
 
   @ManyToOne(() => User, (user) => user.reservations)
   @JoinColumn({ name: 'user_id' })
