@@ -36,8 +36,6 @@ const CartView = async () => {
         </button>
       </div>
     </div>
-
   )
 }
-
 export default CartView
