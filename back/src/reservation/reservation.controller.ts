@@ -41,12 +41,12 @@ export class ReservationController {
   }
   @Put(':id')
   updateReservationController(
-    @Param('id') id: string,
+    @Param('id') reservation_id: string,
     @Body() UpdateReservationDto: UpdateReservationDto,
   ) {
-    return 'this endpoint is not ready yet';
+    // return 'this endpoint is not ready yet';
     return this.reservationService.updateReservationService(
-      id,
+      reservation_id,
       UpdateReservationDto,
     );
   }

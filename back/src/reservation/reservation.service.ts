@@ -40,18 +40,29 @@ export class ReservationService implements OnApplicationBootstrap {
     return this.repositoryReservation.findOneReservationRepository(id);
   }
 
-  updateReservationService(user_id: string, UpdateReservationDto) {
+  updateReservationService(reservation_id: string, UpdateReservationDto) {
     const { date, time, peopleCount, ubication } = UpdateReservationDto;
-    const timeStart = this.getTimes(time, date)[0];
-    const timeEnd = this.getTimes(time, date)[1];
-    return this.repositoryReservation.updateReservationRepository(
-      user_id,
+    const reservation =
+      this.repositoryReservation.findOneReservationRepository(reservation_id);
+    const newReservation = {
+      ...reservation,
       date,
-      timeStart,
-      timeEnd,
+      time,
       peopleCount,
       ubication,
-    );
+    };
+
+    throw new BadRequestException('fixing bugs');
+
+    let timeStart, timeEnd;
+    // return this.repositoryReservation.updateReservationRepository(
+    //   user_id,
+    //   date,
+    //   timeStart,
+    //   timeEnd,
+    //   peopleCount,
+    //   ubication,
+    // );
   }
   cancelReservationService(id: string) {
     return this.repositoryReservation.cancelReservationRepository(id);
