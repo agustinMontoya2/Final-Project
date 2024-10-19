@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { User } from 'src/users/entities/user.entity';
 import {
+  Column,
   Entity,
   JoinColumn,
   JoinTable,
@@ -34,4 +35,7 @@ export class Cart {
     },
   })
   productDetail: ProductDetail[];
+
+  @Column({ default: '' })
+  note: string;
 }

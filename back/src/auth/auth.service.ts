@@ -10,6 +10,7 @@ import { Repository } from 'typeorm';
 import { Credential } from './entities/credential.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { MailService } from 'src/mail/mail.service';
 @Injectable()
 export class AuthService {
   constructor(
@@ -17,6 +18,7 @@ export class AuthService {
     @InjectRepository(Credential)
     private credentialRepository: Repository<Credential>,
     private readonly jwtService: JwtService,
+    private readonly mailService: MailService,
   ) {}
 
   async signUp(credentials, userDto) {
@@ -36,11 +38,6 @@ export class AuthService {
   }
 
   async logIn(loginUserDto: LogInDto) {
-    // const { email, password } = loginUserDto;
-    // const user = await this.credentialRepository.findOne({ where: { email } });
-    // if (user && user.password === password) return user;
-    // throw new BadRequestException('Invalid credentials');
-    // // return this.credentialRepository()
     const authUser = await this.credentialRepository.findOne({
       where: { email: loginUserDto.email },
       relations: ['user'],
@@ -69,5 +66,25 @@ export class AuthService {
       email: authUser.email,
       token,
     };
+  }
+
+  async requestResetPassword(email: string) {
+    const user = await this.credentialRepository.findOneBy({ email });
+    if (!user) {
+      throw new Error('User not found');
+    }
+    const resetLink = `http://localhost:3000/auth/reset-password?email=${email}`;
+    await this.mailService.resetPasswordEmail(user.email, resetLink);
+  }
+
+  async resetPassword(email: string, newPassword: string): Promise<void> {
+    const user = await this.credentialRepository.findOneBy({ email });
+    if (!user) {
+      throw new Error('User not found');
+    }
+    await this.credentialRepository.update(
+      { email: user.email },
+      { password: newPassword },
+    );
   }
 }

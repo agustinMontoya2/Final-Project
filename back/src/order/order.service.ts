@@ -9,12 +9,15 @@ import { UsersRepository } from 'src/users/users.repository';
 export class OrderService {
   constructor(private readonly orderRepository: OrderRepository) {}
   create(createOrderDto: CreateOrderDto) {
-    const { userId, order_type, payment_method, products } = createOrderDto;
+    const { userId, order_type, payment_method, note } = createOrderDto;
 
     return this.orderRepository.createOrder(
       userId,
-      { order_type, payment_method },
-      products,
+      {
+        order_type,
+        payment_method,
+      },
+      note,
     );
   }
 

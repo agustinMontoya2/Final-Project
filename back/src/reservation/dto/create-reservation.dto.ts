@@ -4,6 +4,7 @@ import {
   IsNotEmpty,
   IsString,
   IsNumber,
+  IsOptional,
 } from 'class-validator';
 
 export class CreateReservationDto {
@@ -24,6 +25,24 @@ export class CreateReservationDto {
   peopleCount: number;
 
   @IsNotEmpty()
+  @IsString()
+  ubication: string;
+}
+
+export class UpdateReservationDto {
+  @IsOptional()
+  @IsDateString()
+  date: Date;
+
+  @IsOptional()
+  @IsString()
+  time: string;
+
+  @IsOptional()
+  @IsNumber()
+  peopleCount: number;
+
+  @IsOptional()
   @IsString()
   ubication: string;
 }

@@ -48,11 +48,10 @@ export interface IRegister {
 }
 
 export interface IReserve {
-  ubi: string;
-  date: Date;
-  mealType: string;
+  ubication: string;
+  date: string;
   time: string;
-  people: number;
+  peopleCount: number;
 }
 
 export interface IUserSession {
