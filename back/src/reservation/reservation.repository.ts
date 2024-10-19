@@ -47,9 +47,8 @@ export class ReservationRepository {
       timeEnd,
       ubication,
     );
-    console.log("mesas disponibles");
-    
     console.log(tablesAvailable);
+
     if (tablesAvailable.length === 0)
       throw new BadRequestException(`No tables available in ${ubication}`);
 
@@ -70,16 +69,16 @@ export class ReservationRepository {
     for (let i = 0; i < tableForPeoples; i++) {
       reservation.table.push(tablesAvailable[i]);
     }
-    console.log(reservation);
-    
     await this.reservationRepository.save(reservation);
+
     return 'Reservation made successfully';
   }
 
   async findAllReservationsRepository() {
-    const reservations = await this.reservationRepository.find({relations:["table", "user"]});
+    const reservations = await this.reservationRepository.find();
+
     if (!reservations) {
-      throw new BadRequestException('No se encontraron reservas.');
+      throw new BadRequestException('Reservations not found');
     }
     return reservations;
   }
@@ -214,7 +213,6 @@ export class ReservationRepository {
         const endNew = endHoursNew * 60 + endMinutesNew;
 
         return !(endToday <= startNew || endNew <= startToday);
-      
       },
     );
     console.log(conflictingReservations);
