@@ -78,8 +78,8 @@ export class ReservationRepository {
   async findAllReservationsRepository() {
     const reservations = await this.reservationRepository.find();
 
-    if (!reservations || reservations.length === 0) {
-      throw new BadRequestException('No se encontraron reservas.');
+    if (!reservations) {
+      throw new BadRequestException('Reservations not found');
     }
     return reservations;
   }
