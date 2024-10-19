@@ -68,6 +68,13 @@ export class UsersService {
     return this.usersRepository.removeCart(product_detail_id);
   }
 
+  async removeAllCartService(user_id: string) {
+    if (!isUUID(user_id)) throw new BadRequestException('User ID not valid');
+    const user = await this.findOne(user_id);
+    if (!user) throw new NotFoundException('User not found');
+    return this.usersRepository.removeAllCart(user);
+  }
+
   async removeFavoritiesService(product_id: string, user_id: string) {
     if (!isUUID(product_id))
       throw new BadRequestException('Product ID not valid');

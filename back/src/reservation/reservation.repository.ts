@@ -76,7 +76,9 @@ export class ReservationRepository {
   }
 
   async findAllReservationsRepository() {
-    const reservations = await this.reservationRepository.find();
+    const reservations = await this.reservationRepository.find({
+      relations: ['table', 'user'],
+    });
 
     if (!reservations) {
       throw new BadRequestException('Reservations not found');
@@ -195,6 +197,7 @@ export class ReservationRepository {
       where: { date, table: { ubication }, status: true },
       relations: ['table'],
     });
+
     const conflictingReservations = reservationsToday.filter(
       (reservationToday) => {
         const [startHoursReservationToday, startMinutesReservationToday] =
@@ -208,11 +211,10 @@ export class ReservationRepository {
 
         const startToday =
           startHoursReservationToday * 60 + startMinutesReservationToday;
-        const endToday =
+        let endToday =
           endHoursReservationToday * 60 + endMinutesReservationToday;
         const startNew = startHoursNew * 60 + startMinutesNew;
-        const endNew = endHoursNew * 60 + endMinutesNew;
-
+        let endNew = endHoursNew * 60 + endMinutesNew;
         return !(endToday <= startNew || endNew <= startToday);
       },
     );

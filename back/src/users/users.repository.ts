@@ -147,6 +147,18 @@ export class UsersRepository {
     return 'Product removed from cart successfully';
   }
 
+  async removeAllCart(user: User) {
+    const cart = await this.cartRepository.findOne({
+      where: { user },
+      relations: ['productDetail'],
+    });
+    if (!cart) throw new NotFoundException('Cart not found');
+    cart.productDetail = [];
+    cart.note = '';
+    await this.cartRepository.save(cart);
+    return 'All products removed from cart successfully';
+  }
+
   async removeFavorities(product_id: string, user: User) {
     const favorities = await this.favoritiesRepository.findOne({
       where: { user },
