@@ -33,16 +33,4 @@ export async function formReserve(userData: IReserve) {
     }
 }
 
-// export const fetchReservations = async (): Promise<IReserve[]> => {
-//     try {
-//         const response = await fetch('http://localhost:3000/reservation');
-//         if (!response.ok) {
-//             throw new Error(`Error en la solicitud: ${response.status} ${response.statusText}`);
-//         }
-//         const data = await response.json();
-//         return data;
-//     } catch (error) {
-//         console.error('Error al obtener las reservas:', error);
-//         throw error;
-//     }
-// };
+

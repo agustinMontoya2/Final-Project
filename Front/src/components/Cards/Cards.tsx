@@ -5,7 +5,7 @@ import { IProducts } from "@/interfaces/productoInterface";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { addFavorities, removeFavorities } from "@/lib/server/favorities";
+import { addFavorities, removeFavorities, getFavorities } from "@/lib/server/favorities";
 import { addCart } from "@/lib/server/cart";
 
 const Cards = () => {
@@ -14,7 +14,7 @@ const Cards = () => {
     const [filter, setFilter] = useState<string>("");
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [userId, setUserId] = useState<string | null>(null);
-    const [ token, setToken] = useState<string | null>(null);
+    const [token, setToken] = useState<string | null>(null);
     const [favorities, setFavorities] = useState<string[]>([]);
     const [cart, setCart] = useState<string[]>([]); 
 
@@ -23,16 +23,8 @@ const Cards = () => {
         if (storedUserData) {
             const parsedData = JSON.parse(storedUserData);
             if (parsedData && parsedData.user) {
-                setUserId(parsedData.user.user_id); 
-            }
-        }
-    }, []);
-    useEffect(() => {
-        const storedUserData = window.localStorage.getItem("userSession");
-        if (storedUserData) {
-            const parsedData = JSON.parse(storedUserData);
-            if (parsedData && parsedData.user) {
-                setToken(parsedData.token); 
+                setUserId(parsedData.user.user_id);
+                setToken(parsedData.token);
             }
         }
     }, []);
@@ -52,16 +44,38 @@ const Cards = () => {
         fetchProducts();
     }, []);
 
+    const handleGetFavorities = async (user_id: string, token: string) => {
+        if (token && userId) {
+            try {
+                const favoritiesData = await getFavorities(userId, token);
+                setFavorities(favoritiesData);
+                console.log("Favoritos obtenidos:", favoritiesData);
+            } catch (error) {
+                console.error("Error al obtener favoritos", error.message);
+            }
+        } else {
+            alert("Inicia sesión para ver favoritos.");
+        }
+    };
+
     const handleAddToFavorities = async (productId: string, isFavorited: boolean) => {
+        console.log("Manejador de agregar a favoritos llamado");
+        console.log(`userId: ${userId}`);
+        console.log(`productId: ${productId}`);
+        console.log(`isFavorited: ${isFavorited}`);
+
         if (token && userId) {
             try {
                 if (isFavorited) {
+                    console.log("Eliminando de favoritos...");
                     await removeFavorities(userId, productId, token);
                     setFavorities((prevFavorities) => prevFavorities.filter((id) => id !== productId));
-                    console.log("Product has been eliminated");
+                    console.log("Producto eliminado de favoritos:", productId);
                 } else {
-                    await addFavorities(userId, productId, token);
+                    console.log("Agregando a favoritos...");
+                    const result = await addFavorities(userId, productId, token);
                     setFavorities((prevFavorities) => [...prevFavorities, productId]);
+                    console.log("Producto agregado a favoritos:", result);
                 }
             } catch (error) {
                 console.error("Error al agregar favoritos", error.message);
@@ -71,12 +85,12 @@ const Cards = () => {
         }
     };
 
-    const handleAddCart = async (productId: string,) => {
+    const handleAddCart = async (productId: string) => {
         if (token && userId) {
             try {
-                    await addCart(userId, productId, token);
-                    setCart((prevCart) => [...prevCart, productId]);
-                    alert ("Producto agregado al carrito");
+                await addCart(userId, productId, token);
+                setCart((prevCart) => [...prevCart, productId]);
+                alert("Producto agregado al carrito");
             } catch (error) {
                 console.error("Error al agregar al carrito", error.message);
             }
@@ -117,53 +131,53 @@ const Cards = () => {
             </div>
 
             <div className="w-[80%] h-auto flex flex-wrap justify-evenly m-auto">
-    {filteredProducts.map((product) => (
-        <Link href={`/product/${product.product_id}`} key={product.product_id} className="w-[30%] h-44 flex items-center bg-primary shadow-2xl rounded-xl my-6 px-5 hover:scale-105 duration-500">
-            <div className="w-1/2">
-                <div className="relative w-36 h-36">
-                    <Image
-                        src={product.image_url}
-                        alt={product.product_name}
-                        layout="fill"
-                        objectFit="contain"
-                        className="w-full h-auto"
-                    />
-                </div>
-            </div>
-            <div className="w-1/2">
-                <div>
-                    <h2 className="text-black text-xl font-semibold">{product.product_name}</h2>
-                    <p className="w-full text-black text-sm line-clamp-2">
-                        <b>Description:</b> {product.description}
-                    </p>
-                </div>
-                <div className="w-full flex justify-between items-center z-50">
-                    <p className="text-black text-sm"><b>Price:</b> ${product.price}</p>
+                {filteredProducts.map((product) => (
+                    <div key={product.product_id} className="w-[30%] h-44 flex items-center bg-primary shadow-2xl rounded-xl my-6 px-5 hover:scale-105 duration-500">
+                        <div className="w-1/2">
+                            <div className="relative w-36 h-36">
+                                <Image
+                                    src={product.image_url}
+                                    alt={product.product_name}
+                                    layout="fill"
+                                    objectFit="contain"
+                                    className="w-full h-auto"
+                                />
+                            </div>
+                        </div>
+                        <div className="w-1/2">
+                            <div>
+                                <h2 className="text-black text-xl font-semibold">{product.product_name}</h2>
+                                <p className="w-full text-black text-sm line-clamp-2">
+                                    <b>Description:</b> {product.description}
+                                </p>
+                            </div>
+                            <div className="w-full flex justify-between items-center z-50">
+                                <p className="text-black text-sm"><b>Price:</b> ${product.price}</p>
 
-                    <button
-                        className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
-                        onClick={(e) => {
-                            e.stopPropagation();  // Evita que el clic se propague al enlace
-                            handleAddCart(product.product_id);
-                        }}
-                    >
-                        Agregar a Carrito
-                    </button>
+                                <button
+                                    className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
+                                    onClick={(e) => {
+                                        e.stopPropagation(); 
+                                        handleAddCart(product.product_id);
+                                    }}
+                                >
+                                    Agregar a Carrito
+                                </button>
 
-                    <button
-                        className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
-                        onClick={(e) => {
-                            e.stopPropagation();  // Evita que el clic se propague al enlace
-                            handleAddToFavorities(product.product_id, favorities.includes(product.product_id));
-                        }}
-                    >
-                        {favorities.includes(product.product_id) ? "Eliminar de Favoritos" : "Agregar a Favoritos"}
-                    </button>
-                </div>
+                                <button
+                                    className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
+                                    onClick={(e) => {
+                                        e.stopPropagation();  
+                                        handleAddToFavorities(product.product_id, favorities.includes(product.product_id));
+                                    }}
+                                >
+                                    {favorities.includes(product.product_id) ? "Eliminar de Favoritos" : "Agregar a Favoritos"}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                ))}
             </div>
-        </Link>
-    ))}
-</div>
         </div>
     );
 };

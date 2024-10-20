@@ -67,8 +67,18 @@ export interface IUserSession {
 }
 export interface IProductsDetails {
   product_detail_id: string;
-  note: string;
   quantity: string;
   subtotal: string;
   product: IProducts;
+}
+
+export interface ICart {
+  cart_id: string;
+  note: string;
+  product: IProductDetails[]
+}
+
+export interface IFavorities {
+  favorities_id: string;
+  product: IProducts[];
 }
