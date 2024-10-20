@@ -65,7 +65,13 @@ export class UsersService {
   async removeCartService(product_detail_id: string) {
     if (!isUUID(product_detail_id))
       throw new BadRequestException('Product Detail ID not valid');
-    return this.usersRepository.removeCart(product_detail_id);
+    return this.usersRepository.removeOneQuantityCart(product_detail_id);
+  }
+
+  async removeOneProductCartService(product_detail_id: string) {
+    if (!isUUID(product_detail_id))
+      throw new BadRequestException('Product Detail ID not valid');
+    return this.usersRepository.removeOneProductCart(product_detail_id);
   }
 
   async removeAllCartService(user_id: string) {

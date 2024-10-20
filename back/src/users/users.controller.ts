@@ -47,6 +47,11 @@ export class UsersController {
     return this.usersService.removeCartService(product_detail_id);
   }
 
+  @Delete('cart/product/:id')
+  removeOneProductCart(@Param('id') product_detail_id: string) {
+    return this.usersService.removeOneProductCartService(product_detail_id);
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.findOne(id);

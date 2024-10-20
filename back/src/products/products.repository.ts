@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import * as data from '../utils/Archivo.json';
 import { Category } from 'src/categories/entities/category.entity';
 import { BadRequestException } from '@nestjs/common';
+import { isUUID } from 'class-validator';
 
 export class ProductsRepository {
   constructor(
@@ -62,9 +63,13 @@ export class ProductsRepository {
   }
 
   async findOne(product_id: string) {
-    return await this.productsRepository.findOne({
+    if (!isUUID(product_id))
+      throw new BadRequestException('Product ID not valid');
+    const product = await this.productsRepository.findOne({
       where: { product_id },
     });
+    if (!product) throw new BadRequestException('Product not found');
+    return product;
   }
   async update(product_id: string, updateProductDto: any) {
     await this.productsRepository.update(product_id, updateProductDto);
