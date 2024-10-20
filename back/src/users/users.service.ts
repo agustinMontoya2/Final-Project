@@ -30,7 +30,7 @@ export class UsersService {
   async getUserFavoritiesService(user_id: string) {
     const user = await this.findOne(user_id);
 
-    if (!user) throw new NotFoundException('user');
+    if (!user) throw new NotFoundException('user not found');
 
     return this.usersRepository.getUserFavoritiesRepository(user);
   }
@@ -40,8 +40,11 @@ export class UsersService {
     if (!user) throw new NotFoundException('User not found');
     return this.usersRepository.getCart(user);
   }
-  async addToCart(productDetail: productDetailDto, user_id: string) {
+  async addToCart(productDetailDto: productDetailDto, user_id: string) {
     console.log('service');
+    const quantity = productDetailDto.quantity ?? 1;
+
+    const productDetail = { ...productDetailDto, quantity };
 
     console.log(productDetail, user_id);
 
@@ -62,7 +65,20 @@ export class UsersService {
   async removeCartService(product_detail_id: string) {
     if (!isUUID(product_detail_id))
       throw new BadRequestException('Product Detail ID not valid');
-    return this.usersRepository.removeCart(product_detail_id);
+    return this.usersRepository.removeOneQuantityCart(product_detail_id);
+  }
+
+  async removeOneProductCartService(product_detail_id: string) {
+    if (!isUUID(product_detail_id))
+      throw new BadRequestException('Product Detail ID not valid');
+    return this.usersRepository.removeOneProductCart(product_detail_id);
+  }
+
+  async removeAllCartService(user_id: string) {
+    if (!isUUID(user_id)) throw new BadRequestException('User ID not valid');
+    const user = await this.findOne(user_id);
+    if (!user) throw new NotFoundException('User not found');
+    return this.usersRepository.removeAllCart(user);
   }
 
   async removeFavoritiesService(product_id: string, user_id: string) {

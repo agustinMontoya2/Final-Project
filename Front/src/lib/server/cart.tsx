@@ -1,36 +1,107 @@
-import { ICartData, IProducts } from "@/interfaces/productoInterface";
-
+// addCart, getCart, removeQuantityCart, removeProductCart 
 const APIURL = process.env.NEXT_PUBLIC_API_URL
 
-export async function cart(cartData: ICartData) {
-    const APIURL = process.env.NEXT_PUBLIC_API_URL;
-
-    console.log("Datos del carrito a enviar:", cartData); // Para depuración
-
+export async function addCart(user_id: string, product_id: string, token: string) {
     try {
-        const response = await fetch(`${APIURL}/order`, {
+        const response = await fetch(`${APIURL}/users/cart/${user_id}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify(cartData), // Envía el producto
+            body: JSON.stringify({ product_id }),
         });
 
         if (response.ok) {
-            const responseData = await response.json();
-            console.log("Plato agregado correctamente", responseData);
-            return responseData;
+            return await response.json(); 
         } else {
-            const errorData = await response.json();
-            console.error("Error de respuesta:", errorData); // Log del error
-            throw new Error(errorData.message || "No se pudo agregar el plato");
+            const errorResponse = await response.json();
+            throw new Error(errorResponse.message || "Failed to add item to cart");  
         }
     } catch (error: unknown) {
         if (error instanceof Error) {
-            console.error("Error en la solicitud:", error.message); // Mensaje de error
-            throw error;
+            throw error;  
         } else {
             throw new Error("An unknown error occurred");
+        }
+    }
+}
+
+
+export async function getCart(userId: string, token: string) {
+    try {
+        const response = await fetch(`${APIURL}/users/cart/${userId}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${token}` 
+            },
+        });
+        const responseText = await response.text(); 
+
+        if (response.ok) {
+            return JSON.parse(responseText);  
+        } else {
+            throw new Error(`Error: ${responseText}`);  
+        }
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            throw error;  
+        } else {
+            throw new Error("An unknown error occurred");  
+        }
+    }
+}
+
+export async function removeQuantityCart(product_detail_id: string, token: string){
+    try{
+        const response = await fetch(`${APIURL}/users/cart/${product_detail_id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${token}` 
+            },
+            body: JSON.stringify({ product_detail_id }),
+        });
+        const responseText = await response.text(); 
+
+        if (response.ok) {
+            return JSON.parse(responseText); 
+        } else {
+            throw new Error(`Error: ${responseText}`); 
+        }
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            throw error; 
+        } else {
+            throw new Error("An unknown error occurred");  
+        }
+    }
+}
+
+
+export async function removeProductCart(product_detail_id: string, token: string){
+    try{
+        const response = await fetch(`${APIURL}/users/cart/product/${product_detail_id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${token}` 
+            },
+            body: JSON.stringify({ product_detail_id }),
+        });
+        const responseText = await response.text(); 
+
+        if (response.ok) {
+            return JSON.parse(responseText); 
+        } else {
+            throw new Error(`Error: ${responseText}`); 
+        }
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            throw error; 
+        } else {
+            throw new Error("An unknown error occurred");  
         }
     }
 }

@@ -1,6 +1,7 @@
 import { IsArray, IsEmpty, IsString } from 'class-validator';
 import { productDetailDto } from 'src/products/dto/create-product.dto';
 import { ProductDetail } from 'src/products/entities/productDetail.entity';
+import { Column } from 'typeorm';
 
 export class CreateOrderDto {
   @IsString()
@@ -11,12 +12,11 @@ export class CreateOrderDto {
 
   payment_method: PaymentMethod;
 
-  @IsArray()
-  // products: { product_id: string; quantity: number; note: string }[];
-  products: productDetailDto[];
-
   @IsEmpty()
   state: string;
+
+  @IsString()
+  note: string;
 }
 
 export enum OrderType {

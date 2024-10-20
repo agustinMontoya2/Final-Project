@@ -52,4 +52,7 @@ export class User {
   @OneToOne(() => Favorities, (favorities) => favorities.user)
   @JoinColumn({ name: 'favorities_id' })
   favorities: Favorities;
+
+  @Column({ nullable: true })
+  user_img: string;
 }

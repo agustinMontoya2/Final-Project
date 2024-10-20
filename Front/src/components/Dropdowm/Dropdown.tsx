@@ -20,6 +20,14 @@ export default function Dropdown() {
         if (session) {
             setUserSession(JSON.parse(session));
         }
+    };
+ 
+    useEffect(() => {
+        updateSession();
+        window.addEventListener("userSessionUpdated", updateSession);
+        return () => {
+            window.removeEventListener("userSessionUpdated", updateSession);
+        };
     }, []);
 
     const handleClickOutside = (event: MouseEvent) => {

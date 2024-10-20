@@ -1,66 +1,144 @@
-import { getProductsDBdetail } from '@/Helpers/products.helper';
+'use client';
+import { useEffect, useState } from 'react';
+import { addCart, getCart, removeQuantityCart, removeProductCart } from '@/lib/server/cart';
 import Image from 'next/image';
-import React from 'react';
+import { ICart } from '@/interfaces/productoInterface';
 
-const CartView = async () => {
-  // const CartDetail = await getProductsDBdetail();
-  // console.log(CartDetail);
+const CartView = () => {
+    const [cartItems, setCartItems] = useState<ICart | null>();
+    const [userId, setUserId] = useState<string | null>(null);
+    const [token, setToken] = useState<string | null>(null);
+    const [cart, setCart] = useState<string[]>([]);
 
-  // // Verifica si CartDetail es un array
-  // if (!Array.isArray(CartDetail)) {
-  //   return <p>No se encontraron productos en el carrito.</p>;
-  // }
+    useEffect(() => {
+        const storedUserData = window.localStorage.getItem("userSession");
+        if (storedUserData) {
+            const parsedData = JSON.parse(storedUserData);
+            if (parsedData && parsedData.user) {
+                setUserId(parsedData.user.user_id);
+                setToken(parsedData.token); 
+            }
+        }
+    }, []);
 
-  return (
-      <div className='w-1/3 h-auto bg-primary m-auto shadow-xl rounded-xl p-5 flex text-neutral-800 '>
-        <div className='relative w-1/4 h-24'>
-          <Image src={"/assets/icon/person.png"} layout='fill' objectFit='contain' alt={"aaa"} className='w-full h-auto'></Image>
-        </div>
-        <div className='w-1/2'>
-          <h1 className='text-xl font-bold'>Name</h1>
-          <p className='line-clamp-3'>Description: Lorem ipsum, dolor sit amet consectetur adipisicing elit. Pariatur, unde.</p>
-        </div>
-        <div className='w-1/4 flex flex-col items-end justify-between'>
-          <div className=''>
-            <p>Price x Unidad</p>
-            <p>Quantity: 2</p>
-            <p> $SubTotal</p>
-          </div>
-          {/* <button className='w-16 text-white bg-secondary rounded-md px-3 py-1 hover:bg-red-700'>
-            Pagar
-          </button> */}
-        </div>
-      </div>
-    // <div className="flex flex-col items-center">
-      /* {CartDetail.map((productDetail) => (
-        <div key={productDetail.product_detail_id} className="flex flex-col bg-white p-4 rounded-sm shadow-md m-1 w-full md:w-1/2 lg:w-1/3">
-          <div className="flex flex-row items-center">
-            <div className='relative w-40 h-40'>
-              <Image
-                src={productDetail.product.image_url}
-                alt={productDetail.product.product_name}
-                layout="fill"
-                objectFit="contain"
-                className="w-full h-auto"
-              />
-            </div>
-            <div className="flex flex-grow justify-around">
-              <p className='text-black text-center'>Nota: {productDetail.note}</p>
-              <p className='text-black text-center'>{productDetail.quantity}</p>
-            </div>
-          </div>
-          <div className="flex justify-end mt-auto">
-            <p className='text-black'>Subtotal: {productDetail.subtotal}</p>
-          </div>
-        </div>
-      ))}
-      <div>
-        <button className='text-black bg-secondary rounded-md p-1'>
-          Pagar
-        </button>
-      </div>
-    </div> */
-  );
-}
+    const handleGetCart = async () => {
+        if (userId && token) {
+            try {
+                const items = await getCart(userId, token);
+                setCartItems(items);
+            } catch (error) {
+            alert(error);
+            }
+        } else {
+            alert("Inicia sesión para ver el carrito. o lo que quieras");
+        }
+    };
+
+    const handleDeleteQuantityCart = async (product_detail_id: string) => {
+    if (userId && token) {
+        try {
+            const response = await removeQuantityCart(product_detail_id, token);
+            if (response) {
+
+                await handleGetCart();
+            } else {
+                alert("Error al eliminar el producto del carrito");
+            }
+        } catch (error) {
+            alert(`Error: ${error instanceof Error ? error.message : error}`);
+        }
+    }
+};
+
+    const handleDeleteProductCart = async (product_detail_id: string) => {
+    if (userId && token) {
+        try {
+            const response = await removeProductCart(product_detail_id, token);
+            if (response) {
+
+                await handleGetCart();
+            } else {
+                alert("Error al eliminar el producto del carrito");
+            }
+        } catch (error) {
+            alert(`Error: ${error instanceof Error ? error.message : error}`);
+        }
+    }
+};
+
+const handleAddCart = async (productId: string,) => {
+    if (token && userId) {
+        try {
+            
+                await addCart(userId, productId, token);
+                setCart((prevCart) => [...prevCart, productId]);
+                await handleGetCart();
+        } catch (error) {
+            alert (`Error: ${error instanceof Error ? error.message : error}`);
+            console.error("Error al agregar al carrito", error.message);
+        }
+    } else {
+        alert("Inicia sesión para agregar al carrito.");
+    }
+};
+
+    useEffect(() => {
+    if (userId && token) {
+        handleGetCart();
+    }
+}, [userId, token]);
+
+
+    return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 py-8">
+    <h1 className="text-3xl font-bold text-black mb-6">Tu Carrito</h1>
+    {cartItems?.productDetail.length === 0 ? (
+        <p className="text-lg text-gray-700">No hay productos en tu carrito.</p>
+    ) : (
+        <ul className="bg-white shadow-lg rounded-lg w-[80%] max-w-4xl">
+            {cartItems?.productDetail.map((item) => (
+                <li key={item.product_detail_id} className="flex items-center justify-between p-6 border-b border-gray-300">
+                    <div className="flex items-center">
+                        <Image
+                            src={item.product.image_url}
+                            alt={item.product.product_name}
+                            width={80}
+                            height={80}
+                            className="mr-6 rounded-lg object-cover"
+                        />
+                        <div>
+                            <h2 className="text-xl font-semibold text-black">{item.product.product_name}</h2>
+                            <p className="text-gray-600">Precio: <span className="font-bold">${parseFloat(item.subtotal).toFixed(2)}</span></p>
+                            <p className="text-gray-600">Cantidad: <span className="font-bold">{item.quantity}</span></p>
+                        </div>
+                    </div>
+                    <button 
+                        onClick={() => handleDeleteQuantityCart(item.product_detail_id)} 
+                        className="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
+                    >
+                        -
+                    </button>
+                    <button
+                        className="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
+                        onClick={() => {
+                            handleAddCart(item.product.product_id);
+                        }}
+                    >
+                        +
+                    </button>
+                    <button 
+                        onClick={() => handleDeleteProductCart(item.product_detail_id)} 
+                        className="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
+                    >
+                        Eliminar
+                    </button>
+                    
+                </li>
+            ))}
+        </ul>
+    )}
+</div>
+    );
+};
 
 export default CartView;

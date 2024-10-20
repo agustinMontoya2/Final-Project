@@ -29,6 +29,7 @@ export class UsersRepository {
   async getUserById(user_id: string) {
     const user = await this.userRepository.findOne({
       where: { user_id },
+      relations: ['cart', 'favorities', 'reservations'],
     });
     return user ? user : null;
   }
@@ -64,37 +65,43 @@ export class UsersRepository {
   }
 
   async addToCart(productDetail: productDetailDto, user: User) {
-    console.log('repository');
-    console.log(productDetail, user);
-
     const cart = await this.cartRepository.findOne({
       where: { user },
-      relations: ['productDetail'],
+      relations: ['productDetail', 'productDetail.product'],
     });
     if (!cart) throw new NotFoundException('Cart not found');
-    console.log(cart);
 
-    const { product_id, quantity, note } = productDetail;
+    const { product_id, quantity } = productDetail;
     const product = await this.productRepository.findOne({
       where: { product_id },
     });
     if (!product || product.available === false)
       throw new NotFoundException('Product not found or not available');
 
-    const productDetailEntity = new ProductDetail();
-    productDetailEntity.note = note;
-    productDetailEntity.quantity = quantity;
-    productDetailEntity.subtotal = product.price * quantity;
-    productDetailEntity.product = product;
-    console.log(productDetailEntity);
+    const productDetailInCart = cart.productDetail.find(
+      (productDetail) => productDetail.product.product_id === product_id,
+    );
+    if (productDetailInCart) {
+      const newQuantity =
+        Number(quantity) + Number(productDetailInCart.quantity);
+      productDetailInCart.quantity = newQuantity;
+      const newSubtotal = Number(product.price) * newQuantity;
+      productDetailInCart.subtotal = newSubtotal;
 
-    cart.productDetail.push(productDetailEntity);
+      await this.productDetailRepository.save(productDetailInCart);
+    } else {
+      const productDetailEntity = new ProductDetail();
+      productDetailEntity.quantity = quantity;
+      productDetailEntity.subtotal = Number(product.price) * Number(quantity);
+      productDetailEntity.product = product;
+      console.log(productDetailEntity);
 
-    console.log(cart);
-    console.log(cart.productDetail);
-
-    await this.productDetailRepository.save(productDetailEntity);
+      cart.productDetail.push(productDetailEntity);
+      console.log(quantity);
+      await this.productDetailRepository.save(productDetailEntity);
+    }
     await this.cartRepository.save(cart);
+
     const userCart = await this.cartRepository.findOne({
       where: { user },
       relations: ['productDetail'],
@@ -143,13 +150,43 @@ export class UsersRepository {
     return cart;
   }
 
-  async removeCart(product_detail_id: string) {
+  async removeOneQuantityCart(product_detail_id: string) {
     const productDetail = await this.productDetailRepository.findOne({
       where: { product_detail_id },
+      relations: ['product'],
+    });
+    if (!productDetail) throw new NotFoundException('Product Detail not found');
+    if (productDetail.quantity > 1) {
+      productDetail.quantity -= 1;
+      productDetail.subtotal -= Number(productDetail.product.price);
+      await this.productDetailRepository.save(productDetail);
+      return { message: 'quantity decreased' };
+    } else {
+      await this.productDetailRepository.remove(productDetail);
+      return { message: 'Product removed from cart successfully' };
+    }
+  }
+
+  async removeOneProductCart(product_detail_id: string) {
+    const productDetail = await this.productDetailRepository.findOne({
+      where: { product_detail_id },
+      relations: ['product'],
     });
     if (!productDetail) throw new NotFoundException('Product Detail not found');
     await this.productDetailRepository.remove(productDetail);
-    return 'Product removed from cart successfully';
+    return { message: 'Product removed from cart successfully' };
+  }
+
+  async removeAllCart(user: User) {
+    const cart = await this.cartRepository.findOne({
+      where: { user },
+      relations: ['productDetail'],
+    });
+    if (!cart) throw new NotFoundException('Cart not found');
+    cart.productDetail = [];
+    cart.note = '';
+    await this.cartRepository.save(cart);
+    return { message: 'All products removed from cart successfully' };
   }
 
   async removeFavorities(product_id: string, user: User) {
@@ -166,6 +203,6 @@ export class UsersRepository {
       (product) => product.product_id !== product_id,
     );
     await this.favoritiesRepository.save(favorities);
-    return 'Product removed from favorities successfully';
+    return { message: 'Product removed from favorities successfully' };
   }
 }

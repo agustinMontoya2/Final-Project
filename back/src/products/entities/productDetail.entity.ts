@@ -23,13 +23,15 @@ export class ProductDetail {
   @JoinColumn({ name: 'product_id' })
   product: Product;
 
-  @Column()
-  note: string;
-
-  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: false })
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    nullable: false,
+  })
   quantity: number;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: false })
+  @Column({ type: 'decimal', nullable: false })
   subtotal: number;
 
   @ManyToOne(() => OrderDetail, (orderDetail) => orderDetail.productDetails)

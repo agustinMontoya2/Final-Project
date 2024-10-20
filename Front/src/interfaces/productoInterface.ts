@@ -50,11 +50,10 @@ export interface IRegister {
 }
 
 export interface IReserve {
-  ubi: string;
-  date: Date;
-  mealType: string;
+  ubication: string;
+  date: string;
   time: string;
-  people: number;
+  peopleCount: number;
 }
 
 export interface IUserSession {
@@ -70,14 +69,18 @@ export interface IUserSession {
 }
 export interface IProductsDetails {
   product_detail_id: string;
-  note: string;
   quantity: string;
   subtotal: string;
   product: IProducts;
 }
 
-export interface ICartData {
-  userId: string;
-  order_type: string;
-  products: IProducts[];
+export interface ICart {
+  cart_id: string;
+  note: string;
+  product: IProductsDetails[]
+}
+
+export interface IFavorities {
+  favorities_id: string;
+  product: IProducts[];
 }

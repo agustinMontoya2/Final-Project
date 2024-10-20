@@ -12,6 +12,7 @@ import { User } from 'src/users/entities/user.entity';
 import { Product } from 'src/products/entities/product.entity';
 import { OrderDetail } from './entities/orderDetail.entity';
 import { ProductDetail } from 'src/products/entities/productDetail.entity';
+import { UsersRepository } from 'src/users/users.repository';
 
 @Injectable()
 export class OrderRepository {
@@ -23,73 +24,69 @@ export class OrderRepository {
     @InjectRepository(Product) private productRepository: Repository<Product>,
     @InjectRepository(ProductDetail)
     private productDetailRepository: Repository<ProductDetail>,
+    private readonly usersRepository: UsersRepository,
   ) {}
 
-  async createOrder(user_id, details, products) {
-    const user = await this.userRepository.findOne({ where: { user_id } });
-    if (!user) throw new NotFoundException('User not found');
+  async createOrder(user_id, details, note) {
+    const user = await this.userRepository.findOne({
+      where: { user_id },
+      relations: ['cart', 'cart.productDetail'],
+    });
+    if (!user || !user.cart) throw new NotFoundException('Cart not found');
+    console.log(details);
 
-    const productsFounded: Product[] = [];
-    let totalPrice = 0;
-    const orderDetail: OrderDetail = new OrderDetail();
+    console.log(note);
+    const cart = user.cart;
+    let total = 0;
+    console.log(cart.productDetail);
+
+    cart.productDetail.forEach((productDetail) => {
+      total += Number(productDetail.subtotal);
+    });
+    const orderDetail = new OrderDetail();
     orderDetail.order_type = details.order_type;
     orderDetail.payment_method = details.payment_method;
+    orderDetail.note = note;
+    orderDetail.total = total;
+    orderDetail.productDetails = cart.productDetail;
 
-    for (const product of products) {
-      // Validate products
-      if (!isUUID(product.product_id))
-        throw new BadRequestException(
-          `Product id ${product.product_id} is not valid`,
-        );
-      const productFound = await this.productRepository.findOne({
-        where: { product_id: product.product_id },
-      });
-      if (!productFound || productFound.available === false)
-        throw new NotFoundException('Product not found or not available');
-
-      // Create product detail
-      const productDetail: ProductDetail = new ProductDetail();
-      productDetail.note = product.note;
-      productDetail.quantity = product.quantity;
-      productDetail.subtotal = productFound.price * product.quantity;
-      productDetail.product = productFound;
-      productDetail.orderDetail = orderDetail;
-
-      // calculate total and push products
-      totalPrice += productDetail.subtotal;
-
-      productsFounded.push(productFound);
-
-      await this.productDetailRepository.insert(productDetail);
-    }
-
-    // adding total price
-    orderDetail.total = totalPrice;
-
-    // Create order
-    const order: Order = new Order();
-    order.date = new Date();
+    const order = new Order();
     order.user = user;
+    order.date = new Date();
 
     orderDetail.order = order;
-
     await this.orderRepository.save(order);
-    console.log(orderDetail);
-
     await this.orderDetailRepository.save(orderDetail);
 
-    const createdOrder = await this.orderRepository.findOne({
+    const orderFinal = await this.orderRepository.findOne({
       where: { order_id: order.order_id },
-      relations: {
-        orderDetail: {
-          productDetails: true,
-        },
-      },
     });
-    console.log(createdOrder);
+    const orderDetailFinal = await this.orderDetailRepository.findOne({
+      where: { order_detail_id: orderDetail.order_detail_id },
+      relations: ['productDetails', 'productDetails.product'],
+    });
 
-    return 'this.orderRepository.save(order)';
+    await this.usersRepository.removeAllCart(user);
 
-    // const order = await this.orderRepository.save(createOrderDto);
+    return { orderFinal, orderDetailFinal };
+    return cart;
+
+    // const orderDetail: OrderDetail = new OrderDetail();
+    // orderDetail.order_type = details.order_type;
+    // orderDetail.payment_method = details.payment_method;
+
+    // orderDetail.total = totalPrice;
+
+    // const order: Order = new Order();
+    // order.date = new Date();
+    // order.user = user;
+
+    // orderDetail.order = order;
+
+    // await this.orderRepository.save(order);
+
+    // return 'this.orderRepository.save(order)';
+
+    // // const order = await this.orderRepository.save(createOrderDto);
   }
 }

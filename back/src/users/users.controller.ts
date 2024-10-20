@@ -12,8 +12,10 @@ import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { productDetailDto } from 'src/products/dto/create-product.dto';
 import { Product } from 'src/products/entities/product.entity';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('users')
+@ApiTags('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -45,6 +47,11 @@ export class UsersController {
     return this.usersService.removeCartService(product_detail_id);
   }
 
+  @Delete('cart/product/:id')
+  removeOneProductCart(@Param('id') product_detail_id: string) {
+    return this.usersService.removeOneProductCartService(product_detail_id);
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.findOne(id);
@@ -65,10 +72,10 @@ export class UsersController {
 
   @Post('cart/:id')
   addToCart(
-    @Body() productDetail: productDetailDto,
+    @Body() productDetailDto: productDetailDto,
     @Param('id') user_id: string,
   ) {
-    return this.usersService.addToCart(productDetail, user_id);
+    return this.usersService.addToCart(productDetailDto, user_id);
   }
 
   @Post('favorities/:id')

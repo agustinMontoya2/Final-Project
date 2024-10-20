@@ -15,7 +15,6 @@ const Reserve = () => {
     return (
       <>
         <FormReserve />
-        {/* <MyReservations /> */}
       </>
     )
   }
