@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
@@ -162,7 +166,7 @@ export class UsersRepository {
       await this.productDetailRepository.save(productDetail);
       return { message: 'quantity decreased' };
     } else {
-      await this.productDetailRepository.remove(productDetail);
+      throw new BadRequestException('Quantity cannot be less than 1');
       return { message: 'Product removed from cart successfully' };
     }
   }
