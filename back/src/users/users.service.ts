@@ -30,7 +30,7 @@ export class UsersService {
   async getUserFavoritiesService(user_id: string) {
     const user = await this.findOne(user_id);
 
-    if (!user) throw new NotFoundException('user');
+    if (!user) throw new NotFoundException('user not found');
 
     return this.usersRepository.getUserFavoritiesRepository(user);
   }
