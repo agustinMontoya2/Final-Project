@@ -25,6 +25,8 @@ export class ProductDetail {
 
   @Column({
     type: 'decimal',
+    precision: 10,
+    scale: 2,
     nullable: false,
   })
   quantity: number;

@@ -12,6 +12,7 @@ import { User } from 'src/users/entities/user.entity';
 import { Product } from 'src/products/entities/product.entity';
 import { OrderDetail } from './entities/orderDetail.entity';
 import { ProductDetail } from 'src/products/entities/productDetail.entity';
+import { UsersRepository } from 'src/users/users.repository';
 
 @Injectable()
 export class OrderRepository {
@@ -23,6 +24,7 @@ export class OrderRepository {
     @InjectRepository(Product) private productRepository: Repository<Product>,
     @InjectRepository(ProductDetail)
     private productDetailRepository: Repository<ProductDetail>,
+    private readonly usersRepository: UsersRepository,
   ) {}
 
   async createOrder(user_id, details, note) {
@@ -63,6 +65,8 @@ export class OrderRepository {
       where: { order_detail_id: orderDetail.order_detail_id },
       relations: ['productDetails', 'productDetails.product'],
     });
+
+    await this.usersRepository.removeAllCart(user);
 
     return { orderFinal, orderDetailFinal };
     return cart;
