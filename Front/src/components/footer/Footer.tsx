@@ -25,8 +25,8 @@ const Footer = () => {
                 </div>
                 <div className="w-1/2 flex items-center flex-wrap">
                     <div className='w-1/2 h-full flex flex-col justify-center items-center'>
-                        <div className="h-10">
-                            <h1 className="text-lg font-semibold">Follow us:</h1>
+                        <div className="h-10"> 
+                            <h1 className="text-lg font-semibold">Follow us:</h1> 
                         </div>
                         <div className="w-1/2 h-24 m-auto flex justify-around items-center bg-red-700 rounded-xl">
                             <Link href="https://www.instagram.com/barclubfellini/?hl=es" target='_blank' className='hover:scale-125 duration-500'>

@@ -16,7 +16,7 @@ const Cards = () => {
     const [userId, setUserId] = useState<string | null>(null);
     const [ token, setToken] = useState<string | null>(null);
     const [favorities, setFavorities] = useState<string[]>([]);
-    const [cart, setCart] = useState<string[]>([]);
+    const [cart, setCart] = useState<string[]>([]); 
 
     useEffect(() => {
         const storedUserData = window.localStorage.getItem("userSession");

@@ -26,7 +26,7 @@ const CartView = () => {
             try {
                 const items = await getCart(userId, token);
                 setCartItems(items); 
-              
+            
             } catch (error) {
               alert(error);
             } 

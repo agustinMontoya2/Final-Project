@@ -22,7 +22,7 @@ export default function Dropdown() {
             setUserSession(null); 
         }
     };
-
+ 
     useEffect(() => {
         updateSession();
         window.addEventListener("userSessionUpdated", updateSession);
