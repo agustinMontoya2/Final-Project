@@ -191,7 +191,7 @@ export class ReservationRepository {
 
   async getTablesAvailablesRepository(date, timeStart, timeEnd, ubication) {
     const reservationsToday = await this.reservationRepository.find({
-      where: { date, table: { ubication }, status: true },
+      where: { table: { ubication }, status: true },
       relations: ['table'],
     });
     const conflictingReservations = reservationsToday.filter(

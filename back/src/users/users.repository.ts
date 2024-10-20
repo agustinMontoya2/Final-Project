@@ -67,7 +67,7 @@ export class UsersRepository {
   async addToCart(productDetail: productDetailDto, user: User) {
     const cart = await this.cartRepository.findOne({
       where: { user },
-      relations: ['productDetail'],
+      relations: ['productDetail', 'productDetail.product'],
     });
     if (!cart) throw new NotFoundException('Cart not found');
 
@@ -77,19 +77,31 @@ export class UsersRepository {
     });
     if (!product || product.available === false)
       throw new NotFoundException('Product not found or not available');
-    console.log(product.price);
 
-    const productDetailEntity = new ProductDetail();
-    productDetailEntity.quantity = quantity;
-    productDetailEntity.subtotal = Number(product.price) * Number(quantity);
-    productDetailEntity.product = product;
-    console.log(productDetailEntity);
+    const productDetailInCart = cart.productDetail.find(
+      (productDetail) => productDetail.product.product_id === product_id,
+    );
+    if (productDetailInCart) {
+      const newQuantity =
+        Number(quantity) + Number(productDetailInCart.quantity);
+      productDetailInCart.quantity = newQuantity;
+      const newSubtotal = Number(product.price) * newQuantity;
+      productDetailInCart.subtotal = newSubtotal;
 
-    cart.productDetail.push(productDetailEntity);
-    console.log(quantity);
+      await this.productDetailRepository.save(productDetailInCart);
+    } else {
+      const productDetailEntity = new ProductDetail();
+      productDetailEntity.quantity = quantity;
+      productDetailEntity.subtotal = Number(product.price) * Number(quantity);
+      productDetailEntity.product = product;
+      console.log(productDetailEntity);
 
-    await this.productDetailRepository.save(productDetailEntity);
+      cart.productDetail.push(productDetailEntity);
+      console.log(quantity);
+      await this.productDetailRepository.save(productDetailEntity);
+    }
     await this.cartRepository.save(cart);
+
     const userCart = await this.cartRepository.findOne({
       where: { user },
       relations: ['productDetail'],
@@ -143,8 +155,26 @@ export class UsersRepository {
       where: { product_detail_id },
     });
     if (!productDetail) throw new NotFoundException('Product Detail not found');
-    await this.productDetailRepository.remove(productDetail);
-    return 'Product removed from cart successfully';
+    if (productDetail.quantity > 1) {
+      productDetail.quantity -= 1;
+      await this.productDetailRepository.save(productDetail);
+      return { message: 'quantity decreased' };
+    } else {
+      await this.productDetailRepository.remove(productDetail);
+      return { message: 'Product removed from cart successfully' };
+    }
+  }
+
+  async removeAllCart(user: User) {
+    const cart = await this.cartRepository.findOne({
+      where: { user },
+      relations: ['productDetail'],
+    });
+    if (!cart) throw new NotFoundException('Cart not found');
+    cart.productDetail = [];
+    cart.note = '';
+    await this.cartRepository.save(cart);
+    return { message: 'All products removed from cart successfully' };
   }
 
   async removeFavorities(product_id: string, user: User) {
@@ -161,6 +191,6 @@ export class UsersRepository {
       (product) => product.product_id !== product_id,
     );
     await this.favoritiesRepository.save(favorities);
-    return 'Product removed from favorities successfully';
+    return { message: 'Product removed from favorities successfully' };
   }
 }

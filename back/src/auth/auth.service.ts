@@ -40,7 +40,7 @@ export class AuthService {
   async logIn(loginUserDto: LogInDto) {
     const authUser = await this.credentialRepository.findOne({
       where: { email: loginUserDto.email },
-      relations: ['user'],
+      relations: ['user', 'user.cart', 'user.favorities', 'user.reservations'],
     });
     if (!authUser) throw new UnauthorizedException('Invalid credentials');
 
@@ -65,6 +65,9 @@ export class AuthService {
       user: userWithoutAdmin,
       email: authUser.email,
       token,
+      cart: authUser.user.cart,
+      favorities: authUser.user.favorities,
+      reservation: authUser.user.reservations,
     };
   }
 
