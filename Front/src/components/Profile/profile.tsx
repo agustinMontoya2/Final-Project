@@ -6,26 +6,28 @@ const ProfileV = () => {
     const [userData, setUserData] = useState<IUserSession>();
 
     useEffect(() => {
-        if(typeof window !== 'undefined' && window.localStorage){
+        if (typeof window !== 'undefined' && window.localStorage) {
             const userData = JSON.parse(localStorage.getItem("userSession")!)
             setUserData(userData);
         }
     }, [])
 
 
-    return(
+    return (
         <div className="bg-white p-6 rounded-lg shadow-lg w-screen max-w-md mx-auto my-48" >
             <h1 className="text-2xl font-semibold mb-6 text-center text-gray-800">Account details</h1>
 
             <div className="flex justify-between items-center py-4 border-b border-gray-200">
-                
-            <div className="text-gray-800">
-    {userData?.user?.user_img ? (
-        <img src={userData.user.user_img} alt="profile picture" className="w-64 h-64 rounded-full object-cover" />
-    ) : (
-        <img src="https://freesvg.org/img/abstract-user-flat-4.png" alt="default picture" className="w-64 h-64 rounded-full object-cover" />
-    )}
-</div>
+
+
+                <div className="text-gray-800">
+                    {userData?.user?.user_img ? (
+                        <img className="" src={userData.user.user_img} alt="profile picture" />
+                    ) : (
+                        <img src="https://freesvg.org/img/abstract-user-flat-4.png" alt="default picture" className="" />
+                    )}
+                </div>
+
             </div>
             <div className="flex justify-between items-center py-4 border-b border-gray-200">
                 <div className="font-medium text-gray-600">

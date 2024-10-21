@@ -29,7 +29,8 @@ export interface IProducts {
   price: number;
   description: string;
   image_url: string;
-  category: string;
+  category: {
+    category_name: string };
   available: boolean;
 }
 
@@ -79,6 +80,7 @@ export interface ICart {
   cart_id: string;
   note: string;
   product: IProductsDetails[]
+  productDetail: IProductsDetails[]
 }
 
 export interface IFavorities {

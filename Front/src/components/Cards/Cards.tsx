@@ -15,8 +15,8 @@ const Cards = () => {
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
-    const [favorities, setFavorities] = useState<IFavorities>(); 
-    const [cart, setCart] = useState<ICart>(); 
+    const [favorities, setFavorities] = useState<IFavorities>();
+    const [cart, setCart] = useState<ICart>();
     const [showFavorites, setShowFavorites] = useState(false);
 
     useEffect(() => {
@@ -39,7 +39,7 @@ const Cards = () => {
         }
     }, [userId, token]);
 
-    
+
     const fetchProducts = async () => {
         try {
             const productsData = await getProductsDB();
@@ -52,7 +52,7 @@ const Cards = () => {
     };
 
 
-  
+
 
     const fetchFavorities = async () => {
         if (token && userId) {
@@ -60,12 +60,13 @@ const Cards = () => {
                 const favoritiesData = await getFavorities(userId, token);
                 setFavorities(favoritiesData);
             } catch (error) {
-                console.error("Error al obtener favoritos", error.message);
+                console.error("Error al obtener favoritos");
             }
         }
         else {
-        console.log("no hay token");}
-        
+            console.log("no hay token");
+        }
+
     };
 
 
@@ -81,24 +82,24 @@ const Cards = () => {
                     await fetchFavorities();
                 }
             } catch (error) {
-                console.error("Error al manejar favoritos", error.message);
+                console.error("Can't add to favorites");
             }
         } else {
-            alert("Inicia sesión para manejar favoritos.");
+            alert("Log in to manage Favorite");
         }
     };
 
     const handleAddCart = async (productId: string,) => {
         if (token && userId) {
             try {
-                    await addCart(userId, productId, token);
-                    alert("Product added to cart")
+                await addCart(userId, productId, token);
+                alert("Product added to cart")
             } catch (error) {
-                alert (`Error: ${error instanceof Error ? error.message : error}`);
-                console.error("Error al agregar al carrito", error.message);
+                alert(`Error: ${error instanceof Error ? error.message : error}`);
+                console.error("Fail to add to the cart.");
             }
         } else {
-            alert("Inicia sesión para agregar al carrito.");
+            alert("Log in to add product to cart.");
         }
     };
 
@@ -110,77 +111,76 @@ const Cards = () => {
     });
 
     if (loading) {
-        return <div>Cargando productos...</div>;
+        return <div className="flex flex-col justify-center text-black">Loading menu...</div>;
     }
 
     return (
-        <div className="p-4">
-            <div className="flex justify-center mb-4">
+        <div className="p-5 bg-gray-100 rounded-lg shadow-md">
+            <div className="mb-5 text-center">
                 <input
                     type="text"
                     placeholder="Search dish..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="border border-gray-300 rounded-md px-3 py-1 text-gray-700"
+                    className="p-2 rounded border border-gray-300"
                 />
             </div>
-    
+
             <div className="flex justify-center mb-4">
                 <button onClick={() => setFilter("Beverages")} className="mx-2 bg-secondary text-white py-1 px-3 rounded">Beverages</button>
                 <button onClick={() => setFilter("Main Dishes")} className="mx-2 bg-secondary text-white py-1 px-3 rounded">Main Dishes</button>
                 <button onClick={() => setFilter("Appetizers")} className="mx-2 bg-secondary text-white py-1 px-3 rounded">Appetizers</button>
                 <button onClick={() => setFilter("Sides")} className="mx-2 bg-secondary text-white py-1 px-3 rounded">Sides</button>
                 <button onClick={() => setFilter("Desserts")} className="mx-2 bg-secondary text-white py-1 px-3 rounded">Desserts</button>
-                <button onClick={() => setShowFavorites(!showFavorites)} className="mx-2 bg-secondary text-white py-1 px-3 rounded">{showFavorites ? "Watch all" : "Watch favorities"}</button>
+                <button onClick={() => setShowFavorites(!showFavorites)} className="mx-2 bg-secondary text-white py-1 px-3 rounded">{showFavorites ? "Watch all" : "Watch favorites"}</button>
                 <button onClick={() => setFilter("")} className="mx-2 bg-gray-500 text-white py-1 px-3 rounded">Clear Filter</button>
             </div>
-    
-            <div className="w-[80%] h-auto flex flex-wrap justify-evenly m-auto">
+
+            <div className="flex flex-wrap justify-center">
                 {filteredProducts.map((product) => (
-                    <Link href={`/product/${product.product_id}`} key={product.product_id}>
-                        <div className="w-[30%] h-44 flex items-center bg-primary shadow-2xl rounded-xl my-6 px-5 hover:scale-105 duration-500">
-                            <div className="w-1/2">
-                                <div className="relative w-36 h-36">
+                    <div key={product.product_id} className="w-52 m-2 bg-white rounded-lg shadow-md p-2 transition-transform hover:scale-105">
+                        <Link href={`/product/${product.product_id}`}>
+                            <div className="text-center cursor-pointer">
+                                <div className=" mx-auto overflow-hidden rounded-lg">
                                     <Image
                                         src={product.image_url}
                                         alt={product.product_name}
-                                        layout="fill"
+                                        layout="responsive"
+                                        width={80}
+                                        height={80}
                                         objectFit="contain"
-                                        className="w-full h-auto"
                                     />
                                 </div>
+                                <h2 className="text-black text-lg">{product.product_name}</h2>
                             </div>
-                            <div className="w-1/2">
-                                <div>
-                                    <h2 className="text-black text-xl font-semibold">{product.product_name}</h2>
-                                    <p className="w-full text-black text-sm line-clamp-2">
-                                        <b>Description:</b> {product.description}
-                                    </p>
-                                </div>
-                                <div className="w-full flex justify-between items-center z-50">
-                                    <p className="text-black text-sm"><b>Price:</b> ${product.price}</p>
-                                    <button
-                                        className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleAddCart(product.product_id);
-                                        }}
-                                    >
-                                        Add to cart
-                                    </button>
-                                    <button
-                                        className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleAddToFavorities(product.product_id, favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id));
-                                        }}
-                                    >
-                                        {favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id) ? "Delete from favorites" : "Add to favorites"}
-                                    </button>
-                                </div>
-                            </div>
+                        </Link>
+                        <div className="text-left">
+                            <p className="text-black">
+                                <b>Description:</b> {product.description}
+                            </p>
                         </div>
-                    </Link>
+                        <div className="flex justify-between items-center">
+                            <p className="text-black"><b>Price:</b> ${product.price}</p>
+                            <button
+                                className="bg-secondary text-white p-2 rounded-md"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleAddCart(product.product_id);
+                                }}
+                            >
+                                Add to cart
+                            </button>
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleAddToFavorities(product.product_id, favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id) ?? false);
+                                }}
+                                className="bg-transparent border-none cursor-pointer text-gold text-2xl"
+                            >
+                                {favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id) ? '★' : '☆'}
+                            </button>
+                        </div>
+                    </div>
                 ))}
             </div>
         </div>
