@@ -1,0 +1,162 @@
+[
+  {
+    "product_id": "123e4567-e89b-12d3-a456-426655440004",
+    "product_name": "Bruschetta",
+    "price": 99.99,
+    "description": "Fresh tomatoes on toasted bread with basil",
+"image_url": "https://especiasmontero.com/wp-content/uploads/2019/09/cheeseburguer-1.jpg",    "available": true,
+    "category": "Appetizers"
+  },
+  {
+    "product_id": "123e4567-e89b-12d3-a456-426655440005",
+    "product_name": "Mozzarella Sticks",
+    "price": 149.99,
+    "description": "Crispy breaded mozzarella sticks served with marinara sauce",
+"image_url": "https://especiasmontero.com/wp-content/uploads/2019/09/cheeseburguer-1.jpg",    "available": true,
+    "category": "Appetizers"
+  },
+  {
+    "product_id": "123e4567-e89b-12d3-a456-426655440006",
+    "product_name": "Chicken Wings",
+    "price": 199.99,
+    "description": "Spicy buffalo wings served with ranch dip",
+"image_url": "https://especiasmontero.com/wp-content/uploads/2019/09/cheeseburguer-1.jpg",    "available": true,
+    "category": "Appetizers"
+  },
+  {
+    "product_id": "123e4567-e89b-12d3-a456-426655440007",
+    "product_name": "Stuffed Mushrooms",
+    "price": 129.99,
+    "description": "Mushrooms stuffed with cheese and garlic",
+"image_url": "https://especiasmontero.com/wp-content/uploads/2019/09/cheeseburguer-1.jpg",    "available": true,
+    "category": "Appetizers"
+  },
+  {
+    "product_id": "123e4567-e89b-12d3-a456-426655440008",
+    "product_name": "Steak",
+    "price": 299.99,
+    "description": "Grilled steak with a side of mashed potatoes",
+"image_url": "https://especiasmontero.com/wp-content/uploads/2019/09/cheeseburguer-1.jpg",    "available": true,
+    "category": "Main Dishes"
+  },
+  {
+    "product_id": "123e4567-e89b-12d3-a456-426655440009",
+    "product_name": "Grilled Chicken",
+    "price": 249.99,
+    "description": "Juicy grilled chicken with roasted vegetables",
+"image_url": "https://especiasmontero.com/wp-content/uploads/2019/09/cheeseburguer-1.jpg",    "available": true,
+    "category": "Main Dishes"
+  },
+  {
+    "product_id": "123e4567-e89b-12d3-a456-426655440010",
+    "product_name": "Spaghetti Bolognese",
+    "price": 199.99,
+    "description": "Classic spaghetti with meat sauce",
+"image_url": "https://especiasmontero.com/wp-content/uploads/2019/09/cheeseburguer-1.jpg",    "available": true,
+    "category": "Main Dishes"
+  },
+  {
+    "product_id": "123e4567-e89b-12d3-a456-426655440011",
+    "product_name": "Salmon",
+    "price": 279.99,
+    "description": "Grilled salmon with lemon butter sauce",
+"image_url": "https://especiasmontero.com/wp-content/uploads/2019/09/cheeseburguer-1.jpg",    "available": true,
+    "category": "Main Dishes"
+  },
+  {
+    "product_id": "123e4567-e89b-12d3-a456-426655440012",
+    "product_name": "Coke",
+    "price": 49.99,
+    "description": "Refreshing Coca-Cola",
+"image_url": "https://especiasmontero.com/wp-content/uploads/2019/09/cheeseburguer-1.jpg",    "available": true,
+    "category": "Beverages"
+  },
+  {
+    "product_id": "123e4567-e89b-12d3-a456-426655440013",
+    "product_name": "Lemonade",
+    "price": 59.99,
+    "description": "Freshly squeezed lemonade",
+"image_url": "https://especiasmontero.com/wp-content/uploads/2019/09/cheeseburguer-1.jpg",    "available": true,
+    "category": "Beverages"
+  },
+  {
+    "product_id": "123e4567-e89b-12d3-a456-426655440014",
+    "product_name": "Iced Tea",
+    "price": 59.99,
+    "description": "Chilled iced tea with a lemon wedge",
+"image_url": "https://especiasmontero.com/wp-content/uploads/2019/09/cheeseburguer-1.jpg",    "available": true,
+    "category": "Beverages"
+  },
+  {
+    "product_id": "123e4567-e89b-12d3-a456-426655440015",
+    "product_name": "Orange Juice",
+    "price": 69.99,
+    "description": "Freshly squeezed orange juice",
+"image_url": "https://especiasmontero.com/wp-content/uploads/2019/09/cheeseburguer-1.jpg",    "available": true,
+    "category": "Beverages"
+  },
+  {
+    "product_id": "123e4567-e89b-12d3-a456-426655440016",
+    "product_name": "Chocolate Cake",
+    "price": 99.99,
+    "description": "Rich chocolate cake with ganache",
+"image_url": "https://especiasmontero.com/wp-content/uploads/2019/09/cheeseburguer-1.jpg",    "available": true,
+    "category": "Desserts"
+  },
+  {
+    "product_id": "123e4567-e89b-12d3-a456-426655440017",
+    "product_name": "Cheesecake",
+    "price": 129.99,
+    "description": "Classic New York cheesecake",
+"image_url": "https://especiasmontero.com/wp-content/uploads/2019/09/cheeseburguer-1.jpg",    "available": true,
+    "category": "Desserts"
+  },
+  {
+    "product_id": "123e4567-e89b-12d3-a456-426655440018",
+    "product_name": "Ice Cream",
+    "price": 89.99,
+    "description": "Vanilla ice cream with chocolate sauce",
+"image_url": "https://especiasmontero.com/wp-content/uploads/2019/09/cheeseburguer-1.jpg",    "available": true,
+    "category": "Desserts"
+  },
+  {
+    "product_id": "123e4567-e89b-12d3-a456-426655440019",
+    "product_name": "Brownie",
+    "price": 119.99,
+    "description": "Warm brownie with a scoop of ice cream",
+"image_url": "https://especiasmontero.com/wp-content/uploads/2019/09/cheeseburguer-1.jpg",    "available": true,
+    "category": "Desserts"
+  },
+  {
+    "product_id": "123e4567-e89b-12d3-a456-426655440020",
+    "product_name": "French Fries",
+    "price": 49.99,
+    "description": "Crispy golden fries",
+"image_url": "https://especiasmontero.com/wp-content/uploads/2019/09/cheeseburguer-1.jpg",    "available": true,
+    "category": "Sides"
+  },
+  {
+    "product_id": "123e4567-e89b-12d3-a456-426655440021",
+    "product_name": "Onion Rings",
+    "price": 59.99,
+    "description": "Crispy onion rings",
+"image_url": "https://especiasmontero.com/wp-content/uploads/2019/09/cheeseburguer-1.jpg",    "available": true,
+    "category": "Sides"
+  },
+  {
+    "product_id": "123e4567-e89b-12d3-a456-426655440022",
+    "product_name": "Mashed Potatoes",
+    "price": 69.99,
+    "description": "Creamy mashed potatoes",
+"image_url": "https://especiasmontero.com/wp-content/uploads/2019/09/cheeseburguer-1.jpg",    "available": true,
+    "category": "Sides"
+  },
+  {
+    "product_id": "123e4567-e89b-12d3-a456-426655440023",
+    "product_name": "Coleslaw",
+    "price": 49.99,
+    "description": "Fresh coleslaw with a tangy dressing",
+"image_url": "https://especiasmontero.com/wp-content/uploads/2019/09/cheeseburguer-1.jpg",    "available": true,
+    "category": "Sides"
+  }
+]
