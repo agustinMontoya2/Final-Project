@@ -15,14 +15,12 @@ export async function formReserve(userData: IReserve) {
         if (response.ok) {
             if (contentType && contentType.includes("application/json")) {
                 const result = await response.json();
-                return result;
-            } else {
-                const textResponse = await response.text();
-                return { message: textResponse }; 
-            }
+                return result.message
+            } 
         } else {
-            const errorText = await response.text();
-            throw new Error(`Error en la solicitud: ${errorText}`);
+            const result = await response.json();
+            throw new Error(result.message)
+
         }
     } catch (error: unknown) {
         if (error instanceof Error) {
@@ -33,4 +31,17 @@ export async function formReserve(userData: IReserve) {
     }
 }
 
-
+export async function getReservation(user_id: string,token: string) {
+    try {
+      const res = await fetch(`${APIURL}/reservations/${user_id}`, {
+        method: "GET",
+        cache: "no-cache",
+        headers: { "Content-Type": "application/json", Authorization: token },
+      });
+  
+      const orders = await res.json();
+      return orders;
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }

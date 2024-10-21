@@ -1,9 +1,8 @@
 "use client";
 
 import { getProductsDB } from "@/Helpers/products.helper";
-import { IProducts } from "@/interfaces/productoInterface";
+import { IProducts, ICart, IFavorities } from "@/interfaces/productoInterface";
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { addFavorities, removeFavorities, getFavorities } from "@/lib/server/favorities";
 import { addCart } from "@/lib/server/cart";
@@ -15,8 +14,9 @@ const Cards = () => {
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
-    const [favorities, setFavorities] = useState<string[]>([]);
-    const [cart, setCart] = useState<string[]>([]); 
+    const [favorities, setFavorities] = useState<IFavorities>(); 
+    const [cart, setCart] = useState<ICart>(); 
+    const [showFavorites, setShowFavorites] = useState(false);
 
     useEffect(() => {
         const storedUserData = window.localStorage.getItem("userSession");
@@ -25,73 +25,75 @@ const Cards = () => {
             if (parsedData && parsedData.user) {
                 setUserId(parsedData.user.user_id);
                 setToken(parsedData.token);
+                fetchProducts()
+                fetchFavorities()
             }
         }
     }, []);
 
     useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const productsData = await getProductsDB();
-                setProducts(productsData);
-            } catch (error) {
-                console.error("Error fetching products:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
+        if (userId && token) {
+            fetchProducts();
+            fetchFavorities();
+        }
+    }, [userId, token]);
 
-        fetchProducts();
-    }, []);
+    
+    const fetchProducts = async () => {
+        try {
+            const productsData = await getProductsDB();
+            setProducts(productsData);
+        } catch (error) {
+            console.error("Error fetching products:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-    const handleGetFavorities = async (user_id: string, token: string) => {
+
+  
+
+    const fetchFavorities = async () => {
         if (token && userId) {
             try {
                 const favoritiesData = await getFavorities(userId, token);
                 setFavorities(favoritiesData);
-                console.log("Favoritos obtenidos:", favoritiesData);
             } catch (error) {
                 console.error("Error al obtener favoritos", error.message);
             }
-        } else {
-            alert("Inicia sesión para ver favoritos.");
         }
+        else {
+        console.log("no hay token");}
+        
     };
 
-    const handleAddToFavorities = async (productId: string, isFavorited: boolean) => {
-        console.log("Manejador de agregar a favoritos llamado");
-        console.log(`userId: ${userId}`);
-        console.log(`productId: ${productId}`);
-        console.log(`isFavorited: ${isFavorited}`);
 
+    const handleAddToFavorities = async (productId: string, isFavorited: boolean) => {
+        alert(isFavorited)
         if (token && userId) {
             try {
                 if (isFavorited) {
-                    console.log("Eliminando de favoritos...");
                     await removeFavorities(userId, productId, token);
-                    setFavorities((prevFavorities) => prevFavorities.filter((id) => id !== productId));
-                    console.log("Producto eliminado de favoritos:", productId);
+                    await fetchFavorities();
                 } else {
-                    console.log("Agregando a favoritos...");
-                    const result = await addFavorities(userId, productId, token);
-                    setFavorities((prevFavorities) => [...prevFavorities, productId]);
-                    console.log("Producto agregado a favoritos:", result);
+                    await addFavorities(userId, productId, token);
+                    await fetchFavorities();
                 }
             } catch (error) {
-                console.error("Error al agregar favoritos", error.message);
+                console.error("Error al manejar favoritos", error.message);
             }
         } else {
-            alert("Inicia sesión para agregar favoritos.");
+            alert("Inicia sesión para manejar favoritos.");
         }
     };
 
-    const handleAddCart = async (productId: string) => {
+    const handleAddCart = async (productId: string,) => {
         if (token && userId) {
             try {
-                await addCart(userId, productId, token);
-                setCart((prevCart) => [...prevCart, productId]);
-                alert("Producto agregado al carrito");
+                    await addCart(userId, productId, token);
+                    alert("Product added to cart")
             } catch (error) {
+                alert (`Error: ${error instanceof Error ? error.message : error}`);
                 console.error("Error al agregar al carrito", error.message);
             }
         } else {
@@ -102,7 +104,8 @@ const Cards = () => {
     const filteredProducts = products.filter((product) => {
         const matchesCategory = filter ? product.category.category_name === filter : true;
         const matchesSearch = product.product_name.toLowerCase().includes(searchTerm.toLowerCase());
-        return matchesCategory && matchesSearch;
+        const isFavorite = favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id) || false;
+        return matchesCategory && matchesSearch && (!showFavorites || isFavorite);
     });
 
     if (loading) {
@@ -127,6 +130,7 @@ const Cards = () => {
                 <button onClick={() => setFilter("Appetizers")} className="mx-2 bg-secondary text-white py-1 px-3 rounded">Appetizers</button>
                 <button onClick={() => setFilter("Sides")} className="mx-2 bg-secondary text-white py-1 px-3 rounded">Sides</button>
                 <button onClick={() => setFilter("Desserts")} className="mx-2 bg-secondary text-white py-1 px-3 rounded">Desserts</button>
+                <button onClick={() => setShowFavorites(!showFavorites)} className="mx-2 bg-secondary text-white py-1 px-3 rounded">{showFavorites ? "Mostrar Todos" : "Mostrar Favoritos"}</button>
                 <button onClick={() => setFilter("")} className="mx-2 bg-gray-500 text-white py-1 px-3 rounded">Clear Filter</button>
             </div>
 
@@ -153,25 +157,24 @@ const Cards = () => {
                             </div>
                             <div className="w-full flex justify-between items-center z-50">
                                 <p className="text-black text-sm"><b>Price:</b> ${product.price}</p>
-
                                 <button
                                     className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
                                     onClick={(e) => {
-                                        e.stopPropagation(); 
+                                        e.stopPropagation();
                                         handleAddCart(product.product_id);
                                     }}
                                 >
                                     Agregar a Carrito
                                 </button>
-
                                 <button
                                     className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
                                     onClick={(e) => {
-                                        e.stopPropagation();  
-                                        handleAddToFavorities(product.product_id, favorities.includes(product.product_id));
+                                        e.stopPropagation();
+                                        handleAddToFavorities(product.product_id, favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id));
+                                        
                                     }}
                                 >
-                                    {favorities.includes(product.product_id) ? "Eliminar de Favoritos" : "Agregar a Favoritos"}
+                                    {favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id) ? "Delete from favorities" : "Add to favorites" }
                                 </button>
                             </div>
                         </div>

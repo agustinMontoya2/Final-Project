@@ -75,7 +75,7 @@ export interface IProductsDetails {
 export interface ICart {
   cart_id: string;
   note: string;
-  product: IProductDetails[]
+  product: IProductsDetails[]
 }
 
 export interface IFavorities {

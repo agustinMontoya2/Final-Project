@@ -1,11 +1,8 @@
 'use client'
 import { IUserSession } from "@/interfaces/productoInterface";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import Swal from "sweetalert2";
 
 const ProfileV = () => {
-    const router = useRouter();
     const [userData, setUserData] = useState<IUserSession>();
 
     useEffect(() => {
@@ -15,26 +12,6 @@ const ProfileV = () => {
         }
     }, [])
 
-    const handleClick = () => {
-        localStorage.removeItem("userSession")
-
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 2500,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseenter = Swal.resumeTimer;
-            }
-        });
-        Toast.fire({
-            icon: 'success',
-            title: 'Logout successfully'
-        });
-    router.push("/menu")
-    }
 
     return(
         <div className="bg-white p-6 rounded-lg shadow-lg w-screen max-w-md mx-auto my-48" >
@@ -76,14 +53,6 @@ const ProfileV = () => {
                 </div>
             </div>
 
-            <div >
-                <button 
-                    onClick={handleClick} 
-                    className="w-4/5 bg-red-600 text-white font-bold py-2 rounded-lg hover:bg-red-700 transition duration-200"
-                >
-                    Log out
-                </button>
-            </div>
         </div>
     )
 }
