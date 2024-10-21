@@ -5,10 +5,8 @@ import React, { useState, useEffect } from 'react';
 import BackButton from '../BackButton/BackButton';
 import Dropdown from '../Dropdowm/Dropdown';
 
-// Define la interfaz para la sesión del usuario
 interface UserSession {
     name: string;
-    // Agrega otras propiedades que necesites aquí
 }
 
 export default function NavBarXL() {
@@ -39,14 +37,14 @@ export default function NavBarXL() {
                         <Image src={"/assets/logo-white.png"} alt="logo" layout='fill' objectFit='contain'/>
                     </div>
                 </Link>
-
-                <div className='w-2/3 flex justify-evenly'>
-                    <Link className="w-11 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/"}>
-                        <p className="text-white font-bold hover:text-neutral-300 duration-500">Home</p>
-                    </Link>
-                    <Link className="w-11 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/menu"}>
+                <div className='w-[35%] flex justify-evenly items-center'>
+                    <Link className="w-7 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/menu"}>
                         <p className="text-white font-bold hover:text-neutral-300 duration-500">Menú</p>
                     </Link>
+                    <Link className="w-7 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/reserve"}>
+                        <p className="text-white font-bold hover:text-neutral-300 duration-500">Reservation</p>
+                    </Link>
+                    
                     <Dropdown />
                 </div>
             </div>

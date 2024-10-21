@@ -6,6 +6,7 @@ const nextConfig = {
       "thefoodtech.com",
       "example.com",
       "especiasmontero.com",
+      "res.cloudinary.com",
     ],
   },
 };

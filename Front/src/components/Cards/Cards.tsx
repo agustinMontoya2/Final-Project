@@ -6,22 +6,22 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { addFavorities, removeFavorities, getFavorities } from "@/lib/server/favorities";
 import { addCart } from "@/lib/server/cart";
-import ProductFilter from "../Filter/Filter";
-import starOutline from '../../../public/assets/icon/staroutline.png';
-import starFilled from '../../../public/assets/icon/star.png';
-import Link from "next/link";
+import Link from 'next/link';
 import Swal from "sweetalert2";
 
 const Cards = () => {
     const [products, setProducts] = useState<IProducts[]>([]);
     const [loading, setLoading] = useState(true);
-    const [filter, setFilter] = useState<string>("");
+    const [filters, setFilters] = useState({
+        category: "",
+        showFavorites: false,
+        priceOrder: "" as "asc" | "desc" | "",
+    });
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
-    const [favorities, setFavorities] = useState<IFavorities>(); 
-    const [cart, setCart] = useState<ICart>(); 
-    const [showFavorites, setShowFavorites] = useState(false);
+    const [favorities, setFavorities] = useState<IFavorities>();
+    const [cart, setCart] = useState<ICart>();
 
     useEffect(() => {
         const storedUserData = window.localStorage.getItem("userSession");
@@ -30,8 +30,8 @@ const Cards = () => {
             if (parsedData && parsedData.user) {
                 setUserId(parsedData.user.user_id);
                 setToken(parsedData.token);
-                fetchProducts()
-                fetchFavorities()
+                fetchProducts();
+                fetchFavorities();
             }
         }
     }, []);
@@ -43,7 +43,6 @@ const Cards = () => {
         }
     }, [userId, token]);
 
-    
     const fetchProducts = async () => {
         try {
             const productsData = await getProductsDB();
@@ -55,9 +54,6 @@ const Cards = () => {
         }
     };
 
-
-  
-
     const fetchFavorities = async () => {
         if (token && userId) {
             try {
@@ -66,23 +62,22 @@ const Cards = () => {
             } catch (error) {
                 console.error("Error al obtener favoritos", error.message);
             }
+        } else {
+            console.log("no hay token");
         }
-        else {
-        console.log("no hay token");}
-        
     };
 
-
     const handleAddToFavorities = async (productId: string, isFavorited: boolean) => {
-        alert(isFavorited)
         if (token && userId) {
             try {
                 if (isFavorited) {
                     await removeFavorities(userId, productId, token);
                     await fetchFavorities();
+                    
                 } else {
                     await addFavorities(userId, productId, token);
                     await fetchFavorities();
+                    
                 }
             } catch (error) {
                 console.error("Error al manejar favoritos", error.message);
@@ -92,54 +87,62 @@ const Cards = () => {
         }
     };
 
-    const handleAddCart = async (productId: string,) => {
+    const handleAddCart = async (productId: string) => {
         if (token && userId) {
             try {
-                    await addCart(userId, productId, token);
-                    alert("Product added to cart")
+                await addCart(userId, productId, token);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Product added to the cart',
+                    toast: true,
+                    position: 'top-end',
+                    timer: 2500,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                });
             } catch (error) {
-                alert (`Error: ${error instanceof Error ? error.message : error}`);
-                console.error("Error al agregar al carrito", error.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Product has not been added to the cart',
+                    toast: true,
+                    position: 'top-end',
+                    timer: 2500,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                });
             }
         } else {
-            Swal.fire({
-                title: 'To add the product to the cart, log in.',
-                icon: 'warning',
-                confirmButtonText: 'accept',
-                confirmButtonColor: "#1988f0"
-            })
+            alert("Inicia sesión para agregar al carrito.");
         }
     };
 
-    const handleAddToFavorities = async (productId: string, isFavorited: boolean) => {
-        if (token && userId) {
-            try {
-                if (isFavorited) {
-                    await removeFavorities(userId, productId, token);
-                    setFavorities((prevFavorities) => prevFavorities.filter((id) => id !== productId));
-                } else {
-                    await addFavorities(userId, productId, token);
-                    setFavorities((prevFavorities) => [...prevFavorities, productId]);
-                }
-            } catch (error: any) {
-                console.error("Error al agregar favoritos", error.message);
-            }
-        } else {
-            Swal.fire({
-                title: 'To add to favorites, log in.',
-                icon: 'warning',
-                confirmButtonText: 'accept',
-                confirmButtonColor: "#1988f0"
-            })
-        }
+    const clearFilters = () => {
+        setFilters({
+            category: "",
+            showFavorites: false,
+            priceOrder: "",
+        });
+        setSearchTerm("");
     };
 
-    const filteredProducts = products.filter((product) => {
-        const matchesCategory = filter ? product.category.category_name === filter : true;
-        const matchesSearch = product.product_name.toLowerCase().includes(searchTerm.toLowerCase());
-        const isFavorite = favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id) || false;
-        return matchesCategory && matchesSearch && (!showFavorites || isFavorite);
-    });
+    const filteredProducts = products
+        .filter((product) => {
+            const matchesCategory = filters.category ? product.category.category_name === filters.category : true;
+            const matchesSearch = product.product_name.toLowerCase().includes(searchTerm.toLowerCase());
+            const isFavorite = filters.showFavorites
+                ? favorities?.product.some((favoriteProduct) => favoriteProduct.product_id === product.product_id)
+                : true;
+
+            return matchesCategory && matchesSearch && isFavorite;
+        })
+        .sort((a, b) => {
+            if (filters.priceOrder === "asc") {
+                return a.price - b.price;
+            } else if (filters.priceOrder === "desc") {
+                return b.price - a.price;
+            }
+            return 0;
+        });
 
     if (loading) {
         return <div>Cargando productos...</div>;
@@ -153,69 +156,82 @@ const Cards = () => {
                     placeholder="Search dish..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="border border-gray-300 rounded-md px-3 py-1 text-gray-700"
+                    className="border border-gray-300 rounded-md px-3 py-2 text-gray-700 w-full max-w-md"
                 />
             </div>
-    
-            <div className="flex justify-center mb-4">
-                <button onClick={() => setFilter("Beverages")} className="mx-2 bg-secondary text-white py-1 px-3 rounded">Beverages</button>
-                <button onClick={() => setFilter("Main Dishes")} className="mx-2 bg-secondary text-white py-1 px-3 rounded">Main Dishes</button>
-                <button onClick={() => setFilter("Appetizers")} className="mx-2 bg-secondary text-white py-1 px-3 rounded">Appetizers</button>
-                <button onClick={() => setFilter("Sides")} className="mx-2 bg-secondary text-white py-1 px-3 rounded">Sides</button>
-                <button onClick={() => setFilter("Desserts")} className="mx-2 bg-secondary text-white py-1 px-3 rounded">Desserts</button>
-                <button onClick={() => setShowFavorites(!showFavorites)} className="mx-2 bg-secondary text-white py-1 px-3 rounded">{showFavorites ? "Watch all" : "Watch favorities"}</button>
-                <button onClick={() => setFilter("")} className="mx-2 bg-gray-500 text-white py-1 px-3 rounded">Clear Filter</button>
+
+            <div className="flex justify-center mb-4 flex-wrap gap-2">
+                <button onClick={() => setFilters({ ...filters, category: "Beverages" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Beverages</button>
+                <button onClick={() => setFilters({ ...filters, category: "Main Dishes" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Main Dishes</button>
+                <button onClick={() => setFilters({ ...filters, category: "Appetizers" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Appetizers</button>
+                <button onClick={() => setFilters({ ...filters, category: "Sides" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Sides</button>
+                <button onClick={() => setFilters({ ...filters, category: "Desserts" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Desserts</button>
+                <button onClick={() => setFilters({ ...filters, showFavorites: !filters.showFavorites })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">
+                    {filters.showFavorites ? "Watch all" : "Watch favorites"}
+                </button>
+                <button onClick={clearFilters} className="bg-gray-500 text-white py-1 px-3 rounded hover:bg-gray-600">Clear Filter</button>
             </div>
-    
-            <div className="w-[80%] h-auto flex flex-wrap justify-evenly m-auto">
+
+            <div className="w-[50%] h-auto grid grid-cols-1 sm:grid-cols-2 gap-6 justify-evenly m-auto">
                 {filteredProducts.map((product) => (
-                    <Link href={`/product/${product.product_id}`} key={product.product_id}>
-                        <div className="w-[30%] h-44 flex items-center bg-primary shadow-2xl rounded-xl my-6 px-5 hover:scale-105 duration-500">
-                            <div className="w-1/2">
+                    <div key={product.product_id} className="flex items-center bg-primary shadow-2xl rounded-xl p-4 hover:scale-105 duration-500">
+                        <div className="w-1/2">
+                            <Link href={`/product/${product.product_id}`}>
                                 <div className="relative w-36 h-36">
                                     <Image
                                         src={product.image_url}
                                         alt={product.product_name}
                                         layout="fill"
                                         objectFit="contain"
-                                        className="w-full h-auto"
+                                        className="w-full h-auto rounded-md"
                                     />
                                 </div>
+                            </Link>
+                        </div>
+
+                        <div className="w-1/2 pl-4">
+                            <div className="flex items-center justify-between mb-2">
+                                <h2 className="text-black text-xl font-semibold">{product.product_name}</h2>
+                                <button
+                                    className="flex items-center justify-center"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleAddToFavorities(product.product_id, favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id));
+                                    }}
+                                >
+                                    <Image
+                                        src={favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id)
+                                            ? "/assets/icon/star.png"
+                                            : "/assets/icon/staroutline.png"}
+                                        alt="Favorite icon"
+                                        width={24}
+                                        height={24}
+                                    />
+                                </button>
                             </div>
-                            <div className="w-1/2">
-                                <div>
-                                    <h2 className="text-black text-xl font-semibold">{product.product_name}</h2>
-                                    <p className="w-full text-black text-sm line-clamp-2">
-                                        <b>Description:</b> {product.description}
-                                    </p>
-                                </div>
-                                <div className="w-full flex justify-between items-center z-50">
-                                    <p className="text-black text-sm"><b>Price:</b> ${product.price}</p>
-                                    <button
-                                        className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleAddCart(product.product_id);
-                                        }}
-                                    >
-                                        Add to cart
-                                    </button>
-                                    <button
-                                        className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleAddToFavorities(product.product_id, favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id));
-                                        }}
-                                    >
-                                        {favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id) ? "Delete from favorites" : "Add to favorites"}
-                                    </button>
-                                </div>
+                            <p className="text-black text-sm line-clamp-2 mb-2">
+                                <b>Description:</b> {product.description}
+                            </p>
+                            <div className="w-full flex justify-between items-center">
+                                <p className="text-black text-sm"><b>Price:</b> ${product.price}</p>
+
+                                {/* Botón para agregar al carrito */}
+                                <button
+                                    className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleAddCart(product.product_id);
+                                    }}
+                                >
+                                    <Image src="/assets/icon/cart.png" width={20} height={20} alt="comprar" />
+                                </button>
                             </div>
                         </div>
-                    </Link>
+                    </div>
                 ))}
             </div>
         </div>
     );
-}
+};
+
 export default Cards;

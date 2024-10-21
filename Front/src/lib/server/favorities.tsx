@@ -13,7 +13,6 @@ export async function addFavorities(userId: string, productId: string, token: st
         });
 
         const responseText = await response.text();
-
         if (response.ok) {
             const result = JSON.parse(responseText);
             return result; 
@@ -72,7 +71,6 @@ export async function getFavorities(userId: string, token: string) {
 
         if (response.ok) {
             const favorites = JSON.parse(responseText);
-            console.log("Favoritos obtenidos:", favorites);
             
             return favorites;  
         } else {

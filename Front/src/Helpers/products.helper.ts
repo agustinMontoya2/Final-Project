@@ -25,7 +25,6 @@ export async function getProductsById(id: string): Promise<IProducts> {
     const productfiltered = products.find(
       (product) => product.product_id.toString() === id
     );
-    console.log("Buscando producto con ID:", id);
     if (!productfiltered) throw new Error("No existe el producto");
     return productfiltered;
   } catch (error: any) {
@@ -63,4 +62,5 @@ export async function getProduct(product_id: string) {
     }
 }
 }
+
 

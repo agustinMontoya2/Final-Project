@@ -34,32 +34,6 @@ const NavBar = () => {
                                 </div>
                                 <p className="text-black font-extrabold text-2xl mr-1">Menú</p>
                             </div>
-                            <div>
-                                <hr className="border-t-2 border-white mt-4" />
-                                <Link href={"/"} className="w-2/3 h-14 bg-white my-6 m-auto rounded-xl shadow-xl flex justify-center items-center">
-                                    <span className="text-black font-bold text-xl">Pizzas</span>
-                                </Link>
-                                <hr className="border-t-2 border-white" />
-                                <Link href={"/"} className="w-2/3 h-14 bg-white my-6 m-auto rounded-xl shadow-xl flex justify-center items-center">
-                                    <span className="text-black font-bold text-xl">Burgers</span>
-                                </Link>
-                                <hr className="border-t-2 border-white" />
-                                <Link href={"/"} className="w-2/3 h-14 bg-white my-6 m-auto rounded-xl shadow-xl flex justify-center items-center">
-                                    <span className="text-black font-bold text-xl">Sandwiches</span>
-                                </Link>
-                                <hr className="border-t-2 border-white" />
-                                <Link href={"/"} className="w-2/3 h-14 bg-white my-6 m-auto rounded-xl shadow-xl flex justify-center items-center">
-                                    <span className="text-black font-bold text-xl">Chopped</span>
-                                </Link>
-                                <hr className="border-t-2 border-white" />
-                                <Link href={"/"} className="w-2/3 h-14 bg-white my-6 m-auto rounded-xl shadow-xl flex justify-center items-center">
-                                    <span className="text-black font-bold text-xl">Drinks</span>
-                                </Link>
-                                <hr className="border-t-2 border-white" />
-                                <Link href={"/"} className="w-2/3 h-14 bg-secondary my-6 m-auto rounded-xl shadow-xl flex justify-center items-center">
-                                    <span className="text-white font-bold text-xl">Reserve</span>
-                                </Link>
-                            </div>
                             <div className="h-1/4 flex items-center justify-center">
                                 <Link href={"/login"} onClick={toggleAside}>
                                     <span className="text-neutral-500 font-extrabold text-xl mr-4">Login</span>
@@ -78,7 +52,6 @@ const NavBar = () => {
                     >
                         <WhatsApp />
                     </aside>
-                    <div className="w-full h-20"></div>
                 </div>
             </div>
             <div className='w-10 mt-30 -mb-48 bg-yellow-400 p-4 cursor-pointer z-50 fixed'>

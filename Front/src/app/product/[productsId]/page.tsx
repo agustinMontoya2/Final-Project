@@ -1,4 +1,4 @@
-import ProductCards from "@/components/ProductsCard/ProductCards";
+import ProductCards from "@/components/productsCard/productCards";
 import { getProductsById } from "@/Helpers/products.helper";
 
 import React from 'react'
