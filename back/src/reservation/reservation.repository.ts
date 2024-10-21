@@ -72,7 +72,7 @@ export class ReservationRepository {
     }
     await this.reservationRepository.save(reservation);
 
-    return 'Reservation made successfully';
+    return { message: 'Reservation made successfully' };
   }
 
   async findAllReservationsRepository() {
