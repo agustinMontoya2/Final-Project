@@ -166,7 +166,7 @@ export class UsersRepository {
       await this.productDetailRepository.save(productDetail);
       return { message: 'quantity decreased' };
     } else {
-      throw new BadRequestException('Quantity cannot be less than 1');
+      await this.productDetailRepository.remove(productDetail);
       return { message: 'Product removed from cart successfully' };
     }
   }
