@@ -59,7 +59,7 @@ const Cards = () => {
             try {
                 const favoritiesData = await getFavorities(userId, token);
                 setFavorities(favoritiesData);
-            } catch (error) {
+            } catch (error: any) {
                 console.error("Error al obtener favoritos", error.message);
             }
         } else {
@@ -79,7 +79,7 @@ const Cards = () => {
                     await fetchFavorities();
                     
                 }
-            } catch (error) {
+            } catch (error: any) {
                 console.error("Error al manejar favoritos", error.message);
             }
         } else {
@@ -196,7 +196,10 @@ const Cards = () => {
                                     className="flex items-center justify-center"
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        handleAddToFavorities(product.product_id, favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id));
+                                        handleAddToFavorities(
+                                            product.product_id,
+                                            favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id) ?? false
+                                        );
                                     }}
                                 >
                                     <Image

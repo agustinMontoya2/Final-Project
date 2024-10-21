@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { IUserSession } from '@/interfaces/productoInterface';
 import Image from 'next/image';
@@ -8,9 +8,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
 
 export default function Dropdown() {
-    const [userSession, setUserSession] = useState<IUserSession | null>(null);
     const router = useRouter();
+    const [userSession, setUserSession] = useState<IUserSession | null>(null);
     const [isOpen, setIsOpen] = useState(false);
+    // const [token_auth0, setToken_auth0] = useState<string | null>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     const toggleDropdown = () => {
@@ -22,15 +23,23 @@ export default function Dropdown() {
         if (session) {
             setUserSession(JSON.parse(session));
         }
-    }, [])
+      }, []);
 
-    // useEffect(() => {
-    //     updateSession();+
-    //     window.addEventListener("userSessionUpdated", updateSession);
-    //     return () => {
-    //         window.removeEventListener("userSessionUpdated", updateSession);
+    //   useEffect(() => {
+    //     const currentUrl = window.location.href;
+    //     console.log('URL actual:', currentUrl); // Esto debería mostrar la URL actual
+
+    //     const url = new URL(currentUrl);
+    //     const tokenFromUrl = url.searchParams.get('token_auth0');
+
+    //     if (tokenFromUrl) {
+    //         console.log('Token extraído:', tokenFromUrl); // Este mensaje debería aparecer si hay un token
+    //         localStorage.setItem('token_auth0', tokenFromUrl);
+    //     } else {
+    //         console.log('No se encontró el token.');
     //     }
     // }, []);
+    
 
     const handleClickOutside = (event: MouseEvent) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -57,7 +66,9 @@ export default function Dropdown() {
         }).then((result) => {
             if (result.isConfirmed) {
                 localStorage.removeItem('userSession');
+                // localStorage.removeItem('token_auth0'); // También elimina el token al hacer logout
                 setUserSession(null);
+                // setToken_auth0(null); // Resetea el estado del token
                 router.push('/');
                 window.dispatchEvent(new Event("userSessionUpdated"));
             }
@@ -66,34 +77,38 @@ export default function Dropdown() {
 
     return (
         <div className="relative flex items-center" ref={dropdownRef}>
-            <div className='w-12 h-12 cursor-pointer relative' onClick={toggleDropdown}>
-                <Image src="/assets/icon/profile.png" layout='fill' objectFit='contain' alt='' />
-            </div>
+            {
+                userSession?.user?.user_img ? (
+                    <Image src={userSession.user.user_img} width={50} height={50} alt="profile" className="m-auto rounded-full" onClick={toggleDropdown} />
+                ) : (
+                    <Image src="/assets/icon/profile.png" width={50} height={50} alt="profile" className="m-auto" onClick={toggleDropdown} />
+                )
+            }
             <div className={`absolute right-0 w-44 bg-white border rounded shadow-lg z-10 transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'}`} style={{ top: '100%', marginTop: '8px' }}>
                 {userSession ? (
                     <div>
-                        <Link className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100  text-black font-bold" href={"/profile"}>
+                        <Link className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100 text-black font-bold" href={"/profile"}>
                             <p className="text-black font-bold">Profile</p>
-                            <Image src={"/assets/icon/personblack.png"} width={23} height={23} alt=''></Image>
+                            <Image src={"/assets/icon/personblack.png"} width={23} height={23} alt='' />
                         </Link>
-                        <Link className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100  text-black font-bold" href={"/reservations"}>
+                        <Link className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100 text-black font-bold" href={"/reservations"}>
                             <p className="text-black font-bold">My reservations</p>
-                            <Image src={"/assets/icon/reserve.png"} width={23} height={23} alt=''></Image>
+                            <Image src={"/assets/icon/reserve.png"} width={23} height={23} alt='' />
                         </Link>
-                        <Link className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100  text-black font-bold" href={"/favorites"}>
+                        <Link className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100 text-black font-bold" href={"/favorites"}>
                             <p className="text-black font-bold">Favorite dishes</p>
-                            <Image src={"/assets/icon/star.png"} width={23} height={23} alt=''></Image>
+                            <Image src={"/assets/icon/star.png"} width={23} height={23} alt='' />
                         </Link>
-                        <Link className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100  text-black font-bold" href={"/orders"}>
+                        <Link className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100 text-black font-bold" href={"/orders"}>
                             <p className="text-black font-bold">My orders</p>
-                            <Image src={"/assets/icon/listblack.png"} width={23} height={23} alt=''></Image>
+                            <Image src={"/assets/icon/listblack.png"} width={23} height={23} alt='' />
                         </Link>
-                        <Link className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100  text-black font-bold" href={"/cart"}>
+                        <Link className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100 text-black font-bold" href={"/cart"}>
                             <p className="text-black font-bold">Cart</p>
-                            <Image src={"/assets/icon/cartblack.png"} width={23} height={23} alt=''></Image>
+                            <Image src={"/assets/icon/cartblack.png"} width={23} height={23} alt='' />
                         </Link>
                         <button
-                            className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100  text-black font-bold"
+                            className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100 text-black font-bold"
                             onClick={handleLogout}
                         >
                             Logout
@@ -106,7 +121,7 @@ export default function Dropdown() {
                             <p className="text-black font-bold">Login</p>
                             <Image src="/assets/icon/login.png" width={"25"} height="25" alt='' />
                         </Link>
-                        <Link className=" w-full text-left px-2 py-2 hover:bg-gray-100 flex " href={"/register"}>
+                        <Link className="w-full text-left px-2 py-2 hover:bg-gray-100 flex" href={"/register"}>
                             <p className="text-black font-bold">Register</p>
                         </Link>
                     </>
@@ -117,5 +132,4 @@ export default function Dropdown() {
             )}
         </div>
     );
-    
 }

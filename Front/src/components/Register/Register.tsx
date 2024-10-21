@@ -6,6 +6,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
+import Image from 'next/image';
 
 const Register = () => {
 
@@ -18,6 +19,10 @@ const Register = () => {
         phone: "",
         password: "",
         confirmPassword: "",
+    };
+
+    const handleGoogleLogin = () => {
+        window.location.href = "http://localhost:3000/auth/login";
     };
 
     const [userData, setUserData] = useState<IRegister>(initialState);
@@ -98,9 +103,22 @@ const Register = () => {
                     type="submit"
                     className="w-4/5 bg-red-600 text-white font-bold py-2 rounded-lg hover:bg-red-700 transition duration-200"
                 >
-                    Check in
+                    Register
                 </button>
                 <Link href="/login" className='text-neutral-800 mt-2 hover:underline'>Do you already have an account? Login</Link>
+                <p className='text-neutral-800'>Or:</p>
+                <div className="w-1/2 mt-2 flex items-center">
+                    <button
+                        type="button"
+                        onClick={handleGoogleLogin}
+                        className="w-full bg-white text-neutral-700 font-bold py-2 rounded-lg flex items-center justify-center hover:bg-neutral-100 transition duration-200"
+                    >
+                        <div className='w-auto px-2'>
+                            <Image src="/assets/icon/google.png" width={30} height={30} alt="google" className="mr-2" />
+                        </div>
+                        <span className="flex-grow text-center">Continue with Google</span>
+                    </button>
+                </div>
             </form>
         </div>
     );

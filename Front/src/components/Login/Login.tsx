@@ -2,6 +2,7 @@
 
 import { ILogin } from '@/interfaces/productoInterface';
 import { formLogin } from '@/lib/server/auth';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -20,9 +21,12 @@ const Login = () => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setUserData({
-            ...userData, 
+            ...userData,
             [name]: value
         });
+    };
+    const handleGoogleLogin = () => {
+        window.location.href = "http://localhost:3000/auth/login";
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -54,7 +58,7 @@ const Login = () => {
             if(error instanceof Error){
                 Swal.fire({
                     title: 'Error',
-                    text: error.message, 
+                    text: error.message,
                     icon: 'error',
                     timer: 2000
                 });
@@ -107,6 +111,18 @@ const Login = () => {
                     Login
                 </button>
                 <Link href="/register" className='text-neutral-800 mt-2 hover:underline'>Don&apos;t have an account? Register</Link>
+                <div className="w-1/2 mt-2 flex items-center">
+                    <button
+                        type="button"
+                        onClick={handleGoogleLogin}
+                        className="w-full bg-white text-neutral-700 font-bold py-2 rounded-lg flex items-center justify-center hover:bg-neutral-100 transition duration-200"
+                    >
+                        <div className='w-auto px-2'>
+                            <Image src="/assets/icon/google.png" width={30} height={30} alt="google" className="mr-2" />
+                        </div>
+                        <span className="flex-grow text-center">Continue with Google</span>
+                    </button>
+                </div>
             </form>
             <div className='w-full h-20'></div>
         </div>
