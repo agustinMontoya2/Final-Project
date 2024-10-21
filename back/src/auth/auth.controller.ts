@@ -1,16 +1,9 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Res, Query } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/create-user.dto';
 import { LogInDto } from './dto/create-user.dto';
 import { MailService } from 'src/mail/mail.service';
+import { Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -49,9 +42,36 @@ export class AuthController {
     return { message: 'Password has been reset successfully' };
   }
 
-  @Post('testEmail')
-  async testEmail() {
-    await this.mailService.resetPasswordEmail('chapa.fg@hotmail.com', 'prueba');
-    return { message: 'Test email sent' };
+  //auth0 rutas de login y logout
+  @Get('login')
+  login(@Res() res: Response) {
+    const redirectUri = 'http://localhost:3000/auth/callback';
+    const domain = process.env.AUTH0_BASE_URL;
+    const clientId = process.env.AUTH0_CLIENT_ID;
+    const url = `https://${domain}/authorize?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=openid profile email`;
+    res.redirect(url);
+  }
+
+  @Get('callback')
+  async handleAuthCallback(@Query('code') code: string, @Res() res: Response) {
+    if (!code) {
+      return res.status(400).json({ error: 'No code received' });
+    }
+
+    // Intercambiar el código por un token
+    const token = await this.authService.exchangeCodeForToken(code);
+
+    if (token) {
+      // Redirigir al frontend pasando el token como parámetro
+      const frontendUrl = `http://localhost:4000?token=${token}`;
+      return res.redirect(frontendUrl); // Redirige al frontend con el token
+    } else {
+      return res.status(500).json({ error: 'Failed to get token' });
+    }
+  }
+
+  @Get('logout')
+  logout(@Res() res: Response) {
+    res.oidc.logout({ returnTo: 'http://localhost:4000' }); // Redirige a localhost:4000 después del logout
   }
 }

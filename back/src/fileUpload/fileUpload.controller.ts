@@ -6,7 +6,6 @@ import {
   ParseFilePipe,
   Post,
   UploadedFile,
-  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileUploadService } from './fileUpload.service';

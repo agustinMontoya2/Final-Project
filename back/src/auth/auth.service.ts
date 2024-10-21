@@ -12,6 +12,8 @@ import { Credential } from './entities/credential.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { MailService } from 'src/mail/mail.service';
+import axios from 'axios';
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -78,14 +80,28 @@ export class AuthService {
     await this.mailService.resetPasswordEmail(user.email, resetLink);
   }
 
-  async resetPassword(email: string, newPassword: string): Promise<void> {
+  async resetPassword(email: string, newPassword: string) {
     const user = await this.credentialRepository.findOneBy({ email });
     if (!user) {
       throw new Error('User not found');
     }
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
     await this.credentialRepository.update(
       { email: user.email },
-      { password: newPassword },
+      { password: hashedPassword },
     );
+  }
+
+  async exchangeCodeForToken(code: string): Promise<string> {
+    const url = `https://${process.env.AUTH0_BASE_URL}/oauth/token`; // Asegúrate de que AUTH0_DOMAIN esté en tu .env
+    const response = await axios.post(url, {
+      grant_type: 'authorization_code',
+      client_id: process.env.AUTH0_CLIENT_ID, // Asegúrate de que AUTH0_CLIENT_ID esté en tu .env
+      client_secret: process.env.AUTH0_SECRET, // Asegúrate de que AUTH0_CLIENT_SECRET esté en tu .env
+      code,
+      redirect_uri: `http://localhost:3000/auth/callback`, // Ajusta según tu configuración
+    });
+
+    return response.data.access_token; // Retorna el token
   }
 }
