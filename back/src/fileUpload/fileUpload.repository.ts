@@ -8,12 +8,16 @@ import { UploadApiResponse, v2 as cloudinary } from 'cloudinary';
 import { Repository } from 'typeorm';
 import toStream = require('buffer-to-stream');
 import { Product } from 'src/products/entities/product.entity';
+import { User } from 'src/users/entities/user.entity';
+import { isUUID } from 'class-validator';
 
 @Injectable()
 export class FileUploadRepository {
   constructor(
     @InjectRepository(Product)
     private readonly productsRepository: Repository<Product>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
 
   async uploadImage(id: string, file: Express.Multer.File) {
@@ -44,5 +48,36 @@ export class FileUploadRepository {
       console.error(error);
       throw new BadRequestException(`File upload error: ${error.message}`);
     }
+  }
+
+
+  async uploadImageProfileRepository(user_id: string, file: Express.Multer.File) {
+
+    if(!isUUID) {
+      throw new BadRequestException('user_id is not UUID')
+    }
+
+    const user = await this.userRepository.findOneBy({user_id})
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const value: Promise<UploadApiResponse> = new Promise(
+      (resolve, reject) => {
+        const upload = cloudinary.uploader.upload_stream(
+          { resource_type: 'auto' },
+          (error, result) => (error ? reject(error) : resolve(result)),
+        );
+        toStream(file.buffer).pipe(upload);
+      },
+    );
+
+    user.user_img = (await value).secure_url;
+    await this.userRepository.save(user);
+  
+    return {message: 'image upload successfully'}
+
+
   }
 }

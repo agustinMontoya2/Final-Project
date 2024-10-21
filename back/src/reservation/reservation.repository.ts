@@ -72,7 +72,29 @@ export class ReservationRepository {
     }
     await this.reservationRepository.save(reservation);
 
-    return 'Reservation made successfully';
+    return { message: 'Reservation made successfully' };
+  }
+
+
+ async findAllReservationsByUserIdRepository(user_id: string) {
+
+    if(!isUUID(user_id)) {
+      throw new BadRequestException('user_id is not UUID')
+    }
+
+    const user = await this.userRepository.findOneBy({user_id})
+
+    if (!user) {
+      throw new NotFoundException(`User with ID ${user_id} not found.`);
+   }
+
+    const reserve = await this.reservationRepository.find({where: {user}})
+
+    if (!reserve) {
+      throw new NotFoundException(`Reservation not found for user with ID ${user_id}.`);
+    }
+
+    return reserve;
   }
 
   async findAllReservationsRepository() {
