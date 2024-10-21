@@ -6,7 +6,11 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { addFavorities, removeFavorities, getFavorities } from "@/lib/server/favorities";
 import { addCart } from "@/lib/server/cart";
-import Link from 'next/link'
+import ProductFilter from "../Filter/Filter";
+import starOutline from '../../../public/assets/icon/staroutline.png';
+import starFilled from '../../../public/assets/icon/star.png';
+import Link from "next/link";
+import Swal from "sweetalert2";
 
 const Cards = () => {
     const [products, setProducts] = useState<IProducts[]>([]);
@@ -98,7 +102,35 @@ const Cards = () => {
                 console.error("Error al agregar al carrito", error.message);
             }
         } else {
-            alert("Inicia sesión para agregar al carrito.");
+            Swal.fire({
+                title: 'To add the product to the cart, log in.',
+                icon: 'warning',
+                confirmButtonText: 'accept',
+                confirmButtonColor: "#1988f0"
+            })
+        }
+    };
+
+    const handleAddToFavorities = async (productId: string, isFavorited: boolean) => {
+        if (token && userId) {
+            try {
+                if (isFavorited) {
+                    await removeFavorities(userId, productId, token);
+                    setFavorities((prevFavorities) => prevFavorities.filter((id) => id !== productId));
+                } else {
+                    await addFavorities(userId, productId, token);
+                    setFavorities((prevFavorities) => [...prevFavorities, productId]);
+                }
+            } catch (error: any) {
+                console.error("Error al agregar favoritos", error.message);
+            }
+        } else {
+            Swal.fire({
+                title: 'To add to favorites, log in.',
+                icon: 'warning',
+                confirmButtonText: 'accept',
+                confirmButtonColor: "#1988f0"
+            })
         }
     };
 

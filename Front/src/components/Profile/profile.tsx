@@ -62,7 +62,6 @@ const ProfileV = () => {
                     <p>{userData?.user?.address}</p>
                 </div>
             </div>
-
         </div>
     )
 }

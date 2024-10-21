@@ -16,7 +16,7 @@ const CartView = () => {
             const parsedData = JSON.parse(storedUserData);
             if (parsedData && parsedData.user) {
                 setUserId(parsedData.user.user_id);
-                setToken(parsedData.token); 
+                setToken(parsedData.token);
             }
         }
     }, []);
@@ -25,13 +25,12 @@ const CartView = () => {
         if (userId && token) {
             try {
                 const items = await getCart(userId, token);
-                setCartItems(items); 
-            
+                setCartItems(items);
             } catch (error) {
             alert(error);
-            } 
+            }
         } else {
-            alert("Inicia sesión para ver el carrito. o lo que quieras"); 
+            alert("Inicia sesión para ver el carrito. o lo que quieras");
         }
     };
 
@@ -74,7 +73,7 @@ const handleAddCart = async (productId: string,) => {
                 await addCart(userId, productId, token);
                 setCart((prevCart) => [...prevCart, productId]);
                 await handleGetCart();
-        } catch (error) {
+        } catch (error: any) {
             alert (`Error: ${error instanceof Error ? error.message : error}`);
             console.error("Error al agregar al carrito", error.message);
         }
@@ -90,7 +89,7 @@ const handleAddCart = async (productId: string,) => {
 }, [userId, token]);
 
 
-    return (
+return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 py-8">
     <h1 className="text-3xl font-bold text-black mb-6">Cart</h1>
     {cartItems?.productDetail.length === 0 ? (

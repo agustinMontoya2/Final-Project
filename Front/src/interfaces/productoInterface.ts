@@ -29,7 +29,9 @@ export interface IProducts {
   price: number;
   description: string;
   image_url: string;
-  category: string;
+  category:{
+    category_name:string;
+  }
   available: boolean;
 }
 
@@ -61,7 +63,7 @@ export interface IUserSession {
   email: string;
   user: {
       address: string;
-      id: number;
+      id: string;
       name: string;
       phone: string;
       user_img: string
@@ -84,4 +86,11 @@ export interface ICart {
 export interface IFavorities {
   favorities_id: string;
   product: IProducts[];
+}
+
+export interface ProductFilterProps {
+  filter: string;
+  setFilter: (filter: string) => void;
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
 }

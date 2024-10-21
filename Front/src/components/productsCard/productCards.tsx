@@ -44,10 +44,9 @@ const handleAddCart = async (productId: string) => {
   };
 
   return (
-    <div className="flex flex-col items-center h-screen justify-center">
-      <div className="flex flex-col items-center p-2 w-1/4 bg-third rounded-lg">
-        <div className="mb-4 ">
-          <div className="relative w-64 h-64">
+      <div className="w-1/4 flex flex-col items-center p-2 bg-third rounded-lg m-auto">
+        <div className="w-full flex justify-center">
+          <div className="relative w-72 h-56">
             <Image
                 src={image_url}
                 alt={product_name}
@@ -57,10 +56,10 @@ const handleAddCart = async (productId: string) => {
             />
           </div>
         </div>
-        <div className="text-center">
+        <div className="w-full text-center">
           <h2 className="text-gray-900 text-xl font-bold mb-2">{product_name}</h2>
           <p className="text-gray-900 mb-2">{description}</p>
-          <p className="text-gray-900 text-lg font-semibold mb-4">{price}</p>
+          <p className="text-gray-900 text-lg font-semibold mb-4">${price}</p>
         </div>
         <div>
           <button
@@ -70,10 +69,7 @@ const handleAddCart = async (productId: string) => {
           </button>
         </div>
       </div>
-    </div>
-
   )
-
 }
 
 export default ProductCardsview;
