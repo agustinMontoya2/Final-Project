@@ -152,8 +152,15 @@ const CartView = () => {
                     </span>
                 </ul>
             )}
-            <button className="text-lg font-semibold text-black">
+            <button className="m-4 relative bg-gray-800 p-2 rounded-md text-lg font-semibold text-yellow-400 transition duration-300 overflow-hidden group">
                 Pay order
+                <style jsx>{`
+        .group:hover {
+            background: linear-gradient(to top, rgba(0, 255, 255, 0.5), rgba(0, 0, 255, 0.5));
+            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.5);
+            color: black;
+        }
+    `}</style>
             </button>
         </div>
     );
