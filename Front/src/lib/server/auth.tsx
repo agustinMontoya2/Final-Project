@@ -40,7 +40,6 @@ export async function formLogin(userData: ILogin) {
         });
         if (response.ok) {
             const responseData = await response.json();
-            console.log("Inicio de sesión exitoso:", responseData); 
             return responseData;
         } else {
             const errorData = await response.json(); 

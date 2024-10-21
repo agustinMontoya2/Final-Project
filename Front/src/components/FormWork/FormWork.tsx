@@ -31,7 +31,6 @@ const FormWork = () => {
 
         if (file) {
             // Aquí puedes manejar la subida del archivo
-            console.log("Archivo seleccionado:", file);
             // Implementa tu lógica para subir el archivo
         } else {
             Swal.fire({
@@ -52,7 +51,6 @@ const FormWork = () => {
 
         if (res.ok) {
             const data = await res.json();
-            console.log(data);
             Swal.fire({
                 title: "Sent",
                 text: "Thank you for considering working at Club Fellini Bar!",

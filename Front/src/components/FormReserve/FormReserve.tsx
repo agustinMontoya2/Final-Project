@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { IReserve,IUserSession } from '@/interfaces/productoInterface';
 import { formReserve,  } from '@/lib/server/reservation';
+import Swal from 'sweetalert2';
 // fetchReservations
 
 const ReservationForm: React.FC = () => {
@@ -66,9 +67,25 @@ const ReservationForm: React.FC = () => {
 
         try {
             const result = await formReserve({ user_id: userId, ...reservationData });
-            alert(result);
+            Swal.fire({
+                icon: 'success',
+                title: 'Reservation created',
+                toast: true,
+                position: 'top-end',
+                timer: 2500,
+                showConfirmButton: false,
+                timerProgressBar: true,
+            });
         } catch (error) {
-            alert(error);
+            Swal.fire({
+                icon: 'error',
+                title: 'No tables available',
+                toast: true,
+                position: 'top-end',
+                timer: 2500,
+                showConfirmButton: false,
+                timerProgressBar: true,
+            });
         }
     };
 

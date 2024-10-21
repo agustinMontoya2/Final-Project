@@ -1,15 +1,21 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { addCart, getCart, removeQuantityCart, removeProductCart } from '@/lib/server/cart';
+import { postOrder } from '@/lib/server/order';
 import Image from 'next/image';
-import { ICart } from '@/interfaces/productoInterface';
+import { ICart, IOrder } from '@/interfaces/productoInterface';
+import { useRouter } from 'next/navigation';
+import Swal from 'sweetalert2';
 
 const CartView = () => {
-    const [cartItems, setCartItems] = useState<ICart | null>();
+    const [cartItems, setCartItems] = useState<ICart | null>(null);
     const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
     const [totalCart, setTotalCart] = useState<number>(0);
-    const [cart, setCart] = useState<string[]>([]);
+    const [note, setNote] = useState<string>("");
+    const [deliveryOption, setDeliveryOption] = useState<string>("dine-in"); 
+    const [paymentOption, setPaymentOption] = useState<string>("cash"); 
+    const router = useRouter();
 
     useEffect(() => {
         const storedUserData = window.localStorage.getItem("userSession");
@@ -32,7 +38,7 @@ const CartView = () => {
                 alert(error);
             }
         } else {
-            alert("Inicia sesión para ver el carrito. o lo que quieras");
+            alert("Log in to view the cart.");
         }
     };
 
@@ -50,10 +56,9 @@ const CartView = () => {
             try {
                 const response = await removeQuantityCart(product_detail_id, token);
                 if (response) {
-
                     await handleGetCart();
                 } else {
-                    alert("Fail to delete the product from cart.");
+                    alert("Failed to delete the product from the cart.");
                 }
             } catch (error) {
                 alert(`Error: ${error instanceof Error ? error.message : error}`);
@@ -66,10 +71,9 @@ const CartView = () => {
             try {
                 const response = await removeProductCart(product_detail_id, token);
                 if (response) {
-
                     await handleGetCart();
                 } else {
-                    alert("Fail to delete the product from cart.");
+                    alert("Failed to delete the product from the cart.");
                 }
             } catch (error) {
                 alert(`Error: ${error instanceof Error ? error.message : error}`);
@@ -77,19 +81,56 @@ const CartView = () => {
         }
     };
 
-    const handleAddCart = async (productId: string,) => {
+    const handleAddCart = async (productId: string) => {
         if (token && userId) {
             try {
-
                 await addCart(userId, productId, token);
-                setCart((prevCart) => [...prevCart, productId]);
                 await handleGetCart();
             } catch (error) {
                 alert(`Error: ${error instanceof Error ? error.message : error}`);
                 console.error("Error to add product to cart");
             }
         } else {
-            alert("Log in to add product to cart.");
+            alert("Log in to add product to the cart.");
+        }
+    };
+
+    const handlePostOrder = async (orderData: IOrder) => {
+        if (!cartItems || cartItems.productDetail.length === 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Your cart is empty. Add products before finalizing the order.',
+                toast: true,
+                position: 'top-end',
+                timer: 2500,
+                showConfirmButton: false,
+                timerProgressBar: true,
+            });
+            return;
+        }
+    
+        if (userId && token && deliveryOption && paymentOption) {
+            try {
+                const response = await postOrder(orderData, token);
+                if (response) {
+                    await handleGetCart();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Order created',
+                        toast: true,
+                        position: 'top-end',
+                        timer: 2500,
+                        showConfirmButton: false,
+                        timerProgressBar: true,
+                    });
+    
+                    setNote("");
+                } else {
+                    alert("Failed to create the order.");
+                }
+            } catch (error) {
+                alert(`Error: ${error instanceof Error ? error.message : error}`);
+            }
         }
     };
 
@@ -99,6 +140,9 @@ const CartView = () => {
         }
     }, [userId, token]);
 
+    const handleFinishOrder = () => {
+        router.push('/menu'); 
+    };
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 py-8">
@@ -123,27 +167,26 @@ const CartView = () => {
                                     <p className="text-gray-600">Quantity: <span className="font-bold">{item.quantity}</span></p>
                                 </div>
                             </div>
-                            <button
-                                onClick={() => handleDeleteQuantityCart(item.product_detail_id)}
-                                className="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
-                            >
-                                -
-                            </button>
-                            <button
-                                className="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
-                                onClick={() => {
-                                    handleAddCart(item.product.product_id);
-                                }}
-                            >
-                                +
-                            </button>
-                            <button
-                                onClick={() => handleDeleteProductCart(item.product_detail_id)}
-                                className="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
-                            >
-                                Remove
-                            </button>
-
+                            <div className="flex space-x-2">
+                                <button
+                                    onClick={() => handleDeleteQuantityCart(item.product_detail_id)}
+                                    className="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
+                                >
+                                    -
+                                </button>
+                                <button
+                                    className="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
+                                    onClick={() => handleAddCart(item.product.product_id)}
+                                >
+                                    +
+                                </button>
+                                <button
+                                    onClick={() => handleDeleteProductCart(item.product_detail_id)}
+                                    className="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
+                                >
+                                    Remove
+                                </button>
+                            </div>
                         </li>
                     ))}
                     <span className="flex justify-between p-6">
@@ -152,15 +195,46 @@ const CartView = () => {
                     </span>
                 </ul>
             )}
-            <button className="m-4 relative bg-gray-800 p-2 rounded-md text-lg font-semibold text-yellow-400 transition duration-300 overflow-hidden group">
-                Pay order
-                <style jsx>{`
-        .group:hover {
-            background: linear-gradient(to top, rgba(0, 255, 255, 0.5), rgba(0, 0, 255, 0.5));
-            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.5);
-            color: black;
-        }
-    `}</style>
+
+            <div className="mt-4 w-[80%] max-w-4xl">
+                <textarea
+                    rows={3}
+                    value={note}
+                    onChange={(e) => setNote(e.target.value)}
+                    placeholder="Add any special requests or notes here..."
+                    className="w-full text-black p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+            </div>
+
+            <div className="mt-4 w-[80%] max-w-4xl">
+                <label className="block text-lg font-semibold text-black mb-2">Choose Option:</label>
+                <select
+                    value={deliveryOption}
+                    onChange={(e) => setDeliveryOption(e.target.value)}
+                    className="w-full text-black p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                    <option value="dine-in">Home delivery</option>
+                    <option value="takeout">delivery</option>
+                </select>
+            </div>
+            <div className="mt-4 w-[80%] max-w-4xl">
+                <label className="block text-lg font-semibold text-black mb-2">Choose Payment Method Option:</label>
+                <select
+                    value={paymentOption}
+                    onChange={(e) => setPaymentOption(e.target.value)}
+                    className="w-full text-black p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                    <option value="cash">Cash</option>
+                    <option value="Card">Card</option>
+                </select>
+            </div>
+
+            <button
+                onClick={()=> handlePostOrder({ userId,  order_type: deliveryOption, payment_method: paymentOption, note, })}
+                className="mt-6 bg-red-600 text-white font-bold px-6 py-2 rounded-lg hover:bg-red-700 transition duration-300"
+                disabled={!cartItems || cartItems.productDetail.length === 0} // Deshabilitar si el carrito está vacío
+            >
+                Finalize Order
             </button>
         </div>
     );

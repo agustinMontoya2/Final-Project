@@ -68,7 +68,7 @@ export class OrderRepository {
 
     await this.usersRepository.removeAllCart(user);
 
-    return { orderFinal, orderDetailFinal };
+    return { message: 'order created successfully' };
     return cart;
 
     // const orderDetail: OrderDetail = new OrderDetail();
@@ -88,5 +88,19 @@ export class OrderRepository {
     // return 'this.orderRepository.save(order)';
 
     // // const order = await this.orderRepository.save(createOrderDto);
+  }
+
+  async findOne(user_id) {
+    if (!isUUID(user_id)) throw new BadRequestException('Invalid ID');
+    const user = await this.userRepository.findOne({
+      where: { user_id },
+    });
+    if (!user) throw new NotFoundException('User not found');
+    const order = await this.orderRepository.find({
+      where: { user },
+      relations: ['orderDetail', 'orderDetail.productDetails'],
+    });
+    if (!order) throw new NotFoundException('Order not found');
+    return order;
   }
 }

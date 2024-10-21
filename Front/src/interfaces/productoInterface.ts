@@ -29,8 +29,9 @@ export interface IProducts {
   price: number;
   description: string;
   image_url: string;
-  category: {
-    category_name: string };
+  category:{
+    category_name:string;
+  }
   available: boolean;
 }
 
@@ -62,7 +63,7 @@ export interface IUserSession {
   email: string;
   user: {
       address: string;
-      id: number;
+      id: string;
       name: string;
       phone: string;
       user_img: string
@@ -86,4 +87,34 @@ export interface ICart {
 export interface IFavorities {
   favorities_id: string;
   product: IProducts[];
+}
+
+export interface ProductFilterProps {
+  filter: string;
+  setFilter: (filter: string) => void;
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
+}
+
+export interface IOrder {
+  userId: string;
+  order_type: string;
+  payment_type: string;
+  note: string;
+}
+
+export interface IGetOrder {
+  order_id: string
+  date: string,
+  state: string
+
+}
+
+export interface IOrderDetail {
+  order_detail_id: string
+  order_type: string
+  payment_method: string
+  total: string
+  note: string
+  productDetails: IProductsDetails[]
 }

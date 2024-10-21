@@ -5,7 +5,6 @@ import React from 'react';
 const Fav: React.FC<{ params: {productsId: string, userId: string }}> = async ({ params }) => {
   try {
     const products = await getFavorities(params.userId); 
-    console.log(products); 
 
     return (
       <div>
