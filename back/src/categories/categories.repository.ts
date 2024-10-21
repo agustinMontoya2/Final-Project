@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from './entities/category.entity';
 import { Repository } from 'typeorm';
-import { AddCategoryDto } from './dto/add-category.dto';
 import * as data from '../utils/Archivo.json';
 
 @Injectable()
@@ -14,28 +13,31 @@ export class CategoriesRepository {
 
   async preloadCategories() {
     for (const element of data) {
-      console.log('preloading categories...');
-      console.log(element);
+        const existingCategory = await this.categoriesRepository.findOneBy({
+            category_name: element.category
+        });
 
-      await this.categoriesRepository
-        .createQueryBuilder()
-        .insert()
-        .into(Category)
-        .values({
-          category_name: element.category,
-        })
-        .orIgnore()
-        .execute();
+        let category: Category;
+
+        if (existingCategory) {
+            category = existingCategory;
+        } else {
+            category = this.categoriesRepository.create({
+                category_name: element.category
+            });
+        }
+
+        await this.categoriesRepository.save(category);
+
+        console.log('preloading categories...');
+        console.log(element);
     }
-    const categories = await this.categoriesRepository.find();
-    console.log(categories);
 
     return 'Categories loaded';
-  }
+}
 
   async getCategories() {
     return await this.categoriesRepository.find();
   }
 
-  async createCategory(addCategoryDto: AddCategoryDto) {}
 }

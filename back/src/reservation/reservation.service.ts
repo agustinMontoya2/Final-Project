@@ -32,6 +32,10 @@ export class ReservationService implements OnApplicationBootstrap {
     );
   }
 
+   findOneReservationsByUserIdService(user_id: string) {
+    return this.repositoryReservation.findAllReservationsByUserIdRepository(user_id);
+  }
+
   findAllReservationsService() {
     return this.repositoryReservation.findAllReservationsRepository();
   }
