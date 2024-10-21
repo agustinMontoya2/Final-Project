@@ -11,6 +11,8 @@ import { OrderDetail } from './entities/orderDetail.entity';
 import { ProductDetail } from 'src/products/entities/productDetail.entity';
 import { UsersModule } from 'src/users/users.module';
 import { ProductsModule } from 'src/products/products.module';
+import { MailService } from 'src/mail/mail.service';
+import { Credential } from 'src/auth/entities/credential.entity';
 
 @Module({
   imports: [
@@ -20,11 +22,12 @@ import { ProductsModule } from 'src/products/products.module';
       User,
       Product,
       ProductDetail,
+      Credential,
     ]),
     UsersModule,
     ProductsModule,
   ],
   controllers: [OrderController],
-  providers: [OrderService, OrderRepository],
+  providers: [OrderService, OrderRepository, MailService],
 })
 export class OrderModule {}

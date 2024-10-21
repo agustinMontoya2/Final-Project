@@ -8,6 +8,7 @@ import { UsersRepository } from 'src/users/users.repository';
 @Injectable()
 export class OrderService {
   constructor(private readonly orderRepository: OrderRepository) {}
+
   create(createOrderDto: CreateOrderDto) {
     const { userId, order_type, payment_method, note } = createOrderDto;
 
