@@ -10,7 +10,6 @@ interface UserSession {
 }
 
 export default function NavBarXL() {
-    const [selectedCategory, setSelectedCategory] = useState("");
     const [userSession, setUserSession] = useState<UserSession | null>(null);
     const router = useRouter();
     const pathname = usePathname();

@@ -109,15 +109,15 @@ const FavoritesView: React.FC = () => {
                     <div className='px-3'>
                     <button 
                       onClick={() => handleAddToFavorities(product.product_id, favorites.product.some(fav => fav.product_id === product.product_id))} 
-                      className="mt-4  bg-red-200 text-black font-bold px-2 rounded-lg hover:bg-red-700 transition duration-300">
-                      {favorites.product.some(fav => fav.product_id === product.product_id) ? "Remove Favorites" : "Add to Favorites"}
+                      className="mt-4  bg-red-200 text-black font-bold px-2 p-3 rounded-lg hover:bg-red-700 transition duration-300">
+                      {favorites.product.some(fav => fav.product_id === product.product_id) ? "Remove " : "Add to Favorites"}
                     </button>
                     </div>
 
                     <div className='px-3'>
                     <button 
                       onClick={() => handleAddCart(product.product_id)} 
-                      className="mt-4 bg-red-200 text-black font-bold px-6 rounded-lg hover:bg-red-700 transition duration-300">Add  Cart</button>
+                      className="mt-4 bg-red-200 text-black font-bold px-6 rounded-lg hover:bg-red-700 transition duration-300">Add to Cart</button>
                     </div>
                   </div>
 
