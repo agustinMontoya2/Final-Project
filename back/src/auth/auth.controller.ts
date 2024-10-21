@@ -61,7 +61,7 @@ export class AuthController {
     const token = await this.authService.exchangeCodeForToken(code);
 
     if (token) {
-      const frontendUrl = `http://localhost:4000?token=${token}`;
+      const frontendUrl = `http://localhost:4000?token_auth0=${token}`;
       return res.redirect(frontendUrl);
     } else {
       return res.status(500).json({ error: 'Failed to get token' });
