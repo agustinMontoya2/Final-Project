@@ -48,9 +48,11 @@ export interface IRegister {
 }
 
 export interface IReserve {
+  reservation_id: string,
   ubication: string;
   date: string;
   time: string;
+  status: string;
   peopleCount: number;
 }
 
@@ -62,6 +64,7 @@ export interface IUserSession {
       id: number;
       name: string;
       phone: string;
+      user_img: string
       orders:[]
   }
 }

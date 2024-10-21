@@ -92,9 +92,9 @@ const handleAddCart = async (productId: string,) => {
 
     return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 py-8">
-    <h1 className="text-3xl font-bold text-black mb-6">Tu Carrito</h1>
+    <h1 className="text-3xl font-bold text-black mb-6">Cart</h1>
     {cartItems?.productDetail.length === 0 ? (
-        <p className="text-lg text-gray-700">No hay productos en tu carrito.</p>
+        <p className="text-lg text-gray-700">Your cart is empty.</p>
     ) : (
         <ul className="bg-white shadow-lg rounded-lg w-[80%] max-w-4xl">
             {cartItems?.productDetail.map((item) => (
@@ -109,8 +109,8 @@ const handleAddCart = async (productId: string,) => {
                         />
                         <div>
                             <h2 className="text-xl font-semibold text-black">{item.product.product_name}</h2>
-                            <p className="text-gray-600">Precio: <span className="font-bold">${parseFloat(item.subtotal).toFixed(2)}</span></p>
-                            <p className="text-gray-600">Cantidad: <span className="font-bold">{item.quantity}</span></p>
+                            <p className="text-gray-600">Price: <span className="font-bold">${parseFloat(item.subtotal).toFixed(2)}</span></p>
+                            <p className="text-gray-600">Quantity: <span className="font-bold">{item.quantity}</span></p>
                         </div>
                     </div>
                     <button 
@@ -131,7 +131,7 @@ const handleAddCart = async (productId: string,) => {
                         onClick={() => handleDeleteProductCart(item.product_detail_id)} 
                         className="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
                     >
-                        Eliminar
+                       Remove
                     </button>
                     
                 </li>

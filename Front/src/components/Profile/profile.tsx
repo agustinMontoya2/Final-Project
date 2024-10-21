@@ -18,6 +18,16 @@ const ProfileV = () => {
             <h1 className="text-2xl font-semibold mb-6 text-center text-gray-800">Account details</h1>
 
             <div className="flex justify-between items-center py-4 border-b border-gray-200">
+                
+            <div className="text-gray-800">
+    {userData?.user?.user_img ? (
+        <img src={userData.user.user_img} alt="profile picture" className="w-64 h-64 rounded-full object-cover" />
+    ) : (
+        <img src="https://freesvg.org/img/abstract-user-flat-4.png" alt="default picture" className="w-64 h-64 rounded-full object-cover" />
+    )}
+</div>
+            </div>
+            <div className="flex justify-between items-center py-4 border-b border-gray-200">
                 <div className="font-medium text-gray-600">
                     <p>Name</p>
                 </div>

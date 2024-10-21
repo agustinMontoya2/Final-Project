@@ -1,12 +1,44 @@
 "use client"
-import { IProducts } from "@/interfaces/productoInterface";
+import { IProducts, ICart } from "@/interfaces/productoInterface";
 import Image from "next/image";
 import React, { useState } from 'react'
+import { useEffect } from "react";
+import { addCart } from "@/lib/server/cart";
 
-const ProductCardsview: React.FC<IProducts> = ({ price, description, image_url, product_name }) => {
+const ProductCardsview: React.FC<IProducts> = ({product_id, price, description, image_url, product_name }) => {
   const [userMessage, setUserMessage] = useState<string>(" ")
+ 
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [userId, setUserId] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [cart, setCart] = useState<ICart>(); 
 
 
+  useEffect(() => {
+    const storedUserData = window.localStorage.getItem("userSession");
+    if (storedUserData) {
+      const parsedData = JSON.parse(storedUserData);
+      if (parsedData && parsedData.user) {
+          setUserId(parsedData.user.user_id);
+          setToken(parsedData.token);
+      }
+  }
+}, []);
+
+
+const handleAddCart = async (productId: string) => {
+  if (token && userId) {
+      try {
+          await addCart(userId, productId, token);
+          alert("Product added to cart");
+      } catch (error) {
+          alert(`Error: ${error instanceof Error ? error.message : error}`);
+          console.error("Error al agregar al carrito");
+      }
+  } else {
+      alert("Inicia sesión para agregar al carrito.");
+  }
+};
   const handleMessageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserMessage(event.target.value);
   };
@@ -31,16 +63,9 @@ const ProductCardsview: React.FC<IProducts> = ({ price, description, image_url, 
           <p className="text-gray-900 text-lg font-semibold mb-4">{price}</p>
         </div>
         <div>
-          <textarea
-            type="text"
-            value={userMessage}
-            onChange={handleMessageChange}
-            placeholder="Aclarcaciones..."
-            className="border text-black border-gray-300 rounded px-2 py-1 mb-4 w-full"
-          />
-        </div>
-        <div>
-          <button className="bg-secondary text-white font-semibold px-4 py-2 rounded hover:bg-red-700">
+          <button
+          onClick={() => handleAddCart(product_id)} 
+          className="bg-secondary text-white font-semibold px-4 py-2 rounded hover:bg-red-700">
             Add to Cart
           </button>
         </div>

@@ -22,26 +22,26 @@ export async function formReserve(userData: IReserve) {
             throw new Error(result.message)
 
         }
-    } catch (error: unknown) {
+    } catch (error: any) {
         if (error instanceof Error) {
             throw error;
         } else {
-            throw new Error("Ocurrió un error desconocido");
+            throw new Error(`Error: ${error instanceof Error ? error.message : error}`);
         }
     }
 }
 
-export async function getReservation(user_id: string,token: string) {
+export async function getReservations(user_id: string,token: string) {
     try {
-      const res = await fetch(`${APIURL}/reservations/${user_id}`, {
+    const res = await fetch(`${APIURL}/reservation/${user_id}`, {
         method: "GET",
         cache: "no-cache",
         headers: { "Content-Type": "application/json", Authorization: token },
-      });
-  
-      const orders = await res.json();
-      return orders;
+    });
+
+    const orders = await res.json();
+    return orders;
     } catch (error: any) {
-      throw new Error(error);
+    throw new Error(error);
     }
-  }
+}

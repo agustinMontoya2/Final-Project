@@ -5,7 +5,9 @@ import { formReserve,  } from '@/lib/server/reservation';
 
 const ReservationForm: React.FC = () => {
     const initialState: IReserve = {
+        reservation_id: "",
         ubication: '',
+        status: " ",
         date: new Date().toISOString().split('T')[0], 
         time: '',
         peopleCount: 1,
@@ -19,7 +21,7 @@ const ReservationForm: React.FC = () => {
         Breakfast: ['07:00', '07:30', '08:00', '08:30',],
         Lunch: ['11:00', '11:30', '12:00', '12:30', '13:00', '13:30'],
         Snack: ['16:00', '16:30', '17:00', '17:30'],
-        Dinner: ['20:00', '20:30', '21:00', '21:30', '22:00'],
+        Dinner: ['20:00', '20:30', '21:00', '21:30'],
     };
 
     useEffect(() => {
@@ -54,6 +56,8 @@ const ReservationForm: React.FC = () => {
         }
 
         const reservationData: IReserve = {
+            reservation_id: userData.reservation_id,
+            status: userData.status,
             ubication: userData.ubication,
             date: userData.date,
             time: userData.time,
@@ -87,7 +91,7 @@ const ReservationForm: React.FC = () => {
                 htmlFor="date"
                 className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${userData.date ? 'top-[4px] text-xs' : ''}`}
             >
-                Fecha
+                Date
             </label>
         </div>
 
@@ -99,7 +103,7 @@ const ReservationForm: React.FC = () => {
                 className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
                 required
             >
-                <option className={'text-black'} value="" disabled>Selecciona un tipo de comida</option>
+                <option className={'text-black'} value="" disabled>Select a food type</option>
                 {Object.keys(mealTimes).map((type) => (
                     <option key={type} value={type}>{type}</option>
                 ))}
@@ -121,7 +125,7 @@ const ReservationForm: React.FC = () => {
                     className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
                     required
                 >
-                    <option className={'text-black'} value="" disabled>Selecciona una hora</option>
+                    <option className={'text-black'} value="" disabled>Set time</option>
                     {mealTimes[mealType].map((timeOption) => (
                         <option key={timeOption} value={timeOption}>{timeOption}</option>
                     ))}
@@ -143,10 +147,10 @@ const ReservationForm: React.FC = () => {
                 className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
                 required
             >
-                <option className={'text-black'} value="" disabled>Selecciona una ubicación</option>
+                <option className={'text-black'} value="" disabled>Select ubication</option>
                 <option value="Exterior">Exterior</option>
                 <option value="Interior">Interior</option>
-                <option value="Piso Superior">Piso Superior</option>
+                <option value="Rooftop">Rooftop</option>
             </select>
             <label
                 htmlFor="ubication"
@@ -172,12 +176,12 @@ const ReservationForm: React.FC = () => {
                 htmlFor="peopleCount"
                 className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${userData.peopleCount ? 'top-[4px] text-xs' : ''}`}
             >
-                Cantidad de Personas
+                How many people
             </label>
         </div>
 
         <button type="submit" className="w-4/5 bg-red-600 text-white font-bold py-2 rounded-lg hover:bg-red-700 transition duration-200">
-            Reservar
+            Reserve
         </button>
     </form>
 </div>
