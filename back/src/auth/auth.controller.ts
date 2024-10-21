@@ -58,13 +58,11 @@ export class AuthController {
       return res.status(400).json({ error: 'No code received' });
     }
 
-    // Intercambiar el código por un token
     const token = await this.authService.exchangeCodeForToken(code);
 
     if (token) {
-      // Redirigir al frontend pasando el token como parámetro
       const frontendUrl = `http://localhost:4000?token=${token}`;
-      return res.redirect(frontendUrl); // Redirige al frontend con el token
+      return res.redirect(frontendUrl);
     } else {
       return res.status(500).json({ error: 'Failed to get token' });
     }
@@ -72,6 +70,6 @@ export class AuthController {
 
   @Get('logout')
   logout(@Res() res: Response) {
-    res.oidc.logout({ returnTo: 'http://localhost:4000' }); // Redirige a localhost:4000 después del logout
+    res.oidc.logout({ returnTo: 'http://localhost:4000' });
   }
 }

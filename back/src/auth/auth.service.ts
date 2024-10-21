@@ -93,15 +93,15 @@ export class AuthService {
   }
 
   async exchangeCodeForToken(code: string): Promise<string> {
-    const url = `https://${process.env.AUTH0_BASE_URL}/oauth/token`; // Asegúrate de que AUTH0_DOMAIN esté en tu .env
+    const url = `https://${process.env.AUTH0_BASE_URL}/oauth/token`;
     const response = await axios.post(url, {
       grant_type: 'authorization_code',
-      client_id: process.env.AUTH0_CLIENT_ID, // Asegúrate de que AUTH0_CLIENT_ID esté en tu .env
-      client_secret: process.env.AUTH0_SECRET, // Asegúrate de que AUTH0_CLIENT_SECRET esté en tu .env
+      client_id: process.env.AUTH0_CLIENT_ID,
+      client_secret: process.env.AUTH0_SECRET,
       code,
-      redirect_uri: `http://localhost:3000/auth/callback`, // Ajusta según tu configuración
+      redirect_uri: `http://localhost:3000/auth/callback`,
     });
 
-    return response.data.access_token; // Retorna el token
+    return response.data.access_token;
   }
 }
