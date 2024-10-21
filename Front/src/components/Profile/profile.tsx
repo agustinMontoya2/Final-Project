@@ -40,7 +40,7 @@ const ProfileV = () => {
         <div className="bg-white p-6 rounded-lg shadow-lg w-screen max-w-md mx-auto my-48" >
             <h1 className="text-2xl font-semibold mb-6 text-center text-gray-800">Account details</h1>
 
-            <div className="flex justify-between items-center py-4 border-b border-gray-200">
+            <div className="flex justify-between items-center py-4 border-b border-t border-gray-200">
                 <div className="font-medium text-gray-600">
                     <p>Name</p>
                 </div>
@@ -74,15 +74,6 @@ const ProfileV = () => {
                 <div className="text-gray-800">
                     <p>{userData?.user?.address}</p>
                 </div>
-            </div>
-
-            <div >
-                <button 
-                    onClick={handleClick} 
-                    className="w-4/5 bg-red-600 text-white font-bold py-2 rounded-lg hover:bg-red-700 transition duration-200"
-                >
-                    Log out
-                </button>
             </div>
         </div>
     )

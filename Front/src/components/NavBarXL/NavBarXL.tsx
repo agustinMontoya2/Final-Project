@@ -47,16 +47,7 @@ export default function NavBarXL() {
                     <Link className="w-11 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/menu"}>
                         <p className="text-white font-bold hover:text-neutral-300 duration-500">Menú</p>
                     </Link>
-                    <Link className="w-11 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/off"}>
-                        <p className="text-white font-bold hover:text-neutral-300 duration-500">OFF</p>
-                    </Link>
-
                     <Dropdown />
-                    {/* {
-                        userSession && (
-                            <p className="text-white font-bold text-xl">{userSession.name}</p>
-                        )
-                    } */}
                 </div>
             </div>
             <div className='w-10 mt-16 -mb-32 p-4 cursor-pointer z-50 fixed'>

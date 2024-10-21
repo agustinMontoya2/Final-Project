@@ -1,41 +1,26 @@
 "use client";
 
 import { getProductsDB } from "@/Helpers/products.helper";
-import { ICartData, IProducts, IUserSession } from "@/interfaces/productoInterface";
-import { cart } from "@/lib/server/cart";
+import { IProducts } from "@/interfaces/productoInterface";
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { addFavorities, removeFavorities, getFavorities } from "@/lib/server/favorities";
 import { addCart } from "@/lib/server/cart";
+import ProductFilter from "../Filter/Filter";
+import starOutline from '../../../public/assets/icon/staroutline.png';
+import starFilled from '../../../public/assets/icon/star.png';
+import Link from "next/link";
+import Swal from "sweetalert2";
 
 const Cards = () => {
     const [products, setProducts] = useState<IProducts[]>([]);
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState<string>("");
     const [searchTerm, setSearchTerm] = useState<string>("");
-<<<<<<< HEAD
-    const [userData,  setUserData] = useState<IUserSession>();
-
-
-    useEffect(() => {
-        console.log("Componente montado, verificando userSession...");
-        const userData = localStorage.getItem("userSession");
-        if (userData) {
-            try {
-                const parsedData = JSON.parse(userData);
-                console.log("Datos de usuario parseados:", parsedData);
-                setUserData(parsedData);
-            } catch (error) {
-                console.error("Error parsing user data:", error);
-            }
-        } else {
-            console.log("No se encontró userSession en localStorage");
-=======
     const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
     const [favorities, setFavorities] = useState<string[]>([]);
-    const [cart, setCart] = useState<string[]>([]); 
+    const [cart, setCart] = useState<string[]>([]);
 
     useEffect(() => {
         const storedUserData = window.localStorage.getItem("userSession");
@@ -45,7 +30,6 @@ const Cards = () => {
                 setUserId(parsedData.user.user_id);
                 setToken(parsedData.token);
             }
->>>>>>> origin/front/development-jehiel
         }
     }, []);
 
@@ -64,78 +48,50 @@ const Cards = () => {
         fetchProducts();
     }, []);
 
-<<<<<<< HEAD
-    const handleAddToCart = async (product: IProducts) => {
-        if (!userData || !userData.user || !userData.user.id) {
-            console.error("No se encontró información del usuario.");
-            return;
-        }
-    
-        const cartData: ICartData = {
-            userId: userData.user.id, // Asegúrate de que esto sea una cadena
-            order_type: "delivery", // Cambia según sea necesario
-            products: [product], // Array de productos
-        };
-    
-        try {
-            const result = await cart(cartData);
-            console.log("Producto agregado:", result);
-        } catch (error) {
-            console.error("Error al agregar producto:", error);
-=======
-    const handleGetFavorities = async (user_id: string, token: string) => {
-        if (token && userId) {
-            try {
-                const favoritiesData = await getFavorities(userId, token);
-                setFavorities(favoritiesData);
-                console.log("Favoritos obtenidos:", favoritiesData);
-            } catch (error) {
-                console.error("Error al obtener favoritos", error.message);
-            }
-        } else {
-            alert("Inicia sesión para ver favoritos.");
-        }
-    };
-
-    const handleAddToFavorities = async (productId: string, isFavorited: boolean) => {
-        console.log("Manejador de agregar a favoritos llamado");
-        console.log(`userId: ${userId}`);
-        console.log(`productId: ${productId}`);
-        console.log(`isFavorited: ${isFavorited}`);
-
-        if (token && userId) {
-            try {
-                if (isFavorited) {
-                    console.log("Eliminando de favoritos...");
-                    await removeFavorities(userId, productId, token);
-                    setFavorities((prevFavorities) => prevFavorities.filter((id) => id !== productId));
-                    console.log("Producto eliminado de favoritos:", productId);
-                } else {
-                    console.log("Agregando a favoritos...");
-                    const result = await addFavorities(userId, productId, token);
-                    setFavorities((prevFavorities) => [...prevFavorities, productId]);
-                    console.log("Producto agregado a favoritos:", result);
-                }
-            } catch (error) {
-                console.error("Error al agregar favoritos", error.message);
-            }
-        } else {
-            alert("Inicia sesión para agregar favoritos.");
-        }
-    };
-
     const handleAddCart = async (productId: string) => {
         if (token && userId) {
             try {
                 await addCart(userId, productId, token);
                 setCart((prevCart) => [...prevCart, productId]);
-                alert("Producto agregado al carrito");
-            } catch (error) {
+                Swal.fire({
+                    title: 'Dish added correctly.',
+                    icon: 'success',
+                    confirmButtonText: 'accept',
+                    confirmButtonColor: "#1988f0"
+                })
+            } catch (error: any) {
                 console.error("Error al agregar al carrito", error.message);
             }
         } else {
-            alert("Inicia sesión para agregar al carrito.");
->>>>>>> origin/front/development-jehiel
+            Swal.fire({
+                title: 'To add the product to the cart, log in.',
+                icon: 'warning',
+                confirmButtonText: 'accept',
+                confirmButtonColor: "#1988f0"
+            })
+        }
+    };
+
+    const handleAddToFavorities = async (productId: string, isFavorited: boolean) => {
+        if (token && userId) {
+            try {
+                if (isFavorited) {
+                    await removeFavorities(userId, productId, token);
+                    setFavorities((prevFavorities) => prevFavorities.filter((id) => id !== productId));
+                } else {
+                    await addFavorities(userId, productId, token);
+                    setFavorities((prevFavorities) => [...prevFavorities, productId]);
+                }
+            } catch (error: any) {
+                console.error("Error al agregar favoritos", error.message);
+            }
+        } else {
+            Swal.fire({
+                title: 'To add to favorites, log in.',
+                icon: 'warning',
+                confirmButtonText: 'accept',
+                confirmButtonColor: "#1988f0"
+            })
         }
     };
 
@@ -151,29 +107,17 @@ const Cards = () => {
 
     return (
         <div className="p-4">
-            <div className="flex justify-center mb-4">
-                <input
-                    type="text"
-                    placeholder="Search dish..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="border border-gray-300 rounded-md px-3 py-1 text-gray-700"
-                />
-            </div>
-
-            <div className="flex justify-center mb-4">
-                <button onClick={() => setFilter("Beverages")} className="mx-2 bg-secondary text-white py-1 px-3 rounded">Beverages</button>
-                <button onClick={() => setFilter("Main Dishes")} className="mx-2 bg-secondary text-white py-1 px-3 rounded">Main Dishes</button>
-                <button onClick={() => setFilter("Appetizers")} className="mx-2 bg-secondary text-white py-1 px-3 rounded">Appetizers</button>
-                <button onClick={() => setFilter("Sides")} className="mx-2 bg-secondary text-white py-1 px-3 rounded">Sides</button>
-                <button onClick={() => setFilter("Desserts")} className="mx-2 bg-secondary text-white py-1 px-3 rounded">Desserts</button>
-                <button onClick={() => setFilter("")} className="mx-2 bg-gray-500 text-white py-1 px-3 rounded">Clear Filter</button>
-            </div>
+            <ProductFilter
+                filter={filter}
+                setFilter={setFilter}
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+            />
 
             <div className="w-[80%] h-auto flex flex-wrap justify-evenly m-auto">
                 {filteredProducts.map((product) => (
-                    <div key={product.product_id} className="w-[30%] h-44 flex items-center bg-primary shadow-2xl rounded-xl my-6 px-5 hover:scale-105 duration-500">
-                        <div className="w-1/2">
+                    <div className="w-[30%] h-44 flex items-center bg-primary shadow-2xl rounded-xl my-6 px-5 hover:scale-105 duration-500">
+                        <Link key={product.product_id} href={`/product/${product.product_id}`} className="w-1/2">
                             <div className="relative w-36 h-36">
                                 <Image
                                     src={product.image_url}
@@ -183,10 +127,27 @@ const Cards = () => {
                                     className="w-full h-auto"
                                 />
                             </div>
-                        </div>
+                        </Link>
                         <div className="w-1/2">
                             <div>
-                                <h2 className="text-black text-xl font-semibold">{product.product_name}</h2>
+                                <div className="flex">
+                                    <h2 className="w-10/12 text-black text-xl font-semibold">{product.product_name}</h2>
+                                    <button
+                                        className="w-2/12 filter dark-gray flex justify-end"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleAddToFavorities(product.product_id, favorities.includes(product.product_id));
+                                        }}
+                                    >
+                                        <Image
+                                            src={favorities.includes(product.product_id) ? starFilled : starOutline}
+                                            alt={favorities.includes(product.product_id) ? "Eliminar de Favoritos" : "Agregar a Favoritos"}
+                                            width={24}
+                                            height={24}
+                                        />
+                                    </button>
+                                </div>
+                                
                                 <p className="w-full text-black text-sm line-clamp-2">
                                     <b>Description:</b> {product.description}
                                 </p>
@@ -196,26 +157,12 @@ const Cards = () => {
 
                                 <button
                                     className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
-<<<<<<< HEAD
-                                    onClick={() => handleAddToCart(product)}
-=======
                                     onClick={(e) => {
-                                        e.stopPropagation(); 
+                                        e.stopPropagation();
                                         handleAddCart(product.product_id);
                                     }}
->>>>>>> origin/front/development-jehiel
                                 >
-                                    Agregar a Carrito
-                                </button>
-
-                                <button
-                                    className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
-                                    onClick={(e) => {
-                                        e.stopPropagation();  
-                                        handleAddToFavorities(product.product_id, favorities.includes(product.product_id));
-                                    }}
-                                >
-                                    {favorities.includes(product.product_id) ? "Eliminar de Favoritos" : "Agregar a Favoritos"}
+                                    <Image src={"/assets/icon/cart.png"} width={20} height={20} alt="comprar" />
                                 </button>
                             </div>
                         </div>

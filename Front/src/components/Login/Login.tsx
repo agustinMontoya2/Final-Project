@@ -34,9 +34,17 @@ const Login = () => {
                 localStorage.setItem("userSession", JSON.stringify(response));
                 window.dispatchEvent(new Event("userSessionUpdated"));
                 Swal.fire({
-                    title: 'logged successfully!',
                     icon: 'success',
-                    timer: 1000
+                    title: 'Logout successfully',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2500,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseenter = Swal.resumeTimer;
+                    }
                 });
                 router.push("/menu");
             } else {

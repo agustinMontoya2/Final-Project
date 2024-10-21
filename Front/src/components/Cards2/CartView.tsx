@@ -16,7 +16,7 @@ const CartView = () => {
             const parsedData = JSON.parse(storedUserData);
             if (parsedData && parsedData.user) {
                 setUserId(parsedData.user.user_id);
-                setToken(parsedData.token); 
+                setToken(parsedData.token);
             }
         }
     }, []);
@@ -73,7 +73,7 @@ const handleAddCart = async (productId: string,) => {
                 await addCart(userId, productId, token);
                 setCart((prevCart) => [...prevCart, productId]);
                 await handleGetCart();
-        } catch (error) {
+        } catch (error: any) {
             alert (`Error: ${error instanceof Error ? error.message : error}`);
             console.error("Error al agregar al carrito", error.message);
         }
@@ -89,56 +89,54 @@ const handleAddCart = async (productId: string,) => {
 }, [userId, token]);
 
 
-    return (
+return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 py-8">
-    <h1 className="text-3xl font-bold text-black mb-6">Tu Carrito</h1>
-    {cartItems?.productDetail.length === 0 ? (
-        <p className="text-lg text-gray-700">No hay productos en tu carrito.</p>
-    ) : (
-        <ul className="bg-white shadow-lg rounded-lg w-[80%] max-w-4xl">
-            {cartItems?.productDetail.map((item) => (
-                <li key={item.product_detail_id} className="flex items-center justify-between p-6 border-b border-gray-300">
-                    <div className="flex items-center">
-                        <Image
-                            src={item.product.image_url}
-                            alt={item.product.product_name}
-                            width={80}
-                            height={80}
-                            className="mr-6 rounded-lg object-cover"
-                        />
-                        <div>
-                            <h2 className="text-xl font-semibold text-black">{item.product.product_name}</h2>
-                            <p className="text-gray-600">Precio: <span className="font-bold">${parseFloat(item.subtotal).toFixed(2)}</span></p>
-                            <p className="text-gray-600">Cantidad: <span className="font-bold">{item.quantity}</span></p>
+        <h1 className="text-3xl font-bold text-black mb-6">Tu Carrito</h1>
+        {cartItems && cartItems.product && cartItems.product.length === 0 ? (
+            <p className="text-lg text-gray-700">No hay productos en tu carrito.</p>
+        ) : (
+            <ul className="bg-white shadow-lg rounded-lg w-[80%] max-w-4xl">
+                {cartItems?.product?.map((item) => (
+                    <li key={item.product_detail_id} className="flex items-center justify-between p-6 border-b border-gray-300">
+                        <div className="flex items-center">
+                            <Image
+                                src={item.product.image_url}
+                                alt={item.product.product_name}
+                                width={80}
+                                height={80}
+                                className="mr-6 rounded-lg object-cover"
+                            />
+                            <div>
+                                <h2 className="text-xl font-semibold text-black">{item.product.product_name}</h2>
+                                <p className="text-gray-600">Precio: <span className="font-bold">${parseFloat(item.subtotal).toFixed(2)}</span></p>
+                                <p className="text-gray-600">Cantidad: <span className="font-bold">{item.quantity}</span></p>
+                            </div>
                         </div>
-                    </div>
-                    <button 
-                        onClick={() => handleDeleteQuantityCart(item.product_detail_id)} 
-                        className="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
-                    >
-                        -
-                    </button>
-                    <button
-                        className="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
-                        onClick={() => {
-                            handleAddCart(item.product.product_id);
-                        }}
-                    >
-                        +
-                    </button>
-                    <button 
-                        onClick={() => handleDeleteProductCart(item.product_detail_id)} 
-                        className="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
-                    >
-                        Eliminar
-                    </button>
-                    
-                </li>
-            ))}
-        </ul>
-    )}
-</div>
-    );
+                        <button 
+                            onClick={() => handleDeleteQuantityCart(item.product_detail_id)} 
+                            className="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
+                        >
+                            -
+                        </button>
+                        <button
+                            className="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
+                            onClick={() => handleAddCart(item.product.product_id)}
+                        >
+                            +
+                        </button>
+                        <button 
+                            onClick={() => handleDeleteProductCart(item.product_detail_id)} 
+                            className="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
+                        >
+                            Eliminar
+                        </button>
+                    </li>
+                ))}
+            </ul>
+        )}
+    </div>
+);
+
 };
 
 export default CartView;

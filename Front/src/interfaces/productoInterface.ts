@@ -84,3 +84,10 @@ export interface IFavorities {
   favorities_id: string;
   product: IProducts[];
 }
+
+export interface ProductFilterProps {
+  filter: string;
+  setFilter: (filter: string) => void;
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
+}

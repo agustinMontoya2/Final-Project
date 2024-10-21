@@ -23,6 +23,9 @@ module.exports = {
         'gradient-r': 'linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(181,181,181,0.6419817927170868) 58%)',
         'gradient-l': 'linear-gradient(90deg, rgba(181,181,181,0.6419817927170868) 58%, rgba(255,255,255,1) 100%);',
       },
+      filter: {
+        'dark-gray': 'drop-shadow(0 4px 30px rgba(26, 26, 26, 0.5))',
+      },
       fontSize: {
         '10xl': '10.5rem',
       },
