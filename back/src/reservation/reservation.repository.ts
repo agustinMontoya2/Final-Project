@@ -88,7 +88,7 @@ export class ReservationRepository {
 
     const reserve = await this.reservationRepository.find({
       where: { user },
-      relations: ['tables'],
+      relations: ['table'],
     });
 
     if (!reserve) {

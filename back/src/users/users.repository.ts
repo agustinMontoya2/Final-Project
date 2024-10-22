@@ -63,9 +63,12 @@ export class UsersRepository {
   }
 
   async updateUser(user_id: string, updateUserDto: any) {
-    await this.userRepository.update(user_id, updateUserDto);
-    const user = await this.getUserById(user_id);
-    return user;
+    const { name, email, address, phone } = updateUserDto;
+    const user = await this.userRepository.findOneBy({ user_id });
+    if (!user) throw new NotFoundException('User not found');
+    await this.userRepository.update(user_id, { name, address, phone });
+    const { isAdmin, ...userWithoutRelations } = user;
+    return userWithoutRelations;
   }
 
   async addToCart(productDetail: productDetailDto, user: User) {
