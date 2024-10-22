@@ -29,9 +29,9 @@ export interface IProducts {
   price: number;
   description: string;
   image_url: string;
-  category:{
-    category_name:string;
-  }
+  category: {
+    category_name: string;
+  };
   available: boolean;
 }
 
@@ -50,7 +50,7 @@ export interface IRegister {
 }
 
 export interface IReserve {
-  reservation_id: string,
+  reservation_id: string;
   ubication: string;
   date: string;
   time: string;
@@ -62,14 +62,24 @@ export interface IUserSession {
   token: string;
   email: string;
   user: {
-      address: string;
-      id: string;
-      name: string;
-      phone: string;
-      user_img: string
-      orders:[]
-  }
+    address: string;
+    user_id: string;
+    name: string;
+    phone: string;
+    user_img: string;
+    orders: [];
+  };
 }
+
+export interface IUser {
+  user_id: string;
+  name: string;
+  phone: string;
+  user_img: string;
+  orders: [];
+  address: string;
+}
+
 export interface IProductsDetails {
   product_detail_id: string;
   quantity: string;
@@ -80,7 +90,7 @@ export interface IProductsDetails {
 export interface ICart {
   cart_id: string;
   note: string;
-  product: IProductsDetails[]
+  product: IProductsDetails[];
 }
 
 export interface IFavorities {
@@ -103,17 +113,16 @@ export interface IOrder {
 }
 
 export interface IGetOrder {
-  order_id: string
-  date: string,
-  state: string
-
+  order_id: string;
+  date: string;
+  state: string;
 }
 
 export interface IOrderDetail {
-  order_detail_id: string
-  order_type: string
-  payment_method: string
-  total: string
-  note: string
-  productDetails: IProductsDetails[]
+  order_detail_id: string;
+  order_type: string;
+  payment_method: string;
+  total: string;
+  note: string;
+  productDetails: IProductsDetails[];
 }

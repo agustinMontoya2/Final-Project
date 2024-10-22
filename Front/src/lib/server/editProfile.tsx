@@ -13,15 +13,36 @@ export async function editProfile(editableData: any, token: any, user_id: string
         });
         const result = await response.json();
         
-        console.log("Server Response:", result);
+        if (!response.ok) {
+            throw new Error(result.message );
+        }
+        return result;
+    } catch (error: any) {
+        throw error; 
+    }
+}
+
+export async function getUser(userId: string, token: string) {
+    try {
+        const response = await fetch(`${APIURL}/users/${userId}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${token}` 
+            },
+        });
+        const responseText = await response.text(); 
 
         if (response.ok) {
-            return result;
+            return JSON.parse(responseText);  
         } else {
-            throw new Error("Error updating profile: " + result.message);
+            throw new Error(`Error: ${responseText}`);  
         }
-    } catch (error: any) {
-        console.error("Error updating profile:", error);
-        throw new Error("Error updating profile:", error);
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            throw error;  
+        } else {
+            throw new Error("An unknown error occurred");  
+        }
     }
 }

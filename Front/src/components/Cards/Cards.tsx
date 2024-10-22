@@ -37,7 +37,7 @@ const Cards = () => {
     }, []);
 
     useEffect(() => {
-        if (userId && token) {
+        if (!userId && !token) {
             fetchProducts();
             fetchFavorities();
         }

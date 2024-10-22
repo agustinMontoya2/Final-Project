@@ -1,15 +1,16 @@
 'use client'
-import { IUserSession } from "@/interfaces/productoInterface";
-import { editProfile } from "@/lib/server/editProfile";
+import { IUser, IUserSession } from "@/interfaces/productoInterface";
+import { editProfile, getUser } from "@/lib/server/editProfile";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 const ProfileV = () => {
     const router = useRouter();
     const [userData, setUserData] = useState<IUserSession>();
     const [isEditing, setIsEditing] = useState(false);
+    const [user, setUser] = useState<IUser>();
     
     const [editableData, setEditableData] = useState({
         name: userData?.user?.name || "",
@@ -22,6 +23,7 @@ const ProfileV = () => {
         if(typeof window !== 'undefined' && window.localStorage){
             const userData = JSON.parse(localStorage.getItem("userSession")!)
             setUserData(userData);
+            handleGetUser()
         }
     }, [])
 
@@ -38,22 +40,43 @@ const ProfileV = () => {
     // no se manda el user id
     const handleEditData = async (e: any) => {
         console.log("Token:", userData?.token);
-        console.log("User ID:", userData?.user?.id);
+        console.log("User ID:", userData?.user?.user_id);
         console.log("Editable Data:", editableData);
-        if (userData?.token && userData?.user?.id) {
-            alert(userData?.user?.id)
-                const response = await editProfile(editableData, userData?.token, userData?.user.id);
-            if (response) {
+        if (userData?.token && userData?.user?.user_id) {
+            try {
+                const response = await editProfile(editableData, userData?.token, userData?.user.user_id);
                 setIsEditing(false);
+                handleGetUser()
+                console.log(response);
+                
+                console.log(user);
+                
+                if (response) {
+                    alert("user updated successfully"); 
+                    
+                }
+            
+            } catch (error) {
+                alert(error);
             }
-            else {
-                alert("Error al editar");
+        }else{
+                alert("Login first");
             }
-        } else {
-            alert("No hay ID o token");
-        console.log(userData?.user);
-        }
     }
+
+    const handleGetUser = async () => {
+        if (userData?.token) {
+            try {
+                const response = await getUser(userData?.user?.user_id, userData?.token);
+                setUser(response);
+            } catch (error) {
+                alert(error);
+            }
+        }else{
+                alert("Login first");
+            }
+    }
+
     const handleEditClick = () => {
         setIsEditing(true);
     };
@@ -71,8 +94,8 @@ const ProfileV = () => {
                 </div>
             </div>
             {
-            userData?.user?.user_img ? (
-                <Image src={userData.user.user_img} width={100} height={100} alt="profile" className="m-auto rounded-full"/>
+            user?.user_img ? (
+                <Image src={user.user_img} width={100} height={100} alt="profile" className="m-auto rounded-full"/>
             ) : (
                 <Image src="/assets/icon/profileblack.png" width={100} height={100} alt="profile" className="m-auto"/>
             )
@@ -86,14 +109,14 @@ const ProfileV = () => {
                             name="name"
                             value={editableData.name}
                             onChange={handleInputChange}
-                            placeholder={`${userData?.user.name}`}
+                            placeholder={`${user?.name}`}
                             className="rounded outline-none border-b min-w-56"
                         />
                     </div>
                 ) : (
                     <div className="w-full flex justify-between items-center text-gray-600">
                         <p>Name</p>
-                        <p>{userData?.user.name}</p>
+                        <p>{user?.name}</p>
                     </div>
                 )}
             </div>
@@ -126,14 +149,14 @@ const ProfileV = () => {
                             name="phone"
                             value={editableData.phone}
                             onChange={handleInputChange}
-                            placeholder={`${userData?.user.phone}`}
+                            placeholder={`${user?.phone}`}
                             className="rounded outline-none border-b min-w-56"
                         />
                     </div>
                 ) : (
                     <div className="w-full flex justify-between items-center text-gray-600">
                         <p>Phone</p>
-                        <p>{userData?.user.phone}</p>
+                        <p>{user?.phone}</p>
                     </div>
                 )}
             </div>
@@ -146,14 +169,14 @@ const ProfileV = () => {
                             name="address"
                             value={editableData.address}
                             onChange={handleInputChange}
-                            placeholder={`${userData?.user.address}`}
+                            placeholder={`${user?.address}`}
                             className="rounded outline-none border-b min-w-56"
                         />
                     </div>
                 ) : (
                     <div className="w-full flex justify-between items-center text-gray-600">
                         <p>Address</p>
-                        <p>{userData?.user.address}</p>
+                        <p>{user?.address}</p>
                     </div>
                 )}
             </div>
