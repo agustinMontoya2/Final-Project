@@ -1,6 +1,6 @@
 'use client'
 import { IUser, IUserSession } from "@/interfaces/productoInterface";
-import { editProfile, getUser } from "@/lib/server/editProfile";
+import { editProfile, editProfileImg, getUser } from "@/lib/server/editProfile";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { use, useEffect, useState } from "react";
@@ -11,6 +11,7 @@ const ProfileV = () => {
     const [userData, setUserData] = useState<IUserSession>();
     const [isEditing, setIsEditing] = useState(false);
     const [user, setUser] = useState<IUser>();
+    const [profileImg, setProfileImg] = useState<string>("");
     
     const [editableData, setEditableData] = useState({
         name: userData?.user?.name || "",
@@ -44,23 +45,14 @@ const ProfileV = () => {
 
     // no se manda el user id
     const handleEditData = async (e: any) => {
-        console.log("Token:", userData?.token);
-        console.log("User ID:", userData?.user?.user_id);
-        console.log("Editable Data:", editableData);
         if (userData?.token && userData?.user?.user_id) {
             try {
                 const response = await editProfile(editableData, userData?.token, userData?.user.user_id);
                 setIsEditing(false);
                 handleGetUser()
-                console.log(response);
-                
-                console.log(user);
-                
                 if (response) {
                     alert("user updated successfully"); 
-                    
                 }
-            
             } catch (error) {
                 alert(error);
             }
@@ -68,6 +60,24 @@ const ProfileV = () => {
                 alert("Login first");
             }
     }
+
+    const handleEditImageData = async (e: any) => {
+        if (userData?.token && userData?.user?.user_id) {
+            try {
+                const response = await editProfileImg(profileImg, userData?.token, userData?.user.user_id);
+                setIsEditing(false);
+                handleGetUser()
+                if (response) {
+                    alert("user updated successfully"); 
+                }
+            } catch (error) {
+                alert(error);
+            }
+        }else{
+                alert("Login first");
+            }
+    }
+
 
     const handleGetUser = async () => {
         if (userData?.token) {

@@ -46,3 +46,24 @@ export async function getUser(userId: string, token: string) {
         }
     }
 }
+
+export async function editProfileImg(user_img: any, token: any, user_id: string) {
+    try {
+        const response = await fetch(`${APIURL}/files/uploadimageProfile/${user_id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({user_img }),
+        });
+        const result = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(result.message );
+        }
+        return result;
+    } catch (error: any) {
+        throw error; 
+    }
+}
