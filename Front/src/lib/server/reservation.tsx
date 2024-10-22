@@ -1,15 +1,15 @@
-import { IReserve } from "@/interfaces/productoInterface";
+import { IReserve} from "@/interfaces/productoInterface";
 
 const APIURL = process.env.NEXT_PUBLIC_API_URL;
 
-export async function formReserve(userData: IReserve) {
+export async function formReserve(userData:IReserve) {
     try {
         const response = await fetch(`${APIURL}/reservation`, {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
             },
-            body: JSON.stringify(userData),
+            body: JSON.stringify(userData,),
         });
         const contentType = response.headers.get("content-type");
         if (response.ok) {

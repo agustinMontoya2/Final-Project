@@ -52,8 +52,9 @@ export async function getProduct(product_id: string) {
     const res = await fetch(`${APIURL}/product/${product_id}`, {
       next: { revalidate: 60 },
     });
-    const products: IProductsDetails[] = await res.json();
-    return products;
+    const product: IProducts = await res.json();
+    if(!product) throw new Error("No existe el producto");
+    return product;
   } catch (error: any) {
     if (error instanceof Error) {
         throw new Error(error.message); 

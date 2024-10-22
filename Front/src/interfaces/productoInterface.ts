@@ -63,6 +63,7 @@ export interface IReserve {
   peopleCount: number;
 }
 
+
 export interface IUserSession {
   token: string;
   email: string;
@@ -97,6 +98,7 @@ export interface ICart {
   cart_id: string;
   note: string;
   product: IProductsDetails[];
+  productDetail: IProductsDetails[];
 }
 
 export interface IFavorities {
@@ -114,7 +116,7 @@ export interface ProductFilterProps {
 export interface IOrder {
   userId: string;
   order_type: string;
-  payment_type: string;
+  payment_method: string;
   note: string;
 }
 

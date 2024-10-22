@@ -4,10 +4,12 @@ import { getProductsDB } from "@/Helpers/products.helper";
 import Image from "next/image";
 import React, { useState, useEffect } from 'react';
 import { addCart } from "@/lib/server/cart";
-import { addFavorities, getFavorities, removeFavorities } from "@/lib/server/favorities"; // Asegúrate de tener estas funciones
+import { addFavorities, getFavorities, removeFavorities } from "@/lib/server/favorities"; 
 import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 
 const ProductCards: React.FC<IProducts> = ({ product_id, price, description, image_url, product_name }) => {
+  const router = useRouter()
   const [userId, setUserId] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [favorities, setFavorities] = useState<IFavorities>();
@@ -36,10 +38,10 @@ const fetchFavorities = async () => {
             const favoritiesData = await getFavorities(userId, token);
             setFavorities(favoritiesData);
         } catch (error) {
-            console.error("Error al obtener favoritos", error.message);
+            console.error("Fail to obtain favorites.");
         }
     } else {
-        console.log("no hay token");
+        console.log("There is no token.");
     }
 };
 
@@ -55,10 +57,11 @@ const handleAddToFavorities = async (productId: string, isFavorited: boolean) =>
                 await fetchFavorities();
             }
         } catch (error) {
-            console.error("Error al manejar favoritos", error.message);
+            console.error("Fail to save favorite.", );
         }
     } else {
-        alert("Inicia sesión para manejar favoritos.");
+        alert("Log in to save as favorite.");
+        router.push("/login");
     }
 };
 
@@ -97,7 +100,7 @@ return (
       className="absolute top-2 right-2 flex items-center justify-center"
       onClick={(e) => {
         e.stopPropagation();
-        handleAddToFavorities(product_id, favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product_id));
+        handleAddToFavorities(product_id, favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product_id) ?? false);
       }}
     >
       <Image

@@ -8,8 +8,10 @@ import { addFavorities, removeFavorities, getFavorities } from "@/lib/server/fav
 import { addCart } from "@/lib/server/cart";
 import Link from 'next/link';
 import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 
 const Cards = () => {
+    const router = useRouter()
     const [products, setProducts] = useState<IProducts[]>([]);
     const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState({
@@ -34,7 +36,7 @@ const Cards = () => {
                 fetchFavorities();
             }
         }
-    }, []);
+    }, [router]);
 
     useEffect(() => {
         if (!userId && !token) {
@@ -82,6 +84,7 @@ const Cards = () => {
             }
         } else {
             alert("Log in to manage Favorite");
+            router.push("/login");
         }
     };
 
@@ -111,6 +114,7 @@ const Cards = () => {
             }
         } else {
             alert("Log in to add product to cart.");
+            router.push("/login");
         }
     };
 
