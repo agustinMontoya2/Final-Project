@@ -13,6 +13,7 @@ import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { CreateReviewDto } from './dto/create-review.dto';
 
 @Controller('products')
 @ApiTags('products')
@@ -57,5 +58,13 @@ export class ProductsController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.productsService.remove(+id);
+  }
+
+  @Post('review/:id')
+  addReview(
+    @Param('id') product_id: string,
+    @Body() createReviewDto: CreateReviewDto,
+  ) {
+    return this.productsService.addReview(product_id, createReviewDto);
   }
 }

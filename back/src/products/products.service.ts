@@ -1,8 +1,14 @@
-import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  OnApplicationBootstrap,
+} from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductsRepository } from './products.repository';
 import { CategoriesRepository } from 'src/categories/categories.repository';
+import { CreateReviewDto } from './dto/create-review.dto';
+import { IsUUID } from 'class-validator';
 
 @Injectable()
 export class ProductsService implements OnApplicationBootstrap {
@@ -36,5 +42,11 @@ export class ProductsService implements OnApplicationBootstrap {
 
   remove(id: number) {
     return `This action removes a #${id} product`;
+  }
+
+  async addReview(product_id, createReviewDto: CreateReviewDto) {
+    const { user_id, review, rate } = createReviewDto;
+    const product = await this.productRepository.findOne(product_id);
+    return this.productRepository.addReview(product, user_id, review, rate);
   }
 }

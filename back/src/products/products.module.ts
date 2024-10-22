@@ -7,9 +7,14 @@ import { Product } from './entities/product.entity';
 import { Category } from 'src/categories/entities/category.entity';
 import { CategoriesRepository } from 'src/categories/categories.repository';
 import { CategoriesModule } from 'src/categories/categories.module';
+import { User } from 'src/users/entities/user.entity';
+import { Review } from './entities/review.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Product, Category]), CategoriesModule],
+  imports: [
+    TypeOrmModule.forFeature([Product, Category, User, Review]),
+    CategoriesModule,
+  ],
   controllers: [ProductsController],
   providers: [ProductsService, ProductsRepository],
   exports: [ProductsRepository],

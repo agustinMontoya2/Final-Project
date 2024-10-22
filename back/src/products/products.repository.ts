@@ -5,6 +5,8 @@ import * as data from '../utils/Archivo.json';
 import { Category } from 'src/categories/entities/category.entity';
 import { BadRequestException } from '@nestjs/common';
 import { isUUID } from 'class-validator';
+import { User } from 'src/users/entities/user.entity';
+import { Review } from './entities/review.entity';
 
 export class ProductsRepository {
   constructor(
@@ -12,6 +14,10 @@ export class ProductsRepository {
     private readonly productsRepository: Repository<Product>,
     @InjectRepository(Category)
     private readonly categoriesRepository: Repository<Category>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+    @InjectRepository(Review)
+    private readonly reviewRepository: Repository<Review>,
   ) {}
 
   getProducts() {
@@ -67,6 +73,7 @@ export class ProductsRepository {
       throw new BadRequestException('Product ID not valid');
     const product = await this.productsRepository.findOne({
       where: { product_id },
+      relations: ['reviews'],
     });
     if (!product) throw new BadRequestException('Product not found');
     return product;
@@ -78,5 +85,21 @@ export class ProductsRepository {
   }
   remove(id: number) {
     throw new Error('Method not implemented.');
+  }
+
+  async addReview(product, user_id, review, rate) {
+    if (!isUUID(user_id)) throw new BadRequestException('User ID not valid');
+
+    const user = await this.userRepository.findOne({ where: { user_id } });
+    if (!user) throw new BadRequestException('User not found');
+
+    const newReview = new Review();
+    newReview.product = product;
+    newReview.user = user;
+    newReview.review = review;
+    newReview.rate = rate;
+    await this.reviewRepository.save(newReview);
+    await this.productsRepository.save(product);
+    return `${user.name} say ${review}, ${rate} points. About ${product.product_name}`;
   }
 }

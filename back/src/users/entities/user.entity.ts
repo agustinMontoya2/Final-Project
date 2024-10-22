@@ -4,6 +4,7 @@ import { Credential } from 'src/auth/entities/credential.entity';
 import { Order } from 'src/order/entities/order.entity';
 import { Cart } from 'src/products/entities/cart.entity';
 import { Favorities } from 'src/products/entities/favorities.entity';
+import { Review } from 'src/products/entities/review.entity';
 import { Reservation } from 'src/reservation/entities/reservation.entity';
 import {
   Column,
@@ -55,4 +56,7 @@ export class User {
 
   @Column({ nullable: true })
   user_img: string;
+
+  @OneToMany(() => Review, (review) => review.user)
+  reviews: Review[];
 }
