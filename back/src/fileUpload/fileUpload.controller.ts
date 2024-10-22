@@ -46,7 +46,7 @@ export class FileUploadController {
         validators: [
           new MaxFileSizeValidator({
             maxSize: 2000000,
-            message: `The file must not exceed 200KB`,
+            message: `The file must not exceed 2MB`,
           }),
           new FileTypeValidator({ fileType: /jpg|jpeg|webp|gif|png|svg/ }),
         ],
