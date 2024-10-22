@@ -3,14 +3,17 @@
 import { IUserSession } from '@/interfaces/productoInterface';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
 
 export default function Dropdown() {
     const router = useRouter();
+    const pathname = usePathname()
     const [userSession, setUserSession] = useState<IUserSession | null>(null);
     const [isOpen, setIsOpen] = useState(false);
+    const [userData, setUserData] = useState<null>();
+
     // const [token_auth0, setToken_auth0] = useState<string | null>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -23,7 +26,7 @@ export default function Dropdown() {
         if (session) {
             setUserSession(JSON.parse(session));
         }
-      }, []);
+    }, [router, pathname]);
 
     //   useEffect(() => {
     //     const currentUrl = window.location.href;
@@ -66,6 +69,7 @@ export default function Dropdown() {
         }).then((result) => {
             if (result.isConfirmed) {
                 localStorage.removeItem('userSession');
+                setUserData(null)
                 // localStorage.removeItem('token_auth0'); // También elimina el token al hacer logout
                 setUserSession(null);
                 // setToken_auth0(null); // Resetea el estado del token

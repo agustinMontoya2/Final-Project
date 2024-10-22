@@ -31,48 +31,46 @@ const Login = () => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
+    
         try {
             const response = await formLogin(userData);
             if (response && response.user) {
                 localStorage.setItem("userSession", JSON.stringify(response));
-                window.dispatchEvent(new Event("userSessionUpdated"));
+                setUserData(userData);
+                // Disparar el evento para actualizar la sesión
+                window.dispatchEvent(new Event("userSessionUpdated")); // Aquí está el cambio
                 Swal.fire({
                     icon: 'success',
-                    title: 'Logout successfully',
+                    title: 'Login successfully',
                     toast: true,
                     position: 'top-end',
                     showConfirmButton: false,
                     timer: 2500,
                     timerProgressBar: true,
-                    didOpen: (toast) => {
-                    toast.onmouseenter = Swal.stopTimer;
-                    toast.onmouseenter = Swal.resumeTimer;
-                    }
                 });
                 router.push("/menu");
             } else {
                 throw new Error("User not found");
             }
         } catch (error: unknown) {
-            if(error instanceof Error){
+            if (error instanceof Error) {
                 Swal.fire({
                     title: 'Error',
                     text: error.message,
                     icon: 'error',
                     timer: 2000
                 });
-            }
-            else{
+            } else {
                 Swal.fire({
                     title: 'Error',
-                    text:'Invalid credentials or user does not exist',
+                    text: 'Invalid credentials or user does not exist',
                     icon: 'error',
                     timer: 2000
                 });
             }
         }
     };
+    
 
     const renderInput = (type: string, name: keyof ILogin, label: string) => {
         return (
