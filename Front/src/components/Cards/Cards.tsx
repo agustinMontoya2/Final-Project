@@ -73,11 +73,9 @@ const Cards = () => {
                 if (isFavorited) {
                     await removeFavorities(userId, productId, token);
                     await fetchFavorities();
-                    
                 } else {
                     await addFavorities(userId, productId, token);
                     await fetchFavorities();
-                    
                 }
             } catch (error: any) {
                 console.error("Error al manejar favoritos", error.message);

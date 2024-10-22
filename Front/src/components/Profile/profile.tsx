@@ -160,7 +160,7 @@ const ProfileV = () => {
             {
                 isEditing ? (
                 <div className="w-full flex justify-end">
-                    <button onClick={handleEditData} className="w-auto px-3 py-1 bg-secondary rounded-lg mt-3">Save</button>
+                    <button onClick={handleEditData} className="w-auto px-3 py-1 bg-secondary rounded-lg mt-3 hover:bg-red-700">Save</button>
                 </div> ) : ("")
             }
         </div>
