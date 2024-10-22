@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { IReserve,IUserSession } from '@/interfaces/productoInterface';
-import { formReserve,  } from '@/lib/server/reservation';
+import { IReserve, IUserSession } from '@/interfaces/productoInterface';
+import { formReserve } from '@/lib/server/reservation';
 import Swal from 'sweetalert2';
-// fetchReservations
 
 const ReservationForm: React.FC = () => {
     const initialState: IReserve = {
@@ -19,7 +18,7 @@ const ReservationForm: React.FC = () => {
     const [mealType, setMealType] = useState<string>(''); 
 
     const mealTimes: Record<string, string[]> = {
-        Breakfast: ['07:00', '07:30', '08:00', '08:30',],
+        Breakfast: ['07:00', '07:30', '08:00', '08:30'],
         Lunch: ['11:00', '11:30', '12:00', '12:30', '13:00', '13:30'],
         Snack: ['16:00', '16:30', '17:00', '17:30'],
         Dinner: ['20:00', '20:30', '21:00', '21:30'],
@@ -47,7 +46,6 @@ const ReservationForm: React.FC = () => {
         }
     };
 
-
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -66,7 +64,7 @@ const ReservationForm: React.FC = () => {
         };
 
         try {
-            const result = await formReserve({ user_id: userId, ...reservationData });
+            await formReserve({ user_id: userId, ...reservationData });
             Swal.fire({
                 icon: 'success',
                 title: 'Reservation created',
@@ -91,118 +89,118 @@ const ReservationForm: React.FC = () => {
 
     return (
         <div className="absolute inset-0 flex items-center justify-center lg:relative lg:h-screen lg:w-1/2 m-auto">
-    <form onSubmit={handleSubmit} className="w-11/12 bg-neutral-300 p-6 rounded-lg flex flex-col justify-center items-center">
-        <h2 className="w-full text-xl text-center text-neutral-800 font-extrabold">Reservar</h2>
+            <form onSubmit={handleSubmit} className="w-11/12 bg-neutral-300 p-6 rounded-lg flex flex-col justify-center items-center">
+                <h2 className="w-full text-xl text-center text-neutral-800 font-extrabold">Reservar</h2>
 
-        <div className="w-4/5 mb-6 relative">
-            <input
-                type="date"
-                name="date"
-                value={userData.date}
-                onChange={handleChange}
-                min={new Date().toISOString().split('T')[0]}
-                className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
-                required
-            />
-            <label
-                htmlFor="date"
-                className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${userData.date ? 'top-[4px] text-xs' : ''}`}
-            >
-                Date
-            </label>
-        </div>
+                <div className="w-4/5 mb-6 relative">
+                    <input
+                        type="date"
+                        name="date"
+                        value={userData.date}
+                        onChange={handleChange}
+                        min={new Date().toISOString().split('T')[0]}
+                        className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
+                        required
+                    />
+                    <label
+                        htmlFor="date"
+                        className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${userData.date ? 'top-[5px] text-xs' : ''}`}
+                    >
+                        Date
+                    </label>
+                </div>
 
-        <div className="w-4/5 mb-6 relative">
-            <select
-                name="mealType"
-                value={mealType}
-                onChange={handleChange}
-                className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
-                required
-            >
-                <option className={'text-black'} value="" disabled>Select a food type</option>
-                {Object.keys(mealTimes).map((type) => (
-                    <option key={type} value={type}>{type}</option>
-                ))}
-            </select>
-            <label
-                htmlFor="mealType"
-                className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${mealType ? 'top-[4px] text-xs' : ''}`}
-            >
-                
-            </label>
-        </div>
+                <div className="w-4/5 mb-6 relative">
+                    <select
+                        name="mealType"
+                        value={mealType}
+                        onChange={handleChange}
+                        className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
+                        required
+                    >
+                        <option className={'text-black'} value="" disabled></option>
+                        {Object.keys(mealTimes).map((type) => (
+                            <option key={type} value={type}>{type}</option>
+                        ))}
+                    </select>
+                    <label
+                        htmlFor="mealType"
+                        className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${mealType ? 'top-[5px] text-xs' : ''}`}
+                    >
+                        Meal Type
+                    </label>
+                </div>
 
-        {mealType && (
-            <div className="w-4/5 mb-6 relative">
-                <select
-                    name="time"
-                    value={userData.time}
-                    onChange={handleChange}
-                    className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
-                    required
-                >
-                    <option className={'text-black'} value="" disabled>Set time</option>
-                    {mealTimes[mealType].map((timeOption) => (
-                        <option key={timeOption} value={timeOption}>{timeOption}</option>
-                    ))}
-                </select>
-                <label
-                    htmlFor="time"
-                    className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${userData.time ? 'top-[4px] text-xs' : ''}`}
-                >
-                    
-                </label>
-            </div>
-        )}
+                {mealType && (
+                    <div className="w-4/5 mb-6 relative">
+                        <select
+                            name="time"
+                            value={userData.time}
+                            onChange={handleChange}
+                            className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
+                            required
+                        >
+                            <option className={'text-black'} value="" disabled></option>
+                            {mealTimes[mealType].map((timeOption) => (
+                                <option key={timeOption} value={timeOption}>{timeOption}</option>
+                            ))}
+                        </select>
+                        <label
+                            htmlFor="time"
+                            className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${userData.time ? 'top-[5px] text-xs' : ''}`}
+                        >
+                            Time
+                        </label>
+                    </div>
+                )}
 
-        <div className="w-4/5 mb-6 relative">
-            <select
-                name="ubication"
-                value={userData.ubication}
-                onChange={handleChange}
-                className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
-                required
-            >
-                <option className={'text-black'} value="" disabled>Select ubication</option>
-                <option value="Exterior">Exterior</option>
-                <option value="Interior">Interior</option>
-                <option value="Rooftop">Rooftop</option>
-            </select>
-            <label
-                htmlFor="ubication"
-                className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${userData.ubication ? 'top-[4px] text-xs' : ''}`}
-            >
-            
-            </label>
-        </div>
-
-        <div className="w-4/5 mb-6 relative">
-            <input
-                type="number"
-                name="peopleCount"
-                min="1"
-                max="15"
-                value={userData.peopleCount}
-                onChange={handleChange}
-                placeholder="Cantidad de personas"
-                className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
-                required
-            />
-            <label
-                htmlFor="peopleCount"
-                className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${userData.peopleCount ? 'top-[4px] text-xs' : ''}`}
-            >
-                How many people
-            </label>
-        </div>
-
-        <button type="submit" className="w-4/5 bg-red-600 text-white font-bold py-2 rounded-lg hover:bg-red-700 transition duration-200">
-            Reserve
-        </button>
-    </form>
+<div className="w-4/5 mb-6 relative">
+    <select
+        name="ubication"
+        value={userData.ubication}
+        onChange={handleChange}
+        className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
+        required
+    >
+        <option className={'text-black'} value="" disabled></option>
+        <option value="Exterior" >Exterior</option>
+        <option value="Interior" >Interior</option>
+        <option value="Rooftop" >Rooftop</option>
+    </select>
+    <label
+        htmlFor="ubication"
+        className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${userData.ubication ? 'top-[5px] text-xs' : 'top-4 text-base'}`}
+    >
+        Ubication
+    </label>
 </div>
 
+
+                <div className="w-4/5 mb-6 relative">
+                    <input
+                        type="number"
+                        name="peopleCount"
+                        min="1"
+                        max="15"
+                        value={userData.peopleCount}
+                        onChange={handleChange}
+                        placeholder="Cantidad de personas"
+                        className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
+                        required
+                    />
+                    <label
+                        htmlFor="peopleCount"
+                        className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${userData.peopleCount ? 'top-[5px] text-xs' : ''}`}
+                    >
+                        How many people
+                    </label>
+                </div>
+
+                <button type="submit" className="w-4/5 bg-red-600 text-white font-bold py-2 rounded-lg hover:bg-red-700 transition duration-200">
+                    Reserve
+                </button>
+            </form>
+        </div>
     );
 };
 

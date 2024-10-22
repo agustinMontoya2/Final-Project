@@ -37,7 +37,7 @@ const Cards = () => {
     }, []);
 
     useEffect(() => {
-        if (userId && token) {
+        if (!userId && !token) {
             fetchProducts();
             fetchFavorities();
         }
@@ -59,8 +59,8 @@ const Cards = () => {
             try {
                 const favoritiesData = await getFavorities(userId, token);
                 setFavorities(favoritiesData);
-            } catch (error) {
-                console.error("Error al obtener favoritos");
+            } catch (error: any) {
+                console.error("Error al obtener favoritos", error.message);
             }
         } else {
             console.log("no hay token");
@@ -73,14 +73,12 @@ const Cards = () => {
                 if (isFavorited) {
                     await removeFavorities(userId, productId, token);
                     await fetchFavorities();
-                    
                 } else {
                     await addFavorities(userId, productId, token);
                     await fetchFavorities();
-                    
                 }
-            } catch (error) {
-                console.error("Can't add to favorites");
+            } catch (error: any) {
+                console.error("Error al manejar favoritos", error.message);
             }
         } else {
             alert("Log in to manage Favorite");
@@ -198,7 +196,10 @@ const Cards = () => {
                                     className="flex items-center justify-center"
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        handleAddToFavorities(product.product_id, favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id) ?? false);
+                                        handleAddToFavorities(
+                                            product.product_id,
+                                            favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id) ?? false
+                                        );
                                     }}
                                 >
                                     <Image

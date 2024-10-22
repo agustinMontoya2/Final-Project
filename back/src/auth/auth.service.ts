@@ -11,6 +11,8 @@ import { Credential } from './entities/credential.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { MailService } from 'src/mail/mail.service';
+import axios from 'axios';
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -86,5 +88,18 @@ export class AuthService {
       { email: user.email },
       { password: newPassword },
     );
+  }
+
+  async exchangeCodeForToken(code: string): Promise<string> {
+    const url = `https://${process.env.AUTH0_BASE_URL}/oauth/token`;
+    const response = await axios.post(url, {
+      grant_type: 'authorization_code',
+      client_id: process.env.AUTH0_CLIENT_ID,
+      client_secret: process.env.AUTH0_SECRET,
+      code,
+      redirect_uri: `http://localhost:3000/auth/callback`,
+    });
+
+    return response.data.access_token;
   }
 }

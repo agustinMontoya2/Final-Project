@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth0/nextjs-auth0": "^3.5.0",
     "@tailwindcss/line-clamp": "^0.4.4",
     "date-fns": "^4.1.0",
     "izitoast": "^1.4.0",

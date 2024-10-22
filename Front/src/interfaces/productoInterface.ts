@@ -67,14 +67,25 @@ export interface IUserSession {
   token: string;
   email: string;
   user: {
+    id:string,
     address: string;
-    id: string;
+    user_id: string;
     name: string;
     phone: string;
     user_img: string;
     orders: [];
   };
 }
+
+export interface IUser {
+  user_id: string;
+  name: string;
+  phone: string;
+  user_img: string;
+  orders: [];
+  address: string;
+}
+
 export interface IProductsDetails {
   product_detail_id: string;
   quantity: string;
@@ -86,7 +97,6 @@ export interface ICart {
   cart_id: string;
   note: string;
   product: IProductsDetails[];
-  productDetail: IProductsDetails[];
 }
 
 export interface IFavorities {

@@ -42,7 +42,7 @@ export async function formLogin(userData: ILogin) {
             const responseData = await response.json();
             return responseData;
         } else {
-            const errorData = await response.json(); 
+            const errorData = await response.json();
             throw Error(errorData.message || "Falló el login");
         }
     } catch (error: unknown) {
