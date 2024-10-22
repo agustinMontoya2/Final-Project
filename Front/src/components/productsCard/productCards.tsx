@@ -1,5 +1,5 @@
 "use client";
-import { IProducts, ICart, IFavorities } from "@/interfaces/productoInterface";
+import { IProducts, ICart, IFavorities, IReview } from "@/interfaces/productoInterface";
 import { getProductsDB } from "@/Helpers/products.helper";
 import Image from "next/image";
 import React, { useState, useEffect } from 'react';
@@ -8,11 +8,13 @@ import { addFavorities, getFavorities, removeFavorities } from "@/lib/server/fav
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 
-const ProductCards: React.FC<IProducts> = ({ product_id, price, description, image_url, product_name }) => {
+const ProductCards: React.FC<IProducts> = ({ product_id, price, description, image_url, product_name, review,}) => {
+  // const { category_name } = category; 
   const router = useRouter()
   const [userId, setUserId] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [favorities, setFavorities] = useState<IFavorities>();
+  const [reviews, setReviews] = useState<IReview>();
   
   useEffect(() => {
     const storedUserData = window.localStorage.getItem("userSession");

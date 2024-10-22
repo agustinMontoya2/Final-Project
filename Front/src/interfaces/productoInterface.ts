@@ -32,7 +32,14 @@ export interface IProducts {
   category: {
     category_name: string;
   };
+  review:IReview[]
   available: boolean;
+}
+
+export interface IReview{
+    review_id: string,
+    review: string,
+    rate: string,
 }
 
 export interface ILogin {
