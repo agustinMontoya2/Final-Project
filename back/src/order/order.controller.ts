@@ -11,15 +11,32 @@ import {
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { MailService } from 'src/mail/mail.service';
+import { Repository } from 'typeorm';
+import { Credential } from 'src/auth/entities/credential.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Controller('order')
 @ApiTags('order')
 export class OrderController {
-  constructor(private readonly orderService: OrderService) {}
+  constructor(
+    private readonly orderService: OrderService,
+    private readonly mailService: MailService,
+    @InjectRepository(Credential)
+    private readonly credentialRepository: Repository<Credential>,
+  ) {}
 
   @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.orderService.create(createOrderDto);
+  async create(@Body() createOrderDto: CreateOrderDto) {
+    const userFind = await this.credentialRepository.findOne({
+      where: { user: { user_id: createOrderDto.userId } },
+    });
+
+    const order = this.orderService.create(createOrderDto);
+
+    await this.mailService.confirmOrder(userFind.email);
+
+    return order;
   }
 
   @Get()

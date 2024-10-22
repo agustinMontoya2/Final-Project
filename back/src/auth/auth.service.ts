@@ -79,14 +79,15 @@ export class AuthService {
     await this.mailService.resetPasswordEmail(user.email, resetLink);
   }
 
-  async resetPassword(email: string, newPassword: string): Promise<void> {
+  async resetPassword(email: string, newPassword: string) {
     const user = await this.credentialRepository.findOneBy({ email });
     if (!user) {
       throw new Error('User not found');
     }
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
     await this.credentialRepository.update(
       { email: user.email },
-      { password: newPassword },
+      { password: hashedPassword },
     );
   }
 

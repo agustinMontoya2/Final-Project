@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Res, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Res, Query } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/create-user.dto';
 import { LogInDto } from './dto/create-user.dto';
@@ -43,12 +43,6 @@ export class AuthController {
     this.authService.resetPassword(email, newPassword);
     return { message: 'Password has been reset successfully' };
   }
-
-  // @Post('testEmail')
-  // async testEmail() {
-  //   await this.mailService.resetPasswordEmail('chapa.fg@hotmail.com', 'prueba');
-  //   return { message: 'Test email sent' };
-  // }
 
   //auth0 rutas de login y logout
   @Get('login')

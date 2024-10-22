@@ -23,9 +23,14 @@ const ProfileV = () => {
         if(typeof window !== 'undefined' && window.localStorage){
             const userData = JSON.parse(localStorage.getItem("userSession")!)
             setUserData(userData);
-            handleGetUser()
         }
     }, [])
+
+    useEffect(() => {
+        if (userData?.token && userData?.user?.user_id) {
+            handleGetUser()
+        }
+    }, [userData])
 
     // Maneja cambios en los inputs
     const handleInputChange = (e: any) => {
@@ -68,7 +73,12 @@ const ProfileV = () => {
         if (userData?.token) {
             try {
                 const response = await getUser(userData?.user?.user_id, userData?.token);
+                console.log("response");
+                
+                console.log(response);
+                
                 setUser(response);
+                setEditableData(response);
             } catch (error) {
                 alert(error);
             }

@@ -1,3 +1,4 @@
+
 [
   {
     "product_name": "Bruschetta",
@@ -34,7 +35,7 @@
   {
     "product_name": "Steak",
     "price": 350.0,
-    "description": "Tender and juicy grilled steak, perfectly seasoned, and served with a side of creamy mashed potatoes and sautéed vegetables.",
+    "description": "Tender and juicy grilled steak, perfectly seasoned, and served with a side of creamy mashed potatoes and sautÃ©ed vegetables.",
     "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518904/yoiwlklaht0fqzifc4sw.jpg",
     "available": true,
     "category": "Main Dishes"
