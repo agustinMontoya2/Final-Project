@@ -12,6 +12,7 @@ module.exports = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        'gray-transparent': 'rgba(128, 128, 128, 0.85)',
       },
       backgroundColor: {
         primary: "#E0E0E0",

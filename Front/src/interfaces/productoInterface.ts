@@ -75,7 +75,7 @@ export interface IUser {
   user_id: string;
   name: string;
   phone: string;
-  user_img: string;
+  user_img?: string;
   orders: [];
   address: string;
 }
@@ -125,4 +125,12 @@ export interface IOrderDetail {
   total: string;
   note: string;
   productDetails: IProductsDetails[];
+}
+
+export interface ProfileImageProps {
+  user: {
+      user_img: string;
+  };
+  isEditing: boolean;
+  onImageChange: (file: File) => void;
 }

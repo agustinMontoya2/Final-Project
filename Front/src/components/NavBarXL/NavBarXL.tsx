@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 import BackButton from '../BackButton/BackButton';
 import Dropdown from '../Dropdowm/Dropdown';
@@ -13,6 +13,7 @@ export default function NavBarXL() {
     const [userSession, setUserSession] = useState<UserSession | null>(null);
     const router = useRouter();
     const pathname = usePathname();
+    const searchParams = useSearchParams();
 
     useEffect(() => {
         const userData = localStorage.getItem('userSession');
@@ -20,6 +21,17 @@ export default function NavBarXL() {
             setUserSession(JSON.parse(userData));
         }
     }, [pathname]);
+
+    useEffect(() => {
+        const token_auth0 = searchParams.get('token_auth0'); // Extrae el token de los parámetros de la URL
+
+        if (token_auth0) { // Si existe el token
+            // Almacena el token en Local Storage
+            localStorage.setItem('authToken', token_auth0);
+            // Redirige al usuario a la página de inicio
+            router.push('/');
+        }
+    }, [searchParams, router]);
 
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedValue = event.target.value;
@@ -43,7 +55,6 @@ export default function NavBarXL() {
                     <Link className="w-7 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/reserve"}>
                         <p className="text-white font-bold hover:text-neutral-300 duration-500">Reservation</p>
                     </Link>
-                    
                     <Dropdown />
                 </div>
             </div>

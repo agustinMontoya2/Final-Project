@@ -47,23 +47,26 @@ export async function getUser(userId: string, token: string) {
     }
 }
 
-export async function editProfileImg(user_img: any, token: any, user_id: string) {
+export async function editProfileImg(user_img: File, token: string, user_id: string) {
     try {
+        const formData = new FormData();
+        formData.append('image', user_img); // 'image' debe coincidir con el nombre que espera el backend
+
         const response = await fetch(`${APIURL}/files/uploadimageProfile/${user_id}`, {
-            method: "PUT",
+            method: "POST",
             headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${token}`, // No pongas Content-Type, el navegador lo establece automáticamente
             },
-            body: JSON.stringify({user_img }),
+            body: formData, // Envía el FormData directamente
         });
+
         const result = await response.json();
-        
+
         if (!response.ok) {
-            throw new Error(result.message );
+            throw new Error(result.message);
         }
         return result;
     } catch (error: any) {
-        throw error; 
+        throw error;
     }
 }
