@@ -87,4 +87,9 @@ export class UsersController {
 
     return this.usersService.addToFavoritiesService(product_id, user_id);
   }
+
+  @Post('ban/:id')
+  banUser(@Param('id') user_id: string) {
+    return this.usersService.banUser(user_id);
+  }
 }

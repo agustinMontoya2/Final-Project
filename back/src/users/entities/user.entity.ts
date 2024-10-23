@@ -4,6 +4,7 @@ import { Credential } from 'src/auth/entities/credential.entity';
 import { Order } from 'src/order/entities/order.entity';
 import { Cart } from 'src/products/entities/cart.entity';
 import { Favorities } from 'src/products/entities/favorities.entity';
+import { Review } from 'src/products/entities/review.entity';
 import { Reservation } from 'src/reservation/entities/reservation.entity';
 import {
   Column,
@@ -21,6 +22,9 @@ export class User {
 
   @Column()
   name: string;
+
+  @Column({ nullable: true })
+  user_img: string;
 
   @Column()
   phone: string;
@@ -45,6 +49,9 @@ export class User {
   @ApiHideProperty()
   isAdmin: boolean;
 
+  @Column({ type: 'boolean', default: false })
+  isBanned: boolean;
+
   @OneToOne(() => Cart, (cart) => cart.user)
   @JoinColumn({ name: 'cart_id' })
   cart: Cart;
@@ -53,6 +60,6 @@ export class User {
   @JoinColumn({ name: 'favorities_id' })
   favorities: Favorities;
 
-  @Column({ nullable: true })
-  user_img: string;
+  @OneToMany(() => Review, (review) => review.user)
+  reviews: Review[];
 }
