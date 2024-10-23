@@ -12,20 +12,15 @@ import {
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { CreateReviewDto, UpdateReviewDto } from './dto/create-review.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateReviewDto } from './dto/create-review.dto';
 
 @Controller('products')
 @ApiTags('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Get('add')
-  add() {
-    console.log('controller');
-
-    return this.productsService.add();
-  }
+  // Product endpoints
 
   @Get()
   findAll() {
@@ -36,11 +31,6 @@ export class ProductsController {
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.productsService.findOne(id);
   }
-
-  // @Get("category")
-  // getProductByCategory(category) {
-  //   return this.productsService.getProducts();
-  // }
 
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
@@ -56,15 +46,42 @@ export class ProductsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.productsService.remove(+id);
+  }
+
+  // Review endpoints
+
+  @Get('review/:id')
+  getReviews(@Param('id', ParseUUIDPipe) review_id: string) {
+    return this.productsService.getReview(review_id);
   }
 
   @Post('review/:id')
   addReview(
-    @Param('id') product_id: string,
+    @Param('id', ParseUUIDPipe) product_id: string,
     @Body() createReviewDto: CreateReviewDto,
   ) {
     return this.productsService.addReview(product_id, createReviewDto);
+  }
+
+  @Put('review/:id')
+  updateReview(
+    @Param('id', ParseUUIDPipe) review_id: string,
+    @Body() updateReviewDto: UpdateReviewDto,
+  ) {
+    return this.productsService.updateReview(review_id, updateReviewDto);
+  }
+
+  @Delete('review/:id')
+  deleteReviews(@Param('id', ParseUUIDPipe) review_id: string) {
+    return this.productsService.deleteReviews(review_id);
+  }
+
+  // Utility endpoint (for testing purposes)
+
+  @Get('add')
+  add() {
+    return this.productsService.add();
   }
 }

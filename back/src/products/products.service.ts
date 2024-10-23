@@ -36,8 +36,17 @@ export class ProductsService implements OnApplicationBootstrap {
     return this.productRepository.findOne(id);
   }
 
-  update(product_id: string, updateProductDto: UpdateProductDto) {
-    return this.productRepository.update(product_id, updateProductDto);
+  update(product_id, updateProductDto: UpdateProductDto) {
+    if (!IsUUID(product_id))
+      throw new BadRequestException('Product ID not valid');
+    const product = this.productRepository.findOne(product_id);
+    const { product_name, description, price, category_id } = updateProductDto;
+    return this.productRepository.update(product, {
+      product_name,
+      description,
+      price,
+      category_id,
+    });
   }
 
   remove(id: number) {
@@ -46,7 +55,25 @@ export class ProductsService implements OnApplicationBootstrap {
 
   async addReview(product_id, createReviewDto: CreateReviewDto) {
     const { user_id, review, rate } = createReviewDto;
-    const product = await this.productRepository.findOne(product_id);
-    return this.productRepository.addReview(product, user_id, review, rate);
+    return this.productRepository.addReview(product_id, user_id, review, rate);
+  }
+
+  async getReview(review_id) {
+    const review = await this.productRepository.getReview(review_id);
+    return review;
+  }
+
+  async deleteReviews(review_id) {
+    if (!IsUUID(review_id))
+      throw new BadRequestException('Review ID not valid');
+    const review = await this.getReview(review_id);
+    return this.productRepository.deleteReview(review);
+  }
+
+  async updateReview(review_id, updateReviewDto) {
+    if (!IsUUID(review_id))
+      throw new BadRequestException('Review ID not valid');
+    const review = await this.getReview(review_id);
+    return this.productRepository.updateReview(review, updateReviewDto);
   }
 }

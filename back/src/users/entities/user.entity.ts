@@ -23,6 +23,9 @@ export class User {
   @Column()
   name: string;
 
+  @Column({ nullable: true })
+  user_img: string;
+
   @Column()
   phone: string;
 
@@ -46,6 +49,9 @@ export class User {
   @ApiHideProperty()
   isAdmin: boolean;
 
+  @Column({ type: 'boolean', default: false })
+  isBanned: boolean;
+
   @OneToOne(() => Cart, (cart) => cart.user)
   @JoinColumn({ name: 'cart_id' })
   cart: Cart;
@@ -53,9 +59,6 @@ export class User {
   @OneToOne(() => Favorities, (favorities) => favorities.user)
   @JoinColumn({ name: 'favorities_id' })
   favorities: Favorities;
-
-  @Column({ nullable: true })
-  user_img: string;
 
   @OneToMany(() => Review, (review) => review.user)
   reviews: Review[];

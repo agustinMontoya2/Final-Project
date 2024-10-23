@@ -1,3 +1,4 @@
+import { PartialType } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateReviewDto {
@@ -13,3 +14,5 @@ export class CreateReviewDto {
   @IsNotEmpty()
   rate: number;
 }
+
+export class UpdateReviewDto extends PartialType(CreateReviewDto) {}
