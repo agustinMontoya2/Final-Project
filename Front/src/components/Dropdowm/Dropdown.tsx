@@ -14,7 +14,6 @@ export default function Dropdown() {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const searchParams = useSearchParams();
-    const [profileImg, setProfileImg] = useState<string | null>(null);
 
     useEffect(() => {
         const token_auth0 = searchParams.get('token_auth0');
@@ -30,28 +29,8 @@ export default function Dropdown() {
         if (session) {
             const parsedSession = JSON.parse(session);
             setUserSession(parsedSession);
-
-            const img = localStorage.getItem('profileImg');
-            setProfileImg(img);
         }
     }, [router, pathname]);
-
-    useEffect(() => {
-        const handleProfileImgChange = () => {
-            const img = localStorage.getItem('profileImg');
-            setProfileImg(img);
-        };
-
-        window.addEventListener('profileImgUpdated', handleProfileImgChange);
-
-        const img = localStorage.getItem('profileImg');
-        setProfileImg(img);
-
-        return () => {
-            window.removeEventListener('profileImgUpdated', handleProfileImgChange);
-        };
-    }, []);
-    ;
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
@@ -92,13 +71,12 @@ export default function Dropdown() {
     return (
         <div className="relative flex items-center" ref={dropdownRef}>
             <div className='w-12 h-12 overflow-hidden rounded-full'>
-                {profileImg ? (
-                    <Image src={profileImg} width={50} height={50} alt="profile" className="m-auto object-cover" onClick={toggleDropdown} />
+                {userSession?.user?.user_img ? (
+                    <Image src={userSession.user.user_img} width={50} height={50} alt="profile" className="m-auto" onClick={toggleDropdown} />
                 ) : (
                     <Image src="/assets/icon/profile.png" width={50} height={50} alt="profile" className="m-auto" onClick={toggleDropdown} />
                 )}
             </div>
-            
             <div className={`absolute right-0 w-44 bg-white border rounded shadow-lg z-10 transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'}`} style={{ top: '100%', marginTop: '8px' }}>
                 {userSession ? (
                     <div>

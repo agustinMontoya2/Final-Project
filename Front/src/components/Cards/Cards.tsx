@@ -176,26 +176,23 @@ const Cards = () => {
                 <button onClick={clearFilters} className="bg-gray-500 text-white py-1 px-3 rounded hover:bg-gray-600">Clear Filter</button>
             </div>
 
-            <div className="w-[50%] h-auto grid grid-cols-1 sm:grid-cols-2 gap-6 justify-evenly m-auto">
+            <div className="w-[60%] h-auto grid grid-cols-1 sm:grid-cols-2 gap-6 justify-evenly m-auto">
                 {filteredProducts.map((product) => (
-                    <div key={product.product_id} className="flex items-center bg-primary shadow-2xl rounded-xl p-4 hover:scale-105 duration-500">
-                        <div className="w-1/2">
-                            <Link href={`/product/${product.product_id}`}>
-                                <div className="relative w-36 h-36">
-                                    <Image
-                                        src={product.image_url}
-                                        alt={product.product_name}
-                                        layout="responsive"
-                                        width={80}
-                                        height={80}
-                                        objectFit="contain"
-                                        className="w-full h-auto rounded-md"
-                                    />
-                                </div>
-                            </Link>
-                        </div>
-
-                        <div className="w-1/2 pl-4">
+                    <div key={product.product_id} className="flex items-center shadow-2xl rounded-xl p-4 hover:scale-105 duration-500 bg-primary">
+                        <Link href={`/product/${product.product_id}`}>
+                            <div className="relative w-36 flex justify-center items-center">
+                                <Image
+                                    src={product.image_url}
+                                    alt={product.product_name}
+                                    layout="responsive"
+                                    width={80}
+                                    height={80}
+                                    objectFit="contain"
+                                    className="w-full h-auto rounded-md"
+                                />
+                            </div>
+                        </Link>
+                        <div className="w-2/3 pl-4">
                             <div className="flex items-center justify-between mb-2">
                                 <h2 className="text-black text-xl font-semibold">{product.product_name}</h2>
                                 <button
@@ -213,7 +210,27 @@ const Cards = () => {
                                             : "/assets/icon/staroutline.png"}
                                         alt="Favorite icon"
                                         width={24}
+<<<<<<< HEAD
                                         height={24}/>
+=======
+                                        height={24}
+                                    />
+                                </button>
+                            </div>
+                            <p className="text-black text-sm line-clamp-2 mb-2">
+                                <b>Description:</b> {product.description}
+                            </p>
+                            <div className="w-full flex justify-between items-center">
+                                <p className="text-black text-sm"><b>Price:</b> ${product.price}</p>
+                                <button
+                                    className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleAddCart(product.product_id);
+                                    }}
+                                >
+                                    <Image src="/assets/icon/cart.png" width={20} height={20} alt="comprar" />
+>>>>>>> 86faa4fa474629772a028c7675be937e221da635
                                 </button>
                             </div>
                             <p className="text-black font-medium">${Number(product.price).toFixed(2)}</p>

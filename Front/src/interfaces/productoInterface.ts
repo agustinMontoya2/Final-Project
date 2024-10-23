@@ -40,6 +40,7 @@ export interface IReview{
   review_id: string,
   review: string,
   rate: number,
+  user: IUser
 }
 export interface ILogin {
   email: string;
