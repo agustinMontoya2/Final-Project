@@ -17,12 +17,12 @@ const ConditionalLayout: React.FC<{ children: React.ReactNode }> = ({ children }
       <div className='block md:hidden'>
         {hidden && <NavBar />}
       </div>
-      <div className='hidden md:block xl:hidden'>
+      {/* <div className='hidden md:block xl:hidden'>
         {hidden && <NavBarMD />}
-      </div>
-      <div className='hidden xl:block'>
+      </div> */}
+      <div className='hidden md:block'>
         {hidden && <NavBarXL />}
-      </div> 
+      </div>
 
       <main className={`flex-grow ${hidden ? "pt-16 pb-16" : ""}`}>
         {children}

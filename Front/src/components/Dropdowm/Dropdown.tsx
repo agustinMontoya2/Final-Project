@@ -41,17 +41,13 @@ export default function Dropdown() {
             const img = localStorage.getItem('profileImg');
             setProfileImg(img);
         };
-
         window.addEventListener('profileImgUpdated', handleProfileImgChange);
-
-        const img = localStorage.getItem('profileImg');
-        setProfileImg(img);
+        handleProfileImgChange();
 
         return () => {
             window.removeEventListener('profileImgUpdated', handleProfileImgChange);
         };
     }, []);
-    ;
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
