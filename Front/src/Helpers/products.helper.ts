@@ -1,3 +1,4 @@
+import ProductFilter from "@/components/Filter/Filter";
 import { IProducts, IProductsDetails } from "@/interfaces/productoInterface";
 
 const APIURL = process.env.NEXT_PUBLIC_API_URL;
@@ -25,6 +26,7 @@ export async function getProductsById(id: string): Promise<IProducts> {
     const productfiltered = products.find(
       (product) => product.product_id.toString() === id
     );
+    console.log(products, productfiltered)
     if (!productfiltered) throw new Error("No existe el producto");
     return productfiltered;
   } catch (error: any) {
@@ -49,10 +51,12 @@ export async function getProductsDBdetail(): Promise<IProductsDetails[]> {
 
 export async function getProduct(product_id: string) {
   try {
-    const res = await fetch(`${APIURL}/product/${product_id}`, {
+    const res = await fetch(`${APIURL}/products/${product_id}`, {
       next: { revalidate: 60 },
     });
-    const products: IProductsDetails[] = await res.json();
+    const products: IProducts = await res.json();
+    console.log(products)
+    if(!products) throw new Error("No existe el producto");
     return products;
   } catch (error: any) {
     if (error instanceof Error) {
@@ -64,3 +68,30 @@ export async function getProduct(product_id: string) {
 }
 
 
+export async function postReview(user_id: string, token: string, product_id: string, reviewPost: any) {
+  try {
+    console.log(reviewPost, "este es el console log")
+    const response = await fetch(`${APIURL}/products/review/${product_id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        ...reviewPost,
+        user_id
+      }),
+    });
+    
+    console.log(response)
+    if (!response.ok) {
+      throw new Error('Couldnt post review');
+    }
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+
+}

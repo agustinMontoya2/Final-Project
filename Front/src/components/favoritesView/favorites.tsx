@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { IFavorities, IProducts, IUserSession } from "@/interfaces/productoInterface";
 import React, { useEffect, useState } from 'react';
 import { addCart } from "@/lib/server/cart";
-import Image from 'next/image'; // Asegúrate de importar Image para usarlo
+import Image from 'next/image'; 
 import Swal from 'sweetalert2';
 
 const FavoritesView: React.FC = () => {
@@ -58,9 +58,9 @@ const FavoritesView: React.FC = () => {
         } else {
           await addFavorities(userId, productId, token);
         }
-        fetchData(); // Actualiza la lista de favoritos después de agregar o eliminar
+        fetchData(); 
       } catch (error) {
-        console.error("Error al manejar favoritos", error.message);
+        console.error("Error al manejar favoritos");
       }
     } else {
       alert("Inicia sesión para manejar favoritos.");

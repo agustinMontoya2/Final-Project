@@ -27,7 +27,11 @@ const ProfileV = () => {
 
     useEffect(() => {
         if (typeof window !== 'undefined' && window.localStorage) {
+<<<<<<< HEAD
             const userData = JSON.parse(localStorage.getItem("userSession")!);
+=======
+            const userData = JSON.parse(localStorage.getItem("userSession")!)
+>>>>>>> ad75e9ee8ed28f9bb8d5542083a154d70aed5abd
             setUserData(userData);
             const img = localStorage.getItem('profileImg');
             console.log(img);

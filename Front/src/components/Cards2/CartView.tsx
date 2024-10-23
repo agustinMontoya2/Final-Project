@@ -107,8 +107,25 @@ const CartView = () => {
                 timerProgressBar: true,
             });
             return;
+        } 
+        
+        if (!userId) {
+    
+            alert("User  ID is missing. Please log in.");
+            return;
         }
     
+        if (token && deliveryOption && paymentOption) {
+            const orderData: IOrder = {
+                userId,
+                order_type: deliveryOption,
+                payment_method: paymentOption,
+                note,
+            };
+    
+        
+
+
         if (userId && token && deliveryOption && paymentOption) {
             try {
                 const response = await postOrder(orderData, token);
@@ -230,14 +247,18 @@ const CartView = () => {
             </div>
 
             <button
-                onClick={()=> handlePostOrder({ userId,  order_type: deliveryOption, payment_method: paymentOption, note, })}
+                onClick={()=> handlePostOrder({ userId, 
+                    order_type: deliveryOption,
+                    payment_method: paymentOption,
+                    note, })}
                 className="mt-6 bg-red-600 text-white font-bold px-6 py-2 rounded-lg hover:bg-red-700 transition duration-300"
-                disabled={!cartItems || cartItems.productDetail.length === 0} // Deshabilitar si el carrito está vacío
+                disabled={!cartItems || cartItems.productDetail.length === 0} 
             >
                 Finalize Order
             </button>
         </div>
     );
 };
+}
 
 export default CartView;
