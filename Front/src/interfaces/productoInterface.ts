@@ -40,6 +40,7 @@ export interface IReview{
   review_id: string,
   review: string,
   rate: number,
+  product: IProducts
   user: IUser
 }
 export interface ILogin {
@@ -92,6 +93,7 @@ export interface IUser {
   user_img?: string;
   orders: [];
   address: string;
+  isBanned: boolean;
 }
 
 export interface IProductsDetails {

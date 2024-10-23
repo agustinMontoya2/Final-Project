@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import Loading from "../Loading/Loading";
 
 const Cards = () => {
-    const router = useRouter()
+    const router = useRouter();
     const [products, setProducts] = useState<IProducts[]>([]);
     const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState({
@@ -140,9 +140,9 @@ const Cards = () => {
         })
         .sort((a, b) => {
             if (filters.priceOrder === "asc") {
-                return a.price - b.price;
+                return Number(a.price) - Number(b.price);
             } else if (filters.priceOrder === "desc") {
-                return b.price - a.price;
+                return Number(b.price) - Number(a.price);
             }
             return 0;
         });
@@ -169,6 +169,8 @@ const Cards = () => {
                 <button onClick={() => setFilters({ ...filters, category: "Appetizers" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Appetizers</button>
                 <button onClick={() => setFilters({ ...filters, category: "Sides" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Sides</button>
                 <button onClick={() => setFilters({ ...filters, category: "Desserts" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Desserts</button>
+                <button onClick={() => setFilters({ ...filters, priceOrder: "asc" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Price: Low to High</button>
+                <button onClick={() => setFilters({ ...filters, priceOrder: "desc" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Price: High to Low</button>
                 <button onClick={() => setFilters({ ...filters, showFavorites: !filters.showFavorites })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">
                     {filters.showFavorites ? "Watch all" : "Watch favorites"}
                 </button>
@@ -202,8 +204,7 @@ const Cards = () => {
                                             product.product_id,
                                             favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id) ?? false
                                         );
-                                    }}
-                                >
+                                    }}>
                                     <Image
                                         src={favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id)
                                             ? "/assets/icon/star.png"
@@ -229,6 +230,7 @@ const Cards = () => {
                                     <Image src="/assets/icon/cart.png" width={20} height={20} alt="comprar" />
                                 </button>
                             </div>
+                            
                         </div>
                     </div>
                 ))}

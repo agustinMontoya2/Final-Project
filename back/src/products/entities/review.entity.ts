@@ -23,7 +23,7 @@ export class Review {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @Column()
+  @Column({ nullable: true })
   review: string;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
