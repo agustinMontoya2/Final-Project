@@ -3,46 +3,38 @@
 import { IUserSession } from '@/interfaces/productoInterface';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
 
 export default function Dropdown() {
     const router = useRouter();
-    const pathname = usePathname()
+    const pathname = usePathname();
     const [userSession, setUserSession] = useState<IUserSession | null>(null);
     const [isOpen, setIsOpen] = useState(false);
-    const [userData, setUserData] = useState<null>();
-
-    // const [token_auth0, setToken_auth0] = useState<string | null>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const searchParams = useSearchParams();
 
-    const toggleDropdown = () => {
-        setIsOpen(!isOpen);
-    };
+    useEffect(() => {
+        const token_auth0 = searchParams.get('token_auth0');
+
+        if (token_auth0) {
+            localStorage.setItem('authToken', token_auth0);
+            router.push('/');
+        }
+    }, [searchParams, router]);
 
     useEffect(() => {
         const session = localStorage.getItem('userSession');
         if (session) {
-            setUserSession(JSON.parse(session));
+            const parsedSession = JSON.parse(session);
+            setUserSession(parsedSession);
         }
     }, [router, pathname]);
 
-    //   useEffect(() => {
-    //     const currentUrl = window.location.href;
-    //     console.log('URL actual:', currentUrl); // Esto debería mostrar la URL actual
-
-    //     const url = new URL(currentUrl);
-    //     const tokenFromUrl = url.searchParams.get('token_auth0');
-
-    //     if (tokenFromUrl) {
-    //         console.log('Token extraído:', tokenFromUrl); // Este mensaje debería aparecer si hay un token
-    //         localStorage.setItem('token_auth0', tokenFromUrl);
-    //     } else {
-    //         console.log('No se encontró el token.');
-    //     }
-    // }, []);
-    
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+    };
 
     const handleClickOutside = (event: MouseEvent) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -69,10 +61,7 @@ export default function Dropdown() {
         }).then((result) => {
             if (result.isConfirmed) {
                 localStorage.removeItem('userSession');
-                setUserData(null)
-                // localStorage.removeItem('token_auth0'); // También elimina el token al hacer logout
                 setUserSession(null);
-                // setToken_auth0(null); // Resetea el estado del token
                 router.push('/');
                 window.dispatchEvent(new Event("userSessionUpdated"));
             }
@@ -81,13 +70,13 @@ export default function Dropdown() {
 
     return (
         <div className="relative flex items-center" ref={dropdownRef}>
-            {
-                userSession?.user?.user_img ? (
-                    <Image src={userSession.user.user_img} width={50} height={50} alt="profile" className="m-auto rounded-full" onClick={toggleDropdown} />
+            <div className='w-12 h-12 overflow-hidden rounded-full'>
+                {userSession?.user?.user_img ? (
+                    <Image src={userSession.user.user_img} width={50} height={50} alt="profile" className="m-auto" onClick={toggleDropdown} />
                 ) : (
                     <Image src="/assets/icon/profile.png" width={50} height={50} alt="profile" className="m-auto" onClick={toggleDropdown} />
-                )
-            }
+                )}
+            </div>
             <div className={`absolute right-0 w-44 bg-white border rounded shadow-lg z-10 transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'}`} style={{ top: '100%', marginTop: '8px' }}>
                 {userSession ? (
                     <div>
@@ -120,7 +109,7 @@ export default function Dropdown() {
                         </button>
                     </div>
                 ) : (
-                    <>
+                    <div>
                         <Link className="flex justify-between w-full text-left px-2 py-2 hover:bg-gray-100" href={"/login"}>
                             <p className="text-black font-bold">Login</p>
                             <Image src="/assets/icon/login.png" width={"25"} height="25" alt='' />
@@ -128,7 +117,7 @@ export default function Dropdown() {
                         <Link className="w-full text-left px-2 py-2 hover:bg-gray-100 flex" href={"/register"}>
                             <p className="text-black font-bold">Register</p>
                         </Link>
-                    </>
+                    </div>
                 )}
             </div>
             {userSession && userSession.user && (

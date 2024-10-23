@@ -20,6 +20,9 @@ export class UsersService {
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {
+    const { name, email, address, phone } = updateUserDto;
+    if (!name && !email && !address && !phone)
+      throw new BadRequestException('Cannot update user');
     return this.usersRepository.updateUser(id, updateUserDto);
   }
 

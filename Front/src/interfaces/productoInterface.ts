@@ -40,6 +40,8 @@ export interface IReview{
   review_id: string,
   review: string,
   rate: number,
+  product: IProducts
+  user: IUser
 }
 export interface ILogin {
   email: string;
@@ -88,9 +90,10 @@ export interface IUser {
   user_id: string;
   name: string;
   phone: string;
-  user_img: string;
+  user_img?: string;
   orders: [];
   address: string;
+  isBanned: boolean;
 }
 
 export interface IProductsDetails {
@@ -139,4 +142,12 @@ export interface IOrderDetail {
   total: string;
   note: string;
   productDetails: IProductsDetails[];
+}
+
+export interface ProfileImageProps {
+  user: {
+      user_img: string;
+  };
+  isEditing: boolean;
+  onImageChange: (file: File) => void;
 }

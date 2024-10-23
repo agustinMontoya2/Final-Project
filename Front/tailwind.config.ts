@@ -12,6 +12,7 @@ module.exports = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        'gray-transparent': 'rgba(128, 128, 128, 0.85)',
       },
       backgroundColor: {
         primary: "#E0E0E0",
@@ -25,6 +26,7 @@ module.exports = {
       },
       filter: {
         'dark-gray': 'drop-shadow(0 4px 30px rgba(26, 26, 26, 0.5))',
+        'center': 'drop-shadow(0 0 100px rgba(0, 0, 0, 0.9))',
       },
       fontSize: {
         '10xl': '10.5rem',

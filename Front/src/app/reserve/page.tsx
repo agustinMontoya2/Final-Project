@@ -10,8 +10,9 @@ const Reserve = () => {
         const userSession = localStorage.getItem("userSession");
         if (!userSession) {
             router.push('/login');
-        } 
+        }
     }, [router]);
+
     return (
       <>
         <FormReserve />
