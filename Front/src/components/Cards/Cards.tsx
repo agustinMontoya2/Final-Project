@@ -9,6 +9,7 @@ import { addCart } from "@/lib/server/cart";
 import Link from 'next/link';
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
+import Loading from "../Loading/Loading";
 
 const Cards = () => {
     const router = useRouter()
@@ -146,9 +147,9 @@ const Cards = () => {
             return 0;
         });
 
-    if (loading) {
-        return <div className="flex flex-col justify-center text-black">Loading menu...</div>;
-    }
+        if (loading) {
+            return <Loading />;
+        }
 
     return (
         <div className="p-5 bg-gray-100 rounded-lg shadow-md">
