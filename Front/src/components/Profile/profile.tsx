@@ -60,7 +60,6 @@ const ProfileV = () => {
             try {
                 if (profileImgFile) {
                     await editProfileImg(profileImgFile, userData.token, userData.user.user_id);
-                    // Actualiza la imagen en el localStorage
                     const newImgUrl = URL.createObjectURL(profileImgFile);
                     localStorage.setItem('profileImg', newImgUrl);
                     window.dispatchEvent(new Event("userSessionUpdated"));
@@ -75,7 +74,7 @@ const ProfileV = () => {
                     showConfirmButton: false,
                     timerProgressBar: true,
                 });
-                handleGetUser(); // Actualiza la información del usuario
+                handleGetUser()
                 setIsEditing(false);
             } catch (error: any) {
                 alert(error.message);
@@ -86,13 +85,13 @@ const ProfileV = () => {
     };
 
     const handleEditImageData = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0]; // Cambiado a [0]
+        const file = e.target.files?.[0];
         if (file) {
-            setProfileImgFile(file); // Guarda el archivo en el estado
-            const imgUrl = URL.createObjectURL(file); // Muestra la imagen seleccionada
-            localStorage.setItem('profileImg', imgUrl); // Guarda la URL en localStorage
+            setProfileImgFile(file);
+            const imgUrl = URL.createObjectURL(file);
+            localStorage.setItem('profileImg', imgUrl);
             window.dispatchEvent(new Event("profileImgUpdated"));
-            setImagePreview(imgUrl); // Actualiza la vista previa
+            setImagePreview(imgUrl);
         }
     };
 
@@ -123,46 +122,46 @@ const ProfileV = () => {
                 </div>
             </div>
             <div className="relative my-3 w-24 h-24 overflow-hidden rounded-full m-auto">
-    {imagenPreview ? ( // Usa imagenPreview para mostrar la vista previa
-        <Image
-            src={imagenPreview} // Actualiza aquí
-            width={100}
-            height={100}
-            alt="profile"
-            className="object-cover w-full h-full"
-        />
-    ) : profileImg ? (
-        <Image
-            src={profileImg}
-            width={100}
-            height={100}
-            alt="profile"
-            className="object-cover w-full h-full"
-        />
-    ) : (
-        <Image
-            src={"/assets/icon/profileblack.png"}
-            width={100}
-            height={100}
-            alt="profile"
-            className="object-cover w-full h-full"
-        />
-    )}
-    {isEditing && (
-        <div className="absolute inset-0 z-50 m-auto bg-gray-transparent flex justify-center items-center">
-            <label htmlFor="file-upload" className="cursor-pointer flex justify-center items-center">
-                <Image src={"/assets/icon/image.png"} width={55} height={55} alt="img" className="object-contain" />
-                <input
-                    id="file-upload"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleEditImageData}
-                    className="hidden" // Esconde el input real
-                />
-            </label>
-        </div>
-    )}
-</div>
+                {imagenPreview ? (
+                    <Image
+                        src={imagenPreview} 
+                        width={100}
+                        height={100}
+                        alt="profile"
+                        className="object-cover w-full h-full"
+                    />
+                ) : profileImg ? (
+                    <Image
+                        src={profileImg}
+                        width={100}
+                        height={100}
+                        alt="profile"
+                        className="object-cover w-full h-full"
+                    />
+                ) : (
+                    <Image
+                        src={"/assets/icon/profileblack.png"}
+                        width={100}
+                        height={100}
+                        alt="profile"
+                        className="object-cover w-full h-full"
+                    />
+                )}
+                {isEditing && (
+                    <div className="absolute inset-0 z-50 m-auto bg-gray-transparent flex justify-center items-center">
+                        <label htmlFor="file-upload" className="cursor-pointer flex justify-center items-center">
+                            <Image src={"/assets/icon/image.png"} width={55} height={55} alt="img" className="object-contain" />
+                            <input
+                                id="file-upload"
+                                type="file"
+                                accept="image/*"
+                                onChange={handleEditImageData}
+                                className="hidden"
+                            />
+                        </label>
+                    </div>
+                )}
+            </div>
 
 
 

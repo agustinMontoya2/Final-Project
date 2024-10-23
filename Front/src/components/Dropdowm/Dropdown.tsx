@@ -30,27 +30,28 @@ export default function Dropdown() {
         if (session) {
             const parsedSession = JSON.parse(session);
             setUserSession(parsedSession);
-            // Obtener la imagen de perfil desde localStorage
+
             const img = localStorage.getItem('profileImg');
             setProfileImg(img);
         }
     }, [router, pathname]);
 
     useEffect(() => {
-        const handleStorageChange = () => {
+        const handleProfileImgChange = () => {
             const img = localStorage.getItem('profileImg');
             setProfileImg(img);
         };
 
-        // Escuchar cambios en localStorage
-        window.addEventListener('storage', handleStorageChange);
+        window.addEventListener('profileImgUpdated', handleProfileImgChange);
+
         const img = localStorage.getItem('profileImg');
         setProfileImg(img);
 
         return () => {
-            window.removeEventListener('storage', handleStorageChange);
+            window.removeEventListener('profileImgUpdated', handleProfileImgChange);
         };
     }, []);
+    ;
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
