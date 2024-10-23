@@ -25,6 +25,10 @@ export class SignUpDto {
   @IsEmpty()
   isAdmin: boolean;
 
+  @ApiHideProperty()
+  @IsEmpty()
+  isBanned: boolean;
+
   /**
    * Email of the user must be a valid email
    * @example 'mail@example.com'

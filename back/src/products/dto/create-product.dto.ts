@@ -57,6 +57,9 @@ export class CreateProductDto {
   @IsNotEmpty({ message: 'Availability is required' })
   @IsBoolean()
   available: boolean;
+
+  @IsString()
+  category_id: string;
 }
 
 export class productDetailDto {

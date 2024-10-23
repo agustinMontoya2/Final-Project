@@ -89,4 +89,10 @@ export class UsersService {
     if (!user) throw new NotFoundException('User not found');
     return this.usersRepository.removeFavorities(product_id, user);
   }
+
+  async banUser(user_id: string) {
+    if (!isUUID(user_id)) throw new BadRequestException('User ID not valid');
+    const user = await this.findOne(user_id);
+    return this.usersRepository.banUser(user);
+  }
 }
