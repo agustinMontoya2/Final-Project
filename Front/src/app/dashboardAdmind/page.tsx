@@ -13,8 +13,7 @@ const DashboardAdmind = () => {
     if (storedUserData) {
         const parsedData = JSON.parse(storedUserData);
         if (parsedData && parsedData.user) {
-          if(parsedData.isAdmin) alert("hola admin")
-          
+          if(parsedData.isAdmin)
             setAdmin(parsedData.isAdmin);
             
         }

@@ -40,6 +40,7 @@ export interface IReview{
   review_id: string,
   review: string,
   rate: number,
+  product: IProducts
   user: IUser
 }
 export interface ILogin {

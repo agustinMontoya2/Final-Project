@@ -210,9 +210,6 @@ const Cards = () => {
                                             : "/assets/icon/staroutline.png"}
                                         alt="Favorite icon"
                                         width={24}
-<<<<<<< HEAD
-                                        height={24}/>
-=======
                                         height={24}
                                     />
                                 </button>
@@ -230,15 +227,9 @@ const Cards = () => {
                                     }}
                                 >
                                     <Image src="/assets/icon/cart.png" width={20} height={20} alt="comprar" />
->>>>>>> 86faa4fa474629772a028c7675be937e221da635
                                 </button>
                             </div>
-                            <p className="text-black font-medium">${Number(product.price).toFixed(2)}</p>
-                            <button
-                                onClick={() => handleAddCart(product.product_id)}
-                                className="bg-secondary text-white rounded py-2 px-4 mt-2 hover:bg-secondary-dark">
-                                Add to cart
-                            </button>
+                            
                         </div>
                     </div>
                 ))}

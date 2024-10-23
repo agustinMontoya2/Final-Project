@@ -114,90 +114,10 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
   useEffect(() => adjustHeight(), [reviewPost.review]);
 
   return (
-<<<<<<< HEAD
-    <div className="w-[70%] flex flex-col items-center p-4 bg-white rounded-lg m-[40%] shadow-md transition-transform duration-200 ease-in-out transform hover:scale-105 relative">
-      <button
-        className="absolute top-2 right-2 flex items-center justify-center"
-        onClick={(e) => {
-          e.stopPropagation();
-          handleAddToFavorities(product_id, favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product_id) ?? false);
-        }}
-      >
-        <Image
-          src={favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product_id)
-            ? "/assets/icon/star.png"
-            : "/assets/icon/staroutline.png"}
-          alt="Favorite icon"
-          width={24}
-          height={24}
-        />
-      </button>
-
-      <div className="w-full flex justify-center">
-        <div className="relative w-72 h-56">
-          <Image
-            src={image_url}
-            alt={product_name}
-            layout="fill"
-            objectFit="contain"
-            className="w-full h-auto rounded-md shadow-md"
-          />
-        </div>
-      </div>
-      <div className="w-full text-center mt-2">
-        <h2 className="text-gray-900 text-xl font-bold mb-1">{product_name}</h2>
-        <p className="text-gray-700 mb-2 text-sm">{description}</p>
-        <div>
-          <ul>
-            {productState.reviews.map((rev) => (
-              <li key={rev.review_id}>
-                <p className="text-black">{rev.review}</p>
-                <p className="text-black">Rating: {rev.rate}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <p className="text-gray-900 text-lg font-semibold mb-4">${price}</p>
-      </div>
-
-
-      <input
-        type="number"
-        name="rate"
-        value={reviewPost.rate}
-        onChange={handleInputReview}
-        placeholder={"Value between 1 and 5"}
-        className="rounded outline-none border-b text-black border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 min-w-56 mb-2 p-2"
-      />
-
-      <textarea
-        name="review"
-        value={reviewPost.review}
-        onChange={handleInputReview}
-        placeholder="Escribe tu review"
-        className="rounded outline-none border-b text-black border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 min-w-56 mb-2 p-2"
-      />
-
-      <button
-        onClick={handlePostReview}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2"
-      >
-        Post review
-      </button>
-
-      <div>
-        <button
-          onClick={() => handleAddCart(product_id)}
-          className="bg-secondary text-white font-semibold px-4 py-2 rounded hover:bg-red-700"
-        >
-          <Image src="/assets/icon/cart.png" width={20} height={20} alt="Add to Cart" className="inline mr-1" />
-          Add to Cart
-=======
     <div className="w-full h-screen flex flex-col items-center">
       <div className="w-[25%] h-auto flex flex-col items-center p-4 bg-white rounded-lg shadow-xl duration-500 hover:scale-105 relative ">
         <button className="absolute top-2 right-2" onClick={(e) => { e.stopPropagation(); handleAddToFavorities(product_id, favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product_id) ?? false); }}>
           <Image src={favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product_id) ? "/assets/icon/star.png" : "/assets/icon/staroutline.png"} alt="Favorite icon" width={24} height={24} />
->>>>>>> 86faa4fa474629772a028c7675be937e221da635
         </button>
         <div className=" flex justify-center relative w-72 h-56">
           <Image src={image_url} alt={product_name} layout="fill" objectFit="contain" className="w-full h-auto rounded-md" />
