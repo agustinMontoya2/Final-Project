@@ -32,9 +32,15 @@ export interface IProducts {
   category: {
     category_name: string;
   };
+  reviews:IReview[]
   available: boolean;
 }
 
+export interface IReview{
+  review_id: string,
+  review: string,
+  rate: number,
+}
 export interface ILogin {
   email: string;
   password: string;
@@ -53,15 +59,22 @@ export interface IReserve {
   reservation_id: string;
   ubication: string;
   date: string;
+  table: {
+    table_id: string;
+    table_number: string;
+    ubication: string;
+  }[];
   time: string;
   status: string;
   peopleCount: number;
 }
 
+
 export interface IUserSession {
   token: string;
   email: string;
   user: {
+    id:string,
     address: string;
     user_id: string;
     name: string;
@@ -91,6 +104,7 @@ export interface ICart {
   cart_id: string;
   note: string;
   product: IProductsDetails[];
+  productDetail: IProductsDetails[];
 }
 
 export interface IFavorities {
@@ -108,7 +122,7 @@ export interface ProductFilterProps {
 export interface IOrder {
   userId: string;
   order_type: string;
-  payment_type: string;
+  payment_method: string;
   note: string;
 }
 

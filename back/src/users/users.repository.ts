@@ -12,6 +12,7 @@ import { Favorities } from 'src/products/entities/favorities.entity';
 import { productDetailDto } from 'src/products/dto/create-product.dto';
 import { Product } from 'src/products/entities/product.entity';
 import { ProductDetail } from 'src/products/entities/productDetail.entity';
+import { isUUID } from 'class-validator';
 
 @Injectable()
 export class UsersRepository {
@@ -30,12 +31,15 @@ export class UsersRepository {
     return await this.userRepository.find();
   }
 
-  async getUserById(user_id: string) {
+  async getUserById(user_id) {
+    if (!isUUID(user_id)) throw new BadRequestException('User ID not valid');
     const user = await this.userRepository.findOne({
       where: { user_id },
       relations: ['cart', 'favorities', 'reservations'],
     });
-    return user ? user : null;
+
+    if (!user) throw new NotFoundException('User not found');
+    return user;
   }
 
   async createUser(signUpDto: SignUpDto) {
@@ -211,5 +215,13 @@ export class UsersRepository {
     );
     await this.favoritiesRepository.save(favorities);
     return { message: 'Product removed from favorities successfully' };
+  }
+
+  async banUser(user) {
+    user.isBanned = !user.isBanned;
+    await this.userRepository.save(user);
+    return user.isBanned
+      ? { message: 'User banned successfully' }
+      : { message: 'User unbanned successfully' };
   }
 }

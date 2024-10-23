@@ -8,8 +8,10 @@ import { addFavorities, removeFavorities, getFavorities } from "@/lib/server/fav
 import { addCart } from "@/lib/server/cart";
 import Link from 'next/link';
 import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 
 const Cards = () => {
+    const router = useRouter()
     const [products, setProducts] = useState<IProducts[]>([]);
     const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState({
@@ -34,7 +36,7 @@ const Cards = () => {
                 fetchFavorities();
             }
         }
-    }, []);
+    }, [router]);
 
     useEffect(() => {
         if (!userId && !token) {
@@ -81,7 +83,8 @@ const Cards = () => {
                 console.error("Error al manejar favoritos", error.message);
             }
         } else {
-            alert("Inicia sesión para manejar favoritos.");
+            alert("Log in to manage Favorite");
+            router.push("/login");
         }
     };
 
@@ -110,7 +113,8 @@ const Cards = () => {
                 });
             }
         } else {
-            alert("Inicia sesión para agregar al carrito.");
+            alert("Log in to add product to cart.");
+            router.push("/login");
         }
     };
 
@@ -143,12 +147,12 @@ const Cards = () => {
         });
 
     if (loading) {
-        return <div>Cargando productos...</div>;
+        return <div className="flex flex-col justify-center text-black">Loading menu...</div>;
     }
 
     return (
-        <div className="p-4">
-            <div className="flex justify-center mb-4">
+        <div className="p-5 bg-gray-100 rounded-lg shadow-md">
+            <div className="mb-5 text-center">
                 <input
                     type="text"
                     placeholder="Search dish..."
@@ -179,7 +183,9 @@ const Cards = () => {
                                     <Image
                                         src={product.image_url}
                                         alt={product.product_name}
-                                        layout="fill"
+                                        layout="responsive"
+                                        width={80}
+                                        height={80}
                                         objectFit="contain"
                                         className="w-full h-auto rounded-md"
                                     />

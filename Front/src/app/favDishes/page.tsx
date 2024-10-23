@@ -1,10 +1,11 @@
 import FavCard from '@/app/favDishes/favCard';
+import { IProducts } from '@/interfaces/productoInterface';
 import { getFavorities } from '@/lib/server/favorities';
 import React from 'react';
 
-const Fav: React.FC<{ params: {productsId: string, userId: string }}> = async ({ params }) => {
+const Fav: React.FC<{ params: {productsId: string, userId: string}, token: string }> = async ({ params, token }) => {
   try {
-    const products = await getFavorities(params.userId); 
+    const products: IProducts[] = await getFavorities(params.userId, token); 
 
     return (
       <div>
