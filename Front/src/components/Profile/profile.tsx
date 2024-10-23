@@ -1,3 +1,4 @@
+
 'use client';
 import { IUser, IUserSession } from "@/interfaces/productoInterface";
 import { editProfile, editProfileImg, getUser } from "@/lib/server/editProfile";
@@ -14,6 +15,8 @@ const ProfileV = () => {
     const [profileImgFile, setProfileImgFile] = useState<File | null>(null);
     const [imagenPreview, setImagePreview]  = useState<string | null>(null);
     const [profileImg,  setProfileImg] = useState<string | null>(null);
+
+    const [originalProfileImg, setOriginalProfileImg] = useState<string | null>(null);
 
 
     const [editableData, setEditableData] = useState({
@@ -61,20 +64,22 @@ const ProfileV = () => {
                 if (profileImgFile) {
                     await editProfileImg(profileImgFile, userData.token, userData.user.user_id);
                     const newImgUrl = URL.createObjectURL(profileImgFile);
-                    localStorage.setItem('profileImg', newImgUrl);
+                    // Actualiza la imagen en userSession
+                    userData.user.user_img = newImgUrl; // Suponiendo que user_img es el campo correcto
+                    localStorage.setItem("userSession", JSON.stringify(userData));
                     window.dispatchEvent(new Event("userSessionUpdated"));
                 }
                 const response = await editProfile(editableData, userData.token, userData.user.user_id);
                 Swal.fire({
                     icon: 'success',
-                    title: 'Usuario actualizado exitosamente',
+                    title: 'User updated successfully',
                     toast: true,
                     position: 'top-end',
                     timer: 2500,
                     showConfirmButton: false,
                     timerProgressBar: true,
                 });
-                handleGetUser()
+                handleGetUser();
                 setIsEditing(false);
             } catch (error: any) {
                 alert(error.message);
@@ -83,14 +88,13 @@ const ProfileV = () => {
             alert("Inicia sesión primero");
         }
     };
+    
 
-    const handleEditImageData = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleEditImageData = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
             setProfileImgFile(file);
             const imgUrl = URL.createObjectURL(file);
-            localStorage.setItem('profileImg', imgUrl);
-            window.dispatchEvent(new Event("profileImgUpdated"));
             setImagePreview(imgUrl);
         }
     };
@@ -101,6 +105,7 @@ const ProfileV = () => {
                 const response = await getUser(userData?.user?.user_id, userData?.token);
                 setUser(response);
                 setEditableData(response);
+                // setOriginalProfileImg(response.user_img || "/assets/icon/profileblack.png"); // Guarda la imagen original
             } catch (error) {
                 alert(error);
             }
@@ -112,9 +117,14 @@ const ProfileV = () => {
     const handleEditClick = () => {
         setIsEditing(true);
     };
+    const handleCancelClick = () => {
+        setImagePreview(originalProfileImg);
+        setIsEditing(false);
+    };
+    
 
     return (
-        <div className="bg-white p-6 rounded-lg shadow-lg w-screen max-w-md mx-auto my-48">
+        <div className={`bg-white p-6 rounded-lg shadow-lg w-screen max-w-md mx-auto my-48 transition-all duration-1000 ease-in-out ${isEditing ? 'max-h-screen' : 'max-h-96'}`}>            
             <div className="w-full flex justify-center items-center">
                 <h1 className="text-2xl font-semibold text-center text-gray-800">Account details</h1>
                 <div onClick={handleEditClick} className="cursor-pointer ml-2">
@@ -122,31 +132,25 @@ const ProfileV = () => {
                 </div>
             </div>
             <div className="relative my-3 w-24 h-24 overflow-hidden rounded-full m-auto">
-                {imagenPreview ? (
-                    <Image
-                        src={imagenPreview} 
-                        width={100}
-                        height={100}
-                        alt="profile"
-                        className="object-cover w-full h-full"
-                    />
-                ) : profileImg ? (
-                    <Image
-                        src={profileImg}
-                        width={100}
-                        height={100}
-                        alt="profile"
-                        className="object-cover w-full h-full"
-                    />
-                ) : (
-                    <Image
-                        src={"/assets/icon/profileblack.png"}
-                        width={100}
-                        height={100}
-                        alt="profile"
-                        className="object-cover w-full h-full"
-                    />
-                )}
+            {imagenPreview ? (
+                <Image
+                    src={imagenPreview}
+                    width={100}
+                    height={100}
+                    alt="profile"
+                    className="object-cover w-full h-full"
+                />
+            ) : (
+                <Image
+                    src={user?.user_img ?? originalProfileImg ?? "/assets/icon/profileblack.png"}
+                    width={100}
+                    height={100}
+                    alt="profile"
+                    className="object-cover w-full h-full"
+                />
+            )}
+
+
                 {isEditing && (
                     <div className="absolute inset-0 z-50 m-auto bg-gray-transparent flex justify-center items-center">
                         <label htmlFor="file-upload" className="cursor-pointer flex justify-center items-center">
@@ -162,11 +166,6 @@ const ProfileV = () => {
                     </div>
                 )}
             </div>
-
-
-
-
-
             <div className="flex justify-between items-center py-4 border-b border-t border-gray-200">
                 {isEditing ? (
                     <div className="w-full flex justify-between items-center text-gray-600">
@@ -228,7 +227,8 @@ const ProfileV = () => {
                 )}
             </div>
             {isEditing && (
-                <div className="w-full flex justify-end">
+                <div className="w-full flex justify-between">
+                    <button onClick={handleCancelClick} className="w-auto px-3 py-1 bg-secondary rounded-lg mt-3 hover:bg-red-700">Cancel</button>
                     <button onClick={handleSaveChanges} className="w-auto px-3 py-1 bg-secondary rounded-lg mt-3 hover:bg-red-700">Save changes</button>
                 </div>
             )}

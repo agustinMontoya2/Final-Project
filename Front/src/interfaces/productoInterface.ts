@@ -91,6 +91,7 @@ export interface IUser {
   user_img?: string;
   orders: [];
   address: string;
+  isBanned: boolean;
 }
 
 export interface IProductsDetails {

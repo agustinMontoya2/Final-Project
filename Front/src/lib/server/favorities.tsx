@@ -1,4 +1,4 @@
-const APIURL = process.env.NEXT_PUBLIC_API_URL; // Asegúrate de que la variable de entorno esté configurada correctamente.
+const APIURL = process.env.NEXT_PUBLIC_API_URL; 
 
 export async function addFavorities(userId: string, productId: string, token: string) {
 

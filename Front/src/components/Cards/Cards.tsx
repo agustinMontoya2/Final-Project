@@ -11,7 +11,7 @@ import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 
 const Cards = () => {
-    const router = useRouter()
+    const router = useRouter();
     const [products, setProducts] = useState<IProducts[]>([]);
     const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState({
@@ -139,9 +139,9 @@ const Cards = () => {
         })
         .sort((a, b) => {
             if (filters.priceOrder === "asc") {
-                return a.price - b.price;
+                return Number(a.price) - Number(b.price);
             } else if (filters.priceOrder === "desc") {
-                return b.price - a.price;
+                return Number(b.price) - Number(a.price);
             }
             return 0;
         });
@@ -168,6 +168,8 @@ const Cards = () => {
                 <button onClick={() => setFilters({ ...filters, category: "Appetizers" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Appetizers</button>
                 <button onClick={() => setFilters({ ...filters, category: "Sides" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Sides</button>
                 <button onClick={() => setFilters({ ...filters, category: "Desserts" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Desserts</button>
+                <button onClick={() => setFilters({ ...filters, priceOrder: "asc" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Price: Low to High</button>
+                <button onClick={() => setFilters({ ...filters, priceOrder: "desc" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Price: High to Low</button>
                 <button onClick={() => setFilters({ ...filters, showFavorites: !filters.showFavorites })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">
                     {filters.showFavorites ? "Watch all" : "Watch favorites"}
                 </button>
@@ -204,35 +206,22 @@ const Cards = () => {
                                             product.product_id,
                                             favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id) ?? false
                                         );
-                                    }}
-                                >
+                                    }}>
                                     <Image
                                         src={favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id)
                                             ? "/assets/icon/star.png"
                                             : "/assets/icon/staroutline.png"}
                                         alt="Favorite icon"
                                         width={24}
-                                        height={24}
-                                    />
+                                        height={24}/>
                                 </button>
                             </div>
-                            <p className="text-black text-sm line-clamp-2 mb-2">
-                                <b>Description:</b> {product.description}
-                            </p>
-                            <div className="w-full flex justify-between items-center">
-                                <p className="text-black text-sm"><b>Price:</b> ${product.price}</p>
-
-                                {/* Botón para agregar al carrito */}
-                                <button
-                                    className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleAddCart(product.product_id);
-                                    }}
-                                >
-                                    <Image src="/assets/icon/cart.png" width={20} height={20} alt="comprar" />
-                                </button>
-                            </div>
+                            <p className="text-black font-medium">${Number(product.price).toFixed(2)}</p>
+                            <button
+                                onClick={() => handleAddCart(product.product_id)}
+                                className="bg-secondary text-white rounded py-2 px-4 mt-2 hover:bg-secondary-dark">
+                                Add to cart
+                            </button>
                         </div>
                     </div>
                 ))}

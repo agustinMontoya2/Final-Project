@@ -202,7 +202,7 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
         value={reviewPost.rate}
         onChange={handleInputReview}
         placeholder={"Value between 1 and 5"}
-        className="rounded outline-none border-b border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 min-w-56 mb-2 p-2"
+        className="rounded outline-none border-b text-black border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 min-w-56 mb-2 p-2"
       />
 
       <textarea
@@ -210,7 +210,7 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
         value={reviewPost.review}
         onChange={handleInputReview}
         placeholder="Escribe tu review"
-        className="rounded outline-none border-b border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 min-w-56 mb-2 p-2"
+        className="rounded outline-none border-b text-black border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 min-w-56 mb-2 p-2"
       />
 
       <button
