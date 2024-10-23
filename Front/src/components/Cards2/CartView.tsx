@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
 
 const CartView = () => {
-    const [cartItems, setCartItems] = useState<ICart | null>(null);
+    const [cartItems, setCartItems] = useState<ICart>({ productDetail: [] });
     const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
     const [totalCart, setTotalCart] = useState<number>(0);
@@ -35,14 +35,15 @@ const CartView = () => {
                 setCartItems(items);
                 calculateTotal(items);
             } catch (error) {
-                alert(error);
+                console.error("Error al obtener el carrito:", error);
+                alert("Error al obtener el carrito.");
             }
         } else {
             alert("Log in to view the cart.");
         }
     };
 
-    const calculateTotal = (items: ICart | null) => {
+    const calculateTotal = (items: ICart) => {
         if (items && items.productDetail) {
             const total = items.productDetail.reduce((acc, item) => acc + parseFloat(item.subtotal), 0);
             setTotalCart(total);
@@ -61,6 +62,7 @@ const CartView = () => {
                     alert("Failed to delete the product from the cart.");
                 }
             } catch (error) {
+                console.error(`Error: ${error instanceof Error ? error.message : error}`);
                 alert(`Error: ${error instanceof Error ? error.message : error}`);
             }
         }
@@ -76,6 +78,7 @@ const CartView = () => {
                     alert("Failed to delete the product from the cart.");
                 }
             } catch (error) {
+                console.error(`Error: ${error instanceof Error ? error.message : error}`);
                 alert(`Error: ${error instanceof Error ? error.message : error}`);
             }
         }
@@ -96,7 +99,7 @@ const CartView = () => {
     };
 
     const handlePostOrder = async (orderData: IOrder) => {
-        if (!cartItems || cartItems.productDetail.length === 0) {
+        if (!cartItems.productDetail.length) {
             Swal.fire({
                 icon: 'error',
                 title: 'Your cart is empty. Add products before finalizing the order.',
@@ -110,11 +113,10 @@ const CartView = () => {
         } 
         
         if (!userId) {
-    
-            alert("User  ID is missing. Please log in.");
+            alert("User ID is missing. Please log in.");
             return;
         }
-    
+
         if (token && deliveryOption && paymentOption) {
             const orderData: IOrder = {
                 userId,
@@ -122,11 +124,7 @@ const CartView = () => {
                 payment_method: paymentOption,
                 note,
             };
-    
-        
 
-
-        if (userId && token && deliveryOption && paymentOption) {
             try {
                 const response = await postOrder(orderData, token);
                 if (response) {
@@ -140,7 +138,7 @@ const CartView = () => {
                         showConfirmButton: false,
                         timerProgressBar: true,
                     });
-    
+
                     setNote("");
                 } else {
                     alert("Failed to create the order.");
@@ -247,18 +245,18 @@ const CartView = () => {
             </div>
 
             <button
-                onClick={()=> handlePostOrder({ userId, 
+                onClick={()=> handlePostOrder({ userId,
                     order_type: deliveryOption,
                     payment_method: paymentOption,
                     note, })}
                 className="mt-6 bg-red-600 text-white font-bold px-6 py-2 rounded-lg hover:bg-red-700 transition duration-300"
-                disabled={!cartItems || cartItems.productDetail.length === 0} 
+                disabled={!cartItems || cartItems.productDetail.length === 0}
             >
                 Finalize Order
             </button>
         </div>
     );
 };
-}
+
 
 export default CartView;

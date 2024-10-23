@@ -90,7 +90,7 @@ const FavoritesView: React.FC = () => {
 
 
   return (
-    <div className="bg-gray-100 min-h-screen py-10">
+    <div className=" min-h-screen py-10">
       <div className="max-w-5xl mx-auto bg-white p-8 rounded-lg shadow-lg">
         <h1 className="text-4xl font-extrabold text-center text-black mb-8 text-gradient">My Favorites</h1>
         {favorites && favorites.product && favorites.product.length > 0 ? (
@@ -98,29 +98,24 @@ const FavoritesView: React.FC = () => {
             {favorites.product.map((product: IProducts) => (
               <div key={product.product_id} className="bg-white p-6 rounded-lg shadow-lg transition-transform duration-300 hover:shadow-xl hover:scale-105">
                 <img src={product.image_url} alt={product.product_name} className="w-full h-56 object-cover rounded-t-lg mb-4" />
-                <div className="p-4">
-                  <h2 className="text-xl text-black font-semibold mb-2">{product.product_name}</h2>
-                  <p className="text-gray-700 font-medium">
-                    Price: <span className="text-black">${product.price}</span>
-                  </p>
-                  <p className="text-gray-500">{product.description}</p>
-
-                  <div className="flex justify-between m-4">
-                    <div className='px-3'>
-                    <button 
+                <div className="flex flex-col justify-between h-72 p-4">
+                  <div className='h-auto'>
+                    <h2 className="text-xl text-black font-semibold">{product.product_name}</h2>
+                    <p className="text-gray-700 font-medium">
+                      Price: <span className="text-black">${product.price}</span>
+                    </p>
+                    <p className="text-gray-500">{product.description}</p>
+                  </div>
+                  <div className="w-full h-auto flex justify-between">
+                    <button
                       onClick={() => handleAddToFavorities(product.product_id, favorites.product.some(fav => fav.product_id === product.product_id))} 
-                      className="mt-4  bg-red-200 text-black font-bold px-2 p-3 rounded-lg hover:bg-red-700 transition duration-300">
+                      className="mt-4  bg-secondary text-white font-bold px-2 p-3 rounded-lg hover:bg-red-700 transition duration-300">
                       {favorites.product.some(fav => fav.product_id === product.product_id) ? "Remove " : "Add to Favorites"}
                     </button>
-                    </div>
-
-                    <div className='px-3'>
-                    <button 
-                      onClick={() => handleAddCart(product.product_id)} 
-                      className="mt-4 bg-red-200 text-black font-bold px-6 rounded-lg hover:bg-red-700 transition duration-300">Add to Cart</button>
-                    </div>
+                    <button
+                      onClick={() => handleAddCart(product.product_id)}
+                      className="mt-4 bg-green-600 text-white font-bold px-6 rounded-lg hover:bg-green-700 transition duration-300">Add to Cart</button>
                   </div>
-
                 </div>
               </div>
             ))}

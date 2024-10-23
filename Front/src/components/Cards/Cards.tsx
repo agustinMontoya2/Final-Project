@@ -152,7 +152,7 @@ const Cards = () => {
         }
 
     return (
-        <div className="p-5 bg-gray-100 rounded-lg shadow-md">
+        <div className="pt-5 rounded-lg ">
             <div className="mb-5 text-center">
                 <input
                     type="text"
