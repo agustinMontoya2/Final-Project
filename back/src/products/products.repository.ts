@@ -22,7 +22,7 @@ export class ProductsRepository {
 
   async getProducts() {
     const product = await this.productsRepository.find({
-      relations: ['category'],
+      relations: ['category', "reviews"],
     });
     if (!product) throw new NotFoundException('Products not found');
     return product;
