@@ -28,7 +28,7 @@ const ConditionalLayout: React.FC<{ children: React.ReactNode }> = ({ children }
         {children}
       </main>
       
-      <div className='block 2xl:hidden'>
+      <div className='block md:hidden'>
         {hidden && <BottomNavBar />}
       </div>
       

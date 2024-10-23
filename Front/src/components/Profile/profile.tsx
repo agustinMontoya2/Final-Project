@@ -27,11 +27,7 @@ const ProfileV = () => {
 
     useEffect(() => {
         if (typeof window !== 'undefined' && window.localStorage) {
-<<<<<<< HEAD
-            const userData = JSON.parse(localStorage.getItem("userSession")!);
-=======
             const userData = JSON.parse(localStorage.getItem("userSession")!)
->>>>>>> ad75e9ee8ed28f9bb8d5542083a154d70aed5abd
             setUserData(userData);
             const img = localStorage.getItem('profileImg');
             console.log(img);
@@ -67,7 +63,9 @@ const ProfileV = () => {
                 if (profileImgFile) {
                     await editProfileImg(profileImgFile, userData.token, userData.user.user_id);
                     const newImgUrl = URL.createObjectURL(profileImgFile);
-                    localStorage.setItem('profileImg', newImgUrl);
+                    // Actualiza la imagen en userSession
+                    userData.user.user_img = newImgUrl; // Suponiendo que user_img es el campo correcto
+                    localStorage.setItem("userSession", JSON.stringify(userData));
                     window.dispatchEvent(new Event("userSessionUpdated"));
                 }
                 const response = await editProfile(editableData, userData.token, userData.user.user_id);
@@ -80,7 +78,7 @@ const ProfileV = () => {
                     showConfirmButton: false,
                     timerProgressBar: true,
                 });
-                handleGetUser()
+                handleGetUser();
                 setIsEditing(false);
             } catch (error: any) {
                 alert(error.message);
@@ -89,6 +87,7 @@ const ProfileV = () => {
             alert("Inicia sesión primero");
         }
     };
+    
 
     const handleEditImageData = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -142,7 +141,7 @@ const ProfileV = () => {
                 />
             ) : (
                 <Image
-                    src={profileImg ?? originalProfileImg ?? "/assets/icon/profileblack.png"}
+                    src={user?.user_img ?? originalProfileImg ?? "/assets/icon/profileblack.png"}
                     width={100}
                     height={100}
                     alt="profile"
