@@ -5,12 +5,12 @@ export interface Character {
 }
 
 export interface FormValues {
-  name: string;
-  descripcion: string;
+  product_name: string;
+  description: string;
   price: string;
-  imagen: File | null;
+  image_url: string;
   avaliable: boolean
-  category: ICategory;
+  category_id: string
 }
 
 export interface Plato {

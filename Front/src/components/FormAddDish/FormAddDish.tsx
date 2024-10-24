@@ -9,15 +9,13 @@ import { getCategories } from '@/lib/server/Categories';
 const FormularioMenu = () => {
     const router = useRouter();
     const [formValues, setFormValues] = useState<FormValues>({
-        name: '',
-        descripcion: '',
-        price: '',
-        imagen: null,
+        product_name: '',
+        description: '',
+        price: "",
+        image_url: "",
         avaliable: true,
-        category: {
-            category_id: '',
-            category_name: ''
-        }
+        category_id: "",
+
     });
     const [token, setToken] = useState<string | null>(null);
     const [userId, setUserId] = useState<string | null>(null);
@@ -40,19 +38,19 @@ const FormularioMenu = () => {
         }
     }, []);
 
-    useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                const categoriesData: ICategory[] = await getCategories();
-                console.log(categoriesData)
-                setCategories(categoriesData);
-            } catch (error) {
-                console.error("Error fetching categories:", error);
-            }
-        };
+    const fetchCategories = async () => {
+        try {
+            const categoriesData: ICategory[] = await getCategories();
+            console.log(categoriesData)
+            setCategories(categoriesData);
+        } catch (error) {
+            console.error("Error fetching categories:", error);
+        }
+    };
 
+    useEffect(() => {
         fetchCategories();
-    }, []);
+    }, [userSession]);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -61,10 +59,10 @@ const FormularioMenu = () => {
             const selectedCategory = categories.find(cat => cat.category_id === value);
             setFormValues({
                 ...formValues,
-                category: {
-                    category_id: selectedCategory?.category_id || "",
-                    category_name: selectedCategory?.category_name || ""
-                }
+
+                category_id: selectedCategory?.category_id || "",
+
+
             });
         } else {
             setFormValues({
@@ -78,7 +76,7 @@ const FormularioMenu = () => {
         if (e.target.files) {
             setFormValues({
                 ...formValues,
-                imagen: e.target.files[0],
+                image_url: " "
             });
         }
     };
@@ -91,43 +89,38 @@ const FormularioMenu = () => {
             return;
         }
 
-         if (!formValues.category.category_id || typeof formValues.category.category_id !== 'string') {
-        console.error("Invalid category_id");
-        return;
-    }
+        if (!formValues.category_id || typeof formValues.category_id !== 'string') {
+            console.error("Invalid category_id");
+            return;
+        }
 
         const product = {
-            
-            product_name: formValues.name,
-            description: formValues.descripcion,
+
+            product_name: formValues.product_name,
+            description: formValues.description,
             price: parseFloat(formValues.price),
-            image_url: formValues.imagen ? formValues.imagen.name : "",
-            category: {
-                category_id: formValues.category.category_id,
-                category_name: formValues.category.category_name
-            },
-            reviews: [],
+            // image_url: formValues.image_url ? formValues.image_url.name : "",
+            category_id: formValues.category_id,
+            // reviews: [],
             available: formValues.avaliable,
         };
-        console.log("Type of category_id:", typeof product.category.category_id);
+        console.log("Type of category_id:", typeof product.category_id);
 
         console.log("Product data being sent:", product)
 
         try {
             const response = await postProduct(token, product);
             console.log(response);
-            setFormValues({
-                name: '',
-                descripcion: '',
-                price: '',
-                imagen: null,
-                avaliable: true,
-                category: {
-                    category_id: '',
-                    category_name: ''
-                }
-            });
-            console.log("Type of category_id:", typeof product.category.category_id);
+            // setFormValues({
+            //     product_name: '',
+            //     description: '',
+            //     price: "",
+            //     image_url: "",
+            //     avaliable: true,
+            //     category_id: '',
+
+            // });
+            console.log("Type of category_id:", typeof product.category_id);
 
             alert("El producto se ha agregado correctamente");
         } catch (error: any) {
@@ -143,34 +136,34 @@ const FormularioMenu = () => {
                 <div className="w-4/5 mb-6 relative">
                     <input
                         type="text"
-                        name="name"
+                        name="product_name"
                         id="name"
                         placeholder="Name"
-                        value={formValues.name}
+                        value={formValues.product_name}
                         onChange={handleChange}
                         className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
                         required
                     />
                     <label
                         htmlFor="name"
-                        className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${formValues.name ? 'top-[4px] text-xs' : ''}`}
+                        className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${formValues.product_name ? 'top-[4px] text-xs' : ''}`}
                     >
                         Name
                     </label>
                 </div>
                 <div className="w-4/5 mb-6 relative">
                     <textarea
-                        name="descripcion"
-                        id="descripcion"
+                        name="description"
+                        id="description"
                         placeholder="Description"
-                        value={formValues.descripcion}
+                        value={formValues.description}
                         onChange={handleChange}
                         className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
                         required
                     />
                     <label
                         htmlFor="descripcion"
-                        className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${formValues.descripcion ? 'top-[4px] text-xs' : ''}`}
+                        className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${formValues.description ? 'top-[4px] text-xs' : ''}`}
                     >
                         Description
                     </label>
@@ -200,7 +193,7 @@ const FormularioMenu = () => {
                     <select
                         id="categoria"
                         name="category"
-                        value={formValues.category.category_id} // Ahora es un string, no un array
+                        value={formValues.category_id} // Ahora es un string, no un array
                         onChange={handleChange}
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         required
