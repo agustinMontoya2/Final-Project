@@ -9,6 +9,7 @@ export interface FormValues {
   descripcion: string;
   price: string;
   imagen: File | null;
+  avaliable: boolean
 }
 
 export interface Plato {
