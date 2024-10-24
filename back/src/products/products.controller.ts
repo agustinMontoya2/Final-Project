@@ -26,6 +26,10 @@ export class ProductsController {
   findAll() {
     return this.productsService.findAll();
   }
+  @Get('reviews')
+  getReviews() {
+    return this.productsService.getReviews();
+  }
 
   @Get(':id')
   findOne(@Param('id', ParseUUIDPipe) id: string) {
@@ -35,6 +39,14 @@ export class ProductsController {
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
+  }
+
+  @Put('review/:id')
+  updateReview(
+    @Param('id', ParseUUIDPipe) review_id: string,
+    @Body() updateReviewDto: UpdateReviewDto,
+  ) {
+    return this.productsService.updateReview(review_id, updateReviewDto);
   }
 
   @Put(':id')
@@ -53,7 +65,7 @@ export class ProductsController {
   // Review endpoints
 
   @Get('review/:id')
-  getReviews(@Param('id', ParseUUIDPipe) review_id: string) {
+  getReview(@Param('id', ParseUUIDPipe) review_id: string) {
     return this.productsService.getReview(review_id);
   }
 
@@ -63,14 +75,6 @@ export class ProductsController {
     @Body() createReviewDto: CreateReviewDto,
   ) {
     return this.productsService.addReview(product_id, createReviewDto);
-  }
-
-  @Put('review/:id')
-  updateReview(
-    @Param('id', ParseUUIDPipe) review_id: string,
-    @Body() updateReviewDto: UpdateReviewDto,
-  ) {
-    return this.productsService.updateReview(review_id, updateReviewDto);
   }
 
   @Delete('review/:id')

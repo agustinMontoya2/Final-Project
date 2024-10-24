@@ -8,13 +8,13 @@ import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
 
 const CartView = () => {
-    const [cartItems, setCartItems] = useState<ICart | null>(null);
+    const [cartItems, setCartItems] = useState<ICart>({ cart_id: "", note: "", product: [], productDetail: [] });
     const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
     const [totalCart, setTotalCart] = useState<number>(0);
     const [note, setNote] = useState<string>("");
-    const [deliveryOption, setDeliveryOption] = useState<string>("dine-in"); 
-    const [paymentOption, setPaymentOption] = useState<string>("cash"); 
+    const [deliveryOption, setDeliveryOption] = useState<string>("dine-in");
+    const [paymentOption, setPaymentOption] = useState<string>("cash");
     const router = useRouter();
 
     useEffect(() => {
@@ -35,14 +35,15 @@ const CartView = () => {
                 setCartItems(items);
                 calculateTotal(items);
             } catch (error) {
-                alert(error);
+                console.error("Error al obtener el carrito:", error);
+                alert("Error al obtener el carrito.");
             }
         } else {
             alert("Log in to view the cart.");
         }
     };
 
-    const calculateTotal = (items: ICart | null) => {
+    const calculateTotal = (items: ICart) => {
         if (items && items.productDetail) {
             const total = items.productDetail.reduce((acc, item) => acc + parseFloat(item.subtotal), 0);
             setTotalCart(total);
@@ -61,6 +62,7 @@ const CartView = () => {
                     alert("Failed to delete the product from the cart.");
                 }
             } catch (error) {
+                console.error(`Error: ${error instanceof Error ? error.message : error}`);
                 alert(`Error: ${error instanceof Error ? error.message : error}`);
             }
         }
@@ -76,6 +78,7 @@ const CartView = () => {
                     alert("Failed to delete the product from the cart.");
                 }
             } catch (error) {
+                console.error(`Error: ${error instanceof Error ? error.message : error}`);
                 alert(`Error: ${error instanceof Error ? error.message : error}`);
             }
         }
@@ -96,7 +99,7 @@ const CartView = () => {
     };
 
     const handlePostOrder = async (orderData: IOrder) => {
-        if (!cartItems || cartItems.productDetail.length === 0) {
+        if (!cartItems.productDetail.length) {
             Swal.fire({
                 icon: 'error',
                 title: 'Your cart is empty. Add products before finalizing the order.',
@@ -107,14 +110,13 @@ const CartView = () => {
                 timerProgressBar: true,
             });
             return;
-        } 
-        
+        }
+
         if (!userId) {
-    
-            alert("User  ID is missing. Please log in.");
+            alert("User ID is missing. Please log in.");
             return;
         }
-    
+
         if (token && deliveryOption && paymentOption) {
             const orderData: IOrder = {
                 userId,
@@ -122,11 +124,7 @@ const CartView = () => {
                 payment_method: paymentOption,
                 note,
             };
-    
-        
 
-
-        if (userId && token && deliveryOption && paymentOption) {
             try {
                 const response = await postOrder(orderData, token);
                 if (response) {
@@ -140,7 +138,7 @@ const CartView = () => {
                         showConfirmButton: false,
                         timerProgressBar: true,
                     });
-    
+
                     setNote("");
                 } else {
                     alert("Failed to create the order.");
@@ -158,7 +156,7 @@ const CartView = () => {
     }, [userId, token]);
 
     const handleFinishOrder = () => {
-        router.push('/menu'); 
+        router.push('/menu');
     };
 
     return (
@@ -247,18 +245,77 @@ const CartView = () => {
             </div>
 
             <button
-                onClick={()=> handlePostOrder({ userId, 
-                    order_type: deliveryOption,
-                    payment_method: paymentOption,
-                    note, })}
+                onClick={() => {
+                    if (userId !== null) {
+                        handlePostOrder({ userId, order_type: deliveryOption, payment_method: paymentOption, note });
+                    } else {
+                        alert("User ID is missing. Please log in.");
+                    }
+                }}
                 className="mt-6 bg-red-600 text-white font-bold px-6 py-2 rounded-lg hover:bg-red-700 transition duration-300"
-                disabled={!cartItems || cartItems.productDetail.length === 0} 
+                disabled={!cartItems || cartItems.productDetail.length === 0}
             >
                 Finalize Order
             </button>
         </div>
     );
 };
-}
+
 
 export default CartView;
+
+
+// const Producto = () => {
+//     const [notification, setNotificacion] = useState({
+//       isOpen: false,
+//       type: null,
+//       content: '',
+//     });
+  
+//     useEffect(() => {
+//       const urlParams = new URLSearchParams(window.location.search);
+//       const status = urlParams.get('status');
+//       if (status === 'approved') {
+//         setNotificacion({
+//           content: 'Pago aprovado',
+//           isOpen: true,
+//           type: 'approved',
+//         });
+//       } else if (status === 'failure') {
+//         setNotificacion({
+//           content: 'Pago fallido',
+//           isOpen: true,
+//           type: 'failure',
+//         });
+//       }
+//       setTimeout(() => {
+//         setNotificacion({
+//           isOpen: false,
+//           type: null,
+//           content: '',
+//         });
+//       }, 5000);
+//     }, []);
+  
+//     return (
+//       <main>
+//         <div>
+//           <img src={Product.img} alt={Product.title} width={360} height={450} />
+//         </div>
+//         <div>
+//           <h2>Black Friday</h2>
+//           <h3>{Product.price}</h3>
+//         </div>
+//         <div>
+//           <span>Lo que tenes que saber de este producto:</span>
+//           <ul>
+//             {Product.description.map((item) => (
+//               <li key={item}>{item}</li>
+//             ))}
+//           </ul>
+//         </div>
+//         <div>
+//           <MercadoPagoButton product={Product} />
+//         </div>
+//         {notification.isOpen && (
+  

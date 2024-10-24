@@ -128,6 +128,14 @@ export class ProductsRepository {
     return reviewCreated;
   }
 
+  async getReviews() {
+    const review = await this.reviewRepository.find({
+      relations: ['user', 'product'],
+    });
+    if (!review) throw new NotFoundException('Reviews not found');
+    return review;
+  }
+
   async getReview(review_id) {
     if (!isUUID(review_id))
       throw new BadRequestException('Review ID not valid');

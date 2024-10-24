@@ -9,8 +9,9 @@ export default function BackButton() {
         router.back()
     }
   return (
-    <div onClick={handleBack} className='w-8 h-8 cursor-pointer flex items-center '>
+    <div onClick={handleBack} className='w-8 h-8 cursor-pointer flex items-center text-black font-semibold'>
         <Image src="/assets/icon/back.png" width="30" height="30" alt=""></Image>
+        <span>BACK</span>
     </div>
   )
 }

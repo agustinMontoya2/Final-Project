@@ -38,6 +38,7 @@ export class ProductsService implements OnApplicationBootstrap {
   }
 
   update(product_id, updateProductDto: UpdateProductDto) {
+    if (!updateProductDto) throw new BadRequestException('Product not valid');
     if (!IsUUID(product_id))
       throw new BadRequestException('Product ID not valid');
     const product = this.productRepository.findOne(product_id);
@@ -57,6 +58,10 @@ export class ProductsService implements OnApplicationBootstrap {
   async addReview(product_id, createReviewDto: CreateReviewDto) {
     const { user_id, review, rate } = createReviewDto;
     return this.productRepository.addReview(product_id, user_id, review, rate);
+  }
+
+  async getReviews() {
+    return this.productRepository.getReviews();
   }
 
   async getReview(review_id) {

@@ -48,6 +48,7 @@ export class CreateProductDto {
   @IsString({
     message: 'product image url must be a string',
   })
+  @IsOptional()
   image_url: string;
 
   @ApiProperty({
