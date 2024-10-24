@@ -36,6 +36,7 @@ export class AuthService {
     const credential = await this.credentialRepository.save(credentials);
     if (!credential) throw new Error('error');
     // return `Welcome ${user.name}`;
+    await this.mailService.mailConfirm(credentials.email, 'SignUp');
     return user;
   }
 
@@ -91,7 +92,7 @@ export class AuthService {
     );
   }
 
-  async exchangeCodeForToken(code: string): Promise<string> {
+  async exchangeCodeForToken(code: string) {
     const url = `https://${process.env.AUTH0_BASE_URL}/oauth/token`;
     const response = await axios.post(url, {
       grant_type: 'authorization_code',
@@ -102,5 +103,71 @@ export class AuthService {
     });
 
     return response.data.access_token;
+  }
+
+  async getUserInfoFromAuth0(accessToken: string) {
+    const url = `https://${process.env.AUTH0_BASE_URL}/userinfo`;
+
+    // Realiza la solicitud GET incluyendo el accessToken en las cabeceras
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`, // Aquí pasas el accessToken
+      },
+    });
+
+    const userData = response.data; // La respuesta contiene la información del usuario
+
+    const user = await this.credentialRepository.findOne({
+      where: { email: userData.email },
+      relations: ['user'],
+    });
+
+    if (!user) {
+      const data = {
+        name: userData.name,
+        phone: 'no-phone',
+        address: 'no-address',
+        user_img: userData.picture,
+        provider: 'auth0',
+      };
+      const createUser = await this.userRepository.createAuth0User(data);
+
+      const password =
+        '$2b$10$eW/xx8ZyKh2vD2h74I8Jee8U.e8XxD3z0Cg8mB2NQ5b2FJChMijA6';
+
+      await this.credentialRepository.save({
+        email: userData.email,
+        password,
+        user: createUser,
+        provider: 'auth0',
+      });
+
+      const payload = {
+        user_id: createUser.user_id,
+        name: userData.name,
+        phone: 'no-phone',
+        address: 'no-address',
+        email: userData.email,
+        user_img: userData.picture,
+        isAdmin: createUser.isAdmin,
+      };
+
+      const token = this.jwtService.sign(payload);
+
+      return token;
+    }
+
+    const payload = {
+      user_id: user.user.user_id,
+      name: userData.name,
+      phone: 'no-phone',
+      address: 'no-address',
+      email: userData.email,
+      user_img: userData.picture,
+    };
+
+    const token = this.jwtService.sign(payload);
+
+    return token;
   }
 }

@@ -60,10 +60,12 @@ export class AuthController {
       return res.status(400).json({ error: 'No code received' });
     }
 
-    const token = await this.authService.exchangeCodeForToken(code);
+    const token_auth0 = await this.authService.exchangeCodeForToken(code);
+
+    const token = await this.authService.getUserInfoFromAuth0(token_auth0);
 
     if (token) {
-      const frontendUrl = `http://localhost:4000?token_auth0=${token}`;
+      const frontendUrl = `http://localhost:4000/auth0?token_auth0=${token}`;
       return res.redirect(frontendUrl);
     } else {
       return res.status(500).json({ error: 'Failed to get token' });

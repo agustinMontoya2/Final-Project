@@ -21,4 +21,7 @@ export class Credential {
   @OneToOne(() => User, (user) => user.credential)
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  @Column({ default: 'local' })
+  provider: string;
 }

@@ -55,4 +55,7 @@ export class User {
 
   @Column({ nullable: true })
   user_img: string;
+
+  @Column({ default: 'local' })
+  provider: string;
 }

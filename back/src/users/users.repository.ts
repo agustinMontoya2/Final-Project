@@ -62,6 +62,26 @@ export class UsersRepository {
     return userWithoutRelations;
   }
 
+  async createAuth0User(data) {
+    const user = await this.userRepository.save(data);
+    const userCart = new Cart();
+    const userFavorities = new Favorities();
+
+    const savedCart = await this.cartRepository.save(userCart);
+    const savedFavorities =
+      await this.favoritiesRepository.save(userFavorities);
+
+    user.cart = savedCart;
+    user.favorities = savedFavorities;
+    const savedUser = await this.userRepository.save(user);
+
+    userCart.user = savedUser;
+    userFavorities.user = savedUser;
+    await this.cartRepository.save(userCart);
+    await this.favoritiesRepository.save(userFavorities);
+    return user;
+  }
+
   async updateUser(user_id: string, updateUserDto: any) {
     const { name, email, address, phone } = updateUserDto;
     const user = await this.userRepository.findOneBy({ user_id });
