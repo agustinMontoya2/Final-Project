@@ -25,10 +25,8 @@ export class CategoriesRepository {
         }
 
         // Crear nueva categoría si no existe
-        const newCategory = this.categoriesRepository.create({
-            category_name: element.category,
-            category_id: element.category_id // Asigna el ID si está disponible en los datos
-        });
+        const newCategory = new Category()
+        newCategory.category_name = element.category
 
         await this.categoriesRepository.save(newCategory);
 

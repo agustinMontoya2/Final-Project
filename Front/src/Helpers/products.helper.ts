@@ -128,3 +128,27 @@ export async function postProduct(token: string, product: {}) {
       console.error("Error in postProduct:", error);
   }
 }
+
+export async function editProductImg(product_img: File, token: string, product_id: string) {
+  try {
+      const formData = new FormData();
+      formData.append('image', product_img); // 'image' debe coincidir con el nombre que espera el backend
+
+      const response = await fetch(`${APIURL}/files/uploadimage/${product_id}`, {
+          method: "POST",
+          headers: {
+              Authorization: `Bearer ${token}`, // No pongas Content-Type, el navegador lo establece automáticamente
+          },
+          body: formData, // Envía el FormData directamente
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+          throw new Error(result.message);
+      }
+      return result;
+  } catch (error: any) {
+      throw error;
+  }
+}

@@ -5,8 +5,8 @@ import { IProducts, ICategory } from "@/interfaces/productoInterface";
 import Image from "next/image";
 import { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { postProduct } from "@/Helpers/products.helper"; 
-import { getCategories } from '@/lib/server/Categories'; 
+import { postProduct } from "@/Helpers/products.helper";
+import { getCategories } from '@/lib/server/Categories';
 
 const ModifyDishes = () => {
     const router = useRouter();
@@ -70,7 +70,7 @@ const ModifyDishes = () => {
             name: product.product_name,
             descripcion: product.description,
             price: product.price.toString(),
-            imagen: null, 
+            imagen: null,
             avaliable: product.available,
             category: {
                 category_id: "",
@@ -126,7 +126,7 @@ const ModifyDishes = () => {
             product_name: formValues.name,
             description: formValues.descripcion,
             price: parseFloat(formValues.price),
-            image_url: formValues.imagen ? formValues.imagen.name : "", 
+            image_url: formValues.imagen ? formValues.imagen.name : "",
             category: {
                 category_id: formValues.category.category_id,
                 category_name: formValues.category.category_name
@@ -152,8 +152,8 @@ const ModifyDishes = () => {
                 }
             });
             alert("El producto se ha modificado correctamente");
-            fetchProducts(); 
-            setIsFormOpen(false); 
+            fetchProducts();
+            setIsFormOpen(false);
         } catch (error: any) {
             console.error(error.message, "Error al modificar el producto");
         }

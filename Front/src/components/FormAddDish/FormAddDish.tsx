@@ -2,12 +2,14 @@
 import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { FormValues, ICategory, IProducts, IUserSession } from '@/interfaces/productoInterface';
 import React from 'react';
-import { postProduct } from '@/Helpers/products.helper';
+import { editProductImg, postProduct } from '@/Helpers/products.helper';
 import { useRouter } from "next/navigation";
 import { getCategories } from '@/lib/server/Categories';
 
 const FormularioMenu = () => {
     const router = useRouter();
+    const [productImgFile, setProductImgFile] = useState<File | null>(null);
+    const [imagenPreview, setImagePreview]  = useState<string | null>(null);
     const [formValues, setFormValues] = useState<FormValues>({
         product_name: '',
         description: '',
@@ -72,12 +74,12 @@ const FormularioMenu = () => {
         }
     };
 
-    const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            setFormValues({
-                ...formValues,
-                image_url: " "
-            });
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setProductImgFile(file);
+            const imgUrl = URL.createObjectURL(file);
+            setImagePreview(imgUrl);
         }
     };
 
@@ -110,6 +112,12 @@ const FormularioMenu = () => {
 
         try {
             const response = await postProduct(token, product);
+            if(response.product_id && productImgFile) {
+                await editProductImg(productImgFile, token, response.product_id);
+                console.log(productImgFile)
+                console.log(response, "producto imagen")
+            }
+            editProductImg
             console.log(response);
             // setFormValues({
             //     product_name: '',
@@ -206,17 +214,17 @@ const FormularioMenu = () => {
                         ))}
                     </select>
                 </div>
-                {/* <div className="w-4/5 mb-6 relative">
-                    <label htmlFor="imagen" className="w-full flex flex-col items-center p-4 bg-gray-100 border-2 border-dashed border-gray-400 rounded-lg cursor-pointer hover:bg-gray-200 transition">
-                        <span className="text-gray-600">Click to upload an image</span>
-                        {formValues.imagen ? (
-                            <span className="mt-2 text-gray-700">{formValues.imagen.name}</span>
-                        ) : (
-                            <span className="mt-2 text-gray-500 text-sm">No file selected</span>
-                        )}
-                    </label>
-                    <input id="imagen" type="file" onChange={handleFileChange} className="hidden" required />
-                </div> */}
+                <div className="w-4/5 mb-6 relative">
+    <label htmlFor="imagen" className="w-full flex flex-col items-center p-4 bg-gray-100 border-2 border-dashed border-gray-400 rounded-lg cursor-pointer hover:bg-gray-200 transition">
+        <span className="text-gray-600">Click to upload an image</span>
+        {imagenPreview ? (
+            <img src={imagenPreview} alt="Imagen subida" className="w-full h-40 object-cover mt-2" />
+        ) : (
+            <span className="mt-2 text-gray-500 text-sm">No file selected</span>
+        )}
+    </label>
+    <input id="imagen" type="file" onChange={handleFileChange} className="hidden" required />
+</div>
 
                 <button
                     type="submit"

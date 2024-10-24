@@ -21,10 +21,10 @@ export class FileUploadRepository {
   ) {}
 
   async uploadImage(id: string, file: Express.Multer.File) {
-    // const product = await this.productsRepository.findOneBy({ product_id: id });
-    // if (!product) {
-    //   throw new NotFoundException(`Product with id ${id} not found`);
-    // }
+    const product = await this.productsRepository.findOneBy({ product_id: id });
+    if (!product) {
+      throw new NotFoundException(`Product with id ${id} not found`);
+    }
 
     try {
       const value: Promise<UploadApiResponse> = new Promise(
@@ -37,10 +37,10 @@ export class FileUploadRepository {
         },
       );
 
-      // await this.productsRepository.update(
-      //   { product_id: id },
-      //   { image_url: (await value).secure_url },
-      // );
+      await this.productsRepository.update(
+        { product_id: id },
+        { image_url: (await value).secure_url },
+      );
       return await value;
 
       return this.productsRepository.findOneBy({ product_id: id });
