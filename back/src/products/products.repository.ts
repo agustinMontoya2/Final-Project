@@ -78,11 +78,10 @@ export class ProductsRepository {
     if (product) throw new BadRequestException('Product already exists');
     if (!isUUID(category_id))
       throw new BadRequestException('Category ID not valid');
-    const cleanedCategoryId = category_id.trim();
 const category = await this.categoriesRepository.findOne({
-  where: { category_id: cleanedCategoryId },
+  where: { category_id },
 });
-const categories = await this.categoriesRepository.find();
+// const categories = await this.categoriesRepository.find();
 // throw new NotFoundException(categories);
     if (!category) throw new NotFoundException(`Categort with id ${category_id} not found`);
     const createProduct = new Product();

@@ -13,25 +13,28 @@ export class CategoriesRepository {
 
   async preloadCategories() {
     for (const element of data) {
+        // Verifica si la categoría ya existe por su nombre
         const existingCategory = await this.categoriesRepository.findOneBy({
             category_name: element.category
         });
 
-        let category: Category;
-
+        // Si ya existe, no la vuelvas a guardar
         if (existingCategory) {
-            category = existingCategory;
-        } else {
-            category = this.categoriesRepository.create({
-                category_name: element.category
-            });
+            console.log('Category already exists:', existingCategory.category_name);
+            continue; // Saltar a la siguiente categoría
         }
 
-        await this.categoriesRepository.save(category);
+        // Crear nueva categoría si no existe
+        const newCategory = this.categoriesRepository.create({
+            category_name: element.category,
+            category_id: element.category_id // Asigna el ID si está disponible en los datos
+        });
 
-        console.log('preloading categories...');
-        console.log(element);
+        await this.categoriesRepository.save(newCategory);
+
+        console.log('Category created:', newCategory);
     }
+//
 
     return 'Categories loaded';
 }
