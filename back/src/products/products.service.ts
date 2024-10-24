@@ -25,6 +25,7 @@ export class ProductsService implements OnApplicationBootstrap {
     return this.productRepository.addProducts();
   }
   create(createProductDto: CreateProductDto) {
+    const { product_name, description, price, category_id } = createProductDto;
     return this.productRepository.create(createProductDto);
   }
 
