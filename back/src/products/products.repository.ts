@@ -22,7 +22,7 @@ export class ProductsRepository {
 
   async getProducts() {
     const product = await this.productsRepository.find({
-      relations: ['category'],
+      relations: ['category', 'reviews'],
     });
     if (!product) throw new NotFoundException('Products not found');
     return product;
@@ -64,12 +64,34 @@ export class ProductsRepository {
     // return 'this.products';
   }
 
-  async create(createProductDto: any) {
+  async create(
+    product_name,
+    description,
+    price,
+    category_id,
+    image_url,
+    available,
+  ) {
     const product = await this.productsRepository.findOne({
-      where: { product_name: createProductDto.product_name },
+      where: { product_name: product_name },
     });
     if (product) throw new BadRequestException('Product already exists');
-    return this.productsRepository.save(createProductDto);
+    if (!isUUID(category_id))
+      throw new BadRequestException('Category ID not valid');
+const category = await this.categoriesRepository.findOne({
+  where: { category_id },
+});
+// const categories = await this.categoriesRepository.find();
+// throw new NotFoundException(categories);
+    if (!category) throw new NotFoundException(`Categort with id ${category_id} not found`);
+    const createProduct = new Product();
+    createProduct.product_name = product_name;
+    createProduct.description = description;
+    createProduct.price = price;
+    createProduct.category = category;
+    createProduct.image_url = image_url;
+    createProduct.available = available;
+    return this.productsRepository.save(createProduct);
   }
 
   async findOne(product_id: string) {

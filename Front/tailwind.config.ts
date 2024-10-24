@@ -1,4 +1,4 @@
-import lineClamp from '@tailwindcss/line-clamp';
+import lineClamp from "@tailwindcss/line-clamp";
 // import lineClamp from '@tailwindcss/line-line-clamp';
 
 module.exports = {
@@ -12,6 +12,7 @@ module.exports = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        "gray-transparent": "rgba(128, 128, 128, 0.85)",
       },
       backgroundColor: {
         primary: "#E0E0E0",
@@ -20,20 +21,21 @@ module.exports = {
         transparentmenu: "rgba(0, 0, 0, 0.60)",
       },
       backgroundImage: {
-        'gradient-r': 'linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(181,181,181,0.6419817927170868) 58%)',
-        'gradient-l': 'linear-gradient(90deg, rgba(181,181,181,0.6419817927170868) 58%, rgba(255,255,255,1) 100%);',
+        "gradient-r":
+          "linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(181,181,181,0.6419817927170868) 58%)",
+        "gradient-l":
+          "linear-gradient(90deg, rgba(181,181,181,0.6419817927170868) 58%, rgba(255,255,255,1) 100%);",
       },
       filter: {
-        'dark-gray': 'drop-shadow(0 4px 30px rgba(26, 26, 26, 0.5))',
+        "dark-gray": "drop-shadow(0 4px 30px rgba(26, 26, 26, 0.5))",
+        center: "drop-shadow(0 0 100px rgba(0, 0, 0, 0.9))",
       },
       fontSize: {
-        '10xl': '10.5rem',
+        "10xl": "10.5rem",
       },
     },
   },
-  plugins: [
-    lineClamp
-  ],
+  plugins: [lineClamp],
 };
 
 // module.exports = {

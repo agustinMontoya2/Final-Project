@@ -8,8 +8,10 @@ import { addFavorities, removeFavorities, getFavorities } from "@/lib/server/fav
 import { addCart } from "@/lib/server/cart";
 import Link from 'next/link';
 import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 
 const Cards = () => {
+    const router = useRouter();
     const [products, setProducts] = useState<IProducts[]>([]);
     const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState({
@@ -34,7 +36,7 @@ const Cards = () => {
                 fetchFavorities();
             }
         }
-    }, []);
+    }, [router]);
 
     useEffect(() => {
         if (!userId && !token) {
@@ -81,7 +83,8 @@ const Cards = () => {
                 console.error("Error al manejar favoritos", error.message);
             }
         } else {
-            alert("Inicia sesión para manejar favoritos.");
+            alert("Log in to manage Favorite");
+            router.push("/login");
         }
     };
 
@@ -110,7 +113,8 @@ const Cards = () => {
                 });
             }
         } else {
-            alert("Inicia sesión para agregar al carrito.");
+            alert("Log in to add product to cart.");
+            router.push("/login");
         }
     };
 
@@ -135,20 +139,20 @@ const Cards = () => {
         })
         .sort((a, b) => {
             if (filters.priceOrder === "asc") {
-                return a.price - b.price;
+                return Number(a.price) - Number(b.price);
             } else if (filters.priceOrder === "desc") {
-                return b.price - a.price;
+                return Number(b.price) - Number(a.price);
             }
             return 0;
         });
 
     if (loading) {
-        return <div>Cargando productos...</div>;
+        return <div className="flex flex-col justify-center text-black">Loading menu...</div>;
     }
 
     return (
-        <div className="p-4">
-            <div className="flex justify-center mb-4">
+        <div className="p-5 bg-gray-100 rounded-lg shadow-md">
+            <div className="mb-5 text-center">
                 <input
                     type="text"
                     placeholder="Search dish..."
@@ -164,30 +168,31 @@ const Cards = () => {
                 <button onClick={() => setFilters({ ...filters, category: "Appetizers" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Appetizers</button>
                 <button onClick={() => setFilters({ ...filters, category: "Sides" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Sides</button>
                 <button onClick={() => setFilters({ ...filters, category: "Desserts" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Desserts</button>
+                <button onClick={() => setFilters({ ...filters, priceOrder: "asc" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Price: Low to High</button>
+                <button onClick={() => setFilters({ ...filters, priceOrder: "desc" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Price: High to Low</button>
                 <button onClick={() => setFilters({ ...filters, showFavorites: !filters.showFavorites })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">
                     {filters.showFavorites ? "Watch all" : "Watch favorites"}
                 </button>
                 <button onClick={clearFilters} className="bg-gray-500 text-white py-1 px-3 rounded hover:bg-gray-600">Clear Filter</button>
             </div>
 
-            <div className="w-[50%] h-auto grid grid-cols-1 sm:grid-cols-2 gap-6 justify-evenly m-auto">
+            <div className="w-[60%] h-auto grid grid-cols-1 sm:grid-cols-2 gap-6 justify-evenly m-auto">
                 {filteredProducts.map((product) => (
-                    <div key={product.product_id} className="flex items-center bg-primary shadow-2xl rounded-xl p-4 hover:scale-105 duration-500">
-                        <div className="w-1/2">
-                            <Link href={`/product/${product.product_id}`}>
-                                <div className="relative w-36 h-36">
-                                    <Image
-                                        src={product.image_url}
-                                        alt={product.product_name}
-                                        layout="fill"
-                                        objectFit="contain"
-                                        className="w-full h-auto rounded-md"
-                                    />
-                                </div>
-                            </Link>
-                        </div>
-
-                        <div className="w-1/2 pl-4">
+                    <div key={product.product_id} className="flex items-center shadow-2xl rounded-xl p-4 hover:scale-105 duration-500 bg-primary">
+                        <Link href={`/product/${product.product_id}`}>
+                            <div className="relative w-36 flex justify-center items-center">
+                                <Image
+                                    src={product.image_url}
+                                    alt={product.product_name}
+                                    layout="responsive"
+                                    width={80}
+                                    height={80}
+                                    objectFit="contain"
+                                    className="w-full h-auto rounded-md"
+                                />
+                            </div>
+                        </Link>
+                        <div className="w-2/3 pl-4">
                             <div className="flex items-center justify-between mb-2">
                                 <h2 className="text-black text-xl font-semibold">{product.product_name}</h2>
                                 <button
@@ -198,8 +203,7 @@ const Cards = () => {
                                             product.product_id,
                                             favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id) ?? false
                                         );
-                                    }}
-                                >
+                                    }}>
                                     <Image
                                         src={favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id)
                                             ? "/assets/icon/star.png"
@@ -227,6 +231,7 @@ const Cards = () => {
                                     <Image src="/assets/icon/cart.png" width={20} height={20} alt="comprar" />
                                 </button>
                             </div>
+                            
                         </div>
                     </div>
                 ))}

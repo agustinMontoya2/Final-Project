@@ -1,12 +1,12 @@
-import CartView from "@/components/Cards2/CartView";
-import React from "react";
+import CartView from '@/components/Cards2/CartView'
+import React from 'react'
 
 const Cart = () => {
   return (
     <div>
-      <CartView />
+        <CartView/>
     </div>
-  );
-};
+  )
+}
 
-export default Cart;
+export default Cart

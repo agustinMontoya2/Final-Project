@@ -5,10 +5,12 @@ export interface Character {
 }
 
 export interface FormValues {
-  name: string;
-  descripcion: string;
+  product_name: string;
+  description: string;
   price: string;
-  imagen: File | null;
+  image_url: string;
+  avaliable: boolean;
+  category_id: string;
 }
 
 export interface Plato {
@@ -32,9 +34,20 @@ export interface IProducts {
   category: {
     category_name: string;
   };
+  reviews: IReview[];
   available: boolean;
 }
-
+export interface ICategory {
+  category_id: string;
+  category_name: string;
+}
+export interface IReview {
+  review_id: string;
+  review: string;
+  rate: number;
+  product: IProducts;
+  user: IUser;
+}
 export interface ILogin {
   email: string;
   password: string;
@@ -53,6 +66,11 @@ export interface IReserve {
   reservation_id: string;
   ubication: string;
   date: string;
+  table: {
+    table_id: string;
+    table_number: string;
+    ubication: string;
+  }[];
   time: string;
   status: string;
   peopleCount: number;
@@ -62,6 +80,7 @@ export interface IUserSession {
   token: string;
   email: string;
   user: {
+    id: string;
     address: string;
     user_id: string;
     name: string;
@@ -75,9 +94,10 @@ export interface IUser {
   user_id: string;
   name: string;
   phone: string;
-  user_img: string;
+  user_img?: string;
   orders: [];
   address: string;
+  isBanned: boolean;
 }
 
 export interface IProductsDetails {
@@ -91,6 +111,7 @@ export interface ICart {
   cart_id: string;
   note: string;
   product: IProductsDetails[];
+  productDetail: IProductsDetails[];
 }
 
 export interface IFavorities {
@@ -108,7 +129,7 @@ export interface ProductFilterProps {
 export interface IOrder {
   userId: string;
   order_type: string;
-  payment_type: string;
+  payment_method: string;
   note: string;
 }
 
@@ -125,4 +146,12 @@ export interface IOrderDetail {
   total: string;
   note: string;
   productDetails: IProductsDetails[];
+}
+
+export interface ProfileImageProps {
+  user: {
+    user_img: string;
+  };
+  isEditing: boolean;
+  onImageChange: (file: File) => void;
 }

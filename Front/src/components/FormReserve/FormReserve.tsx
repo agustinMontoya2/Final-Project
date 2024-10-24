@@ -7,15 +7,16 @@ const ReservationForm: React.FC = () => {
     const initialState: IReserve = {
         reservation_id: "",
         ubication: '',
+        table: [],
         status: " ",
-        date: new Date().toISOString().split('T')[0], 
+        date: new Date().toISOString().split('T')[0],
         time: '',
         peopleCount: 1,
     };
 
     const [userData, setUserData] = useState<IReserve>(initialState);
-    const [userId, setUserId] = useState<IUserSession | null>(null);
-    const [mealType, setMealType] = useState<string>(''); 
+    const [user_id, setUser_id] = useState<IUserSession | null>(null);
+    const [mealType, setMealType] = useState<string>('');
 
     const mealTimes: Record<string, string[]> = {
         Breakfast: ['07:00', '07:30', '08:00', '08:30'],
@@ -29,7 +30,7 @@ const ReservationForm: React.FC = () => {
         if (storedUserData) {
             const parsedData = JSON.parse(storedUserData);
             if (parsedData && parsedData.user) {
-                setUserId(parsedData.user.user_id); 
+                setUser_id(parsedData.user.user_id);
             }
         }
     }, []);
@@ -37,7 +38,11 @@ const ReservationForm: React.FC = () => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = event.target;
         if (name === 'mealType') {
-            setMealType(value);
+            setMealType(value)
+            setUserData(prevData => ({
+                ...prevData,
+                time: ''
+            }))
         } else {
             setUserData(prevData => ({
                 ...prevData,
@@ -49,22 +54,25 @@ const ReservationForm: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (!userId) {
+        if (!user_id) {
             alert("Debes estar logueado para realizar una reserva.");
             return;
         }
 
         const reservationData: IReserve = {
+            table: userData.table,
             reservation_id: userData.reservation_id,
             status: userData.status,
             ubication: userData.ubication,
             date: userData.date,
             time: userData.time,
             peopleCount: userData.peopleCount,
+
         };
 
         try {
-            await formReserve({ user_id: userId, ...reservationData });
+            console.log(reservationData);
+            await formReserve({ user_id: user_id, ...reservationData });
             Swal.fire({
                 icon: 'success',
                 title: 'Reservation created',
@@ -154,26 +162,26 @@ const ReservationForm: React.FC = () => {
                     </div>
                 )}
 
-<div className="w-4/5 mb-6 relative">
-    <select
-        name="ubication"
-        value={userData.ubication}
-        onChange={handleChange}
-        className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
-        required
-    >
-        <option className={'text-black'} value="" disabled></option>
-        <option value="Exterior" >Exterior</option>
-        <option value="Interior" >Interior</option>
-        <option value="Rooftop" >Rooftop</option>
-    </select>
-    <label
-        htmlFor="ubication"
-        className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${userData.ubication ? 'top-[5px] text-xs' : 'top-4 text-base'}`}
-    >
-        Ubication
-    </label>
-</div>
+                <div className="w-4/5 mb-6 relative">
+                    <select
+                        name="ubication"
+                        value={userData.ubication}
+                        onChange={handleChange}
+                        className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
+                        required
+                    >
+                        <option className={'text-black'} value="" disabled></option>
+                        <option value="Exterior" >Exterior</option>
+                        <option value="Interior" >Interior</option>
+                        <option value="Rooftop" >Rooftop</option>
+                    </select>
+                    <label
+                        htmlFor="ubication"
+                        className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${userData.ubication ? 'top-[5px] text-xs' : 'top-4 text-base'}`}
+                    >
+                        Ubication
+                    </label>
+                </div>
 
 
                 <div className="w-4/5 mb-6 relative">

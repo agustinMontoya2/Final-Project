@@ -26,7 +26,7 @@ export class Product {
   @Column({ type: 'text' })
   description: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', default: ""})
   image_url: string;
 
   // Relación ManyToOne con Category
