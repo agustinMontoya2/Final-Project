@@ -19,14 +19,14 @@ export class MailService {
     await sgMail.send(msg);
   }
 
-  async confirmOrder(to: string) {
+  async mailConfirm(to: string, type: string) {
     const msg = {
       to: to,
       from: process.env.SENDGRID_FROM_EMAIL,
-      subject: 'Order Confirmation',
-      text: 'Your order has been confirmed.',
+      subject: `${type} Confirmation`,
+      text: `Your ${type} has been confirmed.`,
       html: `
-        <p>Your order has been confirmed!</p>`,
+        <p>Your ${type} has been confirmed!</p>`,
     };
 
     await sgMail.send(msg);

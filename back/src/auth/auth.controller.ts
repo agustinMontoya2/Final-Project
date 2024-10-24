@@ -2,17 +2,13 @@ import { Controller, Get, Post, Body, Res, Query } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/create-user.dto';
 import { LogInDto } from './dto/create-user.dto';
-import { MailService } from 'src/mail/mail.service';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 
 @Controller('auth')
 @ApiTags('auth')
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly mailService: MailService,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post('signup')
   signUp(@Body() createAuthDto: SignUpDto) {
@@ -50,7 +46,8 @@ export class AuthController {
     const redirectUri = 'http://localhost:3000/auth/callback';
     const domain = process.env.AUTH0_BASE_URL;
     const clientId = process.env.AUTH0_CLIENT_ID;
-    const url = `https://${domain}/authorize?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=openid profile email`;
+    const url = `https://${domain}/authorize?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=openid profile email&prompt=login`;
+    console.log(url);
     res.redirect(url);
   }
 
@@ -60,10 +57,12 @@ export class AuthController {
       return res.status(400).json({ error: 'No code received' });
     }
 
-    const token = await this.authService.exchangeCodeForToken(code);
+    const token_auth0 = await this.authService.exchangeCodeForToken(code);
+
+    const token = await this.authService.getUserInfoFromAuth0(token_auth0);
 
     if (token) {
-      const frontendUrl = `http://localhost:4000?token_auth0=${token}`;
+      const frontendUrl = `http://localhost:4000/auth0?token_auth0=${token}`;
       return res.redirect(frontendUrl);
     } else {
       return res.status(500).json({ error: 'Failed to get token' });
