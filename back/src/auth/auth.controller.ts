@@ -46,7 +46,7 @@ export class AuthController {
     const redirectUri = 'http://localhost:3000/auth/callback';
     const domain = process.env.AUTH0_BASE_URL;
     const clientId = process.env.AUTH0_CLIENT_ID;
-    const url = `https://${domain}/authorize?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=openid profile email`;
+    const url = `https://${domain}/authorize?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=openid profile email&prompt=login`;
     console.log(url);
     res.redirect(url);
   }
