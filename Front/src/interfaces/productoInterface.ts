@@ -10,6 +10,7 @@ export interface FormValues {
   price: string;
   imagen: File | null;
   avaliable: boolean
+  category: ICategory;
 }
 
 export interface Plato {
@@ -36,7 +37,10 @@ export interface IProducts {
   reviews:IReview[]
   available: boolean;
 }
-
+export interface ICategory{
+  category_id: string;
+  category_name:string,
+}
 export interface IReview{
   review_id: string,
   review: string,

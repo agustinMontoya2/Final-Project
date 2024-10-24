@@ -100,7 +100,7 @@ export async function postReview(
   }
 }
 
-export async function postProduct(token: string, product: IProducts) {
+export async function postProduct(token: string, product: {}) {
   try {
       console.log("Product data being sent:", JSON.stringify(product, null, 2)); // Imprimir datos
 
@@ -112,6 +112,7 @@ export async function postProduct(token: string, product: IProducts) {
           },
           body: JSON.stringify({
               ...product,
+       
           }),
       });
 

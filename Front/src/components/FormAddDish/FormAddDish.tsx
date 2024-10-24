@@ -1,9 +1,10 @@
 'use client';
 import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
-import { FormValues, IProducts, IUserSession } from '@/interfaces/productoInterface';
+import { FormValues, ICategory, IProducts, IUserSession } from '@/interfaces/productoInterface';
 import React from 'react';
 import { postProduct } from '@/Helpers/products.helper';
 import { useRouter } from "next/navigation";
+import { getCategories } from '@/lib/server/Categories';
 
 const FormularioMenu = () => {
     const router = useRouter();
@@ -12,16 +13,16 @@ const FormularioMenu = () => {
         descripcion: '',
         price: '',
         imagen: null,
-        avaliable: true
+        avaliable: true,
+        category: {
+            category_id: '',
+            category_name: ''
+        }
     });
     const [token, setToken] = useState<string | null>(null);
     const [userId, setUserId] = useState<string | null>(null);
     const [userSession, setUserSession] = useState<IUserSession | null>(null);
-
-    const category = {
-        category_id: "03e9821788",
-        category_name: "dessert"
-    }
+    const [categories, setCategories] = useState<ICategory[]>([]);
 
     useEffect(() => {
         const session = localStorage.getItem('userSession');
@@ -39,14 +40,38 @@ const FormularioMenu = () => {
         }
     }, []);
 
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const categoriesData: ICategory[] = await getCategories();
+                console.log(categoriesData)
+                setCategories(categoriesData);
+            } catch (error) {
+                console.error("Error fetching categories:", error);
+            }
+        };
 
+        fetchCategories();
+    }, []);
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-        setFormValues({
-            ...formValues,
-            [name]: value,
-        });
+
+        if (name === "category") {
+            const selectedCategory = categories.find(cat => cat.category_id === value);
+            setFormValues({
+                ...formValues,
+                category: {
+                    category_id: selectedCategory?.category_id || "",
+                    category_name: selectedCategory?.category_name || ""
+                }
+            });
+        } else {
+            setFormValues({
+                ...formValues,
+                [name]: value,
+            });
+        }
     };
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -61,22 +86,32 @@ const FormularioMenu = () => {
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
-
         if (!token) {
             console.error("Token is required");
             return;
         }
 
-        const product: IProducts = {
-            product_id: '',
+         if (!formValues.category.category_id || typeof formValues.category.category_id !== 'string') {
+        console.error("Invalid category_id");
+        return;
+    }
+
+        const product = {
+            
             product_name: formValues.name,
             description: formValues.descripcion,
             price: parseFloat(formValues.price),
-            image_url: "",
-            category: category,
+            image_url: formValues.imagen ? formValues.imagen.name : "",
+            category: {
+                category_id: formValues.category.category_id,
+                category_name: formValues.category.category_name
+            },
             reviews: [],
             available: formValues.avaliable,
         };
+        console.log("Type of category_id:", typeof product.category.category_id);
+
+        console.log("Product data being sent:", product)
 
         try {
             const response = await postProduct(token, product);
@@ -86,15 +121,20 @@ const FormularioMenu = () => {
                 descripcion: '',
                 price: '',
                 imagen: null,
-                avaliable: true
+                avaliable: true,
+                category: {
+                    category_id: '',
+                    category_name: ''
+                }
             });
-            alert("se agrego el pedido")
+            console.log("Type of category_id:", typeof product.category.category_id);
+
+            alert("El producto se ha agregado correctamente");
         } catch (error: any) {
-            console.error(error.message, "este es el error del catch");
-            throw new Error("el pedido no pudo procesar")
+            console.error(error.message, "Error al agregar el producto");
+            throw new Error("El pedido no pudo procesarse");
         }
     };
-
 
     return (
         <div className="absolute inset-0 flex items-center justify-center">
@@ -113,8 +153,7 @@ const FormularioMenu = () => {
                     />
                     <label
                         htmlFor="name"
-                        className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${formValues.name ? 'top-[4px] text-xs' : ''
-                            }`}
+                        className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${formValues.name ? 'top-[4px] text-xs' : ''}`}
                     >
                         Name
                     </label>
@@ -131,8 +170,7 @@ const FormularioMenu = () => {
                     />
                     <label
                         htmlFor="descripcion"
-                        className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${formValues.descripcion ? 'top-[4px] text-xs' : ''
-                            }`}
+                        className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${formValues.descripcion ? 'top-[4px] text-xs' : ''}`}
                     >
                         Description
                     </label>
@@ -145,18 +183,37 @@ const FormularioMenu = () => {
                         placeholder="Price"
                         value={formValues.price}
                         onChange={handleChange}
-                        className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt -4 pb-1"
+                        className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
                         required
                     />
                     <label
-                        htmlFor="precio"
-                        className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${formValues.price ? 'top-[4px] text-xs' : ''
-                            }`}
+                        htmlFor="price"
+                        className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${formValues.price ? 'top-[4px] text-xs' : ''}`}
                     >
                         Price
                     </label>
                 </div>
                 <div className="w-4/5 mb-6 relative">
+                    <label htmlFor="categoria" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
+                        Category
+                    </label>
+                    <select
+                        id="categoria"
+                        name="category"
+                        value={formValues.category.category_id} // Ahora es un string, no un array
+                        onChange={handleChange}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        required
+                    >
+                        <option value="">Select a category</option>
+                        {categories.map((category) => (
+                            <option key={category.category_id} value={category.category_id.toString()}>
+                                {category.category_name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                {/* <div className="w-4/5 mb-6 relative">
                     <label htmlFor="imagen" className="w-full flex flex-col items-center p-4 bg-gray-100 border-2 border-dashed border-gray-400 rounded-lg cursor-pointer hover:bg-gray-200 transition">
                         <span className="text-gray-600">Click to upload an image</span>
                         {formValues.imagen ? (
@@ -166,7 +223,7 @@ const FormularioMenu = () => {
                         )}
                     </label>
                     <input id="imagen" type="file" onChange={handleFileChange} className="hidden" required />
-                </div>
+                </div> */}
 
                 <button
                     type="submit"
