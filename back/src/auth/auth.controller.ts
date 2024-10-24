@@ -2,17 +2,13 @@ import { Controller, Get, Post, Body, Res, Query } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/create-user.dto';
 import { LogInDto } from './dto/create-user.dto';
-import { MailService } from 'src/mail/mail.service';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 
 @Controller('auth')
 @ApiTags('auth')
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly mailService: MailService,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post('signup')
   signUp(@Body() createAuthDto: SignUpDto) {
@@ -51,6 +47,7 @@ export class AuthController {
     const domain = process.env.AUTH0_BASE_URL;
     const clientId = process.env.AUTH0_CLIENT_ID;
     const url = `https://${domain}/authorize?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=openid profile email`;
+    console.log(url);
     res.redirect(url);
   }
 

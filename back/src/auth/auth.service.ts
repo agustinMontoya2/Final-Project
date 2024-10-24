@@ -164,6 +164,7 @@ export class AuthService {
       address: 'no-address',
       email: userData.email,
       user_img: userData.picture,
+      isAdmin: user.user.isAdmin,
     };
 
     const token = this.jwtService.sign(payload);

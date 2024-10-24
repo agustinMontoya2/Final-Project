@@ -25,7 +25,7 @@ export default function AuthCallback() {
               phone: decodedToken.phone,
               address: decodedToken.address,
               user_img: decodedToken.user_img,
-              // Agrega aquí otros campos que necesites
+              // Agrega aquí otros campos que necesites.
             },
             email: decodedToken.email,
             token: token, // Agregar el token también
