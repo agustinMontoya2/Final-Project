@@ -5,10 +5,19 @@ import {
   UpdateReservationDto,
 } from './dto/create-reservation.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { MailService } from 'src/mail/mail.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Credential } from 'src/auth/entities/credential.entity';
+import { Repository } from 'typeorm';
 
 @Controller('reservation')
 export class ReservationController {
-  constructor(private readonly reservationService: ReservationService) {}
+  constructor(
+    private readonly reservationService: ReservationService,
+    private readonly mailService: MailService,
+    @InjectRepository(Credential)
+    private readonly credentialRepository: Repository<Credential>,
+  ) {}
 
   @Get('/preload')
   @ApiTags('Reservation')
@@ -22,19 +31,27 @@ export class ReservationController {
   }
 
   @Post()
-  createReservationController(
+  async createReservationController(
     @Body() createReservationDto: CreateReservationDto,
   ) {
+    const user = await this.credentialRepository.findOne({
+      where: { user: { user_id: createReservationDto.user_id } },
+      relations: ['user'],
+    });
+
+    if (user) {
+      await this.mailService.mailConfirm(user.email, 'Reservation');
+    }
+
     return this.reservationService.createReservationService(
       createReservationDto,
     );
   }
 
-  @Get(':id') 
-    findOneReservationsByUserIdController(@Param('id') user_id: string) {
-      return this.reservationService.findOneReservationsByUserIdService(user_id);
-    }
-  
+  @Get(':id')
+  findOneReservationsByUserIdController(@Param('id') user_id: string) {
+    return this.reservationService.findOneReservationsByUserIdService(user_id);
+  }
 
   // @Get(':id')
   // findOneReservationsController(@Param('id') id: string) {
@@ -56,6 +73,4 @@ export class ReservationController {
       UpdateReservationDto,
     );
   }
-
-
 }
