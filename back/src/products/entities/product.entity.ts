@@ -5,10 +5,11 @@ import {
   ManyToOne,
   JoinColumn,
   ManyToMany,
+  OneToMany,
 } from 'typeorm';
 import { Category } from 'src/categories/entities/category.entity';
 import { Favorities } from './favorities.entity';
-import { Cart } from './cart.entity';
+import { ProductDetail } from './productDetail.entity';
 
 @Entity()
 export class Product {
@@ -41,4 +42,7 @@ export class Product {
   // Relación ManyToMany con Favorities
   @ManyToMany(() => Favorities, (favorities) => favorities.product)
   favorities: Favorities[];
+
+  @OneToMany(() => ProductDetail, (productDetail) => productDetail.product)
+  productDetails: ProductDetail[];
 }

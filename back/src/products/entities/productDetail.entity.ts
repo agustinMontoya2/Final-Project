@@ -9,7 +9,6 @@ import {
 } from 'typeorm';
 import { Product } from './product.entity';
 import { Cart } from './cart.entity';
-import { Favorities } from './favorities.entity';
 
 @Entity()
 export class ProductDetail {

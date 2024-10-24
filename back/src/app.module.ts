@@ -10,6 +10,7 @@ import { typeOrmConfig } from './config/typeorm';
 import { ReservationModule } from './reservation/reservation.module';
 import { JwtModule } from '@nestjs/jwt';
 import { FileUploadModule } from './fileUpload/fileUpload.module';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { FileUploadModule } from './fileUpload/fileUpload.module';
         expiresIn: '1h',
       },
     }),
+    PaymentModule,
   ],
   controllers: [],
   providers: [],
