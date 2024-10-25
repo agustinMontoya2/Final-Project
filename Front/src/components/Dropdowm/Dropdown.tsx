@@ -80,10 +80,19 @@ export default function Dropdown() {
             <div className={`absolute right-0 w-44 bg-white border rounded shadow-lg z-10 transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'}`} style={{ top: '100%', marginTop: '8px' }}>
                 {userSession ? (
                     <div>
-                        <Link className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100 text-black font-bold" href={"/profile"}>
-                            <p className="text-black font-bold">Profile</p>
-                            <Image src={"/assets/icon/personblack.png"} width={23} height={23} alt='' />
-                        </Link>
+                        {
+                            userSession.user.isAdmin ? (
+                                <Link className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100 text-black font-bold" href={"/profile"}>
+                                    <p className="text-black font-bold">Control center</p>
+                                    <Image src={"/assets/icon/personblack.png"} width={23} height={23} alt='' />
+                                </Link>
+                            ) : (
+                                <Link className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100 text-black font-bold" href={"/profile"}>
+                                    <p className="text-black font-bold">Profile</p>
+                                    <Image src={"/assets/icon/personblack.png"} width={23} height={23} alt='' />
+                                </Link>
+                            )
+                        }
                         <Link className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100 text-black font-bold" href={"/reservations"}>
                             <p className="text-black font-bold">My reservations</p>
                             <Image src={"/assets/icon/reserve.png"} width={23} height={23} alt='' />

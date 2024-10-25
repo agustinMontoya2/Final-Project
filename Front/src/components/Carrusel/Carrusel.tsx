@@ -11,7 +11,7 @@ useEffect(() => {
     );
     }, 5000);
 
-    return () => clearInterval(interval); 
+    return () => clearInterval(interval);
 }, [images.length]);
 
 return (
@@ -21,13 +21,13 @@ return (
                 style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
                 {images.map((image, index) => (
                 <Image
-                key={index}
-                src={image}
-                alt={`Slide ${index + 1}`}
-                width={800}
-                height={200}
-                className="w-full object-cover"
-                    />
+                    key={index}
+                    src={image}
+                    alt={`Slide ${index + 1}`}
+                    width={800}
+                    height={200}
+                    className="w-full object-cover"
+                />
                 ))}
             </div>
 

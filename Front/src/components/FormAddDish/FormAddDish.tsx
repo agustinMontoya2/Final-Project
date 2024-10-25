@@ -2,13 +2,9 @@
 import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { FormValues, ICategory, IProducts, IUserSession } from '@/interfaces/productoInterface';
 import React from 'react';
-<<<<<<< HEAD
-import Swal from 'sweetalert2';
-=======
 import { editProductImg, postProduct } from '@/Helpers/products.helper';
 import { useRouter } from "next/navigation";
 import { getCategories } from '@/lib/server/Categories';
->>>>>>> 7d0bcd0ae70403b863fe23b8caf335ee65188eb6
 
 const FormularioMenu = () => {
     const router = useRouter();
@@ -100,36 +96,7 @@ const FormularioMenu = () => {
             return;
         }
 
-<<<<<<< HEAD
-            if (response.ok) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Menu successfully added!',
-                    toast: true,
-                    position: 'top-end',
-                    timer: 2500,
-                    showConfirmButton: false,
-                    timerProgressBar: true,
-                });
-            } else {
-                Swal.fire({
-                    title: 'Error adding menu',
-                    icon: 'error',
-                    confirmButtonText: 'accept',
-                    confirmButtonColor: "#1988f0"
-                })
-            }
-        } catch (error) {
-            console.error('Error al enviar el formulario:', error);
-            Swal.fire({
-                title: 'An error occurred while trying to add the menu.',
-                icon: 'error',
-                confirmButtonText: 'accept',
-                confirmButtonColor: "#1988f0"
-            })
-=======
         const product = {
-
             product_name: formValues.product_name,
             description: formValues.description,
             price: parseFloat(formValues.price),
@@ -166,7 +133,6 @@ const FormularioMenu = () => {
         } catch (error: any) {
             console.error(error.message, "Error al agregar el producto");
             throw new Error("El pedido no pudo procesarse");
->>>>>>> 7d0bcd0ae70403b863fe23b8caf335ee65188eb6
         }
     };
 
