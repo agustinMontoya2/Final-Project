@@ -96,10 +96,10 @@ export default function Dropdown() {
                             <p className="text-black font-bold">My orders</p>
                             <Image src={"/assets/icon/listblack.png"} width={23} height={23} alt='' />
                         </Link>
-                        <Link className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100 text-black font-bold" href={"/cart"}>
+                        {/* <Link className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100 text-black font-bold" href={"/cart"}>
                             <p className="text-black font-bold">Cart</p>
                             <Image src={"/assets/icon/cartblack.png"} width={23} height={23} alt='' />
-                        </Link>
+                        </Link> */}
                         <button
                             className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100 text-black font-bold"
                             onClick={handleLogout}

@@ -42,13 +42,13 @@ export default function NavBarXL() {
 
     return (
         <div className='flex flex-col'>
-            <div className="w-full h-18 bg-secondary flex justify-evenly items-center fixed top-0 z-40">
+            <div className="w-full h-18 bg-secondary flex justify-between items-center fixed top-0 z-40">
                 <Link href={"/"} className="h-16 w-1/3 p-2 flex justify-start">
                     <div className='relative h-full w-36'>
                         <Image src={"/assets/logo-white.png"} alt="logo" layout='fill' objectFit='contain'/>
                     </div>
                 </Link>
-                <div className='w-[35%] flex justify-evenly items-center'>
+                <div className='w-1/2 flex justify-around items-center'>
                     <Link className="w-7 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/menu"}>
                         <p className="text-white font-bold hover:text-neutral-300 duration-500">Menú</p>
                     </Link>
@@ -56,6 +56,9 @@ export default function NavBarXL() {
                         <p className="text-white font-bold hover:text-neutral-300 duration-500">Reservation</p>
                     </Link>
                     <Dropdown />
+                    <Link className="" href={"/cart"}>
+                            <Image src={"/assets/icon/cart.png"} width={40} height={40} alt='' />
+                    </Link>
                 </div>
             </div>
             <div className='w-10 mt-16 -mb-32 p-4 cursor-pointer z-50 fixed'>
