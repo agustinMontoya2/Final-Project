@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  NotFoundException,
   OnApplicationBootstrap,
 } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -65,8 +66,13 @@ export class ProductsService implements OnApplicationBootstrap {
     });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async remove(product_id) { 
+    if(!IsUUID(product_id))
+      throw new BadRequestException('Product ID not valid');
+    const product = await this.productRepository.findOne(product_id);
+    if(!product)
+      throw new NotFoundException('Product not found');
+    return this.productRepository.remove(product);
   }
 
   async addReview(product_id, createReviewDto: CreateReviewDto) {

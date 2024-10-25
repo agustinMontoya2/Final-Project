@@ -119,9 +119,7 @@ const category = await this.categoriesRepository.findOne({
     await this.productsRepository.save(product);
     return product;
   }
-  remove(id: number) {
-    throw new Error('Method not implemented.');
-  }
+  
 
   async addReview(product_id, user_id, review, rate) {
     if (!isUUID(user_id)) throw new BadRequestException('User ID not valid');
@@ -181,5 +179,11 @@ const category = await this.categoriesRepository.findOne({
     if (review) oldReview.review = review;
     await this.reviewRepository.save(oldReview);
     return oldReview;
+  }
+
+  async remove(product) {
+    console.log(product);
+    await this.productsRepository.remove(product);
+    return { message: 'Product deleted' };
   }
 }

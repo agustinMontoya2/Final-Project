@@ -16,7 +16,7 @@ export class ProductDetail {
   product_detail_id: string;
 
   @ManyToOne(
-    () => Product,
+    () => Product,{onDelete: "SET NULL"},
     //   (product) => product.product_detail
   )
   @JoinColumn({ name: 'product_id' })

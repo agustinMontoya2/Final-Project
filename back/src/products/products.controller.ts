@@ -64,8 +64,8 @@ export class ProductsController {
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseUUIDPipe) id: string) {
-    return this.productsService.remove(+id);
+  remove(@Param('id', ParseUUIDPipe) product_id: string) {
+    return this.productsService.remove(product_id);
   }
 
   // Review endpoints
