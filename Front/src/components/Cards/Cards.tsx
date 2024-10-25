@@ -84,7 +84,12 @@ const Cards = () => {
                 console.error("Error al manejar favoritos", error.message);
             }
         } else {
-            alert("Log in to manage Favorite");
+            Swal.fire({
+                title: 'Log in to manage Favorite',
+                icon: 'info',
+                confirmButtonText: 'accept',
+                confirmButtonColor: "#1988f0"
+            })
             router.push("/login");
         }
     };
@@ -114,7 +119,12 @@ const Cards = () => {
                 });
             }
         } else {
-            alert("Log in to add product to cart.");
+            Swal.fire({
+                title: 'Log in to add product to cart.',
+                icon: 'info',
+                confirmButtonText: 'accept',
+                confirmButtonColor: "#1988f0"
+            })
             router.push("/login");
         }
     };

@@ -63,7 +63,12 @@ const FavoritesView: React.FC = () => {
         console.error("Error al manejar favoritos");
       }
     } else {
-      alert("Inicia sesión para manejar favoritos.");
+      Swal.fire({
+        title: 'Sign in to manage favorites.',
+        icon: 'info',
+        confirmButtonText: 'accept',
+        confirmButtonColor: "#1988f0"
+    })
     }
   };
 
@@ -84,7 +89,12 @@ const FavoritesView: React.FC = () => {
         alert(`Error: ${error instanceof Error ? error.message : error}`);
       }
     } else {
-      alert("Inicia sesión para agregar al carrito.");
+      Swal.fire({
+        title: 'Sign in to add to cart.',
+        icon: 'info',
+        confirmButtonText: 'accept',
+        confirmButtonColor: "#1988f0"
+    })
     }
   };
 

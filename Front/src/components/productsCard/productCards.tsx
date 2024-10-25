@@ -53,8 +53,12 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
   };
 
   const handleAddToFavorities = async (productId: string, isFavorited: boolean) => {
-    if (!token || !userId) return alert("Log in to save as favorite.");
-    
+    if (!token || !userId) return  Swal.fire({
+      title: `Log in to save as favorite.`,
+      icon: 'info',
+      confirmButtonText: 'accept',
+      confirmButtonColor: "#1988f0"
+  })
     try {
       isFavorited ? await removeFavorities(userId, productId, token) : await addFavorities(userId, productId, token);
       await fetchFavorities();
@@ -64,8 +68,12 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
   };
 
   const handleAddCart = async (productId: string) => {
-    if (!token || !userId) return alert("Inicia sesión para agregar al carrito.");
-    
+    if (!token || !userId) return Swal.fire({
+      title: `Sign in to add to cart.`,
+      icon: 'info',
+      confirmButtonText: 'accept',
+      confirmButtonColor: "#1988f0"
+  })
     try {
       await addCart(userId, productId, token);
       Swal.fire({ icon: 'success', title: 'Product added to the cart', toast: true, position: 'top-end', timer: 2500, showConfirmButton: false });
@@ -80,13 +88,23 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
 
   const handlePostReview = async () => {
     if (!userId || !token) {
-      alert("Please log in to enter a review.");
+      Swal.fire({
+        title: `Please log in to enter a review.`,
+        icon: 'info',
+        confirmButtonText: 'accept',
+        confirmButtonColor: "#1988f0"
+    })
       router.push("/login");
       return;
     }
 
     if (reviewPost.rate === 0) {
-      alert("Please select a rating before submitting.");
+      Swal.fire({
+        title: `Please select a rating before submitting.`,
+        icon: 'info',
+        confirmButtonText: 'accept',
+        confirmButtonColor: "#1988f0"
+    })
       return;
     }
 
@@ -94,7 +112,15 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
     try {
       await postReview(userId, token, product_id, reviewPost);
       const product = await getProduct(product_id);
-      alert("Post review made");
+      Swal.fire({
+        icon: 'success',
+        title: 'Post review made.',
+        toast: true,
+        position: 'top-end',
+        timer: 2500,
+        showConfirmButton: false,
+        timerProgressBar: true,
+    });
       setProductState(product);
       setReviewPost({ rate: 0, review: '' });
     } catch (error) {

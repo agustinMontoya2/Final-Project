@@ -42,10 +42,20 @@ const CartView = () => {
                 calculateTotal(items);
             } catch (error) {
                 console.error("Error al obtener el carrito:", error);
-                alert("Error al obtener el carrito.");
+                Swal.fire({
+                    title: 'Error getting cart.',
+                    icon: 'error',
+                    confirmButtonText: 'accept',
+                    confirmButtonColor: "#1988f0"
+                })
             }
         } else {
-            alert("Log in to view the cart.");
+            Swal.fire({
+                title: 'Log in to view the cart.',
+                icon: 'info',
+                confirmButtonText: 'accept',
+                confirmButtonColor: "#1988f0"
+            })
         }
     };
 
@@ -65,7 +75,12 @@ const CartView = () => {
                 if (response) {
                     await handleGetCart();
                 } else {
-                    alert("Failed to delete the product from the cart.");
+                    Swal.fire({
+                        title: 'Failed to delete the product from the cart.',
+                        icon: 'error',
+                        confirmButtonText: 'accept',
+                        confirmButtonColor: "#1988f0"
+                    })
                 }
             } catch (error) {
                 console.error(`Error: ${error instanceof Error ? error.message : error}`);
@@ -81,7 +96,12 @@ const CartView = () => {
                 if (response) {
                     await handleGetCart();
                 } else {
-                    alert("Failed to delete the product from the cart.");
+                    Swal.fire({
+                        title: 'Failed to delete the product from the cart.',
+                        icon: 'error',
+                        confirmButtonText: 'accept',
+                        confirmButtonColor: "#1988f0"
+                    })
                 }
             } catch (error) {
                 console.error(`Error: ${error instanceof Error ? error.message : error}`);
@@ -100,7 +120,12 @@ const CartView = () => {
                 console.error("Error to add product to cart");
             }
         } else {
-            alert("Log in to add product to the cart.");
+            Swal.fire({
+                title: 'Log in to add product to the cart.',
+                icon: 'error',
+                confirmButtonText: 'accept',
+                confirmButtonColor: "#1988f0"
+            })
         }
     };
 
@@ -119,7 +144,12 @@ const CartView = () => {
         } 
         
         if (!userId) {
-            alert("User ID is missing. Please log in.");
+            Swal.fire({
+                title: 'User ID is missing. Please log in.',
+                icon: 'error',
+                confirmButtonText: 'accept',
+                confirmButtonColor: "#1988f0"
+            })
             return;
         }
 
@@ -147,7 +177,12 @@ const CartView = () => {
 
                     setNote("");
                 } else {
-                    alert("Failed to create the order.");
+                    Swal.fire({
+                        title: 'failed to create the order.',
+                        icon: 'error',
+                        confirmButtonText: 'accept',
+                        confirmButtonColor: "#1988f0"
+                    })
                 }
             } catch (error) {
                 alert(`Error: ${error instanceof Error ? error.message : error}`);

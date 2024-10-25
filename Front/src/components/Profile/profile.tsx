@@ -85,7 +85,12 @@ const ProfileV = () => {
                 alert(error.message);
             }
         } else {
-            alert("Inicia sesión primero");
+            Swal.fire({
+                title: 'Log in first',
+                icon: 'info',
+                confirmButtonText: 'accept',
+                confirmButtonColor: "#1988f0"
+            })
         }
     };
     
@@ -110,7 +115,12 @@ const ProfileV = () => {
                 alert(error);
             }
         } else {
-            alert("Inicia sesión primero");
+            Swal.fire({
+                title: 'Log in first',
+                icon: 'info',
+                confirmButtonText: 'accept',
+                confirmButtonColor: "#1988f0"
+            })
         }
     };
 

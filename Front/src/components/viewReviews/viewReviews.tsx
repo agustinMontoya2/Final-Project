@@ -4,6 +4,7 @@ import React from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { IReview } from '@/interfaces/productoInterface';
+import Swal from 'sweetalert2';
 const ViewReviews = () => {
     const [reviews, setReviews] = useState<IReview[]>([]);
     const [userId, setUserId] = useState<string | null>(null);
@@ -48,7 +49,15 @@ useEffect(() => {
         if (token && userId) {
         try {
             const deleteReview = await removeReviews(review_id, token);
-            alert(deleteReview.message)
+            Swal.fire({
+                icon: 'error',
+                title: `${deleteReview.message}`,
+                toast: true,
+                position: 'top-end',
+                timer: 2500,
+                showConfirmButton: false,
+                timerProgressBar: true,
+            });
         handleGetReviews()
         } catch (error) {
             alert(error)

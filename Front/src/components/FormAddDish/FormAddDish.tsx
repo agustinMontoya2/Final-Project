@@ -2,6 +2,7 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { FormValues } from '@/interfaces/productoInterface';
 import React from 'react';
+import Swal from 'sweetalert2';
 
 const FormularioMenu = () => {
     const [formValues, setFormValues] = useState<FormValues>({
@@ -45,13 +46,31 @@ const FormularioMenu = () => {
             });
 
             if (response.ok) {
-                alert('Menú agregado correctamente!');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Menu successfully added!',
+                    toast: true,
+                    position: 'top-end',
+                    timer: 2500,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                });
             } else {
-                alert('Error al agregar el menú');
+                Swal.fire({
+                    title: 'Error adding menu',
+                    icon: 'error',
+                    confirmButtonText: 'accept',
+                    confirmButtonColor: "#1988f0"
+                })
             }
         } catch (error) {
             console.error('Error al enviar el formulario:', error);
-            alert('Ocurrió un error al intentar agregar el menú');
+            Swal.fire({
+                title: 'An error occurred while trying to add the menu.',
+                icon: 'error',
+                confirmButtonText: 'accept',
+                confirmButtonColor: "#1988f0"
+            })
         }
     };
 
