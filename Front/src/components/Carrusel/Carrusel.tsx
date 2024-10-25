@@ -9,13 +9,13 @@ useEffect(() => {
     setCurrentIndex((prevIndex) =>
         prevIndex === images.length - 1 ? 0 : prevIndex + 1
     );
-    }, 7000); // 3000 ms = 3 segundos
+    }, 5000);
 
     return () => clearInterval(interval); 
 }, [images.length]);
 
 return (
-    <div className="relative w-full max-w-lg mx-auto overflow-hidden rounded-lg shadow-lg">
+    <div className="relative w-full max-w-lg mx-auto my- overflow-hidden rounded-lg shadow-lg">
             <div
                 className="flex transition-transform duration-500 ease-in-out"
                 style={{ transform: `translateX(-${currentIndex * 100}%)` }}>

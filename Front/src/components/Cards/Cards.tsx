@@ -188,7 +188,7 @@ const Cards = () => {
                     <button onClick={clearFilters} className="bg-gray-500 text-white font-bold py-1 px-3 rounded hover:bg-gray-600">Clear Filter</button>
                 </div>
         
-                <Carousel images={images} />
+                <Carousel images={images}/>
         
                 <div className="w-[60%] h-auto grid grid-cols-1 sm:grid-cols-2 gap-6 justify-evenly m-auto">
                     {filteredProducts.map((product) => (
