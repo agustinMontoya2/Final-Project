@@ -12,7 +12,7 @@ const ModifyDishes = () => {
     const [products, setProducts] = useState<IProducts[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState<string>("");
-    const [userId, setUserId] = useState<string | null>(null); 
+    const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
     const [selectedProduct, setSelectedProduct] = useState<IProducts | null>(null);
     const [isFormOpen, setIsFormOpen] = useState(false);
@@ -21,7 +21,7 @@ const ModifyDishes = () => {
         description: '',
         price: '',
         image_url: '',
-        avaliable: true, 
+        avaliable: true,
         category_id: ''
     });
     const [productImgFile, setProductImgFile] = useState<File | null>(null);
@@ -29,7 +29,7 @@ const ModifyDishes = () => {
     const [categories, setCategories] = useState<ICategory[]>([]);
 
     useEffect(() => {
-        const storedUserData = window.localStorage.getItem("userSession"); 
+        const storedUserData = window.localStorage.getItem("userSession");
         if (storedUserData) {
             const parsedData = JSON.parse(storedUserData);
             if (parsedData && parsedData.user) {
@@ -63,7 +63,7 @@ const ModifyDishes = () => {
     };
 
     const handleModify = (product: IProducts) => {
-        
+
         setSelectedProduct(product);
         setFormValues({
             product_name: product.product_name,
@@ -76,7 +76,7 @@ const ModifyDishes = () => {
         setImagePreview(product.image_url || '');
         setIsFormOpen(true);
     }
-    ;
+        ;
 
     const handleDelete = async (productId: string) => {
         if (!token) {
@@ -87,7 +87,7 @@ const ModifyDishes = () => {
             const response = await removeProduct(productId, token);
             console.log(response);
             alert("El producto se ha eliminado correctamente");
-            fetchProducts(); 
+            fetchProducts();
         } catch (error: any) {
             console.error(error.message, "Error al eliminar el producto");
         }
@@ -121,12 +121,12 @@ const ModifyDishes = () => {
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-    
+
         if (!token) {
             console.error("Token is required");
             return;
         }
-    
+
         const product = {
             product_name: formValues.product_name,
             description: formValues.description,
@@ -134,24 +134,24 @@ const ModifyDishes = () => {
             category_id: formValues.category_id,
             available: formValues.avaliable,
         };
-    
+
         console.log("Product data being sent:", product);
-    
+
         try {
             if (!selectedProduct || !selectedProduct.product_id) {
                 console.error("Selected product is not valid");
                 return;
             }
-    
+
             const response = await putProduct(token, selectedProduct.product_id, product); // Asegúrate de que estás pasando el product_id correcto
-    
+
             if (response.product_id && productImgFile) {
                 await editProductImg(productImgFile, token, response.product_id);
                 console.log(productImgFile);
             }
             console.log(response);
             alert("El producto se ha modificado correctamente");
-            fetchProducts(); 
+            fetchProducts();
             setIsFormOpen(false);
         } catch (error: any) {
             console.error(error.message, "Error al modificar el producto");
@@ -220,7 +220,7 @@ const ModifyDishes = () => {
                         <div className="w-4/5 mb-6 relative">
                             <input
                                 type="text"
-                                name="name"
+                                name="product_name"
                                 placeholder="Name"
                                 value={formValues.product_name}
                                 onChange={handleChange}

@@ -161,7 +161,7 @@ export async function putProduct(token: string,product_id:string, product: {}) {
   try {
     console.log("Product data being sent:", JSON.stringify(product, null, 2)); 
 
-    const response = await fetch(`${APIURL}/products/review/${product_id}`, {
+    const response = await fetch(`${APIURL}/products/${product_id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
