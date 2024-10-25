@@ -52,26 +52,29 @@ export class ProductsService implements OnApplicationBootstrap {
     return this.productRepository.findOne(id);
   }
 
-  update(product_id, updateProductDto: UpdateProductDto) {
+  async update(product_id, updateProductDto: UpdateProductDto) {
     if (!updateProductDto) throw new BadRequestException('Product not valid');
     if (!IsUUID(product_id))
       throw new BadRequestException('Product ID not valid');
-    const product = this.productRepository.findOne(product_id);
-    const { product_name, description, price, category_id } = updateProductDto;
+    const product = await this.productRepository.findOne(product_id);
+    const { product_name, description, price, category_id, available } =
+      updateProductDto;
+    console.log(updateProductDto);
+
     return this.productRepository.update(product, {
       product_name,
       description,
       price,
       category_id,
+      available,
     });
   }
 
-  async remove(product_id) { 
-    if(!IsUUID(product_id))
+  async remove(product_id) {
+    if (!IsUUID(product_id))
       throw new BadRequestException('Product ID not valid');
     const product = await this.productRepository.findOne(product_id);
-    if(!product)
-      throw new NotFoundException('Product not found');
+    if (!product) throw new NotFoundException('Product not found');
     return this.productRepository.remove(product);
   }
 

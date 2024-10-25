@@ -31,9 +31,7 @@ export interface IProducts {
   price: number;
   description: string;
   image_url: string;
-  category: {
-    category_name: string;
-  };
+  category: ICategory;
   reviews: IReview[];
   available: boolean;
 }

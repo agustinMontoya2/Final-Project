@@ -127,7 +127,7 @@ const ModifyDishes = () => {
             return;
         }
 
-        const product = {
+        const editProduct = {
             product_name: formValues.product_name,
             description: formValues.description,
             price: parseFloat(formValues.price),
@@ -135,15 +135,17 @@ const ModifyDishes = () => {
             available: formValues.avaliable,
         };
 
-        console.log("Product data being sent:", product);
+        console.log("Product data being sent:", editProduct);
 
         try {
             if (!selectedProduct || !selectedProduct.product_id) {
-                console.error("Selected product is not valid");
+                console.error("Selected editProduct is not valid");
                 return;
             }
+            console.log("editado",editProduct);
+            
 
-            const response = await putProduct(token, selectedProduct.product_id, product); // Asegúrate de que estás pasando el product_id correcto
+            const response = await putProduct(token, selectedProduct.product_id, editProduct); // Asegúrate de que estás pasando el product_id correcto
 
             if (response.product_id && productImgFile) {
                 await editProductImg(productImgFile, token, response.product_id);
@@ -176,42 +178,44 @@ const ModifyDishes = () => {
                     className="border border-gray-300 rounded-md px-3 py-2 text-gray-700 w-full max-w-md"
                 />
             </div>
-
-            <div className="w-[60%] h-auto grid grid-cols-1 sm:grid-cols-2 gap-6 justify-evenly m-auto">
-                {products
-                    .filter(product => product.product_name.toLowerCase().includes(searchTerm.toLowerCase())) // Filtrado por nombre
-                    .map((product) => (
-                        <div key={product.product_id} className="relative w-36 flex justify-center items-center">
-                            <Image
-                                src={product.image_url}
-                                alt={product.product_name}
-                                width={80}
-                                height={80}
-                                className="w-full h-auto rounded-md"
-                            />
-                            <div className="w-2/3 pl-4">
-                                <div className="flex items-center justify-between mb-2">
+    
+            <ul className="w-[60%] m-auto space-y-6">
+                {products && Array.isArray(products) && products.length > 0 ? (
+                    products
+                        .filter(product => product.product_name.toLowerCase().includes(searchTerm.toLowerCase())) // Filtrado por nombre
+                        .map((product) => (
+                            <li key={product.product_id} className="flex items-center p-4 bg-white rounded-lg shadow-md">
+                                <Image
+                                    src={product.image_url}
+                                    alt={product.product_name}
+                                    width={80}
+                                    height={80}
+                                    className="w-20 h-20 rounded-md mr-4"
+                                />
+                                <div className="flex-grow">
                                     <h2 className="text-black text-xl font-semibold">{product.product_name}</h2>
+                                    <div className="mt-2 flex justify-between">
+                                        <button
+                                            className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
+                                            onClick={() => handleModify(product)} // Pasa el producto al modificar
+                                        >
+                                            Modify
+                                        </button>
+                                        <button
+                                            className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
+                                            onClick={() => handleDelete(product.product_id)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="w-full flex justify-between items-center">
-                                    <button
-                                        className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
-                                        onClick={() => handleModify(product)} // Pasa el producto al modificar
-                                    >
-                                        Modify
-                                    </button>
-                                    <button
-                                        className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
-                                        onClick={() => handleDelete(product.product_id)}
-                                    >
-                                        Delete
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-            </div>
-
+                            </li>
+                        ))
+                ) : (
+                    <p>No products found</p>
+                )}
+            </ul>
+    
             {/* Formulario de modificación */}
             {isFormOpen && (
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -230,7 +234,7 @@ const ModifyDishes = () => {
                         </div>
                         <div className="w-4/5 mb-6 relative">
                             <textarea
-                                name="descripcion"
+                                name="description"
                                 placeholder="Description"
                                 value={formValues.description}
                                 onChange={handleChange}
@@ -265,6 +269,17 @@ const ModifyDishes = () => {
                                 ))}
                             </select>
                         </div>
+                        <div className="w-4/5 mb-6 relative flex items-center">
+                            <input
+                                type="checkbox"
+                                id="avaliable"
+                                name="avaliable"
+                                checked={formValues.avaliable}
+                                onChange={(e) => setFormValues({ ...formValues, avaliable: e.target.checked })}
+                                className="mr-2"
+                            />
+                            <label htmlFor="avaliable" className="text-neutral-700">Disponible</label>
+                        </div>
                         <div className="w-4/5 mb-6 relative">
                             <label htmlFor="image" className="block mb-2 text-sm font-medium text-gray-900">Image</label>
                             <input
@@ -284,6 +299,6 @@ const ModifyDishes = () => {
             )}
         </div>
     );
-};
+}
 
 export default ModifyDishes;
