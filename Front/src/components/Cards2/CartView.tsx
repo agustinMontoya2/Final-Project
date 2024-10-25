@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { ICart, IOrder } from '@/interfaces/productoInterface';
 import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
+import { PagoMercado } from '@/Helpers/MercadoPago';
 
 const CartView = () => {
     const [cartItems, setCartItems] = useState<ICart>({
@@ -104,7 +105,29 @@ const CartView = () => {
         }
     };
 
-    const handlePostOrder = async (orderData: IOrder) => {
+    const handlerMercadoPago = async () => {
+        if (token && userId) {
+            try {
+                alert(userId)
+                console.log (userId)
+                const data = await PagoMercado(userId, token);
+                console.log("Payment response:", data); 
+                if (data && data.init_point) {
+                    window.location.href = data.init_point; 
+                    handlePostOrder()
+                } else {
+                    alert("Error al iniciar el pago con MercadoPago.");
+                }
+            } catch (error) {
+                console.error("Error en la integración con MercadoPago:", error);
+                alert("Error al procesar el pago con MercadoPago.");
+            }
+        }
+    };
+    
+    
+    
+    const handlePostOrder = async () => {
         if (!cartItems.productDetail.length) {
             Swal.fire({
                 icon: 'error',
@@ -146,6 +169,9 @@ const CartView = () => {
                     });
 
                     setNote("");
+                    if (paymentOption === 'Card') {
+                        await handlerMercadoPago();
+                    }
                 } else {
                     alert("Failed to create the order.");
                 }
@@ -154,6 +180,7 @@ const CartView = () => {
             }
         }
     };
+    
 
     useEffect(() => {
         if (userId && token) {
@@ -166,7 +193,7 @@ const CartView = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screenpy-8">
+        <div className="flex flex-col items-center justify-center min-h-screen py-8">
             <h1 className="text-3xl font-bold text-black mb-6">Cart</h1>
             {cartItems?.productDetail.length === 0 ? (
                 <p className="text-lg text-gray-700">Your cart is empty.</p>
@@ -217,56 +244,60 @@ const CartView = () => {
                 </ul>
             )}
 
-            <div className="mt-4 w-[80%] max-w-4xl">
+            <div className="w-[80%] max-w-4xl mt-6">
                 <textarea
-                    rows={3}
                     value={note}
                     onChange={(e) => setNote(e.target.value)}
-                    placeholder="Add any special requests or notes here..."
-                    className="w-full text-black p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full h-24 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Any special instructions or notes?"
                 />
-            </div>
 
-            <div className="mt-4 w-[80%] max-w-4xl">
-                <label className="block text-lg font-semibold text-black mb-2">Choose Option:</label>
+                <h3 className="mt-6 font-semibold text-lg text-black">Delivery Options</h3>
                 <select
                     value={deliveryOption}
                     onChange={(e) => setDeliveryOption(e.target.value)}
-                    className="w-full text-black p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
-                    <option value="dine-in">Take Away</option>
-                    <option value="takeout">Delivery</option>
+                    <option value="dine-in">Dine In</option>
+                    <option value="delivery">Delivery</option>
                 </select>
-            </div>
-            <div className="mt-4 w-[80%] max-w-4xl">
-                <label className="block text-lg font-semibold text-black mb-2">Choose Payment Method Option:</label>
+
+                <h3 className="mt-6 font-semibold text-lg text-black">Payment Method</h3>
                 <select
                     value={paymentOption}
                     onChange={(e) => setPaymentOption(e.target.value)}
-                    className="w-full text-black p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                     <option value="cash">Cash</option>
-                    <option value="Card">Card</option>
+                    <option value="card">Card</option>
                 </select>
-            </div>
 
-            <button
-                onClick={() => {
-                    if (userId !== null) {
-                        handlePostOrder({ userId, order_type: deliveryOption, payment_method: paymentOption, note });
-                    } else {
-                        alert("User ID is missing. Please log in.");
-                    }
-                }}
-                className="mt-6 bg-red-600 text-white font-bold px-6 py-2 rounded-lg hover:bg-red-700 transition duration-300"
-                disabled={!cartItems || cartItems.productDetail.length === 0}
-            >
-                Finalize Order
-            </button>
+                <div className="flex justify-center space-x-4 mt-6">
+                    <button
+                        onClick={handleFinishOrder}
+                        className="bg-secondary text-white font-bold px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+                    >
+                        Continue Shopping
+                    </button>
+                    {paymentOption === "card" && (
+                        <button
+                            onClick={handlerMercadoPago}
+                            className="bg-blue-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300"
+                        >
+                            Pay with MercadoPago
+                        </button>
+                    )}
+                    <button
+                        onClick={handlePostOrder}
+                        className="bg-green-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300"
+                    >
+                        Finalize Order
+                    </button>
+                </div>
+            </div>
         </div>
     );
 };
-
 
 export default CartView;
 

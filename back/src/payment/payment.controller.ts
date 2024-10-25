@@ -6,8 +6,8 @@ export class PaymentController {
   constructor(private readonly createOrderService: PaymentService) {}
 
   @Post('/createorder/:id')
-  createOrderController(@Param('id') cart_id: string) {
-    return this.createOrderService.createOrderService(cart_id);
+  createOrderController(@Param('id') user_id: string) {
+    return this.createOrderService.createOrderService(user_id);
   }
 
   @Post('/webhook')

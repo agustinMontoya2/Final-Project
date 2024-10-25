@@ -1,6 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import axios from 'axios';
+import { isUUID } from 'class-validator';
 import { MercadoPagoConfig, Preference } from 'mercadopago';
 import { Cart } from 'src/products/entities/cart.entity';
 import { User } from 'src/users/entities/user.entity';
@@ -14,6 +15,7 @@ export class PaymentService {
 
   async createOrderService(user_id: string) {
     // Busca el usuario y sus detalles del carrito
+    if(!isUUID) throw new BadRequestException(`${user_id} is not a valid id`)
     const user = await this.userRepository.findOne({
       where: { user_id },
       relations: ['cart', 'cart.productDetail', 'cart.productDetail.product'],
