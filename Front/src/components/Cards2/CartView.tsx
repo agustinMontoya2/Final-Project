@@ -8,7 +8,13 @@ import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
 
 const CartView = () => {
-    const [cartItems, setCartItems] = useState<ICart>({ cart_id: "", note: "", product: [], productDetail: [] });
+    const [cartItems, setCartItems] = useState<ICart>({
+        cart_id: '', // o un valor adecuado
+        note: '',    // o un valor adecuado
+        product: [], // inicializa con un array vacío si es una lista
+        productDetail: [], // inicializa con un array vacío
+    });
+    
     const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
     const [totalCart, setTotalCart] = useState<number>(0);
@@ -119,7 +125,7 @@ const CartView = () => {
 
         if (token && deliveryOption && paymentOption) {
             const orderData: IOrder = {
-                userId,
+                userId: userId,
                 order_type: deliveryOption,
                 payment_method: paymentOption,
                 note,
@@ -160,7 +166,7 @@ const CartView = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 py-8">
+        <div className="flex flex-col items-center justify-center min-h-screenpy-8">
             <h1 className="text-3xl font-bold text-black mb-6">Cart</h1>
             {cartItems?.productDetail.length === 0 ? (
                 <p className="text-lg text-gray-700">Your cart is empty.</p>
@@ -228,8 +234,8 @@ const CartView = () => {
                     onChange={(e) => setDeliveryOption(e.target.value)}
                     className="w-full text-black p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
-                    <option value="dine-in">Home delivery</option>
-                    <option value="takeout">delivery</option>
+                    <option value="dine-in">Take Away</option>
+                    <option value="takeout">Delivery</option>
                 </select>
             </div>
             <div className="mt-4 w-[80%] max-w-4xl">

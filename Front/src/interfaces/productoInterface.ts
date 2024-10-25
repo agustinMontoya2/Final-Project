@@ -138,6 +138,7 @@ export interface IGetOrder {
   order_id: string;
   date: string;
   state: string;
+  orderDetail: IOrderDetail;
 }
 
 export interface IOrderDetail {

@@ -57,7 +57,7 @@ const ReservasView: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
+    <div className="max-w-3xl mx-auto p-6 flex flex-col-reverse">
       {reservas && reservas.length > 0 ? (
         reservas.map((reserva: IReserve) => (
           <div
@@ -65,7 +65,6 @@ const ReservasView: React.FC = () => {
             className="bg-white p-6 rounded-lg shadow-lg mb-6 transition-transform transform hover:scale-105 hover:shadow-xl"
           >
             <section className="border-b border-gray-300 pb-4 mb-4">
-              <h2 className="text-gray-800 text-lg font-semibold mb-2">Reservation #{reserva.reservation_id}</h2>
               <p className="text-gray-600 mb-1">
                 Date:{" "}
                 <span className="font-medium text-gray-800">

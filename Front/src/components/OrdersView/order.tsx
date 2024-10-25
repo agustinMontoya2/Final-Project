@@ -63,6 +63,9 @@ const OrdersView = () => {
                         </li>
                     ))}
                 </ul>
+                {
+                    orders  && <p className='text-black text-center'>No orders found.</p>
+                }
             </div>
         </div>
     );

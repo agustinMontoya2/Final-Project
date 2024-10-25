@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { ILogin } from '@/interfaces/productoInterface';
 import { formLogin } from '@/lib/server/auth';
@@ -17,6 +17,7 @@ const Login = () => {
     };
 
     const [userData, setUserData] = useState<ILogin>(initialState);
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -25,6 +26,7 @@ const Login = () => {
             [name]: value
         });
     };
+
     const handleGoogleLogin = () => {
         window.location.href =`${process.env.NEXT_PUBLIC_API_URL}/auth/login`;
     };
@@ -37,8 +39,7 @@ const Login = () => {
             if (response && response.user) {
                 localStorage.setItem("userSession", JSON.stringify(response));
                 setUserData(userData);
-                // Disparar el evento para actualizar la sesión
-                window.dispatchEvent(new Event("userSessionUpdated")); // Aquí está el cambio
+                window.dispatchEvent(new Event("userSessionUpdated"));
                 Swal.fire({
                     icon: 'success',
                     title: 'Login successfully',
@@ -70,13 +71,18 @@ const Login = () => {
             }
         }
     };
-    
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(prev => !prev);
+    };
 
     const renderInput = (type: string, name: keyof ILogin, label: string) => {
+        const isPassword = type === "password";
+
         return (
             <div className="w-4/5 mb-6 relative">
                 <input
-                    type={type}
+                    type={isPassword && !showPassword ? 'password' : 'text'}
                     id={name}
                     name={name}
                     value={userData[name]}
@@ -86,12 +92,24 @@ const Login = () => {
                 />
                 <label
                     htmlFor={name}
-                    className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${
-                        userData[name] ? 'top-[4px] text-xs' : ''
-                    }`}
+                    className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${userData[name] ? 'top-[4px] text-xs' : ''}`}
                 >
                     {label}
                 </label>
+                {isPassword && (
+                    <i
+                        className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
+                        onClick={togglePasswordVisibility}
+                        style={{
+                            position: 'absolute',
+                            right: '10px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            cursor: 'pointer',
+                            color: 'black'
+                        }}
+                    ></i>
+                )}
             </div>
         );
     };

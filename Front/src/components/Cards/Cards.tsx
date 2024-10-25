@@ -9,6 +9,7 @@ import { addCart } from "@/lib/server/cart";
 import Link from 'next/link';
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
+import Loading from "../Loading/Loading";
 
 const Cards = () => {
     const router = useRouter();
@@ -146,12 +147,12 @@ const Cards = () => {
             return 0;
         });
 
-    if (loading) {
-        return <div className="flex flex-col justify-center text-black">Loading menu...</div>;
-    }
+        if (loading) {
+            return <Loading />;
+        }
 
     return (
-        <div className="p-5 bg-gray-100 rounded-lg shadow-md">
+        <div className="pt-5 rounded-lg ">
             <div className="mb-5 text-center">
                 <input
                     type="text"
@@ -163,17 +164,17 @@ const Cards = () => {
             </div>
 
             <div className="flex justify-center mb-4 flex-wrap gap-2">
-                <button onClick={() => setFilters({ ...filters, category: "Beverages" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Beverages</button>
-                <button onClick={() => setFilters({ ...filters, category: "Main Dishes" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Main Dishes</button>
-                <button onClick={() => setFilters({ ...filters, category: "Appetizers" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Appetizers</button>
-                <button onClick={() => setFilters({ ...filters, category: "Sides" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Sides</button>
-                <button onClick={() => setFilters({ ...filters, category: "Desserts" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Desserts</button>
-                <button onClick={() => setFilters({ ...filters, priceOrder: "asc" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Price: Low to High</button>
-                <button onClick={() => setFilters({ ...filters, priceOrder: "desc" })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">Price: High to Low</button>
-                <button onClick={() => setFilters({ ...filters, showFavorites: !filters.showFavorites })} className="bg-secondary text-white py-1 px-3 rounded hover:bg-secondary-dark">
+                <button onClick={() => setFilters({ ...filters, category: "Beverages" })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white">Beverages</button>
+                <button onClick={() => setFilters({ ...filters, category: "Main Dishes" })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white">Main Dishes</button>
+                <button onClick={() => setFilters({ ...filters, category: "Appetizers" })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white">Appetizers</button>
+                <button onClick={() => setFilters({ ...filters, category: "Sides" })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white">Sides</button>
+                <button onClick={() => setFilters({ ...filters, category: "Desserts" })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white">Desserts</button>
+                <button onClick={() => setFilters({ ...filters, priceOrder: "asc" })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white">Price: Low to High</button>
+                <button onClick={() => setFilters({ ...filters, priceOrder: "desc" })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white">Price: High to Low</button>
+                <button onClick={() => setFilters({ ...filters, showFavorites: !filters.showFavorites })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary">
                     {filters.showFavorites ? "Watch all" : "Watch favorites"}
                 </button>
-                <button onClick={clearFilters} className="bg-gray-500 text-white py-1 px-3 rounded hover:bg-gray-600">Clear Filter</button>
+                <button onClick={clearFilters} className="bg-gray-500 text-white font-bold py-1 px-3 rounded hover:bg-gray-600">Clear Filter</button>
             </div>
 
             <div className="w-[60%] h-auto grid grid-cols-1 sm:grid-cols-2 gap-6 justify-evenly m-auto">

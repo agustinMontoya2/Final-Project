@@ -62,14 +62,12 @@ export class AuthService {
 
     const token = this.jwtService.sign(payload);
 
-    const { isAdmin, isBanned, ...userWithoutAdmin } = authUser.user;
+    const { isAdmin, ...userWithoutAdmin } = authUser.user;
 
     return {
       user: userWithoutAdmin,
       email: authUser.email,
       token,
-      isAdmin,
-      isBanned: authUser.user.isBanned,
     };
   }
 
