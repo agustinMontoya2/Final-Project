@@ -73,6 +73,31 @@ export async function banUser(user_id: string, token: string) {
     }
 }
 
+export async function adminUser(user_id: string, token: string) {
+    try {
+        const response = await fetch(`${APIURL}/users/admin/${user_id}`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${token}` 
+            },
+        });
+        const responseText = await response.text(); 
+
+        if (response.ok) {
+            return JSON.parse(responseText);  
+        } else {
+            throw new Error(`Error: ${responseText}`);  
+        }
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            throw error;  
+        } else {
+            throw new Error("An unknown error occurred");  
+        }
+    }
+}
+
 export async function editProfileImg(user_img: File, token: string, user_id: string) {
     try {
         const formData = new FormData();

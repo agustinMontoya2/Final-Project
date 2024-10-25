@@ -98,4 +98,10 @@ export class UsersService {
     const user = await this.findOne(user_id);
     return this.usersRepository.banUser(user);
   }
+
+  async adminUser(user_id: string) {
+    if (!isUUID(user_id)) throw new BadRequestException('User ID not valid');
+    const user = await this.findOne(user_id);
+    return this.usersRepository.adminUser(user);
+  }
 }

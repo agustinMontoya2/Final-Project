@@ -25,7 +25,7 @@ export class FileUploadController {
       new ParseFilePipe({
         validators: [
           new MaxFileSizeValidator({
-            maxSize: 200000,
+            maxSize: 2000000,
             message: `The file must not exceed 200KB`,
           }),
           new FileTypeValidator({ fileType: /jpg|jpeg|webp|gif|png|svg/ }),

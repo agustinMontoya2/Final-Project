@@ -239,9 +239,22 @@ export class UsersRepository {
 
   async banUser(user) {
     user.isBanned = !user.isBanned;
+    if (user.isBanned) {
+      user.isAdmin = false;
+    }
+
     await this.userRepository.save(user);
     return user.isBanned
       ? { message: 'User banned successfully' }
       : { message: 'User unbanned successfully' };
+  }
+
+  async adminUser(user) {
+    user.isAdmin = !user.isAdmin;
+    if (user.isBanned) throw new BadRequestException('User is banned');
+    await this.userRepository.save(user);
+    return user.isAdmin
+      ? { message: 'User admin successfully' }
+      : { message: 'User unadmin successfully' };
   }
 }

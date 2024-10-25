@@ -34,7 +34,7 @@ const Register = () => {
     const [errors, setErrors] = useState<Partial<IRegister>>({});
 
     const handleGoogleLogin = () => {
-        window.location.href = "http://localhost:3000/auth/login";
+        window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/login`;
     };
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,14 +54,17 @@ const Register = () => {
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        alert("#1#")
         event.preventDefault();
         const validationErrors = registerValidation(userData);
-        if (Object.values(validationErrors).some((error) => error)) {
-            setErrors(validationErrors);
-            return;
-        }
+        // arreglar validadores 
+        // if (Object.values(validationErrors).some((error) => error)) {
+        //     setErrors(validationErrors);
+        //     return;
+        // }
         
         try {
+            alert("#2#")
             const response = await formRegister(userData);
             if (response) {
                 Swal.fire({

@@ -5,10 +5,12 @@ export interface Character {
 }
 
 export interface FormValues {
-  name: string;
-  descripcion: string;
+  product_name: string;
+  description: string;
   price: string;
-  imagen: File | null;
+  image_url: string;
+  avaliable: boolean;
+  category_id: string;
 }
 
 export interface Plato {
@@ -32,16 +34,19 @@ export interface IProducts {
   category: {
     category_name: string;
   };
-  reviews:IReview[]
+  reviews: IReview[];
   available: boolean;
 }
-
-export interface IReview{
-  review_id: string,
-  review: string,
-  rate: number,
-  product: IProducts
-  user: IUser
+export interface ICategory {
+  category_id: string;
+  category_name: string;
+}
+export interface IReview {
+  review_id: string;
+  review: string;
+  rate: number;
+  product: IProducts;
+  user: IUser;
 }
 export interface ILogin {
   email: string;
@@ -71,12 +76,11 @@ export interface IReserve {
   peopleCount: number;
 }
 
-
 export interface IUserSession {
   token: string;
   email: string;
   user: {
-    id:string,
+    id: string;
     address: string;
     user_id: string;
     name: string;
@@ -94,6 +98,7 @@ export interface IUser {
   orders: [];
   address: string;
   isBanned: boolean;
+  isAdmin: boolean;
 }
 
 export interface IProductsDetails {
@@ -147,7 +152,7 @@ export interface IOrderDetail {
 
 export interface ProfileImageProps {
   user: {
-      user_img: string;
+    user_img: string;
   };
   isEditing: boolean;
   onImageChange: (file: File) => void;

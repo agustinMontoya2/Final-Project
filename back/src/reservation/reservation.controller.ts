@@ -47,11 +47,10 @@ export class ReservationController {
     );
   }
 
-  @Get(':id') 
-    findOneReservationsByUserIdController(@Param('id') user_id: string) {
-      return this.reservationService.findOneReservationsByUserIdService(user_id);
-    }
-  
+  @Get(':id')
+  findOneReservationsByUserIdController(@Param('id') user_id: string) {
+    return this.reservationService.findOneReservationsByUserIdService(user_id);
+  }
 
   // @Get(':id')
   // findOneReservationsController(@Param('id') id: string) {
@@ -73,6 +72,4 @@ export class ReservationController {
       UpdateReservationDto,
     );
   }
-
-
 }

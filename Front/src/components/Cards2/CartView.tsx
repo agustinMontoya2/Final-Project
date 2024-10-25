@@ -19,8 +19,8 @@ const CartView = () => {
     const [token, setToken] = useState<string | null>(null);
     const [totalCart, setTotalCart] = useState<number>(0);
     const [note, setNote] = useState<string>("");
-    const [deliveryOption, setDeliveryOption] = useState<string>("dine-in"); 
-    const [paymentOption, setPaymentOption] = useState<string>("cash"); 
+    const [deliveryOption, setDeliveryOption] = useState<string>("dine-in");
+    const [paymentOption, setPaymentOption] = useState<string>("cash");
     const router = useRouter();
 
     useEffect(() => {
@@ -141,8 +141,8 @@ const CartView = () => {
                 timerProgressBar: true,
             });
             return;
-        } 
-        
+        }
+
         if (!userId) {
             Swal.fire({
                 title: 'User ID is missing. Please log in.',
@@ -197,7 +197,7 @@ const CartView = () => {
     }, [userId, token]);
 
     const handleFinishOrder = () => {
-        router.push('/menu'); 
+        router.push('/menu');
     };
 
     return (
@@ -286,10 +286,13 @@ const CartView = () => {
             </div>
 
             <button
-                onClick={()=> handlePostOrder({ userId,
-                    order_type: deliveryOption,
-                    payment_method: paymentOption,
-                    note, })}
+                onClick={() => {
+                    if (userId !== null) {
+                        handlePostOrder({ userId, order_type: deliveryOption, payment_method: paymentOption, note });
+                    } else {
+                        alert("User ID is missing. Please log in.");
+                    }
+                }}
                 className="mt-6 bg-red-600 text-white font-bold px-6 py-2 rounded-lg hover:bg-red-700 transition duration-300"
                 disabled={!cartItems || cartItems.productDetail.length === 0}
             >
@@ -301,3 +304,59 @@ const CartView = () => {
 
 
 export default CartView;
+
+
+// const Producto = () => {
+//     const [notification, setNotificacion] = useState({
+//       isOpen: false,
+//       type: null,
+//       content: '',
+//     });
+  
+//     useEffect(() => {
+//       const urlParams = new URLSearchParams(window.location.search);
+//       const status = urlParams.get('status');
+//       if (status === 'approved') {
+//         setNotificacion({
+//           content: 'Pago aprovado',
+//           isOpen: true,
+//           type: 'approved',
+//         });
+//       } else if (status === 'failure') {
+//         setNotificacion({
+//           content: 'Pago fallido',
+//           isOpen: true,
+//           type: 'failure',
+//         });
+//       }
+//       setTimeout(() => {
+//         setNotificacion({
+//           isOpen: false,
+//           type: null,
+//           content: '',
+//         });
+//       }, 5000);
+//     }, []);
+  
+//     return (
+//       <main>
+//         <div>
+//           <img src={Product.img} alt={Product.title} width={360} height={450} />
+//         </div>
+//         <div>
+//           <h2>Black Friday</h2>
+//           <h3>{Product.price}</h3>
+//         </div>
+//         <div>
+//           <span>Lo que tenes que saber de este producto:</span>
+//           <ul>
+//             {Product.description.map((item) => (
+//               <li key={item}>{item}</li>
+//             ))}
+//           </ul>
+//         </div>
+//         <div>
+//           <MercadoPagoButton product={Product} />
+//         </div>
+//         {notification.isOpen && (
+  

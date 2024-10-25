@@ -27,7 +27,7 @@ export class CreateProductDto {
   })
   @IsNotEmpty({ message: 'product description is required' })
   @IsString({ message: 'product description must be a string' })
-  @Length(3, 50, {
+  @Length(3, 200, {
     message: 'Product description must be between 3 and 50 characters',
   })
   description: string;
@@ -48,6 +48,7 @@ export class CreateProductDto {
   @IsString({
     message: 'product image url must be a string',
   })
+  @IsOptional()
   image_url: string;
 
   @ApiProperty({

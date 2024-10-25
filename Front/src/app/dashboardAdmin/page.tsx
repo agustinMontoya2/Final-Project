@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import DashboardAdmindV from '@/components/dashboardAdmind/dashboardAdmind';
+import DashboardAdmindV from '@/components/dashboardAdmin/dashboardAdmind';
 
 const DashboardAdmind = () => {
   const router = useRouter();

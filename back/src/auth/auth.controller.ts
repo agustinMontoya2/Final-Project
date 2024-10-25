@@ -43,7 +43,7 @@ export class AuthController {
   //auth0 rutas de login y logout
   @Get('login')
   login(@Res() res: Response) {
-    const redirectUri = 'http://localhost:3000/auth/callback';
+    const redirectUri = `${process.env.URL_HOST_BACK}auth/callback`;
     const domain = process.env.AUTH0_BASE_URL;
     const clientId = process.env.AUTH0_CLIENT_ID;
     const url = `https://${domain}/authorize?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=openid profile email&prompt=login`;
@@ -62,7 +62,7 @@ export class AuthController {
     const token = await this.authService.getUserInfoFromAuth0(token_auth0);
 
     if (token) {
-      const frontendUrl = `http://localhost:4000/auth0?token_auth0=${token}`;
+      const frontendUrl = `${process.env.URL_HOST_BACK}auth0?token_auth0=${token}`;
       return res.redirect(frontendUrl);
     } else {
       return res.status(500).json({ error: 'Failed to get token' });
@@ -71,6 +71,6 @@ export class AuthController {
 
   @Get('logout')
   logout(@Res() res: Response) {
-    res.oidc.logout({ returnTo: 'http://localhost:4000' });
+    res.oidc.logout({ returnTo: `${process.env.URL_HOST_FRONT}` });
   }
 }

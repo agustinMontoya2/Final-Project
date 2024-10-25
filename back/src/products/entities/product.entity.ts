@@ -11,6 +11,7 @@ import { Category } from 'src/categories/entities/category.entity';
 import { Favorities } from './favorities.entity';
 import { Cart } from './cart.entity';
 import { Review } from './review.entity';
+import { ProductDetail } from './productDetail.entity';
 
 @Entity()
 export class Product {
@@ -26,7 +27,7 @@ export class Product {
   @Column({ type: 'text' })
   description: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', default: '' })
   image_url: string;
 
   // Relación ManyToOne con Category
@@ -43,4 +44,6 @@ export class Product {
 
   @OneToMany(() => Review, (review) => review.product)
   reviews: Review[];
+  @OneToMany(() => ProductDetail, (productDetail) => productDetail.product)
+  productDetails: ProductDetail[];
 }
