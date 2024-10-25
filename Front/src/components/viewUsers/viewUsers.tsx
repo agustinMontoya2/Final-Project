@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { IUser } from '@/interfaces/productoInterface';
-import { getUsers, banUser } from '@/lib/server/users';
+import { getUsers, banUser, adminUser } from '@/lib/server/users';
 import { useRouter } from 'next/navigation';
 
 const ViewUsers = () => {
@@ -48,6 +48,21 @@ const ViewUsers = () => {
             console.log("No hay token");
         }
     };
+    const handleAdmin = async (user_id: string) => {
+        if (token) {
+            try {
+                const response = await adminUser(user_id, token); 
+                alert(response);
+                console.log(response);
+                 
+                fetchUsers();
+            } catch (error: any) {
+                console.error("Error al admin usuario", error.message);
+            }
+        } else {
+            console.log("No hay token");
+        }
+    };
 
     useEffect(() => {
         if (token) {
@@ -70,6 +85,9 @@ const ViewUsers = () => {
                                 <p className={`text-sm ${user.isBanned ? 'text-red-500' : 'text-green-500'}`}>
                                     {user.isBanned ? 'Banned' : 'Active'}
                                 </p>
+                                <p className={`text-sm ${!user.isAdmin ? 'text-red-500' : 'text-green-500'}`}>
+                                    {user.isAdmin ? 'Admin' : 'User'}
+                                </p>
                                 {user.user_img && (
                                     <img
                                         src={user.user_img}
@@ -83,6 +101,12 @@ const ViewUsers = () => {
                                 className={`mt-4 px-4 py-2 rounded ${user.isBanned ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'} text-white`}
                             >
                                 {user.isBanned ? 'Unban User' : 'Ban User'}
+                            </button>
+                            <button
+                                onClick={() => handleAdmin(user.user_id)}
+                                className={`mt-4 px-4 py-2 rounded ${user.isAdmin ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'} text-white`}
+                            >
+                                {user.isBanned ? 'Unadmin User' : 'Admin User'}
                             </button>
                         </div>
                     ))

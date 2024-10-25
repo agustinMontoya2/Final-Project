@@ -93,4 +93,8 @@ export class UsersController {
   banUser(@Param('id') user_id: string) {
     return this.usersService.banUser(user_id);
   }
+  @Post('admin/:id')
+  adminUser(@Param('id') user_id: string) {
+    return this.usersService.adminUser(user_id);
+  }
 }

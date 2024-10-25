@@ -98,6 +98,7 @@ export interface IUser {
   orders: [];
   address: string;
   isBanned: boolean;
+  isAdmin: boolean;
 }
 
 export interface IProductsDetails {
