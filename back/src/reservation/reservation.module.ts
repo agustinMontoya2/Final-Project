@@ -10,13 +10,7 @@ import { Credential } from 'src/auth/entities/credential.entity';
 import { MailService } from 'src/mail/mail.service';
 
 @Module({
-<<<<<<< HEAD
-  imports: [
-    TypeOrmModule.forFeature([Reservation, User, TableReservation, Credential]),
-  ],
-=======
   imports: [TypeOrmModule.forFeature([Reservation, User, TableReservation, Credential])],
->>>>>>> front/development-santi2
   controllers: [ReservationController],
   providers: [ReservationService, ReservationRepository, MailService],
 })
