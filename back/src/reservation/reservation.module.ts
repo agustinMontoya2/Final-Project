@@ -10,13 +10,9 @@ import { Credential } from 'src/auth/entities/credential.entity';
 import { MailService } from 'src/mail/mail.service';
 
 @Module({
-<<<<<<< HEAD
-  imports: [TypeOrmModule.forFeature([Reservation, User, TableReservation, Credential])],
-=======
   imports: [
     TypeOrmModule.forFeature([Reservation, User, TableReservation, Credential]),
   ],
->>>>>>> b644aa6ae42ea264cef956d2944129660235eea3
   controllers: [ReservationController],
   providers: [ReservationService, ReservationRepository, MailService],
 })
