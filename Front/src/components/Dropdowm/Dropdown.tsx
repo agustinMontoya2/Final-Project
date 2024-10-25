@@ -14,15 +14,20 @@ export default function Dropdown() {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const searchParams = useSearchParams();
+    const [isAdmin, setAdmin] = useState<boolean>(false);
 
     useEffect(() => {
         const token_auth0 = searchParams.get('token_auth0');
-
         if (token_auth0) {
             localStorage.setItem('authToken', token_auth0);
             router.push('/');
         }
     }, [searchParams, router]);
+    
+    useEffect(() => {
+        const storedIsAdmin = localStorage.getItem('isAdmin');
+        setAdmin(storedIsAdmin === 'true');
+    }, []);
 
     useEffect(() => {
         const session = localStorage.getItem('userSession');
@@ -61,7 +66,9 @@ export default function Dropdown() {
         }).then((result) => {
             if (result.isConfirmed) {
                 localStorage.removeItem('userSession');
+                localStorage.removeItem('isAdmin'); // Opcional: Eliminar isAdmin al cerrar sesión
                 setUserSession(null);
+                setAdmin(false); // Resetea isAdmin
                 router.push('/');
                 window.dispatchEvent(new Event("userSessionUpdated"));
             }
@@ -80,19 +87,17 @@ export default function Dropdown() {
             <div className={`absolute right-0 w-44 bg-white border rounded shadow-lg z-10 transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'}`} style={{ top: '100%', marginTop: '8px' }}>
                 {userSession ? (
                     <div>
-                        {
-                            userSession.user.isAdmin ? (
-                                <Link className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100 text-black font-bold" href={"/profile"}>
-                                    <p className="text-black font-bold">Control center</p>
-                                    <Image src={"/assets/icon/personblack.png"} width={23} height={23} alt='' />
-                                </Link>
-                            ) : (
-                                <Link className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100 text-black font-bold" href={"/profile"}>
-                                    <p className="text-black font-bold">Profile</p>
-                                    <Image src={"/assets/icon/personblack.png"} width={23} height={23} alt='' />
-                                </Link>
-                            )
-                        }
+                        {isAdmin ? (
+                            <Link className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100 text-black font-bold" href={"/dashboardAdmin"}>
+                                <p className="text-black font-bold">Control center</p>
+                                <Image src={"/assets/icon/personblack.png"} width={23} height={23} alt='' />
+                            </Link>
+                        ) : (
+                            <Link className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100 text-black font-bold" href={"/profile"}>
+                                <p className="text-black font-bold">Profile</p>
+                                <Image src={"/assets/icon/personblack.png"} width={23} height={23} alt='' />
+                            </Link>
+                        )}
                         <Link className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100 text-black font-bold" href={"/reservations"}>
                             <p className="text-black font-bold">My reservations</p>
                             <Image src={"/assets/icon/reserve.png"} width={23} height={23} alt='' />
@@ -105,10 +110,6 @@ export default function Dropdown() {
                             <p className="text-black font-bold">My orders</p>
                             <Image src={"/assets/icon/listblack.png"} width={23} height={23} alt='' />
                         </Link>
-                        {/* <Link className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100 text-black font-bold" href={"/cart"}>
-                            <p className="text-black font-bold">Cart</p>
-                            <Image src={"/assets/icon/cartblack.png"} width={23} height={23} alt='' />
-                        </Link> */}
                         <button
                             className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100 text-black font-bold"
                             onClick={handleLogout}
