@@ -5,17 +5,18 @@ import {
   UpdateReservationDto,
 } from './dto/create-reservation.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { MailService } from 'src/mail/mail.service';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Credential } from 'src/auth/entities/credential.entity';
 import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
-import { MailService } from 'src/mail/mail.service';
 
 @Controller('reservation')
 export class ReservationController {
-  constructor(private readonly reservationService: ReservationService,
+  constructor(
+    private readonly reservationService: ReservationService,
+    private readonly mailService: MailService,
     @InjectRepository(Credential)
     private readonly credentialRepository: Repository<Credential>,
-    private readonly mailService: MailService,
   ) {}
 
   @Get('/preload')

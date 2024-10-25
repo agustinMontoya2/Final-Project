@@ -118,15 +118,15 @@ const FormularioMenu = () => {
             }
             editProductImg
             console.log(response);
-            // setFormValues({
-            //     product_name: '',
-            //     description: '',
-            //     price: "",
-            //     image_url: "",
-            //     avaliable: true,
-            //     category_id: '',
+            setFormValues({
+                product_name: '',
+                description: '',
+                price: "",
+                image_url: "",
+                avaliable: true,
+                category_id: '',
 
-            // });
+            });
             console.log("Type of category_id:", typeof product.category_id);
 
             alert("El producto se ha agregado correctamente");

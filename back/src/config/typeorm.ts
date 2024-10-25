@@ -1,7 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 
-
 export const typeOrmConfig = async (
   configService: ConfigService,
 ): Promise<TypeOrmModuleOptions> => ({
@@ -15,5 +14,5 @@ export const typeOrmConfig = async (
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/migrations/*{.ts,.js}'],
   synchronize: true,
-  // dropSchema: true,
+  dropSchema: false,
 });

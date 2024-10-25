@@ -34,7 +34,6 @@ export default function AuthCallback() {
 
           // Almacenar en localStorage
           localStorage.setItem("userSession", JSON.stringify(userSessionData));
-          console.log("Usuario almacenado en localStorage:", userSessionData);
 
           // Redirigir a la página deseada
           router.push("http://localhost:4000");

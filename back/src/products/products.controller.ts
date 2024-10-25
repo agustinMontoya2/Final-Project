@@ -26,6 +26,12 @@ export class ProductsController {
   findAll() {
     return this.productsService.findAll();
   }
+
+  @Get('add')
+  add() {
+    return this.productsService.add();
+  }
+
   @Get('reviews')
   getReviews() {
     return this.productsService.getReviews();
@@ -83,9 +89,4 @@ export class ProductsController {
   }
 
   // Utility endpoint (for testing purposes)
-
-  @Get('add')
-  add() {
-    return this.productsService.add();
-  }
 }

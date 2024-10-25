@@ -68,6 +68,8 @@ export class AuthService {
       user: userWithoutAdmin,
       email: authUser.email,
       token,
+      isAdmin,
+      isBanned: authUser.user.isBanned,
     };
   }
 

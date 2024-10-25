@@ -1,11 +1,10 @@
 "use client";
 
-import { getProductsDB } from "@/Helpers/products.helper";
+import { editProductImg, getProductsDB, putProduct, removeProduct } from "@/Helpers/products.helper";
 import { IProducts, ICategory } from "@/interfaces/productoInterface";
 import Image from "next/image";
 import { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { postProduct } from "@/Helpers/products.helper";
 import { getCategories } from '@/lib/server/Categories';
 
 const ModifyDishes = () => {
@@ -13,25 +12,24 @@ const ModifyDishes = () => {
     const [products, setProducts] = useState<IProducts[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState<string>("");
-    const [userId, setUserId] = useState<string | null>(null);
+    const [userId, setUserId] = useState<string | null>(null); 
     const [token, setToken] = useState<string | null>(null);
     const [selectedProduct, setSelectedProduct] = useState<IProducts | null>(null);
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [formValues, setFormValues] = useState({
-        name: '',
-        descripcion: '',
+        product_name: '',
+        description: '',
         price: '',
-        imagen: null,
-        avaliable: true,
-        category: {
-            category_id: '',
-            category_name: ''
-        }
+        image_url: '',
+        avaliable: true, 
+        category_id: ''
     });
+    const [productImgFile, setProductImgFile] = useState<File | null>(null);
+    const [imagenPreview, setImagePreview] = useState<string | null>(null);
     const [categories, setCategories] = useState<ICategory[]>([]);
 
     useEffect(() => {
-        const storedUserData = window.localStorage.getItem("userSession");
+        const storedUserData = window.localStorage.getItem("userSession"); 
         if (storedUserData) {
             const parsedData = JSON.parse(storedUserData);
             if (parsedData && parsedData.user) {
@@ -65,24 +63,34 @@ const ModifyDishes = () => {
     };
 
     const handleModify = (product: IProducts) => {
+        
         setSelectedProduct(product);
         setFormValues({
-            name: product.product_name,
-            descripcion: product.description,
+            product_name: product.product_name,
+            description: product.description,
             price: product.price.toString(),
-            imagen: null,
+            image_url: '',
             avaliable: product.available,
-            category: {
-                category_id: "",
-                category_name: " "
-            }
+            category_id: product.category.category_id || ''
         });
+        setImagePreview(product.image_url || '');
         setIsFormOpen(true);
-    };
+    }
+    ;
 
-    const handleDelete = (productId: string) => {
-        // Implementa la lógica para eliminar un plato
-        console.log("Eliminar plato con ID:", productId);
+    const handleDelete = async (productId: string) => {
+        if (!token) {
+            console.error("Token is required");
+            return;
+        }
+        try {
+            const response = await removeProduct(productId, token);
+            console.log(response);
+            alert("El producto se ha eliminado correctamente");
+            fetchProducts(); 
+        } catch (error: any) {
+            console.error(error.message, "Error al eliminar el producto");
+        }
     };
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -90,74 +98,68 @@ const ModifyDishes = () => {
 
         if (name === "category") {
             const selectedCategory = categories.find(cat => cat.category_id === value);
-            setFormValues(prevValues => ({
-                ...prevValues,
-                category: {
-                    category_id: selectedCategory?.category_id || "",
-                    category_name: selectedCategory?.category_name || ""
-                }
-            }));
+            setFormValues({
+                ...formValues,
+                category_id: selectedCategory?.category_id || '',
+            });
         } else {
-            setFormValues(prevValues => ({
-                ...prevValues,
+            setFormValues({
+                ...formValues,
                 [name]: value,
-            }));
+            });
         }
     };
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            setFormValues(prevValues => ({
-                ...prevValues,
-                imagen: e.target.files[0],
-            }));
+        const file = e.target.files?.[0];
+        if (file) {
+            setProductImgFile(file);
+            const imgUrl = URL.createObjectURL(file);
+            setImagePreview(imgUrl);
         }
     };
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-
+    
         if (!token) {
             console.error("Token is required");
             return;
         }
-
+    
         const product = {
-            product_name: formValues.name,
-            description: formValues.descripcion,
+            product_name: formValues.product_name,
+            description: formValues.description,
             price: parseFloat(formValues.price),
-            image_url: formValues.imagen ? formValues.imagen.name : "",
-            category: {
-                category_id: formValues.category.category_id,
-                category_name: formValues.category.category_name
-            },
-            reviews: [],
+            category_id: formValues.category_id,
             available: formValues.avaliable,
         };
-
+    
         console.log("Product data being sent:", product);
-
+    
         try {
-            const response = await postProduct(token, product);
+            if (!selectedProduct || !selectedProduct.product_id) {
+                console.error("Selected product is not valid");
+                return;
+            }
+    
+            const response = await putProduct(token, selectedProduct.product_id, product); // Asegúrate de que estás pasando el product_id correcto
+    
+            if (response.product_id && productImgFile) {
+                await editProductImg(productImgFile, token, response.product_id);
+                console.log(productImgFile);
+            }
             console.log(response);
-            setFormValues({
-                name: '',
-                descripcion: '',
-                price: '',
-                imagen: null,
-                avaliable: true,
-                category: {
-                    category_id: '',
-                    category_name: ''
-                }
-            });
             alert("El producto se ha modificado correctamente");
-            fetchProducts();
+            fetchProducts(); 
             setIsFormOpen(false);
         } catch (error: any) {
             console.error(error.message, "Error al modificar el producto");
         }
     };
+    console.log("Token:", token);
+    console.log("Selected Product ID:", selectedProduct?.product_id);
+    console.log("Product data being sent:", products);
 
     if (loading) {
         return <div className="flex flex-col justify-center text-black">Loading menu...</div>;
@@ -220,7 +222,7 @@ const ModifyDishes = () => {
                                 type="text"
                                 name="name"
                                 placeholder="Name"
-                                value={formValues.name}
+                                value={formValues.product_name}
                                 onChange={handleChange}
                                 className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
                                 required
@@ -230,7 +232,7 @@ const ModifyDishes = () => {
                             <textarea
                                 name="descripcion"
                                 placeholder="Description"
-                                value={formValues.descripcion}
+                                value={formValues.description}
                                 onChange={handleChange}
                                 className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
                                 required
@@ -248,45 +250,34 @@ const ModifyDishes = () => {
                             />
                         </div>
                         <div className="w-4/5 mb-6 relative">
-                            <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900">
-                                Category
-                            </label>
+                            <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900">Select a category</label>
                             <select
+                                id="category"
                                 name="category"
-                                value={formValues.category.category_id}
+                                value={formValues.category_id}
                                 onChange={handleChange}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5"
-                                required
+                                className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
                             >
-                                <option value="" disabled>Select a category</option>
                                 {categories.map(category => (
-                                    <option key={category.category_id} value={category.category_id}>{category.category_name}</option>
+                                    <option key={category.category_id} value={category.category_id}>
+                                        {category.category_name}
+                                    </option>
                                 ))}
                             </select>
                         </div>
                         <div className="w-4/5 mb-6 relative">
+                            <label htmlFor="image" className="block mb-2 text-sm font-medium text-gray-900">Image</label>
                             <input
                                 type="file"
+                                id="image"
                                 name="imagen"
                                 accept="image/*"
                                 onChange={handleFileChange}
-                                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200"
+                                className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
                             />
                         </div>
-                        <div className="flex justify-between w-full mt-4">
-                            <button
-                                type="button"
-                                onClick={() => setIsFormOpen(false)}
-                                className="text-neutral-700 bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                type="submit"
-                                className="text-white bg-red-600 hover:bg-red-700 py-2 px-4 rounded"
-                            >
-                                Save
-                            </button>
+                        <div className="w-4/5 flex justify-center">
+                            <button type="submit" className="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700">Save changes</button>
                         </div>
                     </form>
                 </div>

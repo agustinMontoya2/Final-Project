@@ -1,4 +1,5 @@
 'use client'
+import AuthBanned from "@/hooks/AuthBanned";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -6,7 +7,7 @@ import Swal from "sweetalert2";
 
 export default function Home() {
   const [userSession, setUserSession] = useState(null);
-
+  const esBanneado = AuthBanned()
 
   useEffect(() => {
     const session = localStorage.getItem('userSession');
@@ -15,6 +16,10 @@ export default function Home() {
     }
   }, []);
 
+  if(esBanneado){
+    return <div>usted fue baneado.</div>
+  }
+  
   const  handleLogin = () => {
     if (!userSession) {
       Swal.fire({
