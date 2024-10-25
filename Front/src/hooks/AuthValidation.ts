@@ -2,7 +2,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const AuthValidation = () => {
-  const [authenticated, setAuthenticated] = useState<boolean>(false);
+  const [authenticated, setAuthenticated] = useState<boolean | null>(null); 
   const router = useRouter();
 
   useEffect(() => {
@@ -10,19 +10,22 @@ const AuthValidation = () => {
 
     if (userSession) {
       const session = JSON.parse(userSession);
-    
       if (session.isAdmin === true) {
         setAuthenticated(true);
       } else {
+        setAuthenticated(false);
         router.push("/"); 
       }
     } else {
+      setAuthenticated(false);
       router.push("/"); 
     }
   }, [router]);
 
-  return authenticated;
+
+  if (authenticated === null) 
+
+  return authenticated; 
 };
 
-export default AuthValidation
-
+export default AuthValidation;

@@ -2,7 +2,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const AuthBanned = () => {
-    const [authenticated, setAuthenticated] = useState<boolean>(false);
+    const [authenticated, setAuthenticated] = useState<boolean | null>(null);
     const router = useRouter();
   
     useEffect(() => {
@@ -14,12 +14,16 @@ const AuthBanned = () => {
         if (session.isBanned === true) {
           setAuthenticated(true);
         } else {
+          setAuthenticated(false);
           router.push("/"); 
         }
       } else {
+        setAuthenticated(false);
         router.push("/"); 
       }
     }, [router]);
+
+    if (authenticated === null) 
   
     return authenticated;
   };
