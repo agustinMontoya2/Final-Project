@@ -62,7 +62,7 @@ export class AuthController {
     const token = await this.authService.getUserInfoFromAuth0(token_auth0);
 
     if (token) {
-      const frontendUrl = `${process.env.URL_HOST_BACK}auth0?token_auth0=${token}`;
+      const frontendUrl = `${process.env.URL_HOST_FRONT}auth0?token_auth0=${token}`;
       return res.redirect(frontendUrl);
     } else {
       return res.status(500).json({ error: 'Failed to get token' });
