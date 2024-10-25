@@ -26,7 +26,7 @@ const Login = () => {
         });
     };
     const handleGoogleLogin = () => {
-        window.location.href = "http://localhost:3000/auth/login";
+        window.location.href =`${process.env.NEXT_PUBLIC_API_URL}/auth/login`;
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
