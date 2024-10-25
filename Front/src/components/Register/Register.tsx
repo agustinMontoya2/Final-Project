@@ -74,7 +74,7 @@ const Register = () => {
                 });
                 router.push("/login");
             }
-        } catch (error: unknown) {
+        } catch (error: any) {
             if (error instanceof Error) {
                 Swal.fire({
                     title: 'Error',
@@ -82,6 +82,7 @@ const Register = () => {
                     icon: 'error',
                     timer: 2000,
                 });
+                throw new Error (error.message)
             } else {
                 Swal.fire({
                     title: 'Error',

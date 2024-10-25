@@ -116,7 +116,7 @@ export async function postProduct(token: string, product: {}) {
     });
 
     if (!response.ok) {
-      const errorData = await response.json(); // Leer el cuerpo de error
+      const errorData = await response.json();
       console.error("Error response from server:", errorData);
       throw new Error("Couldnt post dish");
     }
@@ -135,14 +135,14 @@ export async function editProductImg(
 ) {
   try {
     const formData = new FormData();
-    formData.append("image", product_img); // 'image' debe coincidir con el nombre que espera el backend
+    formData.append("image", product_img); 
 
     const response = await fetch(`${APIURL}/files/uploadimage/${product_id}`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${token}`, // No pongas Content-Type, el navegador lo establece automáticamente
+        Authorization: `Bearer ${token}`,
       },
-      body: formData, // Envía el FormData directamente
+      body: formData, 
     });
 
     const result = await response.json();
@@ -153,5 +153,60 @@ export async function editProductImg(
     return result;
   } catch (error: any) {
     throw error;
+  }
+}
+
+
+export async function putProduct(token: string,product_id:string, product: {}) {
+  try {
+    console.log("Product data being sent:", JSON.stringify(product, null, 2)); 
+
+    const response = await fetch(`${APIURL}/products/review/${product_id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        ...product,
+      }),
+      
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json(); 
+      console.error("Error response from server:", errorData);
+      throw new Error("Couldn't update product"); 
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error in putProduct:", error);
+  }
+}
+
+export async function removeProduct(productId: string, token: string) {
+  try {
+    const response = await fetch(`${APIURL}/products/${productId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const responseText = await response.text(); 
+      throw new Error(`Error: ${responseText}`);
+    }
+
+    return { message: "Product removed successfully" }; 
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw error;
+    } else {
+      throw new Error("An unknown error occurred");
+    }
   }
 }
