@@ -68,6 +68,8 @@ export class AuthService {
       user: userWithoutAdmin,
       email: authUser.email,
       token,
+      isAdmin,
+      isBanned: authUser.user.isBanned,
     };
   }
 
@@ -99,7 +101,7 @@ export class AuthService {
       client_id: process.env.AUTH0_CLIENT_ID,
       client_secret: process.env.AUTH0_SECRET,
       code,
-      redirect_uri: `${process.env.URL_HOST_BACK}auth/callback`,
+      redirect_uri: `http://localhost:3000/auth/callback`,
     });
 
     return response.data.access_token;
