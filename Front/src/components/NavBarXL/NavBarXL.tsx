@@ -4,6 +4,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 import BackButton from '../BackButton/BackButton';
 import Dropdown from '../Dropdowm/Dropdown';
+import Swal from 'sweetalert2';
 
 interface UserSession {
     name: string;
@@ -40,6 +41,18 @@ export default function NavBarXL() {
         }
     };
 
+    const handleReservation = () => {
+        if (!userSession) {
+            Swal.fire({
+                title: 'To make a reservation, you must log in',
+                icon: 'warning',
+                confirmButtonText: 'accept',
+                confirmButtonColor: "#1988f0"
+            })
+            router.push("/login")
+        }
+    }
+
     return (
         <div className='flex flex-col'>
             <div className="w-full h-18 bg-secondary flex justify-between items-center fixed top-0 z-40">
@@ -52,13 +65,18 @@ export default function NavBarXL() {
                     <Link className="w-7 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/menu"}>
                         <p className="text-white font-bold hover:text-neutral-300 duration-500">Menú</p>
                     </Link>
-                    <Link className="w-7 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/reserve"}>
+                    <Link  onClick={handleReservation} className="w-7 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/reserve"}>
                         <p className="text-white font-bold hover:text-neutral-300 duration-500">Reservation</p>
                     </Link>
                     <Dropdown />
-                    <Link className="" href={"/cart"}>
-                            <Image src={"/assets/icon/cart.png"} width={40} height={40} alt='' />
-                    </Link>
+                    {
+                        userSession && (
+                            <Link className="" href={"/cart"}>
+                                <Image src={"/assets/icon/cart.png"} width={40} height={40} alt='' />
+                            </Link>
+                        )
+                    }
+                    
                 </div>
             </div>
             <div className='w-10 mt-16 -mb-32 p-4 cursor-pointer z-50 fixed'>
