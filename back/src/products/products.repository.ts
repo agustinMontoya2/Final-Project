@@ -125,11 +125,11 @@ export class ProductsRepository {
     });
     if (!category) throw new BadRequestException('Category not found');
 
-    const repeatedProduct = await this.productsRepository.findOne({
-      where: { product_name },
-    });
-    if (repeatedProduct && repeatedProduct.product_id !== product.product_id)
-      throw new BadRequestException('Product already exists');
+    // const repeatedProduct = await this.productsRepository.findOne({
+    //   where: { product_name },
+    // });
+    // if (repeatedProduct && repeatedProduct.product_id !== product.product_id)
+    //   throw new BadRequestException('Product already exists');
 
     console.log(category);
     console.log({ product_name, description, price, category, available });

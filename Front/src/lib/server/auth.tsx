@@ -55,3 +55,29 @@ export async function formLogin(userData: ILogin) {
         }
     }
 }
+
+export async function resetPassword(email: string,password) {
+    alert(password)
+    try {
+        const response = await fetch(`${APIURL}/auth/resetPassword`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(email, password)
+        });
+        if (response.ok) {
+            const responseData = await response.json();
+            return responseData;
+        } else {
+            const errorData = await response.json();
+            throw Error(errorData.message || "Falló el login");
+        }
+    } catch (error: unknown) {
+        if(error instanceof Error) {
+            throw error;
+        }else{
+            throw new Error("An unknow error occurred")
+        }
+    }
+}
