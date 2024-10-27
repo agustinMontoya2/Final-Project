@@ -3,6 +3,7 @@
 import { IUser, IUserSession } from "@/interfaces/productoInterface";
 import { editProfile, editProfileImg, getUser } from "@/lib/server/editProfile";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -134,7 +135,7 @@ const ProfileV = () => {
     
 
     return (
-        <div className={`bg-white p-6 rounded-lg shadow-lg w-screen max-w-md mx-auto my-48 transition-all duration-1000 ease-in-out ${isEditing ? 'max-h-screen' : 'max-h-96'}`}>            
+        <div className={`h-auto bg-white p-6 rounded-lg shadow-lg w-screen max-w-md mx-auto my-48 transition-all duration-1000 ease-in-out ${isEditing ? 'max-h-screen' : 'max-h-auto'}`}>
             <div className="w-full flex justify-center items-center">
                 <h1 className="text-2xl font-semibold text-center text-gray-800">Account details</h1>
                 <div onClick={handleEditClick} className="cursor-pointer ml-2">
@@ -233,6 +234,19 @@ const ProfileV = () => {
                     <div className="w-full flex justify-between items-center text-gray-600">
                         <p>Address</p>
                         <p>{user?.address}</p>
+                    </div>
+                )}
+            </div>
+            <div className="flex justify-between items-center py-4 border-b border-gray-200">
+                {isEditing ? (
+                    <div className="w-full flex justify-between items-center text-gray-600">
+                        <p>Password</p>
+                        <Link className="bg-blue-600 py-1 px-2 rounded-lg text-white hover:bg-blue-700" href="/requestNewPassword">Cambiar contraseña</Link>
+                    </div>
+                ) : (
+                    <div className="w-full flex justify-between items-center text-gray-600">
+                        <p>Password</p>
+                        <Link className="bg-blue-600 py-1 px-2 rounded-lg text-white hover:bg-blue-700" href="/requestNewPassword">Cambiar contraseña</Link>
                     </div>
                 )}
             </div>

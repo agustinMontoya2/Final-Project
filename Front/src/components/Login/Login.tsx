@@ -120,6 +120,7 @@ const Login = () => {
                 <h1 className='w-full text-xl text-center text-neutral-800 font-extrabold'>LOGIN IN FELLINI BAR</h1>
                 {renderInput("email", "email", "Email")}
                 {renderInput("password", "password", "Password")}
+                <Link href={"/requestNewPassword"} className='w-4/5 -mt-5 mb-3 flex justify-start text-sm text-blue-700 hover:underline'>Have you forgotten your password?</Link>
                 <button
                     type="submit"
                     className="w-4/5 bg-red-600 text-white font-bold py-2 rounded-lg hover:bg-red-700 transition duration-200"

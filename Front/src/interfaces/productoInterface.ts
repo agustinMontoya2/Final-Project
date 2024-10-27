@@ -31,9 +31,7 @@ export interface IProducts {
   price: number;
   description: string;
   image_url: string;
-  category: {
-    category_name: string;
-  };
+  category: ICategory;
   reviews: IReview[];
   available: boolean;
 }
@@ -156,4 +154,10 @@ export interface ProfileImageProps {
   };
   isEditing: boolean;
   onImageChange: (file: File) => void;
+}
+
+export interface IFilter{
+  category:string[]
+  showFavorites: boolean
+  priceOrder: string
 }

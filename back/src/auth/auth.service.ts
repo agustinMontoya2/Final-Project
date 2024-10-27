@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { LogInDto } from './dto/create-user.dto';
@@ -74,19 +75,49 @@ export class AuthService {
   }
 
   async requestResetPassword(email: string) {
-    const user = await this.credentialRepository.findOneBy({ email });
+    if (!email) throw new BadRequestException('Invalid credentials');
+    console.log('email', email);
+
+    const user = await this.credentialRepository.findOne({ where: { email } });
     if (!user) {
-      throw new Error('User not found');
+      throw new NotFoundException('User not found');
     }
-    const resetLink = `http://localhost:3000/auth/reset-password?email=${email}`;
+    console.log('user', user);
+
+    const payload = {
+      email: user.email,
+    };
+
+    const token = this.jwtService.sign(payload, {
+      expiresIn: '10m',
+    });
+
+    const resetLink = `${process.env.URL_HOST_FRONT}/restorePassword?token=${token}`;
+    console.log(token);
+
     await this.mailService.resetPasswordEmail(user.email, resetLink);
   }
 
-  async resetPassword(email: string, newPassword: string) {
-    const user = await this.credentialRepository.findOneBy({ email });
+  async resetPassword(token: string, newPassword: string) {
+    console.log('auth service');
+    console.log(token);
+
+    const decodeToken = this.jwtService.decode(token);
+    const email = decodeToken.email;
+    console.log(email);
+
+    console.log(email, newPassword);
+    if (!email || !newPassword)
+      throw new BadRequestException('Invalid credentials');
+
+    const user = await this.credentialRepository.findOne({
+      where: { email: email },
+    });
     if (!user) {
       throw new Error('User not found');
     }
+    console.log('user', user);
+
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     await this.credentialRepository.update(
       { email: user.email },

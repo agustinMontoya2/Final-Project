@@ -1,7 +1,7 @@
 import { IOrder } from "@/interfaces/productoInterface";
 const APIURL = process.env.NEXT_PUBLIC_API_URL;
 
-export async function postOrder(orderData: IOrder, token) {
+export async function postOrder(orderData: IOrder, token:string) {
     try {
         const response = await fetch(`${APIURL}/order`, {
             method: "POST",

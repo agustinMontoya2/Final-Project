@@ -1,10 +1,13 @@
 'use client'
 import FormReserve from '@/components/FormReserve/FormReserve'
+import AuthBanned from '@/hooks/AuthBanned';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
 
 const Reserve = () => {
   const router = useRouter();
+  const esBanneado = AuthBanned()
+  if (esBanneado) return <div>Usted ha sido baneado</div>
 
     useEffect(() => {
         const userSession = localStorage.getItem("userSession");

@@ -68,36 +68,36 @@ useEffect(() => {
 
 
     return (
-        <div className="p-6 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg shadow-lg">
-    {reviews.length > 0 ? (
-        <div>
-            <h2 className="text-3xl font-bold text-center text-indigo-600 mb-6">Reviews</h2>
-            <ul className="space-y-6">
-                {reviews.map((review) => (
-                    <li key={review.review_id} className="p-5 border border-gray-300 rounded-lg bg-white shadow-md hover:shadow-xl transition-shadow duration-300">
-                    <p className='text-lg text-gray-800'>{review.review}</p>
-                    <p className='text-gray-600 mt-2'>
-                        Rating: 
-                        <span className='font-bold text-yellow-500 ml-1'>{review.rate} ★</span>
-                    </p>
-                    <p className='text-gray-500'>By: <span className='font-semibold text-blue-600'>{review.user.name}</span></p>
-                    <p className='text-gray-600 mt-2'>Product: <span className='font-semibold text-blue-600'>{review.product.product_name}</span></p>
-                
-                    {/* Botón para eliminar reseña */}
-                    <button
-                        onClick={() => handleDeleteReview(review.review_id)}
-                        className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
-                    >
-                        Delete Review
-                    </button>
-                </li>
-                ))}
-            </ul>
+        <div className="p-6 mt-24">
+            {reviews.length > 0 ? (
+                <div className='h-screen overflow-y-scroll'>
+                    <h2 className="text-3xl font-bold text-center text-indigo-600 mb-6">Reviews</h2>
+                    <ul className="space-y-6">
+                        {reviews.map((review) => (
+                            <li key={review.review_id} className="p-5 border border-gray-300 rounded-lg bg-white shadow-md hover:shadow-xl transition-shadow duration-300">
+                            <p className='text-lg text-gray-800'>Description: {review.review}</p>
+                            <p className='text-gray-600 mt-2'>
+                                Rating:
+                                <span className='font-bold text-yellow-500 ml-1'>{review.rate} ★</span>
+                            </p>
+                            <p className='text-gray-600 mt-2'>Product: <span className='font-semibold text-blue-600'>{review.product.product_name}</span></p>
+                            <div className='w-full h-10 flex justify-between items-center flex-row'>
+                                <p className='text-gray-500'>By: <span className='font-semibold text-blue-600'>{review.user.name}</span></p>
+                                <button
+                                    onClick={() => handleDeleteReview(review.review_id)}
+                                    className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                                >
+                                    Delete Review
+                                </button>
+                            </div>
+                        </li>
+                        ))}
+                    </ul>
+                </div>
+            ) : (
+                <p className='text-lg text-center text-gray-700'>No reviews found.</p>
+            )}
         </div>
-    ) : (
-        <p className='text-lg text-center text-gray-700'>No reviews found.</p>
-    )}
-</div>
 
 
     )

@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Res, Query } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { SignUpDto } from './dto/create-user.dto';
+import { ResetPasswordDto, SignUpDto } from './dto/create-user.dto';
 import { LogInDto } from './dto/create-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
@@ -26,17 +26,18 @@ export class AuthController {
   }
 
   @Post('requestResetPassword')
-  requestResetPassword(@Body('email') email: string) {
-    this.authService.requestResetPassword(email);
+  async requestResetPassword(@Body('email') email: string) {
+    await this.authService.requestResetPassword(email);
     return { message: 'Password reset link sent to your email' };
   }
 
   @Post('resetPassword')
-  resetPassword(
-    @Body('email') email: string,
-    @Body('newPassword') newPassword: string,
-  ) {
-    this.authService.resetPassword(email, newPassword);
+  async resetPassword(@Body() resetPassword: ResetPasswordDto) {
+    console.log(resetPassword);
+
+    const { token, newPassword } = resetPassword;
+
+    await this.authService.resetPassword(token, newPassword);
     return { message: 'Password has been reset successfully' };
   }
 

@@ -23,6 +23,14 @@ export class ProductsRepository {
   async getProducts() {
     const product = await this.productsRepository.find({
       relations: ['category', 'reviews'],
+      // where: { available: true },
+    });
+    if (!product) throw new NotFoundException('Products not found');
+    return product;
+  }
+  async getAllProducts() {
+    const product = await this.productsRepository.find({
+      relations: ['category', 'reviews'],
     });
     if (!product) throw new NotFoundException('Products not found');
     return product;
@@ -78,12 +86,13 @@ export class ProductsRepository {
     if (product) throw new BadRequestException('Product already exists');
     if (!isUUID(category_id))
       throw new BadRequestException('Category ID not valid');
-const category = await this.categoriesRepository.findOne({
-  where: { category_id },
-});
-// const categories = await this.categoriesRepository.find();
-// throw new NotFoundException(categories);
-    if (!category) throw new NotFoundException(`Categort with id ${category_id} not found`);
+    const category = await this.categoriesRepository.findOne({
+      where: { category_id },
+    });
+    // const categories = await this.categoriesRepository.find();
+    // throw new NotFoundException(categories);
+    if (!category)
+      throw new NotFoundException(`Categort with id ${category_id} not found`);
     const createProduct = new Product();
     createProduct.product_name = product_name;
     createProduct.description = description;
@@ -105,22 +114,34 @@ const category = await this.categoriesRepository.findOne({
     return product;
   }
   async update(product, updateProductDto) {
-    const { product_name, description, price, category_id } = updateProductDto;
-    if (product_name) product.product_name = product_name;
-    if (description) product.description = description;
-    if (price) product.price = price;
-    if (category_id) {
-      const category = await this.categoriesRepository.findOne({
-        where: { category_id },
-      });
-      if (!category) throw new BadRequestException('Category not found');
-      product.category = category;
-    }
-    await this.productsRepository.save(product);
+    const { product_name, description, price, category_id, available } =
+      updateProductDto;
+
+    if (!isUUID(category_id))
+      throw new BadRequestException('Category ID not valid');
+
+    const category = await this.categoriesRepository.findOne({
+      where: { category_id },
+    });
+    if (!category) throw new BadRequestException('Category not found');
+
+    // const repeatedProduct = await this.productsRepository.findOne({
+    //   where: { product_name },
+    // });
+    // if (repeatedProduct && repeatedProduct.product_id !== product.product_id)
+    //   throw new BadRequestException('Product already exists');
+
+    console.log(category);
+    console.log({ product_name, description, price, category, available });
+
+    await this.productsRepository.update(product.product_id, {
+      product_name,
+      description,
+      price,
+      category,
+      available,
+    });
     return product;
-  }
-  remove(id: number) {
-    throw new Error('Method not implemented.');
   }
 
   async addReview(product_id, user_id, review, rate) {
@@ -181,5 +202,11 @@ const category = await this.categoriesRepository.findOne({
     if (review) oldReview.review = review;
     await this.reviewRepository.save(oldReview);
     return oldReview;
+  }
+
+  async remove(product) {
+    console.log(product);
+    await this.productsRepository.remove(product);
+    return { message: 'Product deleted' };
   }
 }
