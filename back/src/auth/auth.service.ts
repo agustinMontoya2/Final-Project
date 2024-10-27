@@ -102,7 +102,9 @@ export class AuthService {
     console.log('auth service');
     console.log(token);
 
-    const email = token;
+    const decodeToken = this.jwtService.decode(token);
+    const email = decodeToken.email;
+    console.log(email);
 
     console.log(email, newPassword);
     if (!email || !newPassword)

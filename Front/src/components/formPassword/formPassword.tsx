@@ -1,16 +1,13 @@
 'use client';
-
-import { ILogin } from '@/interfaces/productoInterface';
-import { formLogin, resetPassword } from '@/lib/server/auth';
-import next from 'next';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
+import { resetPassword } from '@/lib/server/auth';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 const FormPassword = () => {
     const router = useRouter();
+    const searchParams = useSearchParams()
     const initialState = {
         token: "",
         newPassword: "",
@@ -19,22 +16,17 @@ const FormPassword = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [userData, setUserData] = useState(initialState);
     
-    const {token} = useParams<{token: string}> ()
-    // useEffect(() => {
-    //     // Obtener el token de los parámetros de la URL
-    //     const { email: token } = router.query;
-        
-    //     if (token && typeof token === 'string') {
-    //       // Decodificar el token para extraer el email
-    //       try {
-    //         const decodedToken: any = jwtDecode(token);
-    //         setEmail(decodedToken.email);
-    //       } catch (error) {
-    //         console.error("Error al decodificar el token:", error);
-    //       }
-    //     }
-    //   }, [router.query]);
+    useEffect(() => {
+        const token = searchParams.get("token");
 
+        if (token) {
+            setUserData(prevData => ({
+                ...prevData,
+                token
+            }))
+            console.log(token);
+        }
+      }, [searchParams, router]);
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = event.target;
        
@@ -43,8 +35,6 @@ const FormPassword = () => {
                 [name]: value
             }))
             console.log(userData);
-            
-            
     };
 
     const ShowPasswordFunction = () => {
@@ -55,13 +45,12 @@ const FormPassword = () => {
         e.preventDefault();
         if(userData.newPassword === userData.confirmPassword){
         try {
-            alert(userData.newPassword)
-            console.log(token);
-            
             const response = await resetPassword(userData)
-            console.log(response)
-        } catch (error) {
-            alert(error.message );
+            alert(response.message)
+            //redireccionar a login
+        } catch (error: any) {
+            //arreglar respuesta de  error
+            alert(error.message);
         }
     }  else{
         alert("Passwords do not match");

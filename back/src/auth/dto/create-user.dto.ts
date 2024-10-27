@@ -73,3 +73,17 @@ export class SignUpDto {
   user_img?: string;
 }
 export class LogInDto extends PickType(SignUpDto, ['email', 'password']) {}
+
+export class ResetPasswordDto {
+  @IsNotEmpty()
+  @IsString()
+  token: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @IsStrongPassword()
+  newPassword: string;
+
+  @Match('newPassword')
+  confirmPassword: string;
+}

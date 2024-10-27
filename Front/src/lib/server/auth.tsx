@@ -79,7 +79,6 @@ export async function requestResetPassword(email: string) {
 }
 
 export async function resetPassword(recoverData) {
-    alert(recoverData)
     console.log(recoverData);
     
     try {
