@@ -31,11 +31,7 @@ export default function AuthCallback() {
             token: token, // Agregar el token también
             isAdmin: decodedToken.isAdmin,
           };
-
-          // Almacenar en localStorage
           localStorage.setItem("userSession", JSON.stringify(userSessionData));
-
-          // Redirigir a la página deseada
           router.push("http://localhost:4000");
         } else {
           console.error("El token no se pudo decodificar");

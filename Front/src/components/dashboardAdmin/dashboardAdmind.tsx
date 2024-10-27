@@ -3,6 +3,8 @@ import ViewDishes from '../viewDishes/viewDishes';
 import ViewReviews from '../viewReviews/viewReviews';
 import ViewUsers from '../viewUsers/viewUsers';
 import AdminPerfil from '../adminPerfil/adminPerfil';
+import ViewOrders from '../viewOrders/viewOrders';
+import ViewReserves from '../viewReserves/viewReserves';
 
 const DashboardAdmindv = (): JSX.Element => {
   const [selectedSection, setSelectedSection] = useState('');
@@ -56,6 +58,26 @@ const DashboardAdmindv = (): JSX.Element => {
               Reviews
             </button>
           </li>
+          <li>
+            <button 
+              className={`w-full text-left px-4 py-2 text-white rounded-lg transition ${
+                selectedSection === 'viewOrders' ? 'bg-yellow-600' : 'bg-yellow-700 hover:bg-yellow-600'
+              }`}
+              onClick={() => handleSectionChange('viewOrders')}
+            >
+              Orders
+            </button>
+          </li>
+          <li>
+            <button 
+              className={`w-full text-left px-4 py-2 text-white rounded-lg transition ${
+                selectedSection === 'viewReserves' ? 'bg-yellow-600' : 'bg-yellow-700 hover:bg-yellow-600'
+              }`}
+              onClick={() => handleSectionChange('viewReserves')}
+            >
+              Reserves
+            </button>
+          </li>
         </ul>
       </nav>
 
@@ -65,6 +87,8 @@ const DashboardAdmindv = (): JSX.Element => {
         {selectedSection === 'viewUser' && <ViewUsers />}
         {selectedSection === 'viewDishes' && <ViewDishes />}
         {selectedSection === 'viewReviews' && <ViewReviews />}
+        {selectedSection === 'viewOrders' && <ViewOrders />}
+        {selectedSection === 'viewReserves' && <ViewReserves />}
         {!selectedSection && (
           <p className="text-gray-600">Select an option from the sidebar to get started!</p>
         )}
