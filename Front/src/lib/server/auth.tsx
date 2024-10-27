@@ -56,22 +56,46 @@ export async function formLogin(userData: ILogin) {
     }
 }
 
-export async function resetPassword(email: string,password) {
-    alert(password)
+export async function requestResetPassword(email: string) {
+    alert(email)
+    try {
+        const response = await fetch(`${APIURL}/auth/requestResetPassword`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({ email })
+        })
+        if (!response.ok) {
+            // Extraemos el mensaje de error del backend
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Error desconocido');
+        }
+        const responseData = await response.json();
+        return responseData;
+    } catch (error) {
+        throw new Error(error)
+    }
+}
+
+export async function resetPassword(recoverData) {
+    alert(recoverData)
+    console.log(recoverData);
+    
     try {
         const response = await fetch(`${APIURL}/auth/resetPassword`, {
             method: "POST",
             headers: {
                 "Content-type": "application/json"
             },
-            body: JSON.stringify(email, password)
+            body: JSON.stringify(recoverData)
         });
         if (response.ok) {
             const responseData = await response.json();
             return responseData;
         } else {
             const errorData = await response.json();
-            throw Error(errorData.message || "Falló el login");
+            throw Error(errorData || "Falló el login");
         }
     } catch (error: unknown) {
         if(error instanceof Error) {

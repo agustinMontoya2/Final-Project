@@ -26,17 +26,19 @@ export class AuthController {
   }
 
   @Post('requestResetPassword')
-  requestResetPassword(@Body('email') email: string) {
-    this.authService.requestResetPassword(email);
+  async requestResetPassword(@Body('email') email: string) {
+    await this.authService.requestResetPassword(email);
     return { message: 'Password reset link sent to your email' };
   }
 
   @Post('resetPassword')
-  resetPassword(
-    @Body('email') email: string,
+  async resetPassword(
+    @Body('token') token: string,
     @Body('newPassword') newPassword: string,
   ) {
-    this.authService.resetPassword(email, newPassword);
+    console.log(token, newPassword);
+
+    await this.authService.resetPassword(token, newPassword);
     return { message: 'Password has been reset successfully' };
   }
 

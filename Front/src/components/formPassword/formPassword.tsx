@@ -5,17 +5,35 @@ import { formLogin, resetPassword } from '@/lib/server/auth';
 import next from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 
 const FormPassword = () => {
+    const router = useRouter();
     const initialState = {
+        token: "",
         newPassword: "",
         confirmPassword: "",
     };
     const [showPassword, setShowPassword] = useState(false);
     const [userData, setUserData] = useState(initialState);
+    
+    const {token} = useParams<{token: string}> ()
+    // useEffect(() => {
+    //     // Obtener el token de los parámetros de la URL
+    //     const { email: token } = router.query;
+        
+    //     if (token && typeof token === 'string') {
+    //       // Decodificar el token para extraer el email
+    //       try {
+    //         const decodedToken: any = jwtDecode(token);
+    //         setEmail(decodedToken.email);
+    //       } catch (error) {
+    //         console.error("Error al decodificar el token:", error);
+    //       }
+    //     }
+    //   }, [router.query]);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = event.target;
@@ -38,9 +56,12 @@ const FormPassword = () => {
         if(userData.newPassword === userData.confirmPassword){
         try {
             alert(userData.newPassword)
-            resetPassword("sadsad",userData.newPassword)
+            console.log(token);
+            
+            const response = await resetPassword(userData)
+            console.log(response)
         } catch (error) {
-            alert(error.message);
+            alert(error.message );
         }
     }  else{
         alert("Passwords do not match");
