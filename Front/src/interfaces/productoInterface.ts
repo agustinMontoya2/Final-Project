@@ -155,3 +155,9 @@ export interface ProfileImageProps {
   isEditing: boolean;
   onImageChange: (file: File) => void;
 }
+
+export interface IFilter{
+  category:string[]
+  showFavorites: boolean
+  priceOrder: string
+}

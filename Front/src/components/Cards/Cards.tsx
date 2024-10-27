@@ -1,7 +1,7 @@
 "use client";
 
 import { getProductsDB } from "@/Helpers/products.helper";
-import { IProducts, ICart, IFavorities } from "@/interfaces/productoInterface";
+import { IProducts, ICart, IFavorities, IFilter } from "@/interfaces/productoInterface";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { addFavorities, removeFavorities, getFavorities } from "@/lib/server/favorities";
@@ -15,10 +15,10 @@ const Cards = () => {
     const router = useRouter();
     const [products, setProducts] = useState<IProducts[]>([]);
     const [loading, setLoading] = useState(true);
-    const [filters, setFilters] = useState({
-        category: "",
+    const [filters, setFilters] = useState<IFilter>({
+        category:[],
         showFavorites: false,
-        priceOrder: "" as "asc" | "desc" | "",
+        priceOrder: "",
     });
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [userId, setUserId] = useState<string | null>(null);
@@ -121,35 +121,53 @@ const Cards = () => {
 
     const clearFilters = () => {
         setFilters({
-            category: "",
+            category: [],
             showFavorites: false,
             priceOrder: "",
         });
         setSearchTerm("");
     };
 
-    const filteredProducts = products
-        .filter((product) => {
-            const matchesCategory = filters.category ? product.category.category_name === filters.category : true;
-            const matchesSearch = product.product_name.toLowerCase().includes(searchTerm.toLowerCase());
-            const isFavorite = filters.showFavorites
-                ? favorities?.product.some((favoriteProduct) => favoriteProduct.product_id === product.product_id)
-                : true;
-
-            return matchesCategory && matchesSearch && isFavorite;
-        })
-        .sort((a, b) => {
-            if (filters.priceOrder === "asc") {
-                return Number(a.price) - Number(b.price);
-            } else if (filters.priceOrder === "desc") {
-                return Number(b.price) - Number(a.price);
+    const toggleCategory = (category:string) => {
+        setFilters((prevFilters) => {
+            const { category: selectedCategories } = prevFilters;
+    
+            if (selectedCategories.includes(category)) {
+           
+                return {
+                    ...prevFilters,
+                    category: selectedCategories.filter((cat) => cat !== category),
+                };
+            } else {
+                
+                return {
+                    ...prevFilters,
+                    category: [...selectedCategories, category],
+                };
             }
-            return 0;
         });
+    };
+    
+    const filteredProducts = products
+    .filter((product) => {
+        const matchesCategory = filters.category.length
+            ? filters.category.includes(product.category.category_name)
+            : true;
+        const matchesSearch = product.product_name.toLowerCase().includes(searchTerm.toLowerCase());
+        const isFavorite = filters.showFavorites
+            ? favorities?.product?.some((favoriteProduct) => favoriteProduct.product_id === product.product_id)
+            : true;
 
-        if (loading) {
-            return <Loading />;
+        return matchesCategory && matchesSearch && isFavorite;
+    })
+    .sort((a, b) => {
+        if (filters.priceOrder === "asc") {
+            return Number(a.price) - Number(b.price);
+        } else if (filters.priceOrder === "desc") {
+            return Number(b.price) - Number(a.price);
         }
+        return 0;
+    });
 
     return (
         <div className="pt-5 rounded-lg ">
@@ -164,18 +182,18 @@ const Cards = () => {
             </div>
 
             <div className="flex justify-center mb-4 flex-wrap gap-2">
-                <button onClick={() => setFilters({ ...filters, category: "Beverages" })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white">Beverages</button>
-                <button onClick={() => setFilters({ ...filters, category: "Main Dishes" })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white">Main Dishes</button>
-                <button onClick={() => setFilters({ ...filters, category: "Appetizers" })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white">Appetizers</button>
-                <button onClick={() => setFilters({ ...filters, category: "Sides" })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white">Sides</button>
-                <button onClick={() => setFilters({ ...filters, category: "Desserts" })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white">Desserts</button>
-                <button onClick={() => setFilters({ ...filters, priceOrder: "asc" })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white">Price: Low to High</button>
-                <button onClick={() => setFilters({ ...filters, priceOrder: "desc" })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white">Price: High to Low</button>
-                <button onClick={() => setFilters({ ...filters, showFavorites: !filters.showFavorites })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary">
-                    {filters.showFavorites ? "Watch all" : "Watch favorites"}
-                </button>
-                <button onClick={clearFilters} className="bg-gray-500 text-white font-bold py-1 px-3 rounded hover:bg-gray-600">Clear Filter</button>
-            </div>
+    <button onClick={() => toggleCategory("Beverages")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Beverages") ? "bg-blue-700 text-yellow-600" : ""}`}>Beverages</button>
+    <button onClick={() => toggleCategory("Main Dishes")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Main Dishes") ? "bg-blue-700 text-yellow-600" : ""}`}>Main Dishes</button>
+    <button onClick={() => toggleCategory("Appetizers")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Appetizers") ? "bg-blue-700 text-yellow-600" : ""}`}>Appetizers</button>
+    <button onClick={() => toggleCategory("Sides")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Sides") ? "bg-blue-700 text-yellow-600" : ""}`}>Sides</button>
+    <button onClick={() => toggleCategory("Desserts")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Desserts") ? "bg-blue-700 text-yellow-600" : ""}`}>Desserts</button>
+    <button onClick={() => setFilters({ ...filters, priceOrder: "asc" })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white">Price: Low to High</button>
+    <button onClick={() => setFilters({ ...filters, priceOrder: "desc" })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white">Price: High to Low</button>
+    <button onClick={() => setFilters({ ...filters, showFavorites: !filters.showFavorites })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary">
+        {filters.showFavorites ? "Watch all" : "Watch favorites"}
+    </button>
+    <button onClick={clearFilters} className="bg-gray-500 text-white font-bold py-1 px-3 rounded hover:bg-gray-600">Clear Filter</button>
+</div>
 
             <div className="w-[60%] h-auto grid grid-cols-1 sm:grid-cols-2 gap-6 justify-evenly m-auto">
                 {filteredProducts.map((product) => (

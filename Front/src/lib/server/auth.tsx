@@ -56,7 +56,7 @@ export async function formLogin(userData: ILogin) {
     }
 }
 
-export async function resetPassword(email: string,password) {
+export async function resetPassword(email: string, password: any) {
     alert(password)
     try {
         const response = await fetch(`${APIURL}/auth/resetPassword`, {
