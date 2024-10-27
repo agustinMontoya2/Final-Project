@@ -15,6 +15,38 @@ export default function NavBarXL() {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
+    const [isAdmin, setAdmin] = useState<boolean>(false);
+    const [isBanned, setIsBanned] = useState<boolean>(false);
+
+
+    useEffect(() => {
+        const storedIsAdmin = localStorage.getItem('isAdmin');
+        setAdmin(storedIsAdmin === 'true');
+    }, []);
+
+    useEffect(() => {
+        const storedIsBanned = localStorage.getItem('isBanned');
+        setIsBanned(storedIsBanned === 'true');
+    }, []);
+
+    useEffect(() => {
+        if (isAdmin && (pathname === '/dashboardAdmin')) {
+            router.back();
+        } else if (isAdmin && (pathname === '/profile')) {
+            router.back();
+        }
+    }, [pathname, router])
+
+    // useEffect(() => {
+    //     if (isBanned) {
+    //         Swal.fire({
+    //             title: 'Your account has been blocked indefinitely',
+    //             icon: 'warning',
+    //             confirmButtonText: 'accept',
+    //             confirmButtonColor: "#1988f0"
+    //         })
+    //     }
+    // }, [pathname, router])
 
     useEffect(() => {
         const userData = localStorage.getItem('userSession');
@@ -34,6 +66,7 @@ export default function NavBarXL() {
         }
     }, [searchParams, router]);
 
+    ;
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedValue = event.target.value;
         if (selectedValue) {

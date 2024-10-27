@@ -283,29 +283,56 @@ const CartView = () => {
                 <textarea
                     value={note}
                     onChange={(e) => setNote(e.target.value)}
-                    className="w-full h-24 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full h-24 max-h-56 min-h-16 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Any special instructions or notes?"
                 />
-
                 <h3 className="mt-6 font-semibold text-lg text-black">Delivery Options</h3>
-                <select
-                    value={deliveryOption}
-                    onChange={(e) => setDeliveryOption(e.target.value)}
-                    className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                    <option value="dine-in">Dine In</option>
-                    <option value="delivery">Delivery</option>
-                </select>
+                <div className="flex mt-2">
+                    <label className="flex items-center text-neutral-800">
+                        <input
+                            type="checkbox"
+                            value="dine-in"
+                            checked={deliveryOption === "dine-in"}
+                            onChange={(e) => setDeliveryOption(e.target.checked ? e.target.value : "")}
+                            className="mr-2"
+                        />
+                        Take Away
+                    </label>
+                    <label className="flex items-center text-neutral-800 ml-5">
+                        <input
+                            type="checkbox"
+                            value="delivery"
+                            checked={deliveryOption === "delivery"}
+                            onChange={(e) => setDeliveryOption(e.target.checked ? e.target.value : "")}
+                            className="mr-2"
+                        />
+                        Delivery
+                    </label>
+                </div>
 
                 <h3 className="mt-6 font-semibold text-lg text-black">Payment Method</h3>
-                <select
-                    value={paymentOption}
-                    onChange={(e) => setPaymentOption(e.target.value)}
-                    className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                    <option value="cash">Cash</option>
-                    <option value="card">Card</option>
-                </select>
+                <div className="flex mt-2">
+                    <label className="flex items-center text-neutral-800">
+                        <input
+                            type="checkbox"
+                            value="cash"
+                            checked={paymentOption === "cash"}
+                            onChange={(e) => setPaymentOption(e.target.checked ? e.target.value : "")}
+                            className="mr-2"
+                        />
+                        Cash
+                    </label>
+                    <label className="flex items-center text-neutral-800 ml-5">
+                        <input
+                            type="checkbox"
+                            value="card"
+                            checked={paymentOption === "card"}
+                            onChange={(e) => setPaymentOption(e.target.checked ? e.target.value : "")}
+                            className="mr-2"
+                        />
+                        Card
+                    </label>
+                </div>
 
                 <div className="flex justify-center space-x-4 mt-6">
                     <button

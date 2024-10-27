@@ -23,17 +23,13 @@ export default function Dropdown() {
             router.push('/');
         }
     }, [searchParams, router]);
-    
-    useEffect(() => {
-        const storedIsAdmin = localStorage.getItem('isAdmin');
-        setAdmin(storedIsAdmin === 'true');
-    }, []);
 
     useEffect(() => {
         const session = localStorage.getItem('userSession');
         if (session) {
             const parsedSession = JSON.parse(session);
             setUserSession(parsedSession);
+            setAdmin(parsedSession.isAdmin); // Configura isAdmin desde la sesión
         }
     }, [router, pathname]);
 

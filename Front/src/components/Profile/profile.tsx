@@ -238,7 +238,7 @@ const ProfileV = () => {
             </div>
             {isEditing && (
                 <div className="w-full flex justify-between">
-                    <button onClick={handleCancelClick} className="w-auto px-3 py-1 bg-secondary rounded-lg mt-3 hover:bg-red-700">Cancel</button>
+                    <button onClick={handleCancelClick} className="w-auto px-3 py-1 bg-neutral-500 rounded-lg mt-3 hover:bg-neutral-400">Cancel</button>
                     <button onClick={handleSaveChanges} className="w-auto px-3 py-1 bg-secondary rounded-lg mt-3 hover:bg-red-700">Save changes</button>
                 </div>
             )}
