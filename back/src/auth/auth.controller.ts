@@ -1,14 +1,30 @@
-import { Controller, Get, Post, Body, Res, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Res,
+  Query,
+  Param,
+  NotFoundException,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/create-user.dto';
 import { LogInDto } from './dto/create-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Credential } from './entities/credential.entity';
 
 @Controller('auth')
 @ApiTags('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    @InjectRepository(Credential)
+    private readonly credentialRepository: Repository<Credential>,
+  ) {}
 
   @Post('signup')
   signUp(@Body() createAuthDto: SignUpDto) {
@@ -26,17 +42,19 @@ export class AuthController {
   }
 
   @Post('requestResetPassword')
-  requestResetPassword(@Body('email') email: string) {
-    this.authService.requestResetPassword(email);
+  async requestResetPassword(@Body('email') email: string) {
+    await this.authService.requestResetPassword(email);
     return { message: 'Password reset link sent to your email' };
   }
 
   @Post('resetPassword')
-  resetPassword(
-    @Body('email') email: string,
+  async resetPassword(
+    @Param('email') email: string,
     @Body('newPassword') newPassword: string,
   ) {
-    this.authService.resetPassword(email, newPassword);
+    const user = await this.credentialRepository.findOneBy({ email });
+    if (!user) throw new NotFoundException('User Not Found');
+    await this.authService.resetPassword(email, newPassword);
     return { message: 'Password has been reset successfully' };
   }
 

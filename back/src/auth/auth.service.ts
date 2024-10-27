@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { LogInDto } from './dto/create-user.dto';
@@ -76,16 +77,16 @@ export class AuthService {
   async requestResetPassword(email: string) {
     const user = await this.credentialRepository.findOneBy({ email });
     if (!user) {
-      throw new Error('User not found');
+      throw new NotFoundException('User not found');
     }
-    const resetLink = `http://localhost:3000/auth/reset-password?email=${email}`;
+    const resetLink = `${process.env.URL_HOST_FRONT}resetPassword?email=${email}`;
     await this.mailService.resetPasswordEmail(user.email, resetLink);
   }
 
   async resetPassword(email: string, newPassword: string) {
     const user = await this.credentialRepository.findOneBy({ email });
     if (!user) {
-      throw new Error('User not found');
+      throw new NotFoundException('User not found');
     }
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     await this.credentialRepository.update(

@@ -9,7 +9,7 @@ export class MailService {
 
   async resetPasswordEmail(to: string, link: string) {
     const msg = {
-      to: to,
+      to,
       from: process.env.SENDGRID_FROM_EMAIL,
       subject: 'Password Recovery',
       text: `Click the following link to reset your password: ${link}`,
