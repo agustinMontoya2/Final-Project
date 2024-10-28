@@ -30,12 +30,9 @@ export default function AuthCallback() {
             email: decodedToken.email,
             token: token, // Agregar el token también
             isAdmin: decodedToken.isAdmin,
+            isBanned: decodedToken.isBanned,
           };
-
-          // Almacenar en localStorage
           localStorage.setItem("userSession", JSON.stringify(userSessionData));
-
-          // Redirigir a la página deseada
           router.push("http://localhost:4000");
         } else {
           console.error("El token no se pudo decodificar");

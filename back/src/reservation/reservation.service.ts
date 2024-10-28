@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { ReservationRepository } from './reservation.repository';
 import { CreateReservationDto } from './dto/create-reservation.dto';
+import { isUUID } from 'class-validator';
 
 @Injectable()
 export class ReservationService implements OnApplicationBootstrap {
@@ -32,8 +33,10 @@ export class ReservationService implements OnApplicationBootstrap {
     );
   }
 
-   findOneReservationsByUserIdService(user_id: string) {
-    return this.repositoryReservation.findAllReservationsByUserIdRepository(user_id);
+  findOneReservationsByUserIdService(user_id: string) {
+    return this.repositoryReservation.findAllReservationsByUserIdRepository(
+      user_id,
+    );
   }
 
   findAllReservationsService() {
@@ -68,7 +71,8 @@ export class ReservationService implements OnApplicationBootstrap {
     //   ubication,
     // );
   }
-  cancelReservationService(id: string) {
+  cancelReservationService(id) {
+    if (!isUUID(id)) throw new BadRequestException('Reservation ID not valid');
     return this.repositoryReservation.cancelReservationRepository(id);
   }
 

@@ -154,7 +154,7 @@ const Register = () => {
                 <h1 className='w-full text-xl text-center text-neutral-800 font-extrabold'>JOIN THE FELLINI CLUB</h1>
                 {renderInput("text", "name", "Name")}
                 {renderInput("email", "email", "Email")}
-                {renderInput("number", "phone", "Phone")}
+                {renderInput("text", "phone", "Phone")}
                 {renderInput("text", "address", "Address")}
                 {renderPasswordInput("password", "Password")}
                 {renderPasswordInput("confirmPassword", "Confirm Password")}

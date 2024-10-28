@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation'; 
 import { Pedido } from '@/interfaces/productoInterface'
+import Swal from 'sweetalert2';
 
 const OrderDetail = () => {
 
@@ -37,7 +38,12 @@ useEffect(() => {
 }, [id]);
 
 const confirmarPedido = () => {
-    alert(`Pedido #${pedido?.numero} confirmado!`);
+    Swal.fire({
+        title: `Order #${pedido?.numero} confirmed!`,
+        icon: 'success',
+        confirmButtonText: 'accept',
+        confirmButtonColor: "#1988f0"
+    })
 };
 if (loading) {
     return <p>Loading order detail...</p>;

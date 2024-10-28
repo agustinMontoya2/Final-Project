@@ -168,7 +168,7 @@ const ModifyDishes = () => {
     }
 
     return (
-        <div className="p-5 bg-gray-100 rounded-lg shadow-md">
+        <div className="h-screen overflow-y-scroll p-5">
             <div className="mb-5 text-center">
                 <input
                     type="text"

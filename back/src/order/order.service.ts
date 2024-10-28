@@ -23,7 +23,7 @@ export class OrderService {
   }
 
   findAll() {
-    return `This action returns all order`;
+    return this.orderRepository.findAll();
   }
 
   findOne(id) {

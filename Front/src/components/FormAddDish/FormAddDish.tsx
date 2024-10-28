@@ -97,7 +97,6 @@ const FormularioMenu = () => {
         }
 
         const product = {
-
             product_name: formValues.product_name,
             description: formValues.description,
             price: parseFloat(formValues.price),

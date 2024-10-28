@@ -62,3 +62,33 @@ export async function getOrders(userId: string, token: string) {
         }
     }
 }
+
+export async function getAllOrders(token: string) {
+    
+    try {
+        const response = await fetch(`${APIURL}/order`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`, 
+            },
+        });
+
+        const responseText = await response.text(); 
+
+        if (response.ok) {
+            const favorites = JSON.parse(responseText);
+            
+            return favorites;  
+        } else {
+            throw new Error(`Error: ${responseText}`);  
+        }
+    } catch (error: unknown) {
+        console.error("Error capturado en getOrders:", error);
+        if (error instanceof Error) {
+            throw error;  
+        } else {
+            throw new Error("An unknown error occurred");  
+        }
+    }
+}

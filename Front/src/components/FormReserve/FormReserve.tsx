@@ -55,7 +55,12 @@ const ReservationForm: React.FC = () => {
         e.preventDefault();
 
         if (!user_id) {
-            alert("Debes estar logueado para realizar una reserva.");
+            Swal.fire({
+                title: 'You must log in to make a reservation.',
+                icon: 'info',
+                confirmButtonText: 'accept',
+                confirmButtonColor: "#1988f0"
+            })
             return;
         }
 
@@ -98,7 +103,7 @@ const ReservationForm: React.FC = () => {
     return (
         <div className="absolute inset-0 flex items-center justify-center lg:relative lg:h-screen lg:w-1/2 m-auto">
             <form onSubmit={handleSubmit} className="w-11/12 bg-neutral-300 p-6 rounded-lg flex flex-col justify-center items-center">
-                <h2 className="w-full text-xl text-center text-neutral-800 font-extrabold">Reservar</h2>
+                <h2 className="w-full text-xl text-center text-neutral-800 font-extrabold">Reservation</h2>
 
                 <div className="w-4/5 mb-6 relative">
                     <input
