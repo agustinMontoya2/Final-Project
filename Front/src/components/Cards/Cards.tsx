@@ -180,6 +180,9 @@ const Cards = () => {
                     className="border border-gray-300 rounded-md px-3 py-2 text-gray-700 w-full max-w-md"
                 />
             </div>
+            <div>
+                push de cards Emma
+            </div>
 
             <div className="flex justify-center mb-4 flex-wrap gap-2">
     <button onClick={() => toggleCategory("Beverages")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Beverages") ? "bg-blue-700 text-yellow-600" : ""}`}>Beverages</button>
