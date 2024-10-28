@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { getOrders } from '@/lib/server/order';
 import { IUserSession, IGetOrder } from '@/interfaces/productoInterface';
+import Swal from 'sweetalert2';
 
 const OrdersView = () => {
     const [userId, setUserId] = useState<string | null>(null);
@@ -28,7 +29,12 @@ const OrdersView = () => {
                 console.error('Error obteniendo órdenes:', error);
             }
         } else {
-            alert('Log in to view the orders.');
+            Swal.fire({
+                title: `Log in to view the orders.`,
+                icon: 'info',
+                confirmButtonText: 'accept',
+                confirmButtonColor: "#1988f0"
+            })
         }
     };
 

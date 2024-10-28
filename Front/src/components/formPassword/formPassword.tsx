@@ -57,8 +57,8 @@ const FormPassword = () => {
     }
     }
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col items-center">
-            <div className="w-4/5 mb-6 relative">
+        <form onSubmit={handleSubmit} className="w-1/3 h-screen m-auto flex flex-col justify-center items-center">
+            <div className="w-full mb-6 relative">
                 <input
                     type={showPassword ? 'text' : 'password'}
                     id="newPassword"
@@ -88,7 +88,7 @@ const FormPassword = () => {
                 ></i>
             </div>
 
-            <div className="w-4/5 mb-6 relative">
+            <div className="w-full mb-6 relative">
                 <input
                     type={showPassword ? 'text' : 'password'}
                     id="confirmPassword"
@@ -119,7 +119,7 @@ const FormPassword = () => {
                 ></i>
             </div>
 
-            <button type="submit" className="w-4/5 bg-red-600 text-white font-bold py-2 rounded-lg hover:bg-red-700 transition duration-200">
+            <button type="submit" className="w-full bg-red-600 text-white font-bold py-2 rounded-lg hover:bg-red-700 transition duration-200">
                 Reset Password
             </button>
         </form>

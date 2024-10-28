@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { IUser, IUserSession } from '@/interfaces/productoInterface';
-import { getUsers, banUser, adminUser, editProfile } from '@/lib/server/users';
+import { getUsers, banUser, adminUser } from '@/lib/server/users';
 import { useRouter } from 'next/navigation';
 import Swal from "sweetalert2";
 
@@ -17,6 +18,20 @@ const ViewUsers = () => {
         phone: '',
         address: ''
     });
+    const [searchTerm, setSearchTerm] = useState<string>("");
+    const [userData, setUserData] = useState<IUserSession>();
+    const [profileImg,  setProfileImg] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (typeof window !== 'undefined' && window.localStorage) {
+            const userData = JSON.parse(localStorage.getItem("userSession")!)
+            setUserData(userData);
+            const img = localStorage.getItem('profileImg');
+            console.log(img);
+            
+            setProfileImg(img);
+        }
+    }, []);
 
     useEffect(() => {
         const storedUserData = window.localStorage.getItem("userSession");
@@ -120,89 +135,81 @@ const ViewUsers = () => {
         }
     }, [token]);
 
+    // Filtra los usuarios según el término de búsqueda
+    const filteredUsers = users.filter(user =>
+        user.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
         <div className="container mx-auto p-4">
             <h2 className="text-3xl font-bold text-center text-red-600 mb-6">User List</h2>
-            {users.length > 0 ? (
-                <table className="w-full border border-red-300 bg-white shadow-lg rounded-lg">
-                    <thead className="bg-red-100">
-                        <tr>
-                            <th className="p-3 border-b font-semibold text-gray-700">User ID</th>
-                            <th className="p-3 border-b font-semibold text-gray-700">Name</th>
-                            <th className="p-3 border-b font-semibold text-gray-700">Phone</th>
-                            <th className="p-3 border-b font-semibold text-gray-700">Address</th>
-                            <th className="p-3 border-b font-semibold text-gray-700">Status</th>
-                            <th className="p-3 border-b font-semibold text-gray-700">Role</th>
-                            <th className="p-3 border-b font-semibold text-gray-700">Actions</th>
+            <div className="mb-5 text-center relative">
+                <div className="w-2/5 m-auto flex items-center border rounded-xl bg-white">
+                    <Image
+                        src="/assets/icon/search.png"
+                        alt="Search"
+                        width={20}
+                        height={20}
+                        className="ml-2"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Search users by name..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="border-none rounded-lg outline-none px-2 py-2 text-gray-700 w-full"
+                    />
+                </div>
+            </div>
+            {filteredUsers.length > 0 ? (
+                <table className="min-w-full bg-white border border-red-300 shadow-lg">
+                    <thead>
+                        <tr className="bg-red-500 text-white">
+                            <th className="py-2 px-4 border-b">Name</th>
+                            <th className="py-2 px-4 border-b">Phone</th>
+                            <th className="py-2 px-4 border-b">Address</th>
+                            <th className="py-2 px-4 border-b">Status</th>
+                            <th className="py-2 px-4 border-b">Role</th>
+                            <th className="py-2 px-4 border-b">Avatar</th>
+                            <th className="py-2 px-4 border-b">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((user) => (
-                            <tr key={user.user_id} className="hover:bg-red-50 transition-colors">
-                                <td className="p-3 border-b text-gray-800">{user.user_id}</td>
-                                <td className="p-3 border-b text-gray-600">
-                                    {isEditing && editableUserId === user.user_id ? (
-                                        <input
-                                            type="text"
-                                            name="name"
-                                            value={editableData.name}
-                                            onChange={handleInputChange}
-                                            className="rounded outline-none border-b min-w-56"
-                                        />
-                                    ) : user.name || 'N/A'}
-                                </td>
-                                <td className="p-3 border-b text-gray-600">
-                                    {isEditing && editableUserId === user.user_id ? (
-                                        <input
-                                            type="text"
-                                            name="phone"
-                                            value={editableData.phone}
-                                            onChange={handleInputChange}
-                                            className="rounded outline-none border-b min-w-56"
-                                        />
-                                    ) : user.phone || 'N/A'}
-                                </td>
-                                <td className="p-3 border-b text-gray-600">
-                                    {isEditing && editableUserId === user.user_id ? (
-                                        <input
-                                            type="text"
-                                            name="address"
-                                            value={editableData.address}
-                                            onChange={handleInputChange}
-                                            className="rounded outline-none border-b min-w-56"
-                                        />
-                                    ) : user.address || 'N/A'}
-                                </td>
-                                <td className={`p-3 border-b text-sm ${user.isBanned ? 'text-red-500' : 'text-green-500'}`}>
+                        {filteredUsers.map((user) => (
+                            <tr key={user.user_id} className="hover:bg-gray-100">
+                                <td className="py-2 px-4 border-b text-black">{user.name || 'N/A'}</td>
+                                <td className="py-2 px-4 border-b text-black">{user.phone || 'N/A'}</td>
+                                <td className="py-2 px-4 border-b text-black">{user.address || 'N/A'}</td>
+                                <td className={`py-2 px-4 border-b ${user.isBanned ? 'text-red-500' : 'text-green-500'}`}>
                                     {user.isBanned ? 'Banned' : 'Active'}
                                 </td>
-                                <td className={`p-3 border-b text-sm ${!user.isAdmin ? 'text-red-500' : 'text-green-500'}`}>
+                                <td className={`py-2 px-4 border-b ${!user.isAdmin ? 'text-red-500' : 'text-green-500'}`}>
                                     {user.isAdmin ? 'Admin' : 'User'}
                                 </td>
-                                <td className="p-3 border-b flex space-x-2">
-                                    <button
-                                        onClick={() => handleBan(user.user_id)}
-                                        className={`px-4 py-2 rounded ${user.isBanned ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'} text-white`}
-                                    >
-                                        {user.isBanned ? 'Unban User' : 'Ban User'}
-                                    </button>
-                                    <button
-                                        onClick={() => handleAdmin(user.user_id)}
-                                        className={`px-4 py-2 rounded ${user.isAdmin ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'} text-white`}
-                                    >
-                                        {user.isAdmin ? 'Unadmin User' : 'Admin User'}
-                                    </button>
-                                    {!isEditing && editableUserId !== user.user_id && (
-                                        <button onClick={() => handleEditClick(user)} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
-                                            Edit User
+                                <td className="py-2 px-4 border-b text-black">
+                                    <Image
+                                        src={user.user_img ?? '/assets/icon/profileblack.png'}
+                                        alt={`${user.name}'s avatar`}
+                                        width={40}
+                                        height={40}
+                                        className="w-16 h-16 rounded-full object-cover"
+                                    />
+                                </td>
+                                <td className="py-2 px-4 border-b">
+                                    <div className="flex justify-evenly">
+                                        <button
+                                            onClick={() => handleBan(user.user_id)}
+                                            className={`w px-4 py-1 rounded ${user.isBanned ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'} text-white`}
+                                        >
+                                            {user.isBanned ? 'Unban User' : 'Ban User'}
                                         </button>
-                                    )}
-                                    {isEditing && editableUserId === user.user_id && (
-                                        <div className="flex space-x-2">
-                                            <button onClick={handleCancelClick} className="px-4 py-2 bg-gray-500 text-white rounded">Cancel</button>
-                                            <button onClick={handleSaveChanges} className="px-4 py-2 bg-blue-500 text-white rounded">Save Changes</button>
-                                        </div>
-                                    )}
+                                        <button
+                                            onClick={() => handleAdmin(user.user_id)}
+                                            className={`w-36 px-4 py-1 rounded ${user.isAdmin ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'} text-white`}
+                                        >
+                                            {user.isAdmin ? 'Unadmin User' : 'Admin User'}
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}
