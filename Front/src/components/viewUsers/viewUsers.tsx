@@ -90,7 +90,7 @@ const ViewUsers = () => {
     );
 
     return (
-        <div className="container mx-auto p-4">
+        <div className="w-4/5 container mx-auto p-4">
             <h2 className="text-3xl font-bold text-center text-red-600 mb-6">User List</h2>
             <div className="mb-5 text-center relative">
                 <div className="w-2/5 m-auto flex items-center border rounded-xl bg-white">

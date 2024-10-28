@@ -4,90 +4,71 @@ import ViewDishes from '../viewDishes/viewDishes';
 import ViewReviews from '../viewReviews/viewReviews';
 import ViewUsers from '../viewUsers/viewUsers';
 import AdminPerfil from '../adminPerfil/adminPerfil';
+import Link from 'next/link';
 
 const DashboardAdmindv = (): JSX.Element => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [selectedSection, setSelectedSection] = useState('');
 
   const toggleAside = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleSectionChange = (section: string) => {
-    setSelectedSection(section);
-    setIsOpen(false);
-  };
+  const handleClick = () => {
+    setIsOpen(false)
+  }
 
   return (
-    <div className=" flex flex-row-reverse items-center h-screen">
-       <button 
+    <div className={`h-full mb-3 relative flex flex-col items-center justify-center`}>
+      <button
         onClick={toggleAside} 
-        className={`h-full bg-secondary flex items-start p-2 ${!isOpen && "bg-transparent"}`}
+        className={`h-10 bg-secondary flex items-start p-2 ${!isOpen && "bg-transparent"}`}
       >
         <Image 
-          src={isOpen ? "/assets/icon/back.png" : "/assets/icon/menu.png"} 
+          src={isOpen ? "/assets/icon/cross.png" : "/assets/icon/menu.png"} 
           alt={isOpen ? "Close Menu" : "Open Menu"} 
-          width={24} 
-          height={24} 
+          width={35} 
+          height={35} 
         />
       </button>
 
       {isOpen && (
-        <nav className="w-1/5 h-full bg-secondary p-5">
-          <ul className="space-y-4">
-            <li>
-              <button
-                className={`w-full text-left px-4 py-2 text-white rounded-lg transition ${
-                  selectedSection === 'adminPerfil' ? 'bg-yellow-600' : 'bg-yellow-700 hover:bg-yellow-600'
-                }`}
-                onClick={() => handleSectionChange('adminPerfil')}
+        <div className={` absolute top-12 -right-12 w-56 transition-all duration-300 ease-in-out p-5 py-28 bg-secondary shadow-md`}>
+          <div className="w-full flex justify-center flex-col items-center space-y-5">
+              <Link href={'/admin/profileAdmin'}
+                onClick={handleClick}
+                className={`w-full text-left px-4 py-2 text-white rounded-lg transition ${selectedSection === 'adminPerfil' ? 'bg-yellow-600' : 'bg-yellow-700 hover:bg-yellow-600'}`}
               >
                 Profile
-              </button>
-            </li>
-            <li>
-              <button
-                className={`w-full text-left px-4 py-2 text-white rounded-lg transition ${
-                  selectedSection === 'viewUser' ? 'bg-yellow-600' : 'bg-yellow-700 hover:bg-yellow-600'
-                }`}
-                onClick={() => handleSectionChange('viewUser')}
+              </Link >
+              <Link href={'/admin/users'}
+                onClick={handleClick}
+                className={`w-full text-left  px-4 py-2 text-white rounded-lg transition ${selectedSection === 'viewUser' ? 'bg-yellow-600' : 'bg-yellow-700 hover:bg-yellow-600'}`}
               >
                 Users
-              </button>
-            </li>
-            <li>
-              <button
-                className={`w-full text-left px-4 py-2 text-white rounded-lg transition ${
-                  selectedSection === 'viewDishes' ? 'bg-yellow-600' : 'bg-yellow-700 hover:bg-yellow-600'
-                }`}
-                onClick={() => handleSectionChange('viewDishes')}
+              </Link >
+              <Link href={'/admin/dishes'}
+                onClick={handleClick}
+                className={`w-full text-left px-4 py-2 text-white rounded-lg transition ${selectedSection === 'viewDishes' ? 'bg-yellow-600' : 'bg-yellow-700 hover:bg-yellow-600'}`}
               >
                 Dishes
-              </button>
-            </li>
-            <li>
-              <button
-                className={`w-full text-left px-4 py-2 text-white rounded-lg transition ${
-                  selectedSection === 'viewReviews' ? 'bg-yellow-600' : 'bg-yellow-700 hover:bg-yellow-600'
-                }`}
-                onClick={() => handleSectionChange('viewReviews')}
+              </Link >
+              <Link href={'/admin/reviews'}
+                onClick={handleClick}
+                className={`w-full text-left px-4 py-2 text-white rounded-lg transition ${selectedSection === 'viewReviews' ? 'bg-yellow-600' : 'bg-yellow-700 hover:bg-yellow-600'}`}
               >
                 Reviews
-              </button>
-            </li>
-          </ul>
-        </nav>
+              </Link >
+          </div>
+        </div>
       )}
 
-      {/* Content */}
-      <div className="flex-1 p-10">
+      {/* Contenido */}
+      <div className={``}>
         {selectedSection === 'adminPerfil' && <AdminPerfil />}
         {selectedSection === 'viewUser' && <ViewUsers />}
         {selectedSection === 'viewDishes' && <ViewDishes />}
         {selectedSection === 'viewReviews' && <ViewReviews />}
-        {!selectedSection && (
-          <p className="text-gray-600">Select an option from the menu to get started!</p>
-        )}
       </div>
     </div>
   );
