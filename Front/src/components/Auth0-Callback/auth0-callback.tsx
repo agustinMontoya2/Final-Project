@@ -30,6 +30,7 @@ export default function AuthCallback() {
             email: decodedToken.email,
             token: token, // Agregar el token también
             isAdmin: decodedToken.isAdmin,
+            isBanned: decodedToken.isBanned,
           };
           localStorage.setItem("userSession", JSON.stringify(userSessionData));
           router.push("http://localhost:4000");
