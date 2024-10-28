@@ -46,31 +46,6 @@ useEffect(() => {
         }
     };
 
-    // }
-    // export interface IGetOrder {
-    //     order_id: string;
-    //     date: string;
-    //     state: string;
-    //     orderDetail: IOrderDetail;
-    //   }
-      
-    //   export interface IOrderDetail {
-    //     order_detail_id: string;
-    //     order_type: string;
-    //     payment_method: string;
-    //     total: string;
-    //     note: string;
-    //     productDetails: IProductsDetails[];
-    //   }
-
-    // export interface IProductsDetails {
-    //     product_detail_id: string;
-    //     quantity: string;
-    //     subtotal: string;
-    //     product: IProducts;
-    //   }
-
-
     return (
         <div className="p-6 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg shadow-lg">
             {orders.length > 0 ? (

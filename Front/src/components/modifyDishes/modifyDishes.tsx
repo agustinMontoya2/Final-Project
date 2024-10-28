@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { getCategories } from '@/lib/server/Categories';
+import Swal from "sweetalert2";
 
 const ModifyDishes = () => {
     const router = useRouter();
@@ -85,8 +86,11 @@ const ModifyDishes = () => {
         }
         try {
             const response = await removeProduct(productId, token);
-            console.log(response);
-            alert("El producto se ha eliminado correctamente");
+            Swal.fire({
+                title: 'product deleted successfully',
+                icon: 'success',
+                timer: 1000,
+            });
             fetchProducts();
         } catch (error: any) {
             console.error(error.message, "Error al eliminar el producto");
@@ -151,8 +155,11 @@ const ModifyDishes = () => {
                 await editProductImg(productImgFile, token, response.product_id);
                 console.log(productImgFile);
             }
-            console.log(response);
-            alert("El producto se ha modificado correctamente");
+            Swal.fire({
+                title: 'product edited successfully',
+                icon: 'success',
+                timer: 1000,
+            });
             fetchProducts();
             setIsFormOpen(false);
         } catch (error: any) {

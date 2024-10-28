@@ -57,11 +57,20 @@ const ViewUsers = () => {
     const handleBan = async (user_id: string) => {
         if (token) {
             try {
-                const response = await banUser(user_id, token); 
-                alert(response);
+                const userToBan = users.find(user => user.user_id === user_id);
+                if (!userToBan) return;
+    
+                const response = await banUser(user_id, token);
+    
+                Swal.fire({
+                    title: userToBan.isBanned ? 'Unbanned user' : 'Banned user',
+                    icon: 'success',
+                    timer: 1000,
+                });
+    
                 fetchUsers();
             } catch (error: any) {
-                console.error("Error al banear usuario", error.message);
+                console.error("Error al banear/desbanear usuario", error.message);
             }
         } else {
             console.log("No hay token");
@@ -69,19 +78,27 @@ const ViewUsers = () => {
     };
 
     const handleAdmin = async (user_id: string) => {
-        if (token) {
-            try {
-                const response = await adminUser(user_id, token); 
-                alert(response);
-                fetchUsers();
-            } catch (error: any) {
-                console.error("Error al asignar admin", error.message);
-            }
-        } else {
-            console.log("No hay token");
-        }
-    };
+    if (token) {
+        try {
+            const userToAdmin = users.find(user => user.user_id === user_id);
+            if (!userToAdmin) return;
 
+            const response = await adminUser(user_id, token);
+
+            Swal.fire({
+                title: userToAdmin.isAdmin ? 'User is no longer Admin' : 'User is now Admin',
+                icon: 'success',
+                timer: 1000,
+            });
+
+            fetchUsers();
+        } catch (error: any) {
+            console.error("Error al cambiar rol de admin", error.message);
+        }
+    } else {
+        console.log("No hay token");
+    }
+};
     const handleEditClick = (user: IUser) => {
         setIsEditing(true);
         setEditableUserId(user.user_id);
