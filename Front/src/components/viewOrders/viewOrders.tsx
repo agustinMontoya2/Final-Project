@@ -76,22 +76,32 @@ useEffect(() => {
             {orders.length > 0 ? (
                 <div>
                     <h2 className="text-3xl font-bold text-center text-indigo-600 mb-6">Orders</h2>
-                    <ul className="space-y-6">
-                        {orders.map((order) => (
-                            <li key={order.order_id} className="p-5 border border-gray-300 rounded-lg bg-white shadow-md hover:shadow-xl transition-shadow duration-300">
-                                <h2 className="text-xl font-semibold text-gray-800">Order Date: {order.date}</h2>
-                                <p className="text-gray-600">State: <span className="font-semibold text-blue-600">{order.state}</span></p>
-    
-                                <div className="mt-3">
-                                    <h3 className="text-lg font-semibold text-gray-800">Order Details:</h3>
-                                    <p className="text-gray-600 mt-1">Order Type: <span className="font-semibold">{order.orderDetail.order_type}</span></p>
-                                    <p className="text-gray-600">Payment Method: <span className="font-semibold">{order.orderDetail.payment_method}</span></p>
-                                    <p className="text-gray-600">Total: <span className="font-semibold">${order.orderDetail.total}</span></p>
-                                    <p className="text-gray-600">Note: <span className="font-semibold">{order.orderDetail.note}</span></p>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
+                    <table className="w-full text-left border border-gray-300 bg-white shadow-md rounded-lg">
+                        <thead className="bg-indigo-100">
+                            <tr>
+                                <th className="p-3 border-b font-semibold text-gray-700">Order Date</th>
+                                <th className="p-3 border-b font-semibold text-gray-700">State</th>
+                                <th className="p-3 border-b font-semibold text-gray-700">Order Type</th>
+                                <th className="p-3 border-b font-semibold text-gray-700">Payment Method</th>
+                                <th className="p-3 border-b font-semibold text-gray-700">Total</th>
+                                <th className="p-3 border-b font-semibold text-gray-700">Note</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {orders.map((order) => (
+                                <tr key={order.order_id} className="hover:bg-indigo-50 transition-colors">
+                                    <td className="p-3 border-b text-gray-800">
+                                        {new Date(order.date).toLocaleString('sv-SE', { hour12: false }).slice(0, 16)}
+                                    </td>
+                                    <td className="p-3 border-b text-blue-600 font-semibold">{order.state}</td>
+                                    <td className="p-3 border-b text-gray-800">{order.orderDetail.order_type}</td>
+                                    <td className="p-3 border-b text-gray-800">{order.orderDetail.payment_method}</td>
+                                    <td className="p-3 border-b text-gray-800 font-semibold">${order.orderDetail.total}</td>
+                                    <td className="p-3 border-b text-gray-800">{order.orderDetail.note || "No note"}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
             ) : (
                 <p className='text-lg text-center text-gray-700'>No orders found.</p>

@@ -45,3 +45,46 @@ export async function getReservations(user_id: string,token: string) {
     throw new Error(error);
     }
 }
+
+export async function getAllReservations(token: string) {
+    try {
+    const res = await fetch(`${APIURL}/reservation/`, {
+        method: "GET",
+        cache: "no-cache",
+        headers: { "Content-Type": "application/json", Authorization: token },
+    });
+
+    const reservation = await res.json();
+    return reservation;
+    } catch (error: any) {
+    throw new Error(error);
+    }
+}
+
+
+export async function removeReserve(reservation_id: string, token: string) {
+
+    try {
+        const response = await fetch(`${APIURL}/reservation/cancel/${reservation_id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+        });
+        const responseText = await response.text(); 
+        if (response.ok) {
+            const result = JSON.parse(responseText);
+            return result; 
+        } else {
+            throw new Error(`Error: ${responseText}`); 
+        }
+    } catch (error: unknown) {
+        
+        if (error instanceof Error) {
+            throw error;
+        } else {
+            throw new Error("An unknown error occurred");
+        }
+    }
+}

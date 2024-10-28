@@ -3,9 +3,11 @@ import { getReviews, removeReviews } from '@/lib/server/reviews';
 import React from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { IReview } from '@/interfaces/productoInterface';
+import { IGetOrder, IOrder, IReserve, IReview } from '@/interfaces/productoInterface';
+import { getAllOrders } from '@/lib/server/order';
+import { getAllReservations, removeReserve } from '@/lib/server/reservation';
 const ViewReserves = () => {
-    const [reviews, setReviews] = useState<IReview[]>([]);
+    const [reserves, setReserves] = useState<IReserve[]>([]);
     const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
     const [userData, setUserData] = useState<any>(null);
@@ -23,18 +25,18 @@ useEffect(() => {
 
 useEffect(() => {
     if (token && userId) {
-    handleGetReviews();
+    handleGetReserves();
     }
 }, [token, userId]);
 
-    const handleGetReviews =  async ()=>{
-
+    const handleGetReserves =  async ()=>{
         if (token && userId) {
         try {
-            const reviewsData = await getReviews(token);
-            console.log(reviewsData);
-            if (reviewsData) {
-                setReviews(reviewsData); 
+            const reservesData = await getAllReservations(token);
+            console.log(reservesData);
+            
+            if (reservesData) {
+                setReserves(reservesData); 
             } else {
             console.warn("No reviews found.");
             }
@@ -43,54 +45,80 @@ useEffect(() => {
         }
         }
     };
-    const handleDeleteReview = async (review_id: string)=> {
-        if (token && userId) {
-        try {
-            const deleteReview = await removeReviews(review_id, token);
-            alert(deleteReview.message)
-        handleGetReviews()
-        } catch (error) {
-            alert(error)
+
+    const handleCancelReserve = async (reservation_id: string) => {
+        if (token) {
+            try {
+                await removeReserve(reservation_id, token);
+                handleGetReserves();
+                // setReserves((prevReserves) => prevReserves.filter((reserve) => reserve.reservation_id !== reservation_id));
+            } catch (error) {
+                console.error("Error canceling reservation:", error);
+            }
         }
-    }
-
-    }
-
+    };
 
     return (
         <div className="p-6 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg shadow-lg">
-    {reviews.length > 0 ? (
-        <div>
-            <h2 className="text-3xl font-bold text-center text-indigo-600 mb-6">Reserves</h2>
-            <ul className="space-y-6">
-                {reviews.map((review) => (
-                    <li key={review.review_id} className="p-5 border border-gray-300 rounded-lg bg-white shadow-md hover:shadow-xl transition-shadow duration-300">
-                    <p className='text-lg text-gray-800'>{review.review}</p>
-                    <p className='text-gray-600 mt-2'>
-                        Rating: 
-                        <span className='font-bold text-yellow-500 ml-1'>{review.rate} ★</span>
-                    </p>
-                    <p className='text-gray-500'>By: <span className='font-semibold text-blue-600'>{review.user.name}</span></p>
-                    <p className='text-gray-600 mt-2'>Product: <span className='font-semibold text-blue-600'>{review.product.product_name}</span></p>
-                
-                    {/* Botón para eliminar reseña */}
-                    <button
-                        onClick={() => handleDeleteReview(review.review_id)}
-                        className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
-                    >
-                        Delete Review
-                    </button>
-                </li>
-                ))}
-            </ul>
+            {reserves.length > 0 ? (
+                <div>
+                    <h2 className="text-3xl font-bold text-center text-indigo-600 mb-6">Reservations</h2>
+                    <table className="w-full text-left border border-gray-300 bg-white shadow-md rounded-lg">
+                        <thead className="bg-indigo-100">
+                            <tr>
+                                <th className="p-3 border-b font-semibold text-gray-700">Date</th>
+                                <th className="p-3 border-b font-semibold text-gray-700">Time</th>
+                                <th className="p-3 border-b font-semibold text-gray-700">Status</th>
+                                <th className="p-3 border-b font-semibold text-gray-700">People Count</th>
+                                <th className="p-3 border-b font-semibold text-gray-700">Table Details</th>
+                                <th className="p-3 border-b font-semibold text-gray-700">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {reserves.map((reserve) => (
+                                <tr key={reserve.reservation_id} className="hover:bg-indigo-50 transition-colors">
+                                    <td className="p-3 border-b text-gray-800">{new Date(reserve.date).toLocaleDateString('sv-SE')}</td>
+                                    <td className="p-3 border-b text-blue-600 font-semibold">{reserve.time}hs</td>
+                                    <td className="p-3 border-b text-gray-800">
+                                        <span className={`font-semibold ${reserve.status ? 'text-green-600' : 'text-red-600'}`}>
+                                            {reserve.status ? "Active" : "Cancelled"}
+                                        </span>
+                                    </td>
+                                    <td className="p-3 border-b text-gray-800">{reserve.peopleCount}</td>
+                                    <td className="p-3 border-b text-gray-800">
+                                        {reserve.table.length > 0 ? (
+                                            reserve.table.map((table) => (
+                                                <p key={table.table_id} className="mt-1">
+                                                    Table: <span className="font-semibold">{table.table_number}</span>, Location: <span className="font-semibold">{table.ubication}</span>
+                                                </p>
+                                            ))
+                                        ) : (
+                                            <span className="text-gray-500">No table assigned</span>
+                                        )}
+                                    </td>
+                                    <td className="p-3 border-b">
+                                        {reserve.status ? (
+                                            <button
+                                                onClick={() => handleCancelReserve(reserve.reservation_id)}
+                                                className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-colors"
+                                            >
+                                                Cancel Reservation
+                                            </button>
+                                        ) : (
+                                            <span className="text-gray-500">No action available</span>
+                                        )}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            ) : (
+                <p className='text-lg text-center text-gray-700'>No reservations found.</p>
+            )}
         </div>
-    ) : (
-        <p className='text-lg text-center text-gray-700'>No reviews found.</p>
-    )}
-</div>
-
-
-    )
+    );
+    
 }
 
 export default ViewReserves;
