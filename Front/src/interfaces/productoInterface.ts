@@ -156,8 +156,8 @@ export interface ProfileImageProps {
   onImageChange: (file: File) => void;
 }
 
-export interface IFilter{
-  category:string[]
-  showFavorites: boolean
-  priceOrder: string
+export interface IFilter {
+  category: string[];
+  showFavorites: boolean;
+  priceOrder: string;
 }

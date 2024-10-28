@@ -184,6 +184,7 @@ export class AuthService {
         user_img: userData.picture,
         isAdmin: createUser.isAdmin,
         isBanned: createUser.isBanned,
+        provider: createUser.provider,
       };
 
       const token = this.jwtService.sign(payload);
@@ -200,6 +201,7 @@ export class AuthService {
       user_img: userData.picture,
       isAdmin: user.user.isAdmin,
       isBanned: user.user.isBanned,
+      provider: user.user.provider,
     };
 
     const token = this.jwtService.sign(payload);
