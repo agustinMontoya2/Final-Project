@@ -137,7 +137,15 @@ const ViewUsers = () => {
                 alert(error.message);
             }
         } else {
-            alert("Inicia sesión primero");
+            Swal.fire({
+                icon: 'error',
+                title: 'You must log in',
+                toast: true,
+                position: 'top-end',
+                timer: 2500,
+                showConfirmButton: false,
+                timerProgressBar: true,
+            });
         }
     };
 
