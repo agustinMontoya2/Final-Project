@@ -43,20 +43,10 @@ const CartView = () => {
                 calculateTotal(items);
             } catch (error) {
                 console.error("Error al obtener el carrito:", error);
-                Swal.fire({
-                    title: 'Error getting cart.',
-                    icon: 'error',
-                    confirmButtonText: 'accept',
-                    confirmButtonColor: "#1988f0"
-                })
+                alert("Error al obtener el carrito.");
             }
         } else {
-            Swal.fire({
-                title: 'Log in to view the cart.',
-                icon: 'info',
-                confirmButtonText: 'accept',
-                confirmButtonColor: "#1988f0"
-            })
+            alert("Log in to view the cart.");
         }
     };
 
@@ -76,12 +66,7 @@ const CartView = () => {
                 if (response) {
                     await handleGetCart();
                 } else {
-                    Swal.fire({
-                        title: 'Failed to delete the product from the cart.',
-                        icon: 'error',
-                        confirmButtonText: 'accept',
-                        confirmButtonColor: "#1988f0"
-                    })
+                    alert("Failed to delete the product from the cart.");
                 }
             } catch (error) {
                 console.error(`Error: ${error instanceof Error ? error.message : error}`);
@@ -97,12 +82,7 @@ const CartView = () => {
                 if (response) {
                     await handleGetCart();
                 } else {
-                    Swal.fire({
-                        title: 'Failed to delete the product from the cart.',
-                        icon: 'error',
-                        confirmButtonText: 'accept',
-                        confirmButtonColor: "#1988f0"
-                    })
+                    alert("Failed to delete the product from the cart.");
                 }
             } catch (error) {
                 console.error(`Error: ${error instanceof Error ? error.message : error}`);
@@ -121,12 +101,7 @@ const CartView = () => {
                 console.error("Error to add product to cart");
             }
         } else {
-            Swal.fire({
-                title: 'Log in to add product to the cart.',
-                icon: 'error',
-                confirmButtonText: 'accept',
-                confirmButtonColor: "#1988f0"
-            })
+            alert("Log in to add product to the cart.");
         }
     };
 
@@ -167,12 +142,7 @@ const CartView = () => {
         }
 
         if (!userId) {
-            Swal.fire({
-                title: 'User ID is missing. Please log in.',
-                icon: 'error',
-                confirmButtonText: 'accept',
-                confirmButtonColor: "#1988f0"
-            })
+            alert("User ID is missing. Please log in.");
             return;
         }
 
@@ -203,12 +173,7 @@ const CartView = () => {
                         await handlerMercadoPago();
                     }
                 } else {
-                    Swal.fire({
-                        title: 'failed to create the order.',
-                        icon: 'error',
-                        confirmButtonText: 'accept',
-                        confirmButtonColor: "#1988f0"
-                    })
+                    alert("Failed to create the order.");
                 }
             } catch (error) {
                 alert(`Error: ${error instanceof Error ? error.message : error}`);

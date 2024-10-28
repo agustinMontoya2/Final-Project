@@ -103,4 +103,11 @@ export class OrderRepository {
     if (!order) throw new NotFoundException('Order not found');
     return order;
   }
+  async findAll() {
+    const order = await this.orderRepository.find({
+      relations: ['orderDetail', 'orderDetail.productDetails'],
+    });
+    if (!order) throw new NotFoundException('Order not found');
+    return order;
+  }
 }

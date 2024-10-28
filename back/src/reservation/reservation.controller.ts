@@ -67,7 +67,6 @@ export class ReservationController {
     @Param('id') reservation_id: string,
     @Body() UpdateReservationDto: UpdateReservationDto,
   ) {
-    // return 'this endpoint is not ready yet';
     return this.reservationService.updateReservationService(
       reservation_id,
       UpdateReservationDto,

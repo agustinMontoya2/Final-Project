@@ -7,7 +7,7 @@ import AdminPerfil from '../adminPerfil/adminPerfil';
 import Link from 'next/link';
 
 const DashboardAdmindv = (): JSX.Element => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [selectedSection, setSelectedSection] = useState('');
 
   const toggleAside = () => {

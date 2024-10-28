@@ -3,9 +3,7 @@ import { ILogin, IRegister } from "../../interfaces/productoInterface";
 const APIURL = process.env.NEXT_PUBLIC_API_URL
 
 export async function formRegister(userData: IRegister) {
-    alert("registrando...##")
     try {
-        alert("registrando...")
         const response = await fetch(`${APIURL}/auth/signup`, {
             method: "POST",
             headers: {

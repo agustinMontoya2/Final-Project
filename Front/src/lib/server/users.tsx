@@ -48,7 +48,7 @@ export async function editProfile({name, address, phone, user_img}: any, token: 
 }
 
 
-export async function banUser(user_id: string, token: string) {
+export async function banUser(user_id: string, token: string, reason: string) {
     try {
         const response = await fetch(`${APIURL}/users/ban/${user_id}`, {
             method: "POST",
@@ -56,6 +56,7 @@ export async function banUser(user_id: string, token: string) {
                 "Content-type": "application/json",
                 "Authorization": `Bearer ${token}` 
             },
+            body: JSON.stringify({ reason, user_id })
         });
         const responseText = await response.text(); 
 

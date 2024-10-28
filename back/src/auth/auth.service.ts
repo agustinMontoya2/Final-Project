@@ -132,7 +132,7 @@ export class AuthService {
       client_id: process.env.AUTH0_CLIENT_ID,
       client_secret: process.env.AUTH0_SECRET,
       code,
-      redirect_uri: `http://localhost:3000/auth/callback`,
+      redirect_uri: `${process.env.URL_HOST_BACK}auth/callback`,
     });
 
     return response.data.access_token;
@@ -183,6 +183,8 @@ export class AuthService {
         email: userData.email,
         user_img: userData.picture,
         isAdmin: createUser.isAdmin,
+        isBanned: createUser.isBanned,
+        provider: createUser.provider,
       };
 
       const token = this.jwtService.sign(payload);
@@ -198,6 +200,8 @@ export class AuthService {
       email: userData.email,
       user_img: userData.picture,
       isAdmin: user.user.isAdmin,
+      isBanned: user.user.isBanned,
+      provider: user.user.provider,
     };
 
     const token = this.jwtService.sign(payload);
