@@ -179,13 +179,13 @@ const Cards = () => {
     });
 
     const images = [
-        "/assets/sunday.jpg",
-        "/assets/monday.jpg",
-        "/assets/tuesday.jpg",
-        "/assets/wednesday.jpg",
-        "/assets/thursday.jpg",
-        "/assets/friday.jpg",
-        "/assets/saturday.jpg",
+        "/assets/sunday.jpeg",
+        "/assets/monday.jpeg",
+        "/assets/tuesday.jpeg",
+        "/assets/wednesday.jpeg",
+        "/assets/thursday.jpeg",
+        "/assets/friday.jpeg",
+        "/assets/saturday.jpeg",
     ];
 
         return (
@@ -199,16 +199,12 @@ const Cards = () => {
                         className="border border-gray-300 rounded-md px-3 py-2 text-gray-700 w-full max-w-md"
                     />
                 </div>
-                <div>
-                    Jhei gay.
-                </div>
-        
                 <div className="flex justify-center mb-4 flex-wrap gap-2">
-                    <button onClick={() => toggleCategory("Beverages")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Beverages") ? "bg-gray-700 text-yellow-600" : ""}`}>Beverages</button>
-                    <button onClick={() => toggleCategory("Main Dishes")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Main Dishes") ? "bg-gray-700 text-yellow-600" : ""}`}>Main Dishes</button>
-                    <button onClick={() => toggleCategory("Appetizers")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Appetizers") ? "bg-gray-700 text-yellow-600" : ""}`}>Appetizers</button>
-                    <button onClick={() => toggleCategory("Sides")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Sides") ? "bg-gray-700 text-yellow-600" : ""}`}>Sides</button>
-                    <button onClick={() => toggleCategory("Desserts")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Desserts") ? "bg-gray-700 text-yellow-600" : ""}`}>Desserts</button>
+                    <button onClick={() => toggleCategory("Beverages")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Beverages") ? "bg-red-800 text-white" : ""}`}>Beverages</button>
+                    <button onClick={() => toggleCategory("Main Dishes")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Main Dishes") ? "bg-red-800 text-white" : ""}`}>Main Dishes</button>
+                    <button onClick={() => toggleCategory("Appetizers")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Appetizers") ? "bg-red-800 text-white" : ""}`}>Appetizers</button>
+                    <button onClick={() => toggleCategory("Sides")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Sides") ? "bg-red-800 text-white" : ""}`}>Sides</button>
+                    <button onClick={() => toggleCategory("Desserts")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Desserts") ? "bg-red-800 text-white" : ""}`}>Desserts</button>
                     <button onClick={() => setFilters({ ...filters, priceOrder: "asc" })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white">Price: Low to High</button>
                     <button onClick={() => setFilters({ ...filters, priceOrder: "desc" })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white">Price: High to Low</button>
                     <button onClick={() => setFilters({ ...filters, showFavorites: !filters.showFavorites })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary">
@@ -216,10 +212,10 @@ const Cards = () => {
                     </button>
                     <button onClick={clearFilters} className="bg-gray-500 text-white font-bold py-1 px-3 rounded hover:bg-gray-600">Clear Filter</button>
                 </div>
-        
+
                 <Carousel images={images}/>
-        
-                <div className="w-[60%] h-auto grid grid-cols-1 sm:grid-cols-2 gap-6 justify-evenly m-auto">
+
+                <div className="w-[60%] h-auto mt-4 grid grid-cols-1 sm:grid-cols-2 gap-6 justify-evenly m-auto">
                     {filteredProducts.map((product) => (
                         <div key={product.product_id} className="flex items-center shadow-2xl rounded-xl p-4 hover:scale-105 duration-500 bg-primary">
                             <Link href={`/product/${product.product_id}`}>

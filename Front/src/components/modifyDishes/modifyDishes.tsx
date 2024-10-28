@@ -203,10 +203,11 @@ const ModifyDishes = () => {
                                     <h2 className="text-black text-xl font-semibold">{product.product_name}</h2>
                                     <div className="mt-2 flex justify-between">
                                         <button
-                                            className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
+                                            className="flex bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
                                             onClick={() => handleModify(product)} // Pasa el producto al modificar
                                         >
-                                            Modify
+                                            Edit
+                                            <Image src={'/assets/icon/pencilwhite.png'} width={20} height={20} alt="edit" className="ml-2"/>
                                         </button>
                                         <button
                                             className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
