@@ -2,24 +2,24 @@ import React, { useState, useRef } from 'react';
 
 const ProductQuantity = () => {
     const [quantity, setQuantity] = useState(1);
-    const intervalRef = useRef<NodeJS.Timeout | null>(null); // Referencia para el intervalo
+    const intervalRef = useRef<NodeJS.Timeout | null>(null); 
 
     const increaseQuantity = () => {
         setQuantity(prev => prev + 1);
     };
 
     const decreaseQuantity = () => {
-        setQuantity(prev => (prev > 1 ? prev - 1 : 1)); // No permite que la cantidad sea menor que 1
+        setQuantity(prev => (prev > 1 ? prev - 1 : 1)); 
     };
 
     const startIncreasing = () => {
-        increaseQuantity(); // Aumenta una vez al hacer clic
-        intervalRef.current = setInterval(increaseQuantity, 200); // Aumenta cada 200ms
+        increaseQuantity(); 
+        intervalRef.current = setInterval(increaseQuantity, 200);
     };
 
     const startDecreasing = () => {
-        decreaseQuantity(); // Disminuye una vez al hacer clic
-        intervalRef.current = setInterval(decreaseQuantity, 200); // Disminuye cada 200ms
+        decreaseQuantity();
+        intervalRef.current = setInterval(decreaseQuantity, 200); 
     };
 
     const stopChange = () => {

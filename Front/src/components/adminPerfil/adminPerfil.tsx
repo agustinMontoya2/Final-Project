@@ -1,6 +1,6 @@
 'use client'
 import ProfileV from '@/components/Profile/profile'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 const AdminPerfil = () => {

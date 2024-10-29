@@ -1,7 +1,8 @@
+import { IUser } from "@/interfaces/productoInterface";
 
 const APIURL = process.env.NEXT_PUBLIC_API_URL
 
-export async function editProfile({name, address, phone, user_img}: any, token: any, user_id: string) {
+export async function editProfile({name, address, phone, user_img}: Partial<IUser>, token: string, user_id: string) {
     try {
         const response = await fetch(`${APIURL}/users/${user_id}`, {
             method: "PUT",
@@ -17,8 +18,9 @@ export async function editProfile({name, address, phone, user_img}: any, token: 
             throw new Error(result.message );
         }
         return result;
-    } catch (error: any) {
-        throw error; 
+    } catch  {
+        console.log('error');
+        
     }
 }
 
@@ -91,7 +93,8 @@ export async function editProfileImg(user_img: File, token: string, user_id: str
             throw new Error(result.message);
         }
         return result;
-    } catch (error: any) {
-        throw error;
+    } catch  {
+        console.log('error');
+        
     }
 }

@@ -1,17 +1,15 @@
 'use client'
-import { getReviews, removeReviews } from '@/lib/server/reviews';
+
 import React from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { IGetOrder, IOrder, IReserve, IReview } from '@/interfaces/productoInterface';
-import { getAllOrders } from '@/lib/server/order';
+import { IReserve } from '@/interfaces/productoInterface';
 import { getAllReservations, removeReserve } from '@/lib/server/reservation';
 import Swal from 'sweetalert2';
 const ViewReserves = () => {
     const [reserves, setReserves] = useState<IReserve[]>([]);
     const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
-    const [userData, setUserData] = useState<any>(null);
 
 useEffect(() => {
     const storedUserData = window.localStorage.getItem("userSession");
@@ -22,7 +20,7 @@ useEffect(() => {
         setToken(parsedData.token);
     }
     }
-}, [userData]);
+}, []);
 
 useEffect(() => {
     if (token && userId) {

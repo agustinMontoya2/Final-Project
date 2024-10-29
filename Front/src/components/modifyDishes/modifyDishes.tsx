@@ -13,7 +13,6 @@ const ModifyDishes = () => {
     const [products, setProducts] = useState<IProducts[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState<string>("");
-    const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
     const [selectedProduct, setSelectedProduct] = useState<IProducts | null>(null);
     const [isFormOpen, setIsFormOpen] = useState(false);
@@ -24,7 +23,7 @@ const ModifyDishes = () => {
         image_url: '',
         avaliable: true,
         category_id: ''
-    });
+    }); 
     const [productImgFile, setProductImgFile] = useState<File | null>(null);
     const [imagenPreview, setImagePreview] = useState<string | null>(null);
     const [categories, setCategories] = useState<ICategory[]>([]);
@@ -34,7 +33,6 @@ const ModifyDishes = () => {
         if (storedUserData) {
             const parsedData = JSON.parse(storedUserData);
             if (parsedData && parsedData.user) {
-                setUserId(parsedData.user.user_id);
                 setToken(parsedData.token);
             }
         }
@@ -69,15 +67,14 @@ const ModifyDishes = () => {
         setFormValues({
             product_name: product.product_name,
             description: product.description,
-            price: product.price.toString(),
+            price: product.price.toString(), 
             image_url: '',
             avaliable: product.available,
             category_id: product.category.category_id || ''
         });
         setImagePreview(product.image_url || '');
         setIsFormOpen(true);
-    }
-        ;
+    };
 
     const handleDelete = async (productId: string) => {
         if (!token) {
@@ -86,17 +83,19 @@ const ModifyDishes = () => {
         }
         try {
             const response = await removeProduct(productId, token);
+            
+            
             Swal.fire({
-                title: 'product deleted successfully',
+                title: response.message, 
                 icon: 'success',
                 timer: 1000,
             });
+            
             fetchProducts();
-        } catch (error: any) {
-            console.error(error.message, "Error al eliminar el producto");
+        } catch {
+            console.error("Error al eliminar el producto");
         }
     };
-
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
 
@@ -162,8 +161,8 @@ const ModifyDishes = () => {
             });
             fetchProducts();
             setIsFormOpen(false);
-        } catch (error: any) {
-            console.error(error.message, "Error al modificar el producto");
+        } catch {
+            console.error("Error al modificar el producto");
         }
     };
     console.log("Token:", token);
@@ -203,10 +202,11 @@ const ModifyDishes = () => {
                                     <h2 className="text-black text-xl font-semibold">{product.product_name}</h2>
                                     <div className="mt-2 flex justify-between">
                                         <button
-                                            className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
+                                            className="flex bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
                                             onClick={() => handleModify(product)} // Pasa el producto al modificar
                                         >
-                                            Modify
+                                            Edit
+                                            <Image src={'/assets/icon/pencilwhite.png'} width={20} height={20} alt="edit" className="ml-2"/>
                                         </button>
                                         <button
                                             className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"

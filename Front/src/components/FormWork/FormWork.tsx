@@ -30,8 +30,6 @@ const FormWork = () => {
         event.preventDefault();
 
         if (file) {
-            // Aquí puedes manejar la subida del archivo
-            // Implementa tu lógica para subir el archivo
         } else {
             Swal.fire({
                 title: "Error",
@@ -50,7 +48,7 @@ const FormWork = () => {
         });
 
         if (res.ok) {
-            const data = await res.json();
+            await res.json();
             Swal.fire({
                 title: "Sent",
                 text: "Thank you for considering working at Club Fellini Bar!",

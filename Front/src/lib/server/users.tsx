@@ -1,3 +1,5 @@
+import { IUser } from "@/interfaces/productoInterface";
+
 const APIURL = process.env.NEXT_PUBLIC_API_URL
 
 
@@ -26,7 +28,7 @@ export async function getUsers( token: string) {
     }
 }
 
-export async function editProfile({name, address, phone, user_img}: any, token: any, user_id: string) {
+export async function editProfile({name, address, phone, user_img}: Partial<IUser>, token: string, user_id: string) {
     try {
         const response = await fetch(`${APIURL}/users/${user_id}`, {
             method: "PUT",
@@ -42,13 +44,14 @@ export async function editProfile({name, address, phone, user_img}: any, token: 
             throw new Error(result.message );
         }
         return result;
-    } catch (error: any) {
-        throw error; 
+    } catch  {
+        console.log('error');
+        
     }
 }
 
 
-export async function banUser(user_id: string, token: string) {
+export async function banUser(user_id: string, token: string, reason: string) {
     try {
         const response = await fetch(`${APIURL}/users/ban/${user_id}`, {
             method: "POST",
@@ -56,6 +59,7 @@ export async function banUser(user_id: string, token: string) {
                 "Content-type": "application/json",
                 "Authorization": `Bearer ${token}` 
             },
+            body: JSON.stringify({ reason, user_id })
         });
         const responseText = await response.text(); 
 
@@ -117,7 +121,8 @@ export async function editProfileImg(user_img: File, token: string, user_id: str
             throw new Error(result.message);
         }
         return result;
-    } catch (error: any) {
-        throw error;
+    } catch  {
+        console.log('error');
+        
     }
 }

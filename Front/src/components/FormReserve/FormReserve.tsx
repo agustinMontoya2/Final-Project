@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 
 const ReservationForm: React.FC = () => {
     const initialState: IReserve = {
+        user_id: "",
         reservation_id: "",
         ubication: '',
         table: [],
@@ -15,7 +16,7 @@ const ReservationForm: React.FC = () => {
     };
 
     const [userData, setUserData] = useState<IReserve>(initialState);
-    const [user_id, setUser_id] = useState<IUserSession | null>(null);
+    const [user_id, setUser_id] = useState<string | null>(null);
     const [mealType, setMealType] = useState<string>('');
 
     const mealTimes: Record<string, string[]> = {
@@ -65,6 +66,7 @@ const ReservationForm: React.FC = () => {
         }
 
         const reservationData: IReserve = {
+            user_id,
             table: userData.table,
             reservation_id: userData.reservation_id,
             status: userData.status,
@@ -72,12 +74,10 @@ const ReservationForm: React.FC = () => {
             date: userData.date,
             time: userData.time,
             peopleCount: userData.peopleCount,
-
         };
 
         try {
-            console.log(reservationData);
-            await formReserve({ user_id: user_id, ...reservationData });
+            await formReserve({...reservationData });
             Swal.fire({
                 icon: 'success',
                 title: 'Reservation created',
@@ -87,7 +87,7 @@ const ReservationForm: React.FC = () => {
                 showConfirmButton: false,
                 timerProgressBar: true,
             });
-        } catch (error) {
+        } catch {
             Swal.fire({
                 icon: 'error',
                 title: 'No tables available',

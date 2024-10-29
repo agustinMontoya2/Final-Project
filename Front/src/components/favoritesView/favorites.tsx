@@ -3,9 +3,9 @@ import { getFavorities, addFavorities, removeFavorities } from '@/lib/server/fav
 import { useRouter } from "next/navigation";
 import { IFavorities, IProducts, IUserSession } from "@/interfaces/productoInterface";
 import React, { useEffect, useState } from 'react';
-import { addCart } from "@/lib/server/cart";
-import Image from 'next/image'; 
+import { addCart } from "@/lib/server/cart"; 
 import Swal from 'sweetalert2';
+import Image from 'next/image';
 
 const FavoritesView: React.FC = () => {
   const router = useRouter();
@@ -59,7 +59,7 @@ const FavoritesView: React.FC = () => {
           await addFavorities(userId, productId, token);
         }
         fetchData(); 
-      } catch (error) {
+      } catch {
         console.error("Error al manejar favoritos");
       }
     } else {
@@ -107,7 +107,7 @@ const FavoritesView: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {favorites.product.map((product: IProducts) => (
               <div key={product.product_id} className="bg-white p-6 rounded-lg shadow-lg transition-transform duration-300 hover:shadow-xl hover:scale-105">
-                <img src={product.image_url} alt={product.product_name} className="w-full h-56 object-cover rounded-t-lg mb-4" />
+                <Image src={product.image_url} alt={product.product_name} width={300} height={300} className="w-full h-56 object-cover rounded-t-lg mb-4" />
                 <div className="flex flex-col justify-between h-72 p-4">
                   <div className='h-auto'>
                     <h2 className="text-xl text-black font-semibold">{product.product_name}</h2>
@@ -131,7 +131,7 @@ const FavoritesView: React.FC = () => {
             ))}
           </div>
         ) : (
-          <p className="text-center text-gray-700 text-lg">You don't have any favorites.</p>
+          <p className="text-center text-gray-700 text-lg">You do not have any favorites.</p>
         )}
       </div>
     </div>

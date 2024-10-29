@@ -24,7 +24,7 @@ export async function postOrder(orderData: IOrder, token:string) {
             throw new Error(result.message)
 
         }
-    } catch (error: any) {
+    } catch (error: unknown) {
         if (error instanceof Error) {
             throw error;
         } else {

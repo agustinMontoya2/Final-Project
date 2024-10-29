@@ -3,9 +3,7 @@ import { ILogin, IRegister } from "../../interfaces/productoInterface";
 const APIURL = process.env.NEXT_PUBLIC_API_URL
 
 export async function formRegister(userData: IRegister) {
-    alert("registrando...##")
     try {
-        alert("registrando...")
         const response = await fetch(`${APIURL}/auth/signup`, {
             method: "POST",
             headers: {
@@ -73,12 +71,13 @@ export async function requestResetPassword(email: string) {
         }
         const responseData = await response.json();
         return responseData;
-    } catch (error) {
-        throw new Error(error)
+    } catch  {
+        console.log('error');
+        
     }
 }
 
-export async function resetPassword(recoverData) {
+export async function resetPassword(recoverData: {token: string, newPassword: string, confirmPassword: string}) {
     console.log(recoverData);
     
     try {

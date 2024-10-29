@@ -5,11 +5,13 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { IReview } from '@/interfaces/productoInterface';
 import Swal from 'sweetalert2';
+import '../../styles/scrollbar.css'
+
 const ViewReviews = () => {
     const [reviews, setReviews] = useState<IReview[]>([]);
     const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
-    const [userData, setUserData] = useState<any>(null);
+
 
 useEffect(() => {
     const storedUserData = window.localStorage.getItem("userSession");
@@ -20,7 +22,7 @@ useEffect(() => {
         setToken(parsedData.token);
     }
     }
-}, [userData]);
+}, []);
 
 useEffect(() => {
     if (token && userId) {
@@ -68,10 +70,10 @@ useEffect(() => {
 
 
     return (
-        <div className="p-6 mt-24">
+        <div className="w-4/5 m-auto p-6">
+            <h2 className="text-3xl font-bold text-center text-indigo-600 mb-6">Reviews</h2>
             {reviews.length > 0 ? (
-                <div className='h-screen overflow-y-scroll'>
-                    <h2 className="text-3xl font-bold text-center text-indigo-600 mb-6">Reviews</h2>
+                <div className='h-screen overflow-y-scroll scrollbar-custom'>
                     <ul className="space-y-6">
                         {reviews.map((review) => (
                             <li key={review.review_id} className="p-5 border border-gray-300 rounded-lg bg-white shadow-md hover:shadow-xl transition-shadow duration-300">

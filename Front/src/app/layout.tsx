@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 
 import ConditionalLayouts from "../components/ConditionalLayouts/ConditionalLayouts";
-import { UserProvider } from "@auth0/nextjs-auth0/client";
+
 
 
 const geistSans = localFont({

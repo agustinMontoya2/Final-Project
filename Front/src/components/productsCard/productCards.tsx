@@ -1,5 +1,5 @@
 "use client";
-import { IProducts, IFavorities, IUserSession } from "@/interfaces/productoInterface";
+import { IProducts, IFavorities } from "@/interfaces/productoInterface";
 import { getProduct, postReview } from "@/Helpers/products.helper";
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from 'react';
@@ -13,19 +13,12 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
   const [userId, setUserId] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [favorities, setFavorities] = useState<IFavorities>();
-  const [productState, setProductState] = useState<IProducts>({ product_id, product_name, price, description, image_url, category: { category_name: 'some_category' }, reviews, available: true });
+  const [productState, setProductState] = useState<IProducts>({ product_id, product_name, price, description, image_url, category: { category_name: 'some_category' , category_id: "some_id"}, reviews, available: true });
   const [reviewPost, setReviewPost] = useState<{ rate: number; review: string }>({ rate: 0, review: '' });
   const [hoverRating, setHoverRating] = useState<number | null>(null);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
-  const [userSession, setUserSession] = useState<IUserSession | null>(null);
 
-  useEffect(() => {
-    const session = localStorage.getItem('userSession');
-    if (session) {
-        const parsedSession = JSON.parse(session);
-        setUserSession(parsedSession);
-    }
-}, [router]);
+  
 
   useEffect(() => {
     const storedUserData = JSON.parse(window.localStorage.getItem("userSession") || "{}");
@@ -46,7 +39,7 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
         setFavorities(favoritiesData);
         const product = await getProduct(product_id);
         setProductState(product);
-      } catch (error) {
+      } catch  {
         console.error("Fail to obtain favorites.");
       }
     }
@@ -59,12 +52,18 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
       confirmButtonText: 'accept',
       confirmButtonColor: "#1988f0"
   })
-    try {
-      isFavorited ? await removeFavorities(userId, productId, token) : await addFavorities(userId, productId, token);
-      await fetchFavorities();
-    } catch (error) {
-      console.error("Fail to save favorite.");
+  try {
+    // Manejo de favoritos con if-else
+    if (isFavorited) {
+        await removeFavorities(userId, productId, token);
+    } else {
+        await addFavorities(userId, productId, token);
     }
+    
+    await fetchFavorities();
+} catch {
+    console.error("Fail to save favorite.");
+}
   };
 
   const handleAddCart = async (productId: string) => {

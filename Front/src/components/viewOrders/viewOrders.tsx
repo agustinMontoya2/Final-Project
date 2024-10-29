@@ -1,15 +1,14 @@
 'use client'
-import { getReviews, removeReviews } from '@/lib/server/reviews';
 import React from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { IGetOrder, IOrder, IReview } from '@/interfaces/productoInterface';
+import { IGetOrder} from '@/interfaces/productoInterface';
 import { getAllOrders } from '@/lib/server/order';
 const ViewOrders = () => {
     const [orders, setOrders] = useState<IGetOrder[]>([]);
     const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
-    const [userData, setUserData] = useState<any>(null);
+
 
 useEffect(() => {
     const storedUserData = window.localStorage.getItem("userSession");
@@ -20,7 +19,7 @@ useEffect(() => {
         setToken(parsedData.token);
     }
     }
-}, [userData]);
+}, []);
 
 useEffect(() => {
     if (token && userId) {
@@ -47,7 +46,7 @@ useEffect(() => {
     };
 
     return (
-        <div className="p-6 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg shadow-lg">
+        <div className='w-4/5 m-auto mt-5'>
             {orders.length > 0 ? (
                 <div>
                     <h2 className="text-3xl font-bold text-center text-indigo-600 mb-6">Orders</h2>
