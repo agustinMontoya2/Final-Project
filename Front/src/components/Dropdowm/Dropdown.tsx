@@ -62,9 +62,9 @@ export default function Dropdown() {
         }).then((result) => {
             if (result.isConfirmed) {
                 localStorage.removeItem('userSession');
-                localStorage.removeItem('isAdmin'); // Opcional: Eliminar isAdmin al cerrar sesión
+                localStorage.removeItem('isAdmin'); 
                 setUserSession(null);
-                setAdmin(false); // Resetea isAdmin
+                setAdmin(false); 
                 router.push('/');
                 window.dispatchEvent(new Event("userSessionUpdated"));
             }

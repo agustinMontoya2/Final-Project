@@ -77,7 +77,7 @@ const ReservationForm: React.FC = () => {
 
         try {
             console.log(reservationData);
-            await formReserve({ user_id: user_id, ...reservationData });
+            await formReserve({user_id, ...reservationData });
             Swal.fire({
                 icon: 'success',
                 title: 'Reservation created',
@@ -87,7 +87,7 @@ const ReservationForm: React.FC = () => {
                 showConfirmButton: false,
                 timerProgressBar: true,
             });
-        } catch (error) {
+        } catch {
             Swal.fire({
                 icon: 'error',
                 title: 'No tables available',

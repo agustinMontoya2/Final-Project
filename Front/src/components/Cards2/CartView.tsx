@@ -10,12 +10,12 @@ import { PagoMercado } from '@/Helpers/MercadoPago';
 
 const CartView = () => {
     const [cartItems, setCartItems] = useState<ICart>({
-        cart_id: '', 
-        note: '',    
-        product: [], 
+        cart_id: '',
+        note: '',
+        product: [],
         productDetail: [],
     });
-    
+
     const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
     const [totalCart, setTotalCart] = useState<number>(0);

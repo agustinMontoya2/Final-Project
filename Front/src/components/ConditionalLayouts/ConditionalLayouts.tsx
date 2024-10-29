@@ -2,7 +2,6 @@
 import React from 'react';
 import { usePathname } from 'next/navigation';
 import NavBar from '@/components/Navbar/Navbar';
-import NavBarMD from '../NavBarMD/NavBarMD';
 import BottomNavBar from '../BottomNavBar/BottomNavBar';
 import Footer from '@/components/footer/Footer';
 import NavBarXL from '../NavBarXL/NavBarXL';

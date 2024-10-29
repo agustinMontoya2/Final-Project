@@ -11,13 +11,7 @@ const ViewUsers = () => {
     const router = useRouter();
     const [users, setUsers] = useState<IUser[]>([]);
     const [token, setToken] = useState<string | null>(null);
-    // const [isEditing, setIsEditing] = useState(false);
     const [editableUserId, setEditableUserId] = useState<string | null>(null);
-    // const [editableData, setEditableData] = useState({
-    //     name: '',
-    //     phone: '',
-    //     address: ''
-    // });
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [userData, setUserData] = useState<IUserSession>();
     const [profileImg,  setProfileImg] = useState<string | null>(null);

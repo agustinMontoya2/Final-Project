@@ -20,7 +20,7 @@ const Fav: React.FC<{ params: {productsId: string, userId: string}, token: strin
       </div>
     </div>
     );
-  } catch (error) {
+  } catch{
     return <div>Error al cargar los productos favoritos</div>;
   }
 }

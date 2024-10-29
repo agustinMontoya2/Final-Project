@@ -2,8 +2,6 @@
 import { resetPassword } from '@/lib/server/auth';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import Swal from 'sweetalert2';
-import jwt, { JwtPayload } from "jsonwebtoken";
 
 const FormPassword = () => {
     const router = useRouter();
@@ -26,10 +24,9 @@ const FormPassword = () => {
             }))
             console.log(token);
         }
-      }, [searchParams, router]);
+    }, [searchParams, router]);
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = event.target;
-       
             setUserData(prevData => ({
                 ...prevData,
                 [name]: value
@@ -48,9 +45,10 @@ const FormPassword = () => {
             const response = await resetPassword(userData)
             alert(response.message)
             //redireccionar a login
-        } catch (error: any) {
+        } catch {
             //arreglar respuesta de  error
-            alert(error.message);
+        console.log("error");
+        
         }
     }  else{
         alert("Passwords do not match");

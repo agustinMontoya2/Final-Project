@@ -3,8 +3,7 @@ import { getFavorities, addFavorities, removeFavorities } from '@/lib/server/fav
 import { useRouter } from "next/navigation";
 import { IFavorities, IProducts, IUserSession } from "@/interfaces/productoInterface";
 import React, { useEffect, useState } from 'react';
-import { addCart } from "@/lib/server/cart";
-import Image from 'next/image'; 
+import { addCart } from "@/lib/server/cart"; 
 import Swal from 'sweetalert2';
 
 const FavoritesView: React.FC = () => {
@@ -59,7 +58,7 @@ const FavoritesView: React.FC = () => {
           await addFavorities(userId, productId, token);
         }
         fetchData(); 
-      } catch (error) {
+      } catch {
         console.error("Error al manejar favoritos");
       }
     } else {
@@ -131,7 +130,7 @@ const FavoritesView: React.FC = () => {
             ))}
           </div>
         ) : (
-          <p className="text-center text-gray-700 text-lg">You don't have any favorites.</p>
+          <p className="text-center text-gray-700 text-lg">You do not have any favorites.</p>
         )}
       </div>
     </div>

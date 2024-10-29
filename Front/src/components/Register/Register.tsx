@@ -55,7 +55,7 @@ const Register = () => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const validationErrors = registerValidation(userData);
+        registerValidation(userData);
         // arreglar validadores 
         // if (Object.values(validationErrors).some((error) => error)) {
         //     setErrors(validationErrors);
@@ -72,7 +72,7 @@ const Register = () => {
                 });
                 router.push("/login");
             }
-        } catch (error: any) {
+        } catch (error: unknown) {
             if (error instanceof Error) {
                 Swal.fire({
                     title: 'Error',

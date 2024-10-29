@@ -6,7 +6,6 @@ import BackButton from '../BackButton/BackButton';
 import Dropdown from '../Dropdowm/Dropdown';
 import Swal from 'sweetalert2';
 import DashboardAdmind from '@/app/dashboardAdmin/page';
-import DashboardAdmindv from '../dashboardAdmin/dashboardAdmind';
 
 interface UserSession {
     name: string;
@@ -18,7 +17,7 @@ export default function NavBarXL() {
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const [isAdmin, setAdmin] = useState<boolean>(false);
-    const [isBanned, setIsBanned] = useState<boolean>(false);
+    // const [isBanned, setIsBanned] = useState<boolean>(false);
 
 
     useEffect(() => {
@@ -26,10 +25,10 @@ export default function NavBarXL() {
         setAdmin(storedIsAdmin === 'true');
     }, []);
 
-    useEffect(() => {
-        const storedIsBanned = localStorage.getItem('isBanned');
-        setIsBanned(storedIsBanned === 'true');
-    }, []);
+    // useEffect(() => {
+    //     const storedIsBanned = localStorage.getItem('isBanned');
+    //     // setIsBanned(storedIsBanned === 'true');
+    // }, []);
 
     useEffect(() => {
         if (isAdmin && (pathname === '/dashboardAdmin')) {
@@ -58,23 +57,17 @@ export default function NavBarXL() {
     }, [pathname]);
 
     useEffect(() => {
-        const token_auth0 = searchParams.get('token_auth0'); // Extrae el token de los parámetros de la URL
+        const token_auth0 = searchParams.get('token_auth0'); 
 
-        if (token_auth0) { // Si existe el token
-            // Almacena el token en Local Storage
+        if (token_auth0) { 
+            
             localStorage.setItem('authToken', token_auth0);
-            // Redirige al usuario a la página de inicio
+            
             router.push('/');
         }
     }, [searchParams, router]);
 
     ;
-    const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedValue = event.target.value;
-        if (selectedValue) {
-            router.push(selectedValue);
-        }
-    };
 
     const handleReservation = () => {
         if (!userSession) {

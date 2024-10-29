@@ -100,7 +100,7 @@ const ReservasView: React.FC = () => {
         ))
       ) : (
         <p className="text-center text-gray-700">
-          You don't have any reservations.
+          You do not have any reservations.
         </p>
       )}
 

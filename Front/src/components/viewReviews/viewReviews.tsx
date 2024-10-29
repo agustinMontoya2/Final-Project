@@ -11,7 +11,7 @@ const ViewReviews = () => {
     const [reviews, setReviews] = useState<IReview[]>([]);
     const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
-    const [userData, setUserData] = useState<any>(null);
+
 
 useEffect(() => {
     const storedUserData = window.localStorage.getItem("userSession");
@@ -22,7 +22,7 @@ useEffect(() => {
         setToken(parsedData.token);
     }
     }
-}, [userData]);
+}, []);
 
 useEffect(() => {
     if (token && userId) {

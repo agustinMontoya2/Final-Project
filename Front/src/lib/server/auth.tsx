@@ -71,12 +71,13 @@ export async function requestResetPassword(email: string) {
         }
         const responseData = await response.json();
         return responseData;
-    } catch (error) {
-        throw new Error(error)
+    } catch  {
+        console.log('error');
+        
     }
 }
 
-export async function resetPassword(recoverData) {
+export async function resetPassword(recoverData: {token: string, newPassword: string, confirmPassword: string}) {
     console.log(recoverData);
     
     try {

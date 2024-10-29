@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import Image from 'next/image'; // Asegúrate de importar Image
 import Link from 'next/link';
+import ViewReviews from '../viewReviews/viewReviews';
+import ViewDishes from '../viewDishes/viewDishes';
+import ViewUsers from '../viewUsers/viewUsers';
+import AdminPerfil from '../adminPerfil/adminPerfil';
+import FormularioMenu from '../FormAddDish/FormAddDish';
+import ViewOrders from '../viewOrders/viewOrders';
+import ViewReserves from '../viewReserves/viewReserves';
 
 const DashboardAdmindv = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
@@ -68,23 +75,23 @@ const DashboardAdmindv = (): JSX.Element => {
               </Link >
               <Link href={'/admin/createDish'}
                 onClick={handleClick}
-                className={`w-full text-left px-4 py-2 text-white rounded-lg transition ${selectedSection === 'createDish' ? 'bg-yellow-600' : 'bg-yellow-700 hover:bg-yellow-600'}`}
+                className={`w-full text-left px-4 py-2 text-white rounded-lg transition ${selectedSection === 'FormularioMenu' ? 'bg-neutral-600' : 'bg-neutral-500 hover:bg-neutral-600'}`}
               >
                 add dishes
               </Link >
               <Link href={'/admin/reviews'}
                 onClick={handleClick}
-                className={`w-full text-left px-4 py-2 text-white rounded-lg transition ${selectedSection === 'reviews' ? 'bg-yellow-600' : 'bg-yellow-700 hover:bg-yellow-600'}`}
+                className={`w-full text-left px-4 py-2 text-white rounded-lg transition ${selectedSection === 'ViewReviews' ? 'bg-neutral-600' : 'bg-neutral-500 hover:bg-neutral-600'}`}
               >
                 Reviews
               </Link >
               <Link href={'/admin/orders'}
-              className={`w-full text-left px-4 py-2 text-white rounded-lg transition ${selectedSection === 'orders' ? 'bg-yellow-600' : 'bg-yellow-700 hover:bg-yellow-600'}`}
+              className={`w-full text-left px-4 py-2 text-white rounded-lg transition ${selectedSection === 'ViewOrders' ? 'bg-neutral-600' : 'bg-neutral-500 hover:bg-neutral-600'}`}
               >
               Orders
               </Link>
               <Link href={'/admin/reserves'}
-              className={`w-full text-left px-4 py-2 text-white rounded-lg transition ${selectedSection === 'reserves' ? 'bg-yellow-600' : 'bg-yellow-700 hover:bg-yellow-600'}`}
+              className={`w-full text-left px-4 py-2 text-white rounded-lg transition ${selectedSection === 'ViewReserves' ? 'bg-neutral-600' : 'bg-neutral-500 hover:bg-neutral-600'}`}
               >
               Reserves
               </Link>
@@ -92,15 +99,15 @@ const DashboardAdmindv = (): JSX.Element => {
         </div>
       )}
 
-      {/* <div className={``}>
+      <div className={``}>
         {selectedSection === 'adminPerfil' && <AdminPerfil />}
         {selectedSection === 'viewUser' && <ViewUsers />}
         {selectedSection === 'viewDishes' && <ViewDishes />}
         {selectedSection === 'viewReviews' && <ViewReviews />}
-        {selectedSection === 'FormularioMenu' && <}
-        {selectedSection === 'viewOrders' && <}
-        {selectedSection === 'viewReserves' && < }
-      </div> */}
+        {selectedSection === 'FormularioMenu' && <FormularioMenu/>}
+        {selectedSection === 'viewOrders' && <ViewOrders/>}
+        {selectedSection === 'viewReserves' && <ViewReserves/> }
+      </div> 
     </div>
   );
 };

@@ -24,8 +24,9 @@ const RequestNewPassword = () => {
                 });
             }
         }
-        catch (error: any) {
-            throw new Error(error.message);
+        catch {
+            console.log('error');
+            
         }
     };
 

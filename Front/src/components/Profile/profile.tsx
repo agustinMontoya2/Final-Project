@@ -3,19 +3,17 @@ import { IUser, IUserSession } from "@/interfaces/productoInterface";
 import { editProfile, editProfileImg, getUser } from "@/lib/server/editProfile";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 const ProfileV = () => {
-  const router = useRouter();
   const [userData, setUserData] = useState<IUserSession>();
   const [isEditing, setIsEditing] = useState(false);
   const [user, setUser] = useState<IUser>();
   const [profileImgFile, setProfileImgFile] = useState<File | null>(null);
   const [imagenPreview, setImagePreview] = useState<string | null>(null);
-  const [profileImg, setProfileImg] = useState<string | null>(null);
 
   const [originalProfileImg, setOriginalProfileImg] = useState<string | null>(
     null
@@ -36,11 +34,7 @@ const ProfileV = () => {
       const userData = JSON.parse(localStorage.getItem("userSession")!);
       setUserData(userData);
       const img = localStorage.getItem("profileImg");
-      console.log(img);
 
-      setProfileImg(img);
-
-      //Decodifica el token y verifica el provider
       if (userData?.token) {
         const decodedToken = jwt.decode(
           userData.token
@@ -65,11 +59,11 @@ const ProfileV = () => {
     }
   }, [user]);
 
-  const handleInputChange = (e: any) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setEditableData((prevData) => ({
-      ...prevData,
-      [name]: value,
+        ...prevData,
+        [name]: value,
     }));
   };
 
@@ -83,12 +77,12 @@ const ProfileV = () => {
             userData.user.user_id
           );
           const newImgUrl = URL.createObjectURL(profileImgFile);
-          // Actualiza la imagen en userSession
-          userData.user.user_img = newImgUrl; // Suponiendo que user_img es el campo correcto
+          
+          userData.user.user_img = newImgUrl; 
           localStorage.setItem("userSession", JSON.stringify(userData));
           window.dispatchEvent(new Event("userSessionUpdated"));
         }
-        const response = await editProfile(
+        await editProfile(
           editableData,
           userData.token,
           userData.user.user_id
@@ -104,8 +98,9 @@ const ProfileV = () => {
         });
         handleGetUser();
         setIsEditing(false);
-      } catch (error: any) {
-        alert(error.message);
+      } catch  {
+        console.log('error');
+        
       }
     } else {
       Swal.fire({
@@ -183,7 +178,7 @@ const ProfileV = () => {
             width={100}
             height={100}
             alt="profile"
-            className="object-cover w-full h-full"
+            className="object-cover w-full h-full" 
           />
         ) : (
           <Image

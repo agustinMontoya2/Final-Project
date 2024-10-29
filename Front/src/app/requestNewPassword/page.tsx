@@ -1,5 +1,4 @@
 "use client"
-import ReservasView from '@/components/MyReservations/miReservas'
 import RequestNewPassword from '@/components/requestNewPassword/requestNewPassword'
 import AuthBanned from '@/hooks/AuthBanned'
 import React from 'react'
@@ -10,7 +9,7 @@ const requestNewPassword = () => {
   return (
     <div>
       < RequestNewPassword />
-     </div>
+    </div>
   )
 }
 

@@ -1,6 +1,6 @@
 'use client';
 import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
-import { FormValues, ICategory, IProducts, IUserSession } from '@/interfaces/productoInterface';
+import { FormValues, ICategory, IUserSession } from '@/interfaces/productoInterface';
 import React from 'react';
 import { editProductImg, postProduct } from '@/Helpers/products.helper';
 import { useRouter } from "next/navigation";
@@ -20,7 +20,6 @@ const FormularioMenu = () => {
 
     });
     const [token, setToken] = useState<string | null>(null);
-    const [userId, setUserId] = useState<string | null>(null);
     const [userSession, setUserSession] = useState<IUserSession | null>(null);
     const [categories, setCategories] = useState<ICategory[]>([]);
 
@@ -35,7 +34,6 @@ const FormularioMenu = () => {
     useEffect(() => {
         const storedUserData = JSON.parse(window.localStorage.getItem("userSession") || "{}");
         if (storedUserData.user) {
-            setUserId(storedUserData.user.user_id);
             setToken(storedUserData.token);
         }
     }, []);
@@ -116,7 +114,6 @@ const FormularioMenu = () => {
                 console.log(productImgFile)
                 console.log(response, "producto imagen")
             }
-            editProductImg
             console.log(response);
             setFormValues({
                 product_name: '',
@@ -130,8 +127,7 @@ const FormularioMenu = () => {
             console.log("Type of category_id:", typeof product.category_id);
 
             alert("El producto se ha agregado correctamente");
-        } catch (error: any) {
-            console.error(error.message, "Error al agregar el producto");
+        } catch {
             throw new Error("El pedido no pudo procesarse");
         }
     };

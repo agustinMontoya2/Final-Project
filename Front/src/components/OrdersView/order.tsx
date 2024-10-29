@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { getOrders } from '@/lib/server/order';
-import { IUserSession, IGetOrder } from '@/interfaces/productoInterface';
+import {  IGetOrder } from '@/interfaces/productoInterface';
 import Swal from 'sweetalert2';
 
 const OrdersView = () => {

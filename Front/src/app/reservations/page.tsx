@@ -1,5 +1,4 @@
 import ReservasView from '@/components/MyReservations/miReservas'
-import AuthBanned from '@/hooks/AuthBanned'
 import React from 'react'
 
 const reservas = () => {
