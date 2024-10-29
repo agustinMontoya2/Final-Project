@@ -17,7 +17,7 @@ const Cards = () => {
     const [products, setProducts] = useState<IProducts[]>([]);
     const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState<IFilter>({
-        category:[],
+        category: [],
         showFavorites: false,
         priceOrder: "",
     });
@@ -155,28 +155,28 @@ const Cards = () => {
             }
         });
     };
-    
+
 
     const filteredProducts = products
-    .filter((product) => {
-        const matchesCategory = filters.category.length
-            ? filters.category.includes(product.category.category_name)
-            : true;
-        const matchesSearch = product.product_name.toLowerCase().includes(searchTerm.toLowerCase());
-        const isFavorite = filters.showFavorites
-            ? favorities?.product?.some((favoriteProduct) => favoriteProduct.product_id === product.product_id)
-            : true;
+        .filter((product) => {
+            const matchesCategory = filters.category.length
+                ? filters.category.includes(product.category.category_name)
+                : true;
+            const matchesSearch = product.product_name.toLowerCase().includes(searchTerm.toLowerCase());
+            const isFavorite = filters.showFavorites
+                ? favorities?.product?.some((favoriteProduct) => favoriteProduct.product_id === product.product_id)
+                : true;
 
-        return matchesCategory && matchesSearch && isFavorite;
-    })
-    .sort((a, b) => {
-        if (filters.priceOrder === "asc") {
-            return Number(a.price) - Number(b.price);
-        } else if (filters.priceOrder === "desc") {
-            return Number(b.price) - Number(a.price);
-        }
-        return 0;
-    });
+            return matchesCategory && matchesSearch && isFavorite;
+        })
+        .sort((a, b) => {
+            if (filters.priceOrder === "asc") {
+                return Number(a.price) - Number(b.price);
+            } else if (filters.priceOrder === "desc") {
+                return Number(b.price) - Number(a.price);
+            }
+            return 0;
+        });
 
     const images = [
         "/assets/sunday.jpg",
@@ -188,97 +188,94 @@ const Cards = () => {
         "/assets/saturday.jpg",
     ];
 
-        return (
-            <div className="pt-5 rounded-lg">
-                <div className="mb-5 text-center">
-                    <input
-                        type="text"
-                        placeholder="Search dish..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="border border-gray-300 rounded-md px-3 py-2 text-gray-700 w-full max-w-md"
-                    />
-                </div>
-                <div>
-                    Jhei gay.
-                </div>
-        
-                <div className="flex justify-center mb-4 flex-wrap gap-2">
-                    <button onClick={() => toggleCategory("Beverages")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Beverages") ? "bg-gray-700 text-yellow-600" : ""}`}>Beverages</button>
-                    <button onClick={() => toggleCategory("Main Dishes")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Main Dishes") ? "bg-gray-700 text-yellow-600" : ""}`}>Main Dishes</button>
-                    <button onClick={() => toggleCategory("Appetizers")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Appetizers") ? "bg-gray-700 text-yellow-600" : ""}`}>Appetizers</button>
-                    <button onClick={() => toggleCategory("Sides")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Sides") ? "bg-gray-700 text-yellow-600" : ""}`}>Sides</button>
-                    <button onClick={() => toggleCategory("Desserts")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Desserts") ? "bg-gray-700 text-yellow-600" : ""}`}>Desserts</button>
-                    <button onClick={() => setFilters({ ...filters, priceOrder: "asc" })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white">Price: Low to High</button>
-                    <button onClick={() => setFilters({ ...filters, priceOrder: "desc" })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white">Price: High to Low</button>
-                    <button onClick={() => setFilters({ ...filters, showFavorites: !filters.showFavorites })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary">
-                        {filters.showFavorites ? "Watch all" : "Watch favorites"}
-                    </button>
-                    <button onClick={clearFilters} className="bg-gray-500 text-white font-bold py-1 px-3 rounded hover:bg-gray-600">Clear Filter</button>
-                </div>
-        
-                <Carousel images={images}/>
-        
-                <div className="w-[60%] h-auto grid grid-cols-1 sm:grid-cols-2 gap-6 justify-evenly m-auto">
-                    {filteredProducts.map((product) => (
-                        <div key={product.product_id} className="flex items-center shadow-2xl rounded-xl p-4 hover:scale-105 duration-500 bg-primary">
-                            <Link href={`/product/${product.product_id}`}>
-                                <div className="relative w-36 flex justify-center items-center">
+    return (
+        <div className="pt-5 rounded-lg">
+            <div className="mb-5 text-center">
+                <input
+                    type="text"
+                    placeholder="Search dish..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="border border-gray-300 rounded-md px-3 py-2 text-gray-700 w-full max-w-md"
+                />
+            </div>
+
+            <div className="flex justify-center mb-4 flex-wrap gap-2">
+                <button onClick={() => toggleCategory("Beverages")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Beverages") ? "bg-gray-700 text-blue-800" : ""}`}>Beverages</button>
+                <button onClick={() => toggleCategory("Main Dishes")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Main Dishes") ? "bg-gray-700 text-blue-800" : ""}`}>Main Dishes</button>
+                <button onClick={() => toggleCategory("Appetizers")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Appetizers") ? "bg-gray-700 text-blue-800" : ""}`}>Appetizers</button>
+                <button onClick={() => toggleCategory("Sides")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Sides") ? "bg-gray-700 text-blue-800" : ""}`}>Sides</button>
+                <button onClick={() => toggleCategory("Desserts")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white ${filters.category.includes("Desserts") ? "bg-gray-700 text-blue-800" : ""}`}>Desserts</button>
+                <button onClick={() => setFilters({ ...filters, priceOrder: "asc" })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white">Price: Low to High</button>
+                <button onClick={() => setFilters({ ...filters, priceOrder: "desc" })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary focus:text-white">Price: High to Low</button>
+                <button onClick={() => setFilters({ ...filters, showFavorites: !filters.showFavorites })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:bg-secondary">
+                    {filters.showFavorites ? "Watch all" : "Watch favorites"}
+                </button>
+                <button onClick={clearFilters} className="bg-gray-500 text-white font-bold py-1 px-3 rounded hover:bg-gray-600">Clear Filter</button>
+            </div>
+
+            <Carousel images={images} />
+
+            <div className="w-[60%] h-auto grid grid-cols-1 sm:grid-cols-2 gap-6 justify-evenly m-auto">
+                {filteredProducts.map((product) => (
+                    <div key={product.product_id} className="flex items-center shadow-2xl rounded-xl p-4 hover:scale-105 duration-500 bg-primary">
+                        <Link href={`/product/${product.product_id}`}>
+                            <div className="relative w-36 flex justify-center items-center">
+                                <Image
+                                    src={product.image_url}
+                                    alt={product.product_name}
+                                    layout="responsive"
+                                    width={80}
+                                    height={80}
+                                    objectFit="contain"
+                                    className="w-full h-auto rounded-md"
+                                />
+                            </div>
+                        </Link>
+                        <div className="w-2/3 pl-4">
+                            <div className="flex items-center justify-between mb-2">
+                                <h2 className="text-black text-xl font-semibold">{product.product_name}</h2>
+                                <button
+                                    className="flex items-center justify-center"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleAddToFavorities(
+                                            product.product_id,
+                                            favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id) ?? false
+                                        );
+                                    }}>
                                     <Image
-                                        src={product.image_url}
-                                        alt={product.product_name}
-                                        layout="responsive"
-                                        width={80}
-                                        height={80}
-                                        objectFit="contain"
-                                        className="w-full h-auto rounded-md"
+                                        src={favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id)
+                                            ? "/assets/icon/star.png"
+                                            : "/assets/icon/staroutline.png"}
+                                        alt="Favorite icon"
+                                        width={24}
+                                        height={24}
                                     />
-                                </div>
-                            </Link>
-                            <div className="w-2/3 pl-4">
-                                <div className="flex items-center justify-between mb-2">
-                                    <h2 className="text-black text-xl font-semibold">{product.product_name}</h2>
-                                    <button
-                                        className="flex items-center justify-center"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleAddToFavorities(
-                                                product.product_id,
-                                                favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id) ?? false
-                                            );
-                                        }}>
-                                        <Image
-                                            src={favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product.product_id)
-                                                ? "/assets/icon/star.png"
-                                                : "/assets/icon/staroutline.png"}
-                                            alt="Favorite icon"
-                                            width={24}
-                                            height={24}
-                                        />
-                                    </button>
-                                </div>
-                                <p className="text-black text-sm line-clamp-2 mb-2">
-                                    <b>Description:</b> {product.description}
-                                </p>
-                                <div className="w-full flex justify-between items-center">
-                                    <p className="text-black text-sm"><b>Price:</b> ${product.price}</p>
-        
-                                    <button
-                                        className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleAddCart(product.product_id);
-                                        }}
-                                    >
-                                        <Image src="/assets/icon/cart.png" width={20} height={20} alt="comprar" />
-                                    </button>
-                                </div>
+                                </button>
+                            </div>
+                            <p className="text-black text-sm line-clamp-2 mb-2">
+                                <b>Description:</b> {product.description}
+                            </p>
+                            <div className="w-full flex justify-between items-center">
+                                <p className="text-black text-sm"><b>Price:</b> ${product.price}</p>
+
+                                <button
+                                    className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleAddCart(product.product_id);
+                                    }}
+                                >
+                                    <Image src="/assets/icon/cart.png" width={20} height={20} alt="comprar" />
+                                </button>
                             </div>
                         </div>
-                    ))}
-                </div>
+                    </div>
+                ))}
             </div>
-        );
+        </div>
+    );
 };
 
 export default Cards;
