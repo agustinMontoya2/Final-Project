@@ -11,13 +11,13 @@ const ViewUsers = () => {
     const router = useRouter();
     const [users, setUsers] = useState<IUser[]>([]);
     const [token, setToken] = useState<string | null>(null);
-    const [isEditing, setIsEditing] = useState(false);
+    // const [isEditing, setIsEditing] = useState(false);
     const [editableUserId, setEditableUserId] = useState<string | null>(null);
-    const [editableData, setEditableData] = useState({
-        name: '',
-        phone: '',
-        address: ''
-    });
+    // const [editableData, setEditableData] = useState({
+    //     name: '',
+    //     phone: '',
+    //     address: ''
+    // });
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [userData, setUserData] = useState<IUserSession>();
     const [profileImg,  setProfileImg] = useState<string | null>(null);
@@ -181,7 +181,6 @@ const ViewUsers = () => {
                             <th className="py-2 px-4 border-b">Address</th>
                             <th className="py-2 px-4 border-b">Status</th>
                             <th className="py-2 px-4 border-b">Role</th>
-                            <th className="py-2 px-4 border-b">Avatar</th>
                             <th className="py-2 px-4 border-b">Actions</th>
                         </tr>
                     </thead>
@@ -196,15 +195,6 @@ const ViewUsers = () => {
                                 </td>
                                 <td className={`py-2 px-4 border-b ${!user.isAdmin ? 'text-red-500' : 'text-green-500'}`}>
                                     {user.isAdmin ? 'Admin' : 'User'}
-                                </td>
-                                <td className="py-2 px-4 border-b text-black">
-                                    <Image
-                                        src={user.user_img ?? '/assets/icon/profileblack.png'}
-                                        alt={`${user.name}'s avatar`}
-                                        width={40}
-                                        height={40}
-                                        className="w-16 h-16 rounded-full object-cover"
-                                    />
                                 </td>
                                 <td className="py-2 px-4 border-b">
                                     <div className="flex justify-evenly">
@@ -240,10 +230,10 @@ const ViewUsers = () => {
                             className="border rounded p-2 w-full mb-4 text-neutral-700 min-h-12 max-h-36 focus:outline-none"
                         />
                         <div className="flex justify-end">
-                            <button onClick={() => setIsBanModalOpen(false)} className="mr-2 px-4 py-2 bg-gray-300 rounded">
+                            <button onClick={() => setIsBanModalOpen(false)} className="mr-2 px-4 py-2 bg-secondary hover:bg-red-700 rounded">
                                 Cancel
                             </button>
-                            <button onClick={handleBanUser} className="px-4 py-2 bg-red-500 text-white rounded">
+                            <button onClick={handleBanUser} className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
                                 Confirm Ban
                             </button>
                         </div>
