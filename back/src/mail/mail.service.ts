@@ -31,4 +31,17 @@ export class MailService {
 
     await sgMail.send(msg);
   }
+
+  async mailBanUser(reason: string, to: string) {
+    const msg = {
+      to: to,
+      from: process.env.SENDGRID_FROM_EMAIL,
+      subject: `Account Ban Notification`,
+      text: `${reason}`,
+      html: `
+        <p>${reason}</p>`,
+    };
+
+    await sgMail.send(msg);
+  }
 }
