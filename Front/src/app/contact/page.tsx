@@ -1,7 +1,7 @@
 'use client'
 import FormContact from '@/components/FormContact/FormContact'
 import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react'
+import React, { Suspense, useEffect } from 'react'
 
 const Contact = () => {
     const router = useRouter();
@@ -13,7 +13,9 @@ const Contact = () => {
         } 
     }, [router]);
     return (
+        <Suspense  fallback={<div>Loading...</div>}>
         <FormContact />
+        </Suspense>
     )
 }
 

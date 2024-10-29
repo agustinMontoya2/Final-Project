@@ -2,7 +2,7 @@
 import FormReserve from '@/components/FormReserve/FormReserve';
 import AuthBanned from '@/hooks/AuthBanned';
 import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 
 const Reserve = () => {
   const router = useRouter();
@@ -22,9 +22,11 @@ const Reserve = () => {
   }
 
   return (
-    <>
+    
+    <Suspense  fallback={<div>Loading...</div>}>
       <FormReserve />
-    </>
+    </Suspense>
+    
   );
 }
 

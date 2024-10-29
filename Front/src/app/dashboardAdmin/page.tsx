@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import DashboardAdmindV from '@/components/dashboardAdmin/dashboardAdmind';
 import AuthValidation from '@/hooks/AuthValidation';
@@ -32,7 +32,9 @@ useEffect(() => {
   }
 }, [admin]);
   return (
+    <Suspense  fallback={<div>Loading...</div>}>
       <DashboardAdmindV/>
+    </Suspense>
   );
 };
 

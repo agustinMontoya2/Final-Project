@@ -1,12 +1,16 @@
 
 import ViewReserves from '@/components/viewReserves/viewReserves'
-import React from 'react'
+import React, { Suspense } from 'react'
 
 const profileAdmin = () => {
   return (
-    <div>
-        <ViewReserves/>
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+
+
+      <div>
+        <ViewReserves />
+      </div>
+    </Suspense>
   )
 }
 

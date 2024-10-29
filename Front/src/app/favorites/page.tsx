@@ -1,9 +1,14 @@
 
 import FavoritesView from '@/components/favoritesView/favorites';
-import React from 'react';
+import React, { Suspense } from 'react';
 
 const Favorites = () => {
-    return <FavoritesView />;
+    return (
+
+        <Suspense fallback={<div>Loading...</div>}>
+         <FavoritesView />;
+        </Suspense>
+    )
 }
 
 export default Favorites;

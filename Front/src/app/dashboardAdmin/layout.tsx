@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, Suspense } from 'react';
 
 interface LayoutProps {
   children: ReactNode;
@@ -6,10 +6,14 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   return (
+    <Suspense  fallback={<div>Loading...</div>}>
+
+
     <div>
       <header></header>
       <main>{children}</main>
     </div>
+    </Suspense>
   );
 };
 

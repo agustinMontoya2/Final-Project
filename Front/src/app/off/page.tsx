@@ -1,8 +1,12 @@
 import Image from "next/image";
+import { Suspense } from "react";
 
 export default function Off() {
     
     return(
+        <Suspense  fallback={<div>Loading...</div>}>
+
+
         <div className="fixed w-screen h-screen overflow-hidden">
             <div className="absolute inset-0">
                 <Image
@@ -11,7 +15,7 @@ export default function Off() {
                     layout="fill"
                     objectFit="cover"
                     className="z-0"
-                />
+                    />
             </div>
             <div className="z-10 flex flex-col items-center w-full h-auto p-8">
                 <div className="absolute inset-0 flex flex-col items-center justify-center -mt-36">
@@ -84,5 +88,6 @@ export default function Off() {
                     </div>
             </div>
         </div>
+                    </Suspense>
     )
 }
