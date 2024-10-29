@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { IGetOrder, IOrder, IReserve, IReview } from '@/interfaces/productoInterface';
 import { getAllOrders } from '@/lib/server/order';
 import { getAllReservations, removeReserve } from '@/lib/server/reservation';
+import Swal from 'sweetalert2';
 const ViewReserves = () => {
     const [reserves, setReserves] = useState<IReserve[]>([]);
     const [userId, setUserId] = useState<string | null>(null);
@@ -50,6 +51,11 @@ useEffect(() => {
         if (token) {
             try {
                 await removeReserve(reservation_id, token);
+                Swal.fire({
+                    title: 'Reservation cancelled',
+                    icon: 'success',
+                    timer: 1000,
+                });
                 handleGetReserves();
                 // setReserves((prevReserves) => prevReserves.filter((reserve) => reserve.reservation_id !== reservation_id));
             } catch (error) {

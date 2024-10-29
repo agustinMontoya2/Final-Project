@@ -54,7 +54,6 @@ const Register = () => {
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        alert("#1#")
         event.preventDefault();
         const validationErrors = registerValidation(userData);
         // arreglar validadores 
@@ -64,7 +63,6 @@ const Register = () => {
         // }
         
         try {
-            alert("#2#")
             const response = await formRegister(userData);
             if (response) {
                 Swal.fire({
