@@ -5,6 +5,7 @@ import React from 'react';
 import { editProductImg, postProduct } from '@/Helpers/products.helper';
 import { useRouter } from "next/navigation";
 import { getCategories } from '@/lib/server/Categories';
+import Image from 'next/image';
 
 const FormularioMenu = () => {
     const router = useRouter();
@@ -213,7 +214,7 @@ const FormularioMenu = () => {
     <label htmlFor="imagen" className="w-full flex flex-col items-center p-4 bg-gray-100 border-2 border-dashed border-gray-400 rounded-lg cursor-pointer hover:bg-gray-200 transition">
         <span className="text-gray-600">Click to upload an image</span>
         {imagenPreview ? (
-            <img src={imagenPreview} alt="Imagen subida" className="w-full h-40 object-cover mt-2" />
+            <Image src={imagenPreview} alt="Imagen subida" height={300} width={300} className="w-full h-40 object-cover mt-2" />
         ) : (
             <span className="mt-2 text-gray-500 text-sm">No file selected</span>
         )}
