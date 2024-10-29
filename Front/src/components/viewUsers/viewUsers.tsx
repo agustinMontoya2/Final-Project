@@ -15,6 +15,7 @@ const ViewUsers = () => {
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [userData, setUserData] = useState<IUserSession>();
     const [profileImg,  setProfileImg] = useState<string | null>(null);
+    const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
         if (typeof window !== 'undefined' && window.localStorage) {
@@ -48,13 +49,14 @@ const ViewUsers = () => {
         }
     };
 
-    const handleBan = async (user_id: string) => {
+    const handleBan = async (user_id: string ) => {
         if (token) {
             try {
                 const userToBan = users.find(user => user.user_id === user_id);
                 if (!userToBan) return;
+                const reason = "por puto"
     
-                const response = await banUser(user_id, token);
+                const response = await banUser(user_id, token, reason);
     
                 Swal.fire({
                     title: userToBan.isBanned ? 'Unbanned user' : 'Banned user',
@@ -96,11 +98,7 @@ const ViewUsers = () => {
     const handleEditClick = (user: IUser) => {
         setIsEditing(true);
         setEditableUserId(user.user_id);
-        setEditableData({
-            name: user.name || '',
-            phone: user.phone || '',
-            address: user.address || ''
-        });
+        
     };
 
     // const handleInputChange = (e: any) => {
@@ -111,37 +109,37 @@ const ViewUsers = () => {
     //     }));
     // };
 
-    const handleSaveChanges = async () => {
-        if (token && editableUserId) {
-            try {
-                await editProfile(editableData, token, editableUserId);
-                Swal.fire({
-                    icon: 'success',
-                    title: 'User updated successfully',
-                    toast: true,
-                    position: 'top-end',
-                    timer: 2500,
-                    showConfirmButton: false,
-                    timerProgressBar: true,
-                });
-                fetchUsers();
-                setIsEditing(false);
-                setEditableUserId(null);
-            } catch (error: any) {
-                alert(error.message);
-            }
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'You must log in',
-                toast: true,
-                position: 'top-end',
-                timer: 2500,
-                showConfirmButton: false,
-                timerProgressBar: true,
-            });
-        }
-    };
+    // const handleSaveChanges = async () => {
+    //     if (token && editableUserId) {
+    //         try {
+    //             await editProfile(editableData, token, editableUserId);
+    //             Swal.fire({
+    //                 icon: 'success',
+    //                 title: 'User updated successfully',
+    //                 toast: true,
+    //                 position: 'top-end',
+    //                 timer: 2500,
+    //                 showConfirmButton: false,
+    //                 timerProgressBar: true,
+    //             });
+    //             fetchUsers();
+    //             setIsEditing(false);
+    //             setEditableUserId(null);
+    //         } catch (error: any) {
+    //             alert(error.message);
+    //         }
+    //     } else {
+    //         Swal.fire({
+    //             icon: 'error',
+    //             title: 'You must log in',
+    //             toast: true,
+    //             position: 'top-end',
+    //             timer: 2500,
+    //             showConfirmButton: false,
+    //             timerProgressBar: true,
+    //         });
+    //     }
+    // };
 
     // const handleCancelClick = () => {
     //     setIsEditing(false);
