@@ -47,7 +47,7 @@ useEffect(() => {
     };
 
     return (
-        <div className="p-6 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg shadow-lg">
+        <div className='w-4/5 m-auto mt-5'>
             {orders.length > 0 ? (
                 <div>
                     <h2 className="text-3xl font-bold text-center text-indigo-600 mb-6">Orders</h2>

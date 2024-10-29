@@ -1,13 +1,6 @@
 import React, { useState } from 'react';
 import Image from 'next/image'; // Asegúrate de importar Image
-import ViewDishes from '../viewDishes/viewDishes';
-import ViewReviews from '../viewReviews/viewReviews';
-import ViewUsers from '../viewUsers/viewUsers';
-import AdminPerfil from '../adminPerfil/adminPerfil';
 import Link from 'next/link';
-import FormularioMenu from '../FormAddDish/FormAddDish';
-import ViewReserves from '../viewReserves/viewReserves';
-import ViewOrders from '../viewOrders/viewOrders';
 
 const DashboardAdmindv = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,36 +16,53 @@ const DashboardAdmindv = (): JSX.Element => {
 
   return (
     <div className={`h-full mb-3 relative flex flex-col items-center justify-center`}>
-      <button
-        onClick={toggleAside} 
-        className={`h-10 bg-secondary flex items-start p-2 ${!isOpen && "bg-transparent"}`}
-      >
-        <Image 
-          src={isOpen ? "/assets/icon/cross.png" : "/assets/icon/menu.png"} 
-          alt={isOpen ? "Close Menu" : "Open Menu"} 
-          width={35} 
-          height={35} 
-        />
-      </button>
+      {
+        !isOpen ? (
+          <button
+            onClick={toggleAside}
+            className={`h-10 bg-secondary flex items-start p-2 ${!isOpen && "bg-transparent"}`}
+          >
+            <Image
+              src={"/assets/icon/menu.png"}
+              alt={"Open Menu"}
+              width={35}
+              height={35}
+            />
+          </button>
+        ) : (
+          <div className='w-[51px]'></div>
+        )
+      }
 
       {isOpen && (
-        <div className={` absolute top-12 -right-12 w-56 transition-all duration-300 ease-in-out p-5 py-28 bg-secondary shadow-md`}>
+        <div className={`h-screen absolute top-9 -right-12 w-56 transition-all duration-300 ease-in-out p-5 py-28 bg-secondary`}>
+          <button
+            onClick={toggleAside}
+            className={`h-10 absolute top-1 right-1 bg-secondary flex items-start p-2 ${!isOpen && "bg-transparent"}`}
+          >
+            <Image
+            src={"/assets/icon/cross.png"}
+            alt={"Close Menu"}
+            width={20}
+            height={20}
+            />
+          </button>
           <div className="w-full flex justify-center flex-col items-center space-y-5">
               <Link href={'/admin/profileAdmin'}
                 onClick={handleClick}
-                className={`w-full text-left px-4 py-2 text-white rounded-lg transition ${selectedSection === 'adminPerfil' ? 'bg-yellow-600' : 'bg-yellow-700 hover:bg-yellow-600'}`}
+                className={`w-full text-left px-4 py-2 text-white rounded-lg transition ${selectedSection === 'adminPerfil' ? 'bg-neutral-600' : 'bg-neutral-500 hover:bg-neutral-600'}`}
               >
                 Profile
               </Link >
               <Link href={'/admin/users'}
                 onClick={handleClick}
-                className={`w-full text-left  px-4 py-2 text-white rounded-lg transition ${selectedSection === 'viewUser' ? 'bg-yellow-600' : 'bg-yellow-700 hover:bg-yellow-600'}`}
+                className={`w-full text-left  px-4 py-2 text-white rounded-lg transition ${selectedSection === 'viewUser' ? 'bg-neutral-600' : 'bg-neutral-500 hover:bg-neutral-600'}`}
               >
                 Users
               </Link >
               <Link href={'/admin/dishes'}
                 onClick={handleClick}
-                className={`w-full text-left px-4 py-2 text-white rounded-lg transition ${selectedSection === 'viewDishes' ? 'bg-yellow-600' : 'bg-yellow-700 hover:bg-yellow-600'}`}
+                className={`w-full text-left px-4 py-2 text-white rounded-lg transition ${selectedSection === 'viewDishes' ? 'bg-neutral-600' : 'bg-neutral-500 hover:bg-neutral-600'}`}
               >
                 Dishes
               </Link >
