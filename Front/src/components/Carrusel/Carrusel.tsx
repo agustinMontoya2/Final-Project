@@ -15,7 +15,7 @@ useEffect(() => {
 }, [images.length]);
 
 return (
-    <div className="relative w-full max-w-lg mx-auto my- overflow-hidden rounded-lg shadow-lg">
+    <div className="relative w-1/2 m-auto overflow-hidden rounded-lg shadow-lg">
             <div
                 className="flex transition-transform duration-500 ease-in-out"
                 style={{ transform: `translateX(-${currentIndex * 100}%)` }}>

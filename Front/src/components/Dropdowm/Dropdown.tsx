@@ -84,8 +84,8 @@ export default function Dropdown() {
                 {userSession ? (
                     <div>
                         {isAdmin ? (
-                            <Link className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100 text-black font-bold" href={"/dashboardAdmin"}>
-                                <p className="text-black font-bold">Control center</p>
+                            <Link className="w-full text-left px-3 py-2 flex justify-between hover:bg-gray-100 text-black font-bold" href={"/admin/profileAdmin"}>
+                                <p className="text-black font-bold">Profile admin</p>
                                 <Image src={"/assets/icon/personblack.png"} width={23} height={23} alt='' />
                             </Link>
                         ) : (

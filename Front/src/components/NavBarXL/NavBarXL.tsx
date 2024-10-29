@@ -5,6 +5,8 @@ import React, { useState, useEffect } from 'react';
 import BackButton from '../BackButton/BackButton';
 import Dropdown from '../Dropdowm/Dropdown';
 import Swal from 'sweetalert2';
+import DashboardAdmind from '@/app/dashboardAdmin/page';
+import DashboardAdmindv from '../dashboardAdmin/dashboardAdmind';
 
 interface UserSession {
     name: string;
@@ -88,7 +90,7 @@ export default function NavBarXL() {
 
     return (
         <div className='flex flex-col'>
-            <div className="w-full h-18 bg-secondary flex justify-between items-center fixed top-0 z-40">
+            <div className="w-full h-auto bg-secondary flex justify-between items-center fixed top-0 z-40">
                 <Link href={"/"} className="h-16 w-1/3 p-2 flex justify-start">
                     <div className='relative h-full w-36'>
                         <Image src={"/assets/logo-white.png"} alt="logo" layout='fill' objectFit='contain'/>
@@ -109,7 +111,9 @@ export default function NavBarXL() {
                             </Link>
                         )
                     }
-                    
+                    {
+                        !isAdmin  && ( <DashboardAdmind /> )
+                    }
                 </div>
             </div>
             <div className='w-10 mt-16 -mb-32 p-4 cursor-pointer z-50 fixed'>

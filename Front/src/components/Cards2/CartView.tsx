@@ -206,107 +206,133 @@ const CartView = () => {
         <div className="flex flex-col items-center justify-center min-h-screen py-8">
             <h1 className="text-3xl font-bold text-black mb-6">Cart</h1>
             {cartItems?.productDetail.length === 0 ? (
-                <p className="text-lg text-gray-700">Your cart is empty.</p>
+                    <p className="text-lg text-gray-700">Your cart is empty.</p>
             ) : (
-                <ul className="bg-white shadow-lg rounded-lg w-[80%] max-w-4xl">
-                    {cartItems?.productDetail.map((item) => (
-                        <li key={item.product_detail_id} className="flex items-center justify-between p-6 border-b border-gray-300">
-                            <div className="flex items-center">
-                                <Image
-                                    src={item.product.image_url}
-                                    alt={item.product.product_name}
-                                    width={80}
-                                    height={80}
-                                    className="mr-6 rounded-lg object-cover"
-                                />
-                                <div>
-                                    <h2 className="text-xl font-semibold text-black">{item.product.product_name}</h2>
-                                    <p className="text-gray-600">Price: <span className="font-bold">${parseFloat(item.subtotal).toFixed(2)}</span></p>
-                                    <p className="text-gray-600">Quantity: <span className="font-bold">{item.quantity}</span></p>
+                <div>
+                    <ul className="bg-white shadow-lg rounded-lg w-[80%] max-w-4xl">
+                        {cartItems?.productDetail.map((item) => (
+                            <li key={item.product_detail_id} className="flex items-center justify-between p-6 border-b border-gray-300">
+                                <div className="flex items-center">
+                                    <Image
+                                        src={item.product.image_url}
+                                        alt={item.product.product_name}
+                                        width={80}
+                                        height={80}
+                                        className="mr-6 rounded-lg object-cover"
+                                    />
+                                    <div>
+                                        <h2 className="text-xl font-semibold text-black">{item.product.product_name}</h2>
+                                        <p className="text-gray-600">Price: <span className="font-bold">${parseFloat(item.subtotal).toFixed(2)}</span></p>
+                                        <p className="text-gray-600">Quantity: <span className="font-bold">{item.quantity}</span></p>
+                                    </div>
                                 </div>
+                                <div className="flex space-x-2">
+                                    <button
+                                        onClick={() => handleDeleteQuantityCart(item.product_detail_id)}
+                                        className="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
+                                    >
+                                        -
+                                    </button>
+                                    <button
+                                        className="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
+                                        onClick={() => handleAddCart(item.product.product_id)}
+                                    >
+                                        +
+                                    </button>
+                                    <button
+                                        onClick={() => handleDeleteProductCart(item.product_detail_id)}
+                                        className="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
+                                    >
+                                        Remove
+                                    </button>
+                                </div>
+                            </li>
+                        ))}
+                        <span className="flex justify-between p-6">
+                            <p className="text-lg font-semibold text-black">Total:</p>
+                            <p className="bg-secondary rounded-lg p-2 text-lg font-bold text-white">${totalCart.toFixed(2)}</p>
+                        </span>
+                    </ul>
+                        <div className="w-[80%] max-w-4xl mt-6">
+                            <textarea
+                                value={note}
+                                onChange={(e) => setNote(e.target.value)}
+                                className="w-full h-24 max-h-56 min-h-16 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="Any special instructions or notes?"
+                            />
+                            <h3 className="mt-6 font-semibold text-lg text-black">Delivery Options</h3>
+                            <div className="flex mt-2">
+                                <label className="flex items-center text-neutral-800">
+                                    <input
+                                        type="checkbox"
+                                        value="dine-in"
+                                        checked={deliveryOption === "dine-in"}
+                                        onChange={(e) => setDeliveryOption(e.target.checked ? e.target.value : "")}
+                                        className="mr-2"
+                                    />
+                                    Take Away
+                                </label>
+                                <label className="flex items-center text-neutral-800 ml-5">
+                                    <input
+                                        type="checkbox"
+                                        value="delivery"
+                                        checked={deliveryOption === "delivery"}
+                                        onChange={(e) => setDeliveryOption(e.target.checked ? e.target.value : "")}
+                                        className="mr-2"
+                                    />
+                                    Delivery
+                                </label>
                             </div>
-                            <div className="flex space-x-2">
+                            <h3 className="mt-6 font-semibold text-lg text-black">Payment Method</h3>
+                            <div className="flex mt-2">
+                                <label className="flex items-center text-neutral-800">
+                                    <input
+                                        type="checkbox"
+                                        value="cash"
+                                        checked={paymentOption === "cash"}
+                                        onChange={(e) => setPaymentOption(e.target.checked ? e.target.value : "")}
+                                        className="mr-2"
+                                    />
+                                    Cash
+                                </label>
+                                <label className="flex items-center text-neutral-800 ml-5">
+                                    <input
+                                        type="checkbox"
+                                        value="card"
+                                        checked={paymentOption === "card"}
+                                        onChange={(e) => setPaymentOption(e.target.checked ? e.target.value : "")}
+                                        className="mr-2"
+                                    />
+                                    Card
+                                </label>
+                            </div>
+                            <div className="flex justify-center space-x-4 mt-6">
                                 <button
-                                    onClick={() => handleDeleteQuantityCart(item.product_detail_id)}
-                                    className="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
+                                    onClick={handleFinishOrder}
+                                    className="bg-secondary text-white font-bold px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
                                 >
-                                    -
+                                    Continue Shopping
                                 </button>
+                                {paymentOption === "card" && (
+                                    <button
+                                        onClick={handlerMercadoPago}
+                                        className="bg-blue-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300"
+                                    >
+                                        Pay with MercadoPago
+                                    </button>
+                                )}
                                 <button
-                                    className="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
-                                    onClick={() => handleAddCart(item.product.product_id)}
+                                    onClick={handlePostOrder}
+                                    className="bg-green-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300"
                                 >
-                                    +
-                                </button>
-                                <button
-                                    onClick={() => handleDeleteProductCart(item.product_detail_id)}
-                                    className="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
-                                >
-                                    Remove
+                                    Finalize Order
                                 </button>
                             </div>
-                        </li>
-                    ))}
-                    <span className="flex justify-between p-6">
-                        <p className="text-lg font-semibold text-black">Total:</p>
-                        <p className="bg-secondary rounded-lg p-2 text-lg font-bold text-white">${totalCart.toFixed(2)}</p>
-                    </span>
-                </ul>
+                        </div>
+                    </div>
             )}
-
-            <div className="w-[80%] max-w-4xl mt-6">
-                <textarea
-                    value={note}
-                    onChange={(e) => setNote(e.target.value)}
-                    className="w-full h-24 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Any special instructions or notes?"
-                />
-
-                <h3 className="mt-6 font-semibold text-lg text-black">Delivery Options</h3>
-                <select
-                    value={deliveryOption}
-                    onChange={(e) => setDeliveryOption(e.target.value)}
-                    className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                    <option value="dine-in">Dine In</option>
-                    <option value="delivery">Delivery</option>
-                </select>
-
-                <h3 className="mt-6 font-semibold text-lg text-black">Payment Method</h3>
-                <select
-                    value={paymentOption}
-                    onChange={(e) => setPaymentOption(e.target.value)}
-                    className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                    <option value="cash">Cash</option>
-                    <option value="card">Card</option>
-                </select>
-
-                <div className="flex justify-center space-x-4 mt-6">
-                    <button
-                        onClick={handleFinishOrder}
-                        className="bg-secondary text-white font-bold px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
-                    >
-                        Continue Shopping
-                    </button>
-                    {paymentOption === "card" && (
-                        <button
-                            onClick={handlerMercadoPago}
-                            className="bg-blue-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300"
-                        >
-                            Pay with MercadoPago
-                        </button>
-                    )}
-                    <button
-                        onClick={handlePostOrder}
-                        className="bg-green-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300"
-                    >
-                        Finalize Order
-                    </button>
-                </div>
-            </div>
         </div>
     );
-};
+}
 
 export default CartView;
