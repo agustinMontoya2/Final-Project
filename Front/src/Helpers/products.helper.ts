@@ -72,7 +72,7 @@ export async function postReview(
   user_id: string,
   token: string,
   product_id: string,
-  reviewPost: IReview
+  reviewPost: Partial<IReview>
 ) {
   try {
     console.log(reviewPost, "este es el console log");
