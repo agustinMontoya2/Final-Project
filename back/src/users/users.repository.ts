@@ -13,6 +13,8 @@ import { productDetailDto } from 'src/products/dto/create-product.dto';
 import { Product } from 'src/products/entities/product.entity';
 import { ProductDetail } from 'src/products/entities/productDetail.entity';
 import { isUUID } from 'class-validator';
+import { error } from 'console';
+import { Credential } from 'src/auth/entities/credential.entity';
 
 @Injectable()
 export class UsersRepository {
@@ -25,6 +27,8 @@ export class UsersRepository {
     @InjectRepository(Cart) private readonly cartRepository: Repository<Cart>,
     @InjectRepository(Favorities)
     private readonly favoritiesRepository: Repository<Favorities>,
+    @InjectRepository(Credential)
+    private readonly credentialRepository: Repository<Credential>,
   ) {}
 
   async getUsers() {
@@ -256,5 +260,16 @@ export class UsersRepository {
     return user.isAdmin
       ? { message: 'User admin successfully' }
       : { message: 'User unadmin successfully' };
+  }
+
+  async getEmailByUser(user_id: string) {
+    const findUser = await this.credentialRepository.findOne({
+      where: { user: { user_id } },
+      relations: ['user'],
+    });
+
+    if (!findUser) throw new NotFoundException('user not found');
+
+    return findUser.email;
   }
 }
