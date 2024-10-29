@@ -10,10 +10,10 @@ import { PagoMercado } from '@/Helpers/MercadoPago';
 
 const CartView = () => {
     const [cartItems, setCartItems] = useState<ICart>({
-        cart_id: '', // o un valor adecuado
-        note: '',    // o un valor adecuado
-        product: [], // inicializa con un array vacío si es una lista
-        productDetail: [], // inicializa con un array vacío
+        cart_id: '', 
+        note: '',    
+        product: [], 
+        productDetail: [],
     });
     
     const [userId, setUserId] = useState<string | null>(null);
@@ -79,6 +79,15 @@ const CartView = () => {
         if (userId && token) {
             try {
                 const response = await removeProductCart(product_detail_id, token);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Product removed',
+                    toast: true,
+                    position: 'top-end',
+                    timer: 2500,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                });
                 if (response) {
                     await handleGetCart();
                 } else {
@@ -95,6 +104,7 @@ const CartView = () => {
         if (token && userId) {
             try {
                 await addCart(userId, productId, token);
+                
                 await handleGetCart();
             } catch (error) {
                 alert(`Error: ${error instanceof Error ? error.message : error}`);
@@ -116,11 +126,11 @@ const CartView = () => {
                     window.location.href = data.init_point; 
                     handlePostOrder()
                 } else {
-                    alert("Error al iniciar el pago con MercadoPago.");
+                    alert("Error initiating payment with MercadoPago.");
                 }
             } catch (error) {
-                console.error("Error en la integración con MercadoPago:", error);
-                alert("Error al procesar el pago con MercadoPago.");
+                console.error("Error in integration with MercadoPago:", error);
+                alert("Error processing payment with MercadoPago.");
             }
         }
     };
@@ -300,59 +310,3 @@ const CartView = () => {
 };
 
 export default CartView;
-
-
-// const Producto = () => {
-//     const [notification, setNotificacion] = useState({
-//       isOpen: false,
-//       type: null,
-//       content: '',
-//     });
-  
-//     useEffect(() => {
-//       const urlParams = new URLSearchParams(window.location.search);
-//       const status = urlParams.get('status');
-//       if (status === 'approved') {
-//         setNotificacion({
-//           content: 'Pago aprovado',
-//           isOpen: true,
-//           type: 'approved',
-//         });
-//       } else if (status === 'failure') {
-//         setNotificacion({
-//           content: 'Pago fallido',
-//           isOpen: true,
-//           type: 'failure',
-//         });
-//       }
-//       setTimeout(() => {
-//         setNotificacion({
-//           isOpen: false,
-//           type: null,
-//           content: '',
-//         });
-//       }, 5000);
-//     }, []);
-  
-//     return (
-//       <main>
-//         <div>
-//           <img src={Product.img} alt={Product.title} width={360} height={450} />
-//         </div>
-//         <div>
-//           <h2>Black Friday</h2>
-//           <h3>{Product.price}</h3>
-//         </div>
-//         <div>
-//           <span>Lo que tenes que saber de este producto:</span>
-//           <ul>
-//             {Product.description.map((item) => (
-//               <li key={item}>{item}</li>
-//             ))}
-//           </ul>
-//         </div>
-//         <div>
-//           <MercadoPagoButton product={Product} />
-//         </div>
-//         {notification.isOpen && (
-  

@@ -195,7 +195,6 @@ const ViewUsers = () => {
                             <th className="py-2 px-4 border-b">Address</th>
                             <th className="py-2 px-4 border-b">Status</th>
                             <th className="py-2 px-4 border-b">Role</th>
-                            <th className="py-2 px-4 border-b">Avatar</th>
                             <th className="py-2 px-4 border-b">Actions</th>
                         </tr>
                     </thead>
@@ -210,15 +209,6 @@ const ViewUsers = () => {
                                 </td>
                                 <td className={`py-2 px-4 border-b ${!user.isAdmin ? 'text-red-500' : 'text-green-500'}`}>
                                     {user.isAdmin ? 'Admin' : 'User'}
-                                </td>
-                                <td className="py-2 px-4 border-b text-black">
-                                    <Image
-                                        src={user.user_img ?? '/assets/icon/profileblack.png'}
-                                        alt={`${user.name}'s avatar`}
-                                        width={40}
-                                        height={40}
-                                        className="w-16 h-16 rounded-full object-cover"
-                                    />
                                 </td>
                                 <td className="py-2 px-4 border-b">
                                     <div className="flex justify-evenly">
