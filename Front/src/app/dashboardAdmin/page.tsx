@@ -15,25 +15,22 @@ if(esAdmind){
   return <div> redirigiendo a menu...</div>
 }
   
-  useEffect(() => {
-    const storedUserData = window.localStorage.getItem("userSession");
-    if (storedUserData) {
-        const parsedData = JSON.parse(storedUserData);
-        if (parsedData && parsedData.user) {
-          if(parsedData.isAdmin)
-            setAdmin(parsedData.isAdmin);
-            
-        }
-    }
+useEffect(() => {
+  const storedUserData = window.localStorage.getItem("userSession");
+  const parsedData = storedUserData ? JSON.parse(storedUserData) : null;
+
+  // Si parsedData y parsedData.user existen, se establece el estado de admin
+  if (parsedData?.user) {
+      setAdmin(parsedData.isAdmin);
+  }
 }, []);
 
-
-    useEffect(() => {
-      if(admin === false || admin === true) {
-        if (!admin) {
-            router.push('/menu')}}
-    }, [admin]);
-  
+useEffect(() => {
+  // Redirige si admin es false
+  if (admin === false) {
+      router.push('/menu');
+  }
+}, [admin]);
   return (
       <DashboardAdmindV/>
   );

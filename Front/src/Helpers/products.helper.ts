@@ -1,5 +1,5 @@
-import ProductFilter from "@/components/Filter/Filter";
-import { IProducts, IProductsDetails } from "@/interfaces/productoInterface";
+// import ProductFilter from "@/components/Filter/Filter";
+import { IProducts, IProductsDetails, IReview } from "@/interfaces/productoInterface";
 
 const APIURL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -20,19 +20,19 @@ export async function getProductsDB(): Promise<IProducts[]> {
   }
 }
 
-export async function getProductsById(id: string): Promise<IProducts> {
-  try {
-    const products: IProducts[] = await getProductsDB();
-    const productfiltered = products.find(
-      (product) => product.product_id.toString() === id
-    );
-    console.log(products, productfiltered);
-    if (!productfiltered) throw new Error("No existe el producto");
-    return productfiltered;
-  } catch (error: any) {
-    throw new Error(error);
-  }
-}
+// export async function getProductsById(id: string): Promise<IProducts> {
+//   try {
+//     const products: IProducts[] = await getProductsDB();
+//     const productfiltered = products.find(
+//       (product) => product.product_id.toString() === id
+//     );
+//     console.log(products, productfiltered);
+//     if (!productfiltered) throw new Error("No existe el producto");
+//     return productfiltered;
+//   } catch (error: any) {
+//     throw new Error(error);
+//   }
+// }
 
 export async function getProductsDBdetail(): Promise<IProductsDetails[]> {
   try {
@@ -41,7 +41,7 @@ export async function getProductsDBdetail(): Promise<IProductsDetails[]> {
     });
     const products: IProductsDetails[] = await res.json();
     return products;
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof Error) {
       throw new Error(error.message);
     } else {
@@ -59,7 +59,7 @@ export async function getProduct(product_id: string) {
     console.log(products);
     if (!products) throw new Error("No existe el producto");
     return products;
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof Error) {
       throw new Error(error.message);
     } else {
@@ -72,7 +72,7 @@ export async function postReview(
   user_id: string,
   token: string,
   product_id: string,
-  reviewPost: any
+  reviewPost: IReview
 ) {
   try {
     console.log(reviewPost, "este es el console log");
@@ -100,7 +100,7 @@ export async function postReview(
   }
 }
 
-export async function postProduct(token: string, product: {}) {
+export async function postProduct(token: string, product: Partial<IProducts>) {
   try {
     console.log("Product data being sent:", JSON.stringify(product, null, 2)); // Imprimir datos
 
@@ -151,13 +151,14 @@ export async function editProductImg(
       throw new Error(result.message);
     }
     return result;
-  } catch (error: any) {
-    throw error;
+  } catch{
+    console.log('error');
+    
   }
 }
 
 
-export async function putProduct(token: string,product_id:string, product: {}) {
+export async function putProduct(token: string,product_id:string, product: Partial<IProducts>) {
   try {
     console.log("Product data being sent:", JSON.stringify(product, null, 2)); 
 

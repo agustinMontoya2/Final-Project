@@ -26,7 +26,6 @@ const ProfileV = () => {
     address: userData?.user?.address || "",
   });
 
-  //   // Nuevo estado para almacenar el provider
   const [isAuth0Provider, setIsAuth0Provider] = useState(false);
 
   useEffect(() => {
@@ -130,7 +129,7 @@ const ProfileV = () => {
         );
         setUser(response);
         setEditableData(response);
-        // setOriginalProfileImg(response.user_img || "/assets/icon/profileblack.png"); // Guarda la imagen original
+        setOriginalProfileImg(response.user_img || "/assets/icon/profileblack.png"); 
       } catch (error) {
         alert(error);
       }
