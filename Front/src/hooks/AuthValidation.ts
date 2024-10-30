@@ -1,7 +1,7 @@
 'use client'
 
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+// import { useRouter } from "next/navigation";
+// import { useEffect, useState } from "react";
 
 const AuthValidation = () => {
   // const [authenticated, setAuthenticated] = useState<boolean | null>(null);

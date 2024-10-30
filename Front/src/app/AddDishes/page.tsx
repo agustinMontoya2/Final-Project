@@ -1,14 +1,14 @@
 import React from 'react'
-import AuthValidation from '@/hooks/AuthValidation';
+// import AuthValidation from '@/hooks/AuthValidation';
 import FormAddDish from '@/views/FormsViews/FormAddDish';
 
 const AddDish:React.FC = () => {
 
-    const esAdmin = AuthValidation()
+    // const esAdmin = AuthValidation()
 
-    if (esAdmin) {
-        return <div> you are not admin, sending you BACK!</div>
-    }
+    // if (esAdmin) {
+    //     return <div> you are not admin, sending you BACK!</div>
+    // }
 
     return (
         <div>
