@@ -1,5 +1,5 @@
 import ProfileV from "@/components/Profile/profile";
-import AuthBanned from "@/hooks/AuthBanned";
+// import AuthBanned from "@/hooks/AuthBanned";
 import { useRouter } from "next/navigation";
 import React, {useEffect } from "react";
 

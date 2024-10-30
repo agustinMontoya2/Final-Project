@@ -1,6 +1,6 @@
 
 import Cards from '@/components/Cards/Cards';
-import AuthBanned from '@/hooks/AuthBanned';
+// import AuthBanned from '@/hooks/AuthBanned';
 import React, { Suspense } from 'react';
 
 const Menu = () => {    
