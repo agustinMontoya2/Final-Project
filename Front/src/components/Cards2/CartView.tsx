@@ -32,12 +32,6 @@ const CartView = () => {
                 if(parseData && parseData.user)
                     setUserId(parseData.user.user_id);
                 setToken(parseData.token)
-        // const storedUserData = window.localStorage.getItem("userSession");
-        // if (storedUserData) {
-        //     const parsedData = JSON.parse(storedUserData);
-        //     if (parsedData && parsedData.user) {
-        //         setUserId(parsedData.user.user_id);
-        //         setToken(parsedData.token);
             }
         }
     }, []);
@@ -210,13 +204,13 @@ const CartView = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen py-8">
+        <div className="flex flex-col items-center justify-center min-h-screen py-8 ">
             <h1 className="text-3xl font-bold text-black mb-6">Cart</h1>
             {cartItems?.productDetail.length === 0 ? (
                 <p className="text-lg text-gray-700">Your cart is empty.</p>
             ) : (
                 <div>
-                    <ul className="bg-white shadow-lg rounded-lg w-[80%] max-w-4xl">
+                    <ul className="bg-white shadow-lg rounded-lg w-[99%] max-w-4xl">
                         {cartItems?.productDetail.map((item) => (
                             <li key={item.product_detail_id} className="flex items-center justify-between p-6 border-b border-gray-300">
                                 <div className="flex items-center">
@@ -264,7 +258,7 @@ const CartView = () => {
                         <textarea
                             value={note}
                             onChange={(e) => setNote(e.target.value)}
-                            className="w-full h-24 max-h-56 min-h-16 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-[125%] h-24 max-h-56 min-h-16 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="Any special instructions or notes?"
                         />
                         <h3 className="mt-6 font-semibold text-lg text-black">Delivery Options</h3>

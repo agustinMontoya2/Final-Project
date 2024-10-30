@@ -15,19 +15,13 @@ const FavoritesView: React.FC = () => {
   const [favorites, setFavorites] = useState<IFavorities | null>(null);
 
   useEffect(() => {
-     if (typeof window !== "undefined"){
+    if (typeof window !== "undefined"){
       const storeUserData = window.localStorage.getItem("userSession");
       if(storeUserData){
           const parseData = JSON.parse(storeUserData)
           if(parseData && parseData.user)
               setUserId(parseData.user.user_id);
           setToken(parseData.token)
-    // const storedUserData = window.localStorage.getItem("userSession");
-    // if (storedUserData) {
-    //   const parsedData = JSON.parse(storedUserData);
-    //   if (parsedData && parsedData.user) {
-    //     setUserId(parsedData.user.user_id);
-    //     setToken(parsedData.token);
         fetchData();
       }
     }
@@ -107,9 +101,9 @@ const FavoritesView: React.FC = () => {
 
 
   return (
-    <div className=" min-h-screen py-10">
+    <div className=" min-h-screen py-10 my-24">
       <div className="max-w-5xl mx-auto bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-4xl font-extrabold text-center text-black mb-8 text-gradient">My Favorites</h1>
+        <h1 className="text-3xl font-extrabold text-center text-black mb-8 text-gradient">My Favorites</h1>
         {favorites && favorites.product && favorites.product.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {favorites.product.map((product: IProducts) => (

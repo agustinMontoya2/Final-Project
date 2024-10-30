@@ -1,3 +1,4 @@
+'use client'
 import OrdersView from '@/views/OrdersView/order';
 import AuthBanned from '@/hooks/AuthBanned';
 import { useRouter } from 'next/navigation';
@@ -8,7 +9,7 @@ const Orders = () => {
     const esBanneado = AuthBanned();
 
     useEffect(() => {
-        if (esBanneado) return; // Evita redireccionar si el usuario está baneado
+        if (esBanneado) return; 
 
         const userSession = localStorage.getItem("userSession");
         if (!userSession) {

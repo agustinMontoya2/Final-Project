@@ -15,12 +15,12 @@ const ReservasView: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== "undefined"){
-      const storeUserData = window.localStorage.getItem("userSession");
-      if(storeUserData){
-          const parseData = JSON.parse(storeUserData)
-          if(parseData && parseData.user)
-              setUserId(parseData.user.user_id);
+    const storedUserData = window.localStorage.getItem("userSession");
+    if (storedUserData) {
+      const parsedData = JSON.parse(storedUserData);
+      if (parsedData && parsedData.user) {
+        setUserId(parsedData.user.user_id);
+        setToken(parsedData.token);
         fetchData();
       }
     }
@@ -57,7 +57,7 @@ const ReservasView: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 flex flex-col-reverse">
+    <div className="max-w-3xl mx-auto my-24 p-6  flex flex-col-reverse">
       {reservas && reservas.length > 0 ? (
         reservas.map((reserva: IReserve) => (
           <div
@@ -90,8 +90,8 @@ const ReservasView: React.FC = () => {
                 </span>
               </p>
             </section>
-            <button
-              onClick={() => handleViewMore(reserva)}
+            <button 
+              onClick={() => handleViewMore(reserva)} 
               className="bg-red-600 text-white font-bold px-4 py-2 rounded-md hover:bg-red-700 transition duration-300"
             >
               View More
@@ -104,59 +104,59 @@ const ReservasView: React.FC = () => {
         </p>
       )}
 
-      {isModalOpen && selectedReservation && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="fixed inset-0 bg-black opacity-50" onClick={handleCloseModal}></div>
-          <div className="bg-white rounded-lg p-6 shadow-lg z-10 max-w-sm w-full">
-            <h2 className="text-gray-800 text-lg font-semibold mb-2">Reservation Details</h2>
-
-            <p className="text-gray-600 mb-1">
-              Date:{" "}
-              <span className="font-medium text-gray-800">
-                {new Date(selectedReservation.date).toLocaleDateString()}
-              </span>
-            </p>
-            <p className="text-gray-600 mb-1">
-              Time:{" "}
-              <span className="font-medium text-gray-800">
-                {selectedReservation.time}
-              </span>
-            </p>
-            <p className="text-gray-600 mb-1">
-              Status:{" "}
-              <span className={`font-medium ${selectedReservation.status ? 'text-green-500' : 'text-red-500'}`}>
-                {selectedReservation.status ? "Active reservation" : "Reservation cancelled"}
-              </span>
-            </p>
-            <p className="text-gray-600 mb-1">
-              Number of people:{" "}
-              <span className="font-medium text-gray-800">
-                {selectedReservation.peopleCount != null ? selectedReservation.peopleCount : 0}
-              </span>
-            </p>
-
-            <section className="mt-4 border-t border-gray-300 pt-4">
-              <h3 className="text-gray-800 font-semibold mb-2">Table Details</h3>
-              {selectedReservation.table && selectedReservation.table.length > 0 ? (
-                selectedReservation.table.map((table) => (
-                  <div key={table.table_id} className="mb-2">
-                    <p className="text-gray-600">Table Number: <span className="font-medium text-gray-800">{table.table_number}</span></p>
-                    <p className="text-gray-600">Location: <span className="font-medium text-gray-800">{table.ubication}</span></p>
-                  </div>
-                ))
-              ) : (
-                <p className="text-gray-600">No table information available.</p>
-              )}
-            </section>
-            <button
-              onClick={handleCloseModal}
-              className="mt-4 bg-gray-800 text-white font-bold px-4 py-2 rounded-md hover:bg-gray-700 transition duration-300"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
+{isModalOpen && selectedReservation && (
+  <div className="fixed inset-0 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black opacity-50" onClick={handleCloseModal}></div>
+    <div className="bg-white rounded-lg p-6 shadow-lg z-10 max-w-sm w-full">
+      <h2 className="text-gray-800 text-lg font-semibold mb-2">Reservation Details</h2>
+      
+      <p className="text-gray-600 mb-1">
+        Date:{" "}
+        <span className="font-medium text-gray-800">
+          {new Date(selectedReservation.date).toLocaleDateString()}
+        </span>
+      </p>
+      <p className="text-gray-600 mb-1">
+        Time:{" "}
+        <span className="font-medium text-gray-800">
+          {selectedReservation.time}
+        </span>
+      </p>
+      <p className="text-gray-600 mb-1">
+        Status:{" "}
+        <span className={`font-medium ${selectedReservation.status ? 'text-green-500' : 'text-red-500'}`}>
+          {selectedReservation.status ? "Active reservation" : "Reservation cancelled"}
+        </span>
+      </p>
+      <p className="text-gray-600 mb-1">
+        Number of people:{" "}
+        <span className="font-medium text-gray-800">
+          {selectedReservation.peopleCount != null ? selectedReservation.peopleCount : 0}
+        </span>
+      </p>
+      
+      <section className="mt-4 border-t border-gray-300 pt-4">
+        <h3 className="text-gray-800 font-semibold mb-2">Table Details</h3>
+        {selectedReservation.table && selectedReservation.table.length > 0 ? (
+          selectedReservation.table.map((table) => (
+            <div key={table.table_id} className="mb-2">
+              <p className="text-gray-600">Table Number: <span className="font-medium text-gray-800">{table.table_number}</span></p>
+              <p className="text-gray-600">Location: <span className="font-medium text-gray-800">{table.ubication}</span></p>
+            </div>
+          ))
+        ) : (
+          <p className="text-gray-600">No table information available.</p>
+        )}
+      </section>
+      <button 
+        onClick={handleCloseModal} 
+        className="mt-4 bg-gray-800 text-white font-bold px-4 py-2 rounded-md hover:bg-gray-700 transition duration-300"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+    )}
     </div>
   );
 };

@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { getOrders } from '@/Helpers/order';
-import { IGetOrder } from '@/interfaces/productoInterface';
+import {  IGetOrder } from '@/interfaces/productoInterface';
 import Swal from 'sweetalert2';
 
 const OrdersView = () => {
@@ -10,12 +10,12 @@ const OrdersView = () => {
     const [orders, setOrders] = useState<IGetOrder[] | null>(null);
 
     useEffect(() => {
-        if (typeof window !== "undefined"){
-            const storeUserData = window.localStorage.getItem("userSession");
-            if(storeUserData){
-                const parseData = JSON.parse(storeUserData)
-                if(parseData && parseData.user)
-                    setUserId(parseData.user.user_id);
+        const storedUserData = window.localStorage.getItem('userSession');
+        if (storedUserData) {
+            const parsedData = JSON.parse(storedUserData);
+            if (parsedData && parsedData.user) {
+                setUserId(parsedData.user.user_id);
+                setToken(parsedData.token);
             }
         }
     }, []);
@@ -45,10 +45,10 @@ const OrdersView = () => {
     }, [userId, token]);
 
     return (
-        <div className="min-h-screen bg-gray-200 flex flex-col items-center">
+        <div className="min-h-screen flex flex-col items-center my-24">
             <div className="w-full max-w-lg bg-white shadow-md p-6">
                 <h1 className="text-2xl font-bold text-black text-center mb-4">Orders</h1>
-                <ul>
+                <ul className='space-y-4'>
                     {orders?.map((order) => (
                         <li key={order.order_id} className="mb-4 border p-3 rounded-lg bg-gray-50 shadow-sm">
                             <div className="mb-2">
@@ -69,10 +69,8 @@ const OrdersView = () => {
                         </li>
                     ))}
                 </ul>
-                {
-                    orders && <p className='text-black text-center'>No orders found.</p>
-                }
             </div>
+            
         </div>
     );
 };

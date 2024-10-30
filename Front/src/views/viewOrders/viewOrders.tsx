@@ -2,47 +2,46 @@
 import React from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { IGetOrder } from '@/interfaces/productoInterface';
+import { IGetOrder} from '@/interfaces/productoInterface';
 import { getAllOrders } from '@/Helpers/order';
-
 const ViewOrders = () => {
     const [orders, setOrders] = useState<IGetOrder[]>([]);
     const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
 
 
-    useEffect(() => {
-        if (typeof window !== "undefined"){
-            const storeUserData = window.localStorage.getItem("userSession");
-            if(storeUserData){
-                const parseData = JSON.parse(storeUserData)
-                if(parseData && parseData.user)
-                    setUserId(parseData.user.user_id);
-            }
-        }
-    }, []);
+useEffect(() => {
+    const storedUserData = window.localStorage.getItem("userSession");
+    if (storedUserData) {
+    const parsedData = JSON.parse(storedUserData);
+    if (parsedData && parsedData.user) {
+        setUserId(parsedData.user.user_id);
+        setToken(parsedData.token);
+    }
+    }
+}, []);
 
-    useEffect(() => {
+useEffect(() => {
+    if (token && userId) {
+    handleGetOrders();
+    }
+}, [token, userId]);
+
+    const handleGetOrders =  async ()=>{
+
         if (token && userId) {
-            handleGetOrders();
-        }
-    }, [token, userId]);
-
-    const handleGetOrders = async () => {
-
-        if (token && userId) {
-            try {
-                const ordersData = await getAllOrders(token);
-                console.log(ordersData);
-
-                if (ordersData) {
-                    setOrders(ordersData);
-                } else {
-                    console.warn("No reviews found.");
-                }
-            } catch (error) {
-                console.error("Error fetching reviews:", error);
+        try {
+            const ordersData = await getAllOrders(token);
+            console.log(ordersData);
+            
+            if (ordersData) {
+                setOrders(ordersData); 
+            } else {
+            console.warn("No reviews found.");
             }
+        } catch (error) {
+            console.error("Error fetching reviews:", error);
+        }
         }
     };
 
@@ -50,7 +49,7 @@ const ViewOrders = () => {
         <div className='w-4/5 m-auto mt-5'>
             {orders.length > 0 ? (
                 <div>
-                    <h2 className="text-3xl font-bold text-center text-indigo-600 mb-6">Orders</h2>
+                    <h2 className="text-3xl font-bold text-center text-black-900 mb-6">Orders</h2>
                     <table className="w-full text-left border border-gray-300 bg-white shadow-md rounded-lg">
                         <thead className="bg-indigo-100">
                             <tr>

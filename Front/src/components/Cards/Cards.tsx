@@ -41,29 +41,16 @@ const Cards = () => {
                 fetchFavorities()
             }
         }
-       //forma a)
-        // if(typeof window != "undefined"  && window.sessionStorage.getItem("token") && window.sessionStorage.getItem("userId")){
-     //     const userDataStorage: IUserSession =  JSON.parse(window.sessionStorage.getItem("token") || "[]");
-        //     setUserData(userDataStorage);
-
-       //forma b)
-    //     const storedUserData = window.localStorage.getItem("userSession");
-    //     if (storedUserData) {
-    //         const parsedData = JSON.parse(storedUserData);
-    //         if (parsedData && parsedData.user) {
-    //             setUserId(parsedData.user.user_id);
-    //             setToken(parsedData.token);
-    //             fetchProducts();
-    //             fetchFavorities();
-    //         }
-        
     }, [router]);
 
     useEffect(() => {
-        if (!userId && !token) {
+        const loadData = async () => {
+            if (userId && token) {
+                await fetchFavorities();
+            }
             fetchProducts();
-            fetchFavorities();
-        }
+        };
+        loadData();
     }, [userId, token]);
 
     const fetchProducts = async () => {

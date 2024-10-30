@@ -1,3 +1,4 @@
+'use client'
 import FormReserve from '@/views/FormsViews/FormReserve';
 import AuthBanned from '@/hooks/AuthBanned';
 import { useRouter } from 'next/navigation';

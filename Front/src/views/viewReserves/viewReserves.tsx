@@ -11,37 +11,37 @@ const ViewReserves = () => {
     const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
 
-    useEffect(() => {
-        if (typeof window !== "undefined") {
-            const storeUserData = window.localStorage.getItem("userSession");
-            if (storeUserData) {
-                const parseData = JSON.parse(storeUserData)
-                if (parseData && parseData.user)
-                    setUserId(parseData.user.user_id);
-            }
-        }
-    }, []);
+useEffect(() => {
+    const storedUserData = window.localStorage.getItem("userSession");
+    if (storedUserData) {
+    const parsedData = JSON.parse(storedUserData);
+    if (parsedData && parsedData.user) {
+        setUserId(parsedData.user.user_id);
+        setToken(parsedData.token);
+    }
+    }
+}, []);
 
-    useEffect(() => {
+useEffect(() => {
+    if (token && userId) {
+    handleGetReserves();
+    }
+}, [token, userId]);
+
+    const handleGetReserves =  async ()=>{
         if (token && userId) {
-            handleGetReserves();
-        }
-    }, [token, userId]);
-
-    const handleGetReserves = async () => {
-        if (token && userId) {
-            try {
-                const reservesData = await getAllReservations(token);
-                console.log(reservesData);
-
-                if (reservesData) {
-                    setReserves(reservesData);
-                } else {
-                    console.warn("No reviews found.");
-                }
-            } catch (error) {
-                console.error("Error fetching reviews:", error);
+        try {
+            const reservesData = await getAllReservations(token);
+            console.log(reservesData);
+            
+            if (reservesData) {
+                setReserves(reservesData); 
+            } else {
+            console.warn("No reviews found.");
             }
+        } catch (error) {
+            console.error("Error fetching reviews:", error);
+        }
         }
     };
 
@@ -63,10 +63,10 @@ const ViewReserves = () => {
     };
 
     return (
-        <div className="p-6 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg shadow-lg">
+        <div className="p-6 bg-gradient-to-r from-black-50 to-black-50 rounded-lg shadow-lg">
             {reserves.length > 0 ? (
                 <div>
-                    <h2 className="text-3xl font-bold text-center text-indigo-600 mb-6">Reservations</h2>
+                    <h2 className="text-3xl font-bold text-center text-black-700 mb-6">Reservations</h2>
                     <table className="w-full text-left border border-gray-300 bg-white shadow-md rounded-lg">
                         <thead className="bg-indigo-100">
                             <tr>
@@ -82,7 +82,7 @@ const ViewReserves = () => {
                             {reserves.map((reserve) => (
                                 <tr key={reserve.reservation_id} className="hover:bg-indigo-50 transition-colors">
                                     <td className="p-3 border-b text-gray-800">{new Date(reserve.date).toLocaleDateString('sv-SE')}</td>
-                                    <td className="p-3 border-b text-blue-600 font-semibold">{reserve.time}hs</td>
+                                    <td className="p-3 border-b text-black-600 font-semibold">{reserve.time}hs</td>
                                     <td className="p-3 border-b text-gray-800">
                                         <span className={`font-semibold ${reserve.status ? 'text-green-600' : 'text-red-600'}`}>
                                             {reserve.status ? "Active" : "Cancelled"}
@@ -122,7 +122,7 @@ const ViewReserves = () => {
             )}
         </div>
     );
-
+    
 }
 
 export default ViewReserves;
