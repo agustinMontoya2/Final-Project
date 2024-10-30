@@ -6,14 +6,13 @@ import { useRouter } from 'next/navigation';
 const AdminPerfil = () => {
   const [admin, setAdmin] = React.useState(undefined);
   const router = useRouter();
-  
+
   useEffect(() => {
     const storedUserData = window.localStorage.getItem("userSession");
     if (storedUserData) {
         const parsedData = JSON.parse(storedUserData);
         if (parsedData && parsedData.user) {
             setAdmin(parsedData.admin);
-            
         }
     }
 }, []);

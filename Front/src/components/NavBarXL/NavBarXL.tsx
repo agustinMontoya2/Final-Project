@@ -6,7 +6,6 @@ import BackButton from '../BackButton/BackButton';
 import Dropdown from '../Dropdowm/Dropdown';
 import Swal from 'sweetalert2';
 import DashboardAdmind from '@/app/dashboardAdmin/page';
-import DashboardAdmindv from '../dashboardAdmin/dashboardAdmind';
 
 interface UserSession {
     name: string;

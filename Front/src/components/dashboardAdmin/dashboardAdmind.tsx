@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Image from 'next/image'; // Asegúrate de importar Image
+import Image from 'next/image';
 import ViewDishes from '../viewDishes/viewDishes';
 import ViewReviews from '../viewReviews/viewReviews';
 import ViewUsers from '../viewUsers/viewUsers';
