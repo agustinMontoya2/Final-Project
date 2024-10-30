@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import BackButton from './BackButton';
 import Dropdown from './Dropdown';
 import Swal from 'sweetalert2';
@@ -19,7 +19,7 @@ const NavBarXL: React.FC = () => {
     const [userSession, setUserSession] = useState<UserSession | null>(null);
     const router = useRouter();
     const pathname = usePathname();
-    // const searchParams = useSearchParams();
+    const searchParams = useSearchParams();
     const [isAdmin, setAdmin] = useState<boolean>(false);
     // const [isBanned, setIsBanned] = useState<boolean>(false);
     const hidden = pathname === "/"
@@ -101,7 +101,9 @@ const NavBarXL: React.FC = () => {
                     <Link onClick={handleReservation} className="w-7 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/reserve"}>
                         <p className="text-white font-bold hover:text-neutral-300 duration-500">Reservation</p>
                     </Link>
-                    <Dropdown />
+                    {/* <Suspense> */}
+                        <Dropdown />
+                    {/* </Suspense> */}
                     {
                         userSession && (
                             <Link className="" href={"/cart"}>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Suspense } from "react";
 
 import "./globals.css";
 import NavBarXL from "@/components/Navbar/NavBarXL";
@@ -32,7 +33,9 @@ export default function RootLayout({
         className="flex flex-col min-h-screen justify-between"
       >
 
+<Suspense fallback={<div>Cargando...</div>}>
         <NavBarXL />
+</Suspense>
         {children}
         <Footer />
 
