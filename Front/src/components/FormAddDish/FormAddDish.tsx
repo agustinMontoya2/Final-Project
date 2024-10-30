@@ -23,6 +23,7 @@ const FormularioMenu = () => {
     const [token, setToken] = useState<string | null>(null);
     const [userSession, setUserSession] = useState<IUserSession | null>(null);
     const [categories, setCategories] = useState<ICategory[]>([]);
+    const [isDisable, setIsDisable] = useState <boolean>(false)
 
     useEffect(() => {
         const session = localStorage.getItem('userSession');
@@ -109,6 +110,7 @@ const FormularioMenu = () => {
         console.log("Product data being sent:", product)
 
         try {
+            setIsDisable(true);
             const response = await postProduct(token, product);
             if(response.product_id && productImgFile) {
                 await editProductImg(productImgFile, token, response.product_id);
@@ -130,6 +132,8 @@ const FormularioMenu = () => {
             alert("El producto se ha agregado correctamente");
         } catch {
             throw new Error("El pedido no pudo procesarse");
+        }finally{
+            setIsDisable(false);
         }
     };
 
@@ -224,9 +228,10 @@ const FormularioMenu = () => {
 
                 <button
                     type="submit"
+                    disabled={isDisable}
                     className="w-4/5 bg-red-600 text-white font-bold py-2 rounded-lg hover:bg-red-700 transition duration-200"
                 >
-                    Add dish
+                    {isDisable ? "Adding..." : "add Dish..."}
                 </button>
             </form>
         </div>
