@@ -19,7 +19,7 @@ const NavBarXL: React.FC = () => {
     const [userSession, setUserSession] = useState<UserSession | null>(null);
     const router = useRouter();
     const pathname = usePathname();
-    const searchParams = useSearchParams();
+    // const searchParams = useSearchParams();
     const [isAdmin, setAdmin] = useState<boolean>(false);
     // const [isBanned, setIsBanned] = useState<boolean>(false);
     const hidden = pathname === "/"
@@ -60,18 +60,16 @@ const NavBarXL: React.FC = () => {
         }
     }, [pathname]);
 
-    useEffect(() => {
-        const token_auth0 = searchParams.get('token_auth0');
+    // useEffect(() => {
+    //     const token_auth0 = searchParams.get('token_auth0');
 
-        if (token_auth0) {
+    //     if (token_auth0) {
 
-            localStorage.setItem('authToken', token_auth0);
+    //         localStorage.setItem('authToken', token_auth0);
 
-            router.push('/');
-        }
-    }, [searchParams, router]);
-
-    ;
+    //         router.push('/');
+    //     }
+    // }, [searchParams, router]);
 
     const handleReservation = () => {
         if (!userSession) {

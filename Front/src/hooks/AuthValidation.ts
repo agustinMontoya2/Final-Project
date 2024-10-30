@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const AuthValidation = () => {
-  const [authenticated, setAuthenticated] = useState<boolean | null>(null); 
+  const [authenticated, setAuthenticated] = useState<boolean | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -16,18 +16,18 @@ const AuthValidation = () => {
         setAuthenticated(true);
       } else {
         setAuthenticated(false);
-        router.push("/"); 
+        router.push("/");
       }
     } else {
       setAuthenticated(false);
-      router.push("/"); 
+      router.push("/");
     }
   }, [router]);
 
 
-  if (authenticated === null) 
+  if (authenticated === null)
 
-  return authenticated; 
+  return authenticated;
 };
 
 export default AuthValidation;

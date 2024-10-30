@@ -29,7 +29,6 @@ const Cards = () => {
 
 
     useEffect(() => {
-        //forma c)
         if (typeof window !== "undefined"){
             const storeUserData = window.localStorage.getItem("userSession");
             if(storeUserData){
