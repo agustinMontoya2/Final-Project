@@ -3,7 +3,7 @@
 import { getProductsDB } from "@/Helpers/products.helper";
 import { IProducts, IFavorities, IFilter } from "@/interfaces/productoInterface";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { addFavorities, removeFavorities, getFavorities } from "@/lib/server/favorities";
 import { addCart } from "@/lib/server/cart";
 import Link from 'next/link';
@@ -21,6 +21,7 @@ const Cards = () => {
         showFavorites: false,
         priceOrder: "",
     });
+    
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
@@ -195,6 +196,7 @@ const Cards = () => {
         "/assets/friday.jpeg",
         "/assets/saturday.jpeg",
     ];
+
 
         return (
             <div className="pt-5 rounded-lg">
