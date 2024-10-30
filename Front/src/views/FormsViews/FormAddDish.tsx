@@ -207,7 +207,7 @@ const FormAddDish = () => {
                     <select
                         id="categoria"
                         name="category"
-                        value={formValues.category_id} // Ahora es un string, no un array
+                        value={formValues.category_id} 
                         onChange={handleChange}
                         className="text-sm rounded-lg block w-full p-2.5 bg-transparent border border-neutral-400 outline-none"
                         required
