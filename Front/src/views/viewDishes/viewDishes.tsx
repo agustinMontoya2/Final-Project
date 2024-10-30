@@ -1,9 +1,10 @@
 import React from 'react'
-import ModifyDishes from '../modifyDishes/modifyDishes';
+import ModifyDishes from '../FormsViews/modifyDishes';
+
 const ViewDishes = () => {
     return (
         <div>
-            <ModifyDishes/>
+            <ModifyDishes />
         </div>
     )
 }
