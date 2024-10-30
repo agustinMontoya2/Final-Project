@@ -5,7 +5,7 @@ import { formLogin } from '@/lib/server/auth';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import Swal from 'sweetalert2';
 
 const Login = () => {
@@ -115,6 +115,9 @@ const Login = () => {
     };
 
     return (
+        <Suspense  fallback={<div>Loading...</div>}>
+
+
         <div className="absolute inset-0 w-full h-auto flex flex-col items-center justify-center bg-primary m-auto lg:w-2/3 2xl:w-1/2 2xl:relative 2xl:h-screen">
             <form className="w-11/12 bg-neutral-300 p-6 rounded-lg flex flex-col justify-center items-center" onSubmit={handleSubmit}>
                 <h1 className='w-full text-xl text-center text-neutral-800 font-extrabold'>LOGIN IN FELLINI BAR</h1>
@@ -124,7 +127,7 @@ const Login = () => {
                 <button
                     type="submit"
                     className="w-4/5 bg-red-600 text-white font-bold py-2 rounded-lg hover:bg-red-700 transition duration-200"
-                >
+                    >
                     Login
                 </button>
                 <Link href="/register" className='text-neutral-800 mt-2 hover:underline'>Don&apos;t have an account? Register</Link>
@@ -133,7 +136,7 @@ const Login = () => {
                         type="button"
                         onClick={handleGoogleLogin}
                         className="w-full bg-white text-neutral-700 font-bold py-2 rounded-lg flex items-center justify-center hover:bg-neutral-100 transition duration-200"
-                    >
+                        >
                         <div className='w-auto px-2'>
                             <Image src="/assets/icon/google.png" width={30} height={30} alt="google" className="mr-2" />
                         </div>
@@ -143,6 +146,7 @@ const Login = () => {
             </form>
             <div className='w-full h-20'></div>
         </div>
+                        </Suspense>
     );
 }
 
