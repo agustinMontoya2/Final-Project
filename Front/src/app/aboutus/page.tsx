@@ -2,9 +2,6 @@ import dynamic from 'next/dynamic';
 import 'leaflet/dist/leaflet.css';
 import React, { createContext } from 'react';
 
-
-const Map = dynamic(() => import('./map'), { ssr: false });
-
 const AboutUs = () => {
     return (
         <div className="w-full flex flex-col items-center justify-center p-6">
@@ -21,7 +18,6 @@ const AboutUs = () => {
                 </div>
                 <div className="w-1/2 flex justify-center p-10">
                     <h2 className="text-neutral-700 font-bold text-xl">Find us at:</h2>
-                    <Map />
                 </div>
             </div>
         </div>

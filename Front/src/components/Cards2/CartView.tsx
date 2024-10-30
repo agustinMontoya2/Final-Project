@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { addCart, getCart, removeQuantityCart, removeProductCart } from '@/lib/server/cart';
-import { postOrder } from '@/lib/server/order';
+import { addCart, getCart, removeQuantityCart, removeProductCart } from '@/Helpers/cart';
+import { postOrder } from '@/Helpers/order';
 import Image from 'next/image';
 import { ICart, IOrder } from '@/interfaces/productoInterface';
 import { useRouter } from 'next/navigation';
@@ -10,12 +10,12 @@ import { PagoMercado } from '@/Helpers/MercadoPago';
 
 const CartView = () => {
     const [cartItems, setCartItems] = useState<ICart>({
-        cart_id: '', // o un valor adecuado
-        note: '',    // o un valor adecuado
-        product: [], // inicializa con un array vacío si es una lista
-        productDetail: [], // inicializa con un array vacío
+        cart_id: '',
+        note: '',
+        product: [],
+        productDetail: [],
     });
-    
+
     const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
     const [totalCart, setTotalCart] = useState<number>(0);
@@ -25,12 +25,13 @@ const CartView = () => {
     const router = useRouter();
 
     useEffect(() => {
-        const storedUserData = window.localStorage.getItem("userSession");
-        if (storedUserData) {
-            const parsedData = JSON.parse(storedUserData);
-            if (parsedData && parsedData.user) {
-                setUserId(parsedData.user.user_id);
-                setToken(parsedData.token);
+        if (typeof window !== "undefined"){
+            const storeUserData = window.localStorage.getItem("userSession");
+            if(storeUserData){
+                const parseData = JSON.parse(storeUserData)
+                if(parseData && parseData.user)
+                    setUserId(parseData.user.user_id);
+                setToken(parseData.token)
             }
         }
     }, []);
@@ -79,6 +80,15 @@ const CartView = () => {
         if (userId && token) {
             try {
                 const response = await removeProductCart(product_detail_id, token);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Product removed',
+                    toast: true,
+                    position: 'top-end',
+                    timer: 2500,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                });
                 if (response) {
                     await handleGetCart();
                 } else {
@@ -95,6 +105,7 @@ const CartView = () => {
         if (token && userId) {
             try {
                 await addCart(userId, productId, token);
+
                 await handleGetCart();
             } catch (error) {
                 alert(`Error: ${error instanceof Error ? error.message : error}`);
@@ -109,24 +120,24 @@ const CartView = () => {
         if (token && userId) {
             try {
                 alert(userId)
-                console.log (userId)
+                console.log(userId)
                 const data = await PagoMercado(userId, token);
-                console.log("Payment response:", data); 
+                console.log("Payment response:", data);
                 if (data && data.init_point) {
-                    window.location.href = data.init_point; 
+                    window.location.href = data.init_point;
                     handlePostOrder()
                 } else {
-                    alert("Error al iniciar el pago con MercadoPago.");
+                    alert("Error initiating payment with MercadoPago.");
                 }
             } catch (error) {
-                console.error("Error en la integración con MercadoPago:", error);
-                alert("Error al procesar el pago con MercadoPago.");
+                console.error("Error in integration with MercadoPago:", error);
+                alert("Error processing payment with MercadoPago.");
             }
         }
     };
-    
-    
-    
+
+
+
     const handlePostOrder = async () => {
         if (!cartItems.productDetail.length) {
             Swal.fire({
@@ -180,7 +191,7 @@ const CartView = () => {
             }
         }
     };
-    
+
 
     useEffect(() => {
         if (userId && token) {
@@ -193,13 +204,13 @@ const CartView = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen py-8">
+        <div className="flex flex-col items-center justify-center min-h-screen py-8 ">
             <h1 className="text-3xl font-bold text-black mb-6">Cart</h1>
             {cartItems?.productDetail.length === 0 ? (
-                    <p className="text-lg text-gray-700">Your cart is empty.</p>
+                <p className="text-lg text-gray-700">Your cart is empty.</p>
             ) : (
                 <div>
-                    <ul className="bg-white shadow-lg rounded-lg w-[80%] max-w-4xl">
+                    <ul className="bg-white shadow-lg rounded-lg w-[99%] max-w-4xl">
                         {cartItems?.productDetail.map((item) => (
                             <li key={item.product_detail_id} className="flex items-center justify-between p-6 border-b border-gray-300">
                                 <div className="flex items-center">
@@ -243,142 +254,86 @@ const CartView = () => {
                             <p className="bg-secondary rounded-lg p-2 text-lg font-bold text-white">${totalCart.toFixed(2)}</p>
                         </span>
                     </ul>
-                        <div className="w-[80%] max-w-4xl mt-6">
-                            <textarea
-                                value={note}
-                                onChange={(e) => setNote(e.target.value)}
-                                className="w-full h-24 max-h-56 min-h-16 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="Any special instructions or notes?"
-                            />
-                            <h3 className="mt-6 font-semibold text-lg text-black">Delivery Options</h3>
-                            <div className="flex mt-2">
-                                <label className="flex items-center text-neutral-800">
-                                    <input
-                                        type="checkbox"
-                                        value="dine-in"
-                                        checked={deliveryOption === "dine-in"}
-                                        onChange={(e) => setDeliveryOption(e.target.checked ? e.target.value : "")}
-                                        className="mr-2"
-                                    />
-                                    Take Away
-                                </label>
-                                <label className="flex items-center text-neutral-800 ml-5">
-                                    <input
-                                        type="checkbox"
-                                        value="delivery"
-                                        checked={deliveryOption === "delivery"}
-                                        onChange={(e) => setDeliveryOption(e.target.checked ? e.target.value : "")}
-                                        className="mr-2"
-                                    />
-                                    Delivery
-                                </label>
-                            </div>
-                            <h3 className="mt-6 font-semibold text-lg text-black">Payment Method</h3>
-                            <div className="flex mt-2">
-                                <label className="flex items-center text-neutral-800">
-                                    <input
-                                        type="checkbox"
-                                        value="cash"
-                                        checked={paymentOption === "cash"}
-                                        onChange={(e) => setPaymentOption(e.target.checked ? e.target.value : "")}
-                                        className="mr-2"
-                                    />
-                                    Cash
-                                </label>
-                                <label className="flex items-center text-neutral-800 ml-5">
-                                    <input
-                                        type="checkbox"
-                                        value="card"
-                                        checked={paymentOption === "card"}
-                                        onChange={(e) => setPaymentOption(e.target.checked ? e.target.value : "")}
-                                        className="mr-2"
-                                    />
-                                    Card
-                                </label>
-                            </div>
-                            <div className="flex justify-center space-x-4 mt-6">
+                    <div className="w-[80%] max-w-4xl mt-6">
+                        <textarea
+                            value={note}
+                            onChange={(e) => setNote(e.target.value)}
+                            className="w-[125%] h-24 max-h-56 min-h-16 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="Any special instructions or notes?"
+                        />
+                        <h3 className="mt-6 font-semibold text-lg text-black">Delivery Options</h3>
+                        <div className="flex mt-2">
+                            <label className="flex items-center text-neutral-800">
+                                <input
+                                    type="checkbox"
+                                    value="dine-in"
+                                    checked={deliveryOption === "dine-in"}
+                                    onChange={(e) => setDeliveryOption(e.target.checked ? e.target.value : "")}
+                                    className="mr-2"
+                                />
+                                Take Away
+                            </label>
+                            <label className="flex items-center text-neutral-800 ml-5">
+                                <input
+                                    type="checkbox"
+                                    value="delivery"
+                                    checked={deliveryOption === "delivery"}
+                                    onChange={(e) => setDeliveryOption(e.target.checked ? e.target.value : "")}
+                                    className="mr-2"
+                                />
+                                Delivery
+                            </label>
+                        </div>
+                        <h3 className="mt-6 font-semibold text-lg text-black">Payment Method</h3>
+                        <div className="flex mt-2">
+                            <label className="flex items-center text-neutral-800">
+                                <input
+                                    type="checkbox"
+                                    value="cash"
+                                    checked={paymentOption === "cash"}
+                                    onChange={(e) => setPaymentOption(e.target.checked ? e.target.value : "")}
+                                    className="mr-2"
+                                />
+                                Cash
+                            </label>
+                            <label className="flex items-center text-neutral-800 ml-5">
+                                <input
+                                    type="checkbox"
+                                    value="card"
+                                    checked={paymentOption === "card"}
+                                    onChange={(e) => setPaymentOption(e.target.checked ? e.target.value : "")}
+                                    className="mr-2"
+                                />
+                                Card
+                            </label>
+                        </div>
+                        <div className="flex justify-center space-x-4 mt-6">
+                            <button
+                                onClick={handleFinishOrder}
+                                className="bg-secondary text-white font-bold px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+                            >
+                                Continue Shopping
+                            </button>
+                            {paymentOption === "card" && (
                                 <button
-                                    onClick={handleFinishOrder}
-                                    className="bg-secondary text-white font-bold px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+                                    onClick={handlerMercadoPago}
+                                    className="bg-blue-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300"
                                 >
-                                    Continue Shopping
+                                    Pay with MercadoPago
                                 </button>
-                                {paymentOption === "card" && (
-                                    <button
-                                        onClick={handlerMercadoPago}
-                                        className="bg-blue-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300"
-                                    >
-                                        Pay with MercadoPago
-                                    </button>
-                                )}
-                                <button
-                                    onClick={handlePostOrder}
-                                    className="bg-green-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300"
-                                >
-                                    Finalize Order
-                                </button>
-                            </div>
+                            )}
+                            <button
+                                onClick={handlePostOrder}
+                                className="bg-green-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300"
+                            >
+                                Finalize Order
+                            </button>
                         </div>
                     </div>
+                </div>
             )}
         </div>
     );
 }
 
 export default CartView;
-
-
-// const Producto = () => {
-//     const [notification, setNotificacion] = useState({
-//       isOpen: false,
-//       type: null,
-//       content: '',
-//     });
-  
-//     useEffect(() => {
-//       const urlParams = new URLSearchParams(window.location.search);
-//       const status = urlParams.get('status');
-//       if (status === 'approved') {
-//         setNotificacion({
-//           content: 'Pago aprovado',
-//           isOpen: true,
-//           type: 'approved',
-//         });
-//       } else if (status === 'failure') {
-//         setNotificacion({
-//           content: 'Pago fallido',
-//           isOpen: true,
-//           type: 'failure',
-//         });
-//       }
-//       setTimeout(() => {
-//         setNotificacion({
-//           isOpen: false,
-//           type: null,
-//           content: '',
-//         });
-//       }, 5000);
-//     }, []);
-  
-//     return (
-//       <main>
-//         <div>
-//           <img src={Product.img} alt={Product.title} width={360} height={450} />
-//         </div>
-//         <div>
-//           <h2>Black Friday</h2>
-//           <h3>{Product.price}</h3>
-//         </div>
-//         <div>
-//           <span>Lo que tenes que saber de este producto:</span>
-//           <ul>
-//             {Product.description.map((item) => (
-//               <li key={item}>{item}</li>
-//             ))}
-//           </ul>
-//         </div>
-//         <div>
-//           <MercadoPagoButton product={Product} />
-//         </div>
-//         {notification.isOpen && (
-  

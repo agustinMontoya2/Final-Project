@@ -1,9 +1,13 @@
 
-import FavoritesView from '@/components/favoritesView/favorites';
+import FavoritesView from '@/views/FavCard/favorites';
 import React from 'react';
 
 const Favorites = () => {
-    return <FavoritesView />;
+    return (
+        <div>
+         <FavoritesView />;
+         </div>
+    )
 }
 
 export default Favorites;

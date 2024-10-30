@@ -1,18 +1,22 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import "./globals.css";
 
-import ConditionalLayouts from "../components/ConditionalLayouts/ConditionalLayouts";
-import { UserProvider } from "@auth0/nextjs-auth0/client";
+import "./globals.css";
+import NavBarXL from "@/components/Navbar/NavBarXL";
+import Footer from "@/components/footer/Footer";
+
+// import ConditionalLayouts from "../components/ConditionalLayouts/ConditionalLayouts";
+
+
 
 
 const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+  src: "../fonts/GeistMonoVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
 });
 const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
+  src: "../fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
 });
@@ -30,13 +34,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} flex flex-col justify-between antialiased`}
+        className="flex flex-col min-h-screen justify-between"
       >
-        {/* <UserProvider> */}
-          <ConditionalLayouts>
-            {children}
-          </ConditionalLayouts>
-        {/* </UserProvider> */}
+       
+        <NavBarXL></NavBarXL>
+        {children}
+        <Footer></Footer>
+      
       </body>
     </html>
   );

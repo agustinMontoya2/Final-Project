@@ -14,11 +14,15 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { productDetailDto } from 'src/products/dto/create-product.dto';
 import { Product } from 'src/products/entities/product.entity';
 import { ApiTags } from '@nestjs/swagger';
+import { MailService } from 'src/mail/mail.service';
 
 @Controller('users')
 @ApiTags('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly mailService: MailService,
+  ) {}
 
   @Get()
   findAll() {
@@ -90,9 +94,12 @@ export class UsersController {
   }
 
   @Post('ban/:id')
-  banUser(@Param('id') user_id: string) {
+  async banUser(@Param('id') user_id: string, @Body('reason') reason: string) {
+    const user = await this.usersService.getEmailByUser(user_id);
+    await this.mailService.mailBanUser(reason, user);
     return this.usersService.banUser(user_id);
   }
+
   @Post('admin/:id')
   adminUser(@Param('id') user_id: string) {
     return this.usersService.adminUser(user_id);

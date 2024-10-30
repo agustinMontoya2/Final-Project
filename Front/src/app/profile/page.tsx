@@ -1,27 +1,30 @@
-'use client'
 import ProfileV from "@/components/Profile/profile";
 import AuthBanned from "@/hooks/AuthBanned";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, {useEffect } from "react";
 
 const Profile = () => {
-    const router = useRouter();
-    const esBanneado = AuthBanned()
-   if (esBanneado) return  <div>Usted ha sido baneado</div>
+    // const router = useRouter();
+    // const esBanneado = AuthBanned();
 
+    // useEffect(() => {
+    //     if (esBanneado) return; // Evita redireccionar si el usuario está baneado
 
-    useEffect(() => {
-        const userSession = localStorage.getItem("userSession");
-        if (!userSession) {
-            router.push('/login');
-        } 
-    }, [router]);
+    //     const userSession = localStorage.getItem("userSession");
+    //     if (!userSession) {
+    //         router.push('/login');
+    //     } 
+    // }, [router, esBanneado]);
+
+    // if (esBanneado) {
+    //     return <div>Usted ha sido baneado</div>;
+    // }
 
     return (
         <div>
-            <ProfileV/>
+            <ProfileV />
         </div>
-    )
+    );
 }
 
-export default Profile
+export default Profile;

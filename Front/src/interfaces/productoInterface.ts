@@ -61,6 +61,7 @@ export interface IRegister {
 }
 
 export interface IReserve {
+  user_id: string;
   reservation_id: string;
   ubication: string;
   date: string;

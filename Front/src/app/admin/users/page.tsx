@@ -1,10 +1,10 @@
-import ViewUsers from '@/components/viewUsers/viewUsers'
+import ViewUsers from '@/views/viewUsers/viewUsers'
 import React from 'react'
 
 const profileAdmin = () => {
   return (
     <div>
-        <ViewUsers/>
+      <ViewUsers />
     </div>
   )
 }

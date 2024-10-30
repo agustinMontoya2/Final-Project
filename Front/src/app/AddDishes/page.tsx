@@ -1,23 +1,22 @@
-'use client'
-import React, { useEffect } from 'react'
-import FormularioMenu from '@/components/FormAddDish/FormAddDish'
-import { useRouter } from 'next/navigation';
+import React/** , { useEffect } */ from 'react'
+import FormularioMenu from '@/views/FormsViews/FormAddDish'
+// import { useRouter } from 'next/navigation';
 import AuthValidation from '@/hooks/AuthValidation';
 
-const AddDish = () => {
-    const router = useRouter();
+const AddDish:React.FC = () => {
+    // const router = useRouter();
     const esAdmin = AuthValidation()
 
     if (esAdmin) {
         return <div> you are not admin, sending you BACK!</div>
     }
-    
-    useEffect(() => {
-        const userSession = localStorage.getItem("userSession");
-        if (!userSession) {
-            router.push('/login');
-        }
-    }, [router]);
+
+    // useEffect(() => {
+    //     const userSession = localStorage.getItem("userSession");
+    //     if (!userSession) {
+    //         router.push('/login');
+    //     }
+    // }, [router]);
 
     return (
         <div>
