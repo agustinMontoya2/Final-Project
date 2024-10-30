@@ -100,7 +100,7 @@ const ProfileV = () => {
       } catch {
         console.log('error');
 
-      }
+      } 
     } else {
       Swal.fire({
         title: "Log in first",
