@@ -3,12 +3,12 @@ import RegisterForm from "@/components/Register/Register"
 
 
 
-const Register:React.FC=()=> {
+const Register: React.FC = () => {
     return (
-      <div>
+        <div>
 
-          <RegisterForm /> 
-          </div> 
+            <RegisterForm />
+        </div>
     )
 }
 

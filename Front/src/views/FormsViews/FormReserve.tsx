@@ -28,11 +28,14 @@ const ReservationForm: React.FC = () => {
     };
 
     useEffect(() => {
-        const storedUserData = window.localStorage.getItem("userSession");
-        if (storedUserData) {
-            const parsedData = JSON.parse(storedUserData);
-            if (parsedData && parsedData.user) {
-                setUser_id(parsedData.user.user_id);
+        if(typeof window !== "undefined"){
+
+            const storedUserData = window.localStorage.getItem("userSession");
+            if (storedUserData) {
+                const parsedData = JSON.parse(storedUserData);
+                if (parsedData && parsedData.user) {
+                    setUser_id(parsedData.user.user_id);
+                }
             }
         }
     }, []);

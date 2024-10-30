@@ -26,18 +26,24 @@ const FormularioMenu = () => {
     const [isDisable, setIsDisable] = useState<boolean>(false)
 
     useEffect(() => {
+        if (typeof  window !== 'undefined') {
+
         const session = localStorage.getItem('userSession');
         if (session) {
             const parsedSession = JSON.parse(session);
             setUserSession(parsedSession);
         }
+    }
     }, [router]);
 
     useEffect(() => {
+        if (typeof  window !== 'undefined') {
+
         const storedUserData = JSON.parse(window.localStorage.getItem("userSession") || "{}");
         if (storedUserData.user) {
             setToken(storedUserData.token);
         }
+    }
     }, []);
 
     const fetchCategories = async () => {

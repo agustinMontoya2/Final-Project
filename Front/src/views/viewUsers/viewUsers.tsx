@@ -29,10 +29,13 @@ const ViewUsers = () => {
     }, []);
 
     useEffect(() => {
+        if(typeof  window !== 'undefined' && window.localStorage) {
+
         const storedUserData = window.localStorage.getItem("userSession");
         if (storedUserData) {
             const parsedData: IUserSession = JSON.parse(storedUserData);
             setToken(parsedData.token);
+             }
         }
     }, [router]);
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { getProductsDB } from "@/Helpers/products.helper";
-import { IProducts, IFavorities, IFilter } from "@/interfaces/productoInterface";
+import { IProducts, IFavorities, IFilter, IUserSession } from "@/interfaces/productoInterface";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { addFavorities, removeFavorities, getFavorities } from "@/Helpers/favorities";
@@ -21,7 +21,7 @@ const Cards = () => {
         showFavorites: false,
         priceOrder: "",
     });
-
+    const [setData, setUserData] = useState<IUserSession>()
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
@@ -29,16 +29,34 @@ const Cards = () => {
 
 
     useEffect(() => {
-        const storedUserData = window.localStorage.getItem("userSession");
-        if (storedUserData) {
-            const parsedData = JSON.parse(storedUserData);
-            if (parsedData && parsedData.user) {
-                setUserId(parsedData.user.user_id);
-                setToken(parsedData.token);
-                fetchProducts();
-                fetchFavorities();
+        //forma c)
+        if (typeof window !== "undefined"){
+            const storeUserData = window.localStorage.getItem("userSession");
+            if(storeUserData){
+                const parseData = JSON.parse(storeUserData)
+                if(parseData && parseData.user)
+                    setUserId(parseData.user.user_id);
+                setToken(parseData.token)
+                fetchProducts()
+                fetchFavorities()
             }
         }
+       //forma a)
+        // if(typeof window != "undefined"  && window.sessionStorage.getItem("token") && window.sessionStorage.getItem("userId")){
+     //     const userDataStorage: IUserSession =  JSON.parse(window.sessionStorage.getItem("token") || "[]");
+        //     setUserData(userDataStorage);
+
+       //forma b)
+    //     const storedUserData = window.localStorage.getItem("userSession");
+    //     if (storedUserData) {
+    //         const parsedData = JSON.parse(storedUserData);
+    //         if (parsedData && parsedData.user) {
+    //             setUserId(parsedData.user.user_id);
+    //             setToken(parsedData.token);
+    //             fetchProducts();
+    //             fetchFavorities();
+    //         }
+        
     }, [router]);
 
     useEffect(() => {

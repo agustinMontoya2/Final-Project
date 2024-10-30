@@ -21,11 +21,19 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
 
 
   useEffect(() => {
-    const storedUserData = JSON.parse(window.localStorage.getItem("userSession") || "{}");
-    if (storedUserData.user) {
-      setUserId(storedUserData.user.user_id);
-      setToken(storedUserData.token);
+    if (typeof window !== "undefined"){
+      const storeUserData = window.localStorage.getItem("userSession");
+      if(storeUserData){
+          const parseData = JSON.parse(storeUserData)
+          if(parseData && parseData.user)
+              setUserId(parseData.user.user_id);
+          setToken(parseData.token) 
+    // const storedUserData = JSON.parse(window.localStorage.getItem("userSession") || "{}");
+    // if (storedUserData.user) {
+    //   setUserId(storedUserData.user.user_id);
+    //   setToken(storedUserData.token);
     }
+   }
   }, []);
 
   useEffect(() => {

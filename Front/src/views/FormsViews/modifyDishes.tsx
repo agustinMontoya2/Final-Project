@@ -29,12 +29,15 @@ const ModifyDishes = () => {
     const [categories, setCategories] = useState<ICategory[]>([]);
 
     useEffect(() => {
+        if (typeof window  !== 'undefined') {
+
         const storedUserData = window.localStorage.getItem("userSession");
         if (storedUserData) {
             const parsedData = JSON.parse(storedUserData);
             if (parsedData && parsedData.user) {
                 setToken(parsedData.token);
             }
+        }
         }
         fetchProducts();
         fetchCategories();

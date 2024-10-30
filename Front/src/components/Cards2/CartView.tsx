@@ -25,12 +25,19 @@ const CartView = () => {
     const router = useRouter();
 
     useEffect(() => {
-        const storedUserData = window.localStorage.getItem("userSession");
-        if (storedUserData) {
-            const parsedData = JSON.parse(storedUserData);
-            if (parsedData && parsedData.user) {
-                setUserId(parsedData.user.user_id);
-                setToken(parsedData.token);
+        if (typeof window !== "undefined"){
+            const storeUserData = window.localStorage.getItem("userSession");
+            if(storeUserData){
+                const parseData = JSON.parse(storeUserData)
+                if(parseData && parseData.user)
+                    setUserId(parseData.user.user_id);
+                setToken(parseData.token)
+        // const storedUserData = window.localStorage.getItem("userSession");
+        // if (storedUserData) {
+        //     const parsedData = JSON.parse(storedUserData);
+        //     if (parsedData && parsedData.user) {
+        //         setUserId(parsedData.user.user_id);
+        //         setToken(parsedData.token);
             }
         }
     }, []);
