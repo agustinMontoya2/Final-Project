@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+
 import "./globals.css";
 
 import ConditionalLayouts from "../components/ConditionalLayouts/ConditionalLayouts";
+import { Suspense } from "react";
 
 
 
@@ -33,8 +35,14 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} flex flex-col justify-between antialiased`}
       >
         {/* <UserProvider> */}
+        
+
+
+
           <ConditionalLayouts>
+        <Suspense  fallback={<div>loading..</div>}>
             {children}
+        </Suspense>
           </ConditionalLayouts>
         {/* </UserProvider> */}
       </body>
