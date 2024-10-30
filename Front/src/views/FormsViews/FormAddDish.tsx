@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { getCategories } from '@/Helpers/Categories';
 import Image from 'next/image';
 
-const FormularioMenu = () => {
+const FormAddDish = () => {
     const router = useRouter();
     const [productImgFile, setProductImgFile] = useState<File | null>(null);
     const [imagenPreview, setImagePreview] = useState<string | null>(null);
@@ -145,7 +145,7 @@ const FormularioMenu = () => {
 
     return (
         <div className="absolute inset-0 flex items-center justify-center">
-            <form className="w-11/12 bg-neutral-300 p-6 rounded-lg flex flex-col justify-center items-center" onSubmit={handleSubmit}>
+            <form className="w-3/5 bg-neutral-300 p-6 rounded-lg flex flex-col justify-center items-center" onSubmit={handleSubmit}>
                 <h2 className="w-full text-xl text-center text-neutral-800 font-extrabold">Add dish</h2>
                 <div className="w-4/5 mb-6 relative">
                     <input
@@ -172,7 +172,7 @@ const FormularioMenu = () => {
                         placeholder="Description"
                         value={formValues.description}
                         onChange={handleChange}
-                        className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
+                        className="max-h-32 min-h-12 text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
                         required
                     />
                     <label
@@ -201,7 +201,7 @@ const FormularioMenu = () => {
                     </label>
                 </div>
                 <div className="w-4/5 mb-6 relative">
-                    <label htmlFor="categoria" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
+                    <label htmlFor="categoria" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-700">
                         Category
                     </label>
                     <select
@@ -209,12 +209,12 @@ const FormularioMenu = () => {
                         name="category"
                         value={formValues.category_id} // Ahora es un string, no un array
                         onChange={handleChange}
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        className="text-sm rounded-lg block w-full p-2.5 bg-transparent border border-neutral-400 outline-none"
                         required
                     >
                         <option value="">Select a category</option>
                         {categories.map((category) => (
-                            <option key={category.category_id} value={category.category_id.toString()}>
+                            <option key={category.category_id} value={category.category_id.toString()} className='bg-transparent'>
                                 {category.category_name}
                             </option>
                         ))}
@@ -229,7 +229,7 @@ const FormularioMenu = () => {
                             <span className="mt-2 text-gray-500 text-sm">No file selected</span>
                         )}
                     </label>
-                    <input id="imagen" type="file" onChange={handleFileChange} className="hidden" required />
+                    <input id="imagen" type="file" onChange={handleFileChange} className="hidden" accept='image/*' required />
                 </div>
 
                 <button
@@ -244,4 +244,4 @@ const FormularioMenu = () => {
     );
 };
 
-export default FormularioMenu;
+export default FormAddDish;

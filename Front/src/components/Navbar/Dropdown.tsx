@@ -73,7 +73,7 @@ export default function Dropdown() {
 
     return (
         <div className="relative flex items-center" ref={dropdownRef}>
-            <div className='w-12 h-12 overflow-hidden rounded-full'>
+            <div className='w-12 h-12 overflow-hidden rounded-full border-2 border-white'>
                 {userSession?.user?.user_img ? (
                     <Image src={userSession.user.user_img} width={50} height={50} alt="profile" className="m-auto" onClick={toggleDropdown} />
                 ) : (

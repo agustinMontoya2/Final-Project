@@ -13,13 +13,16 @@ interface UserSession {
     name: string;
 }
 const NavBarXL: React.FC = () => {
+
+    
+
     const [userSession, setUserSession] = useState<UserSession | null>(null);
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const [isAdmin, setAdmin] = useState<boolean>(false);
     // const [isBanned, setIsBanned] = useState<boolean>(false);
-
+    const hidden = pathname === "/"
 
     useEffect(() => {
         const storedIsAdmin = localStorage.getItem('isAdmin');
@@ -83,7 +86,10 @@ const NavBarXL: React.FC = () => {
     }
 
     return (
-        <div className='flex flex-col'>
+        <div className='h-16'>
+        {
+            !hidden && (
+                <div className='flex flex-col'>
             <div className="w-full h-auto bg-secondary flex justify-between items-center fixed top-0 z-40">
                 <Link href={"/"} className="h-16 w-1/3 p-2 flex justify-start">
                     <div className='relative h-full w-36'>
@@ -101,18 +107,18 @@ const NavBarXL: React.FC = () => {
                     {
                         userSession && (
                             <Link className="" href={"/cart"}>
-                                <Image src={"/assets/icon/cart.png"} width={40} height={40} alt='' />
+                                <Image src={"/assets/icon/cart.png"} width={40} height={40} alt='cart' />
                             </Link>
                         )
-                    }
-                    {
-                        !isAdmin && (<AdmindDashboard />)
                     }
                 </div>
             </div>
             <div className='w-10 mt-16 -mb-32 p-4 cursor-pointer z-50 fixed'>
                 <BackButton />
             </div>
+        </div>
+            )
+        }
         </div>
     );
 }

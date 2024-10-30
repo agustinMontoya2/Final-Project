@@ -7,6 +7,7 @@ import { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { getCategories } from '@/Helpers/Categories';
 import Swal from "sweetalert2";
+import '../../styles/scrollbar.css'
 
 const ModifyDishes = () => {
     const router = useRouter();
@@ -177,7 +178,7 @@ const ModifyDishes = () => {
     }
 
     return (
-        <div className="h-screen overflow-y-scroll p-5">
+        <div className="h-screen overflow-y-scroll p-5 scrollbar-custom">
             <div className="mb-5 text-center">
                 <input
                     type="text"
@@ -197,22 +198,22 @@ const ModifyDishes = () => {
                                 <Image
                                     src={product.image_url}
                                     alt={product.product_name}
-                                    width={80}
-                                    height={80}
-                                    className="w-20 h-20 rounded-md mr-4"
+                                    width={100}
+                                    height={100}
+                                    className="rounded-md mr-4"
                                 />
                                 <div className="flex-grow">
                                     <h2 className="text-black text-xl font-semibold">{product.product_name}</h2>
                                     <div className="mt-2 flex justify-between">
                                         <button
-                                            className="flex bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
+                                            className="flex bg-secondary px-3 py-1 rounded-md hover:bg-red-700 text-white"
                                             onClick={() => handleModify(product)} // Pasa el producto al modificar
                                         >
                                             Edit
                                             <Image src={'/assets/icon/pencilwhite.png'} width={20} height={20} alt="edit" className="ml-2" />
                                         </button>
                                         <button
-                                            className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
+                                            className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700 text-white"
                                             onClick={() => handleDelete(product.product_id)}
                                         >
                                             Delete

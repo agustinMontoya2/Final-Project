@@ -1,5 +1,5 @@
 'use client'
-import ProfileV from '@/components/Profile/profile'
+import Profile from '@/components/Profile/profile'
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -28,7 +28,7 @@ useEffect(() => {
 }, [admin]);
 
   return (
-    <ProfileV/>
+    <Profile/>
   )
 }
 
