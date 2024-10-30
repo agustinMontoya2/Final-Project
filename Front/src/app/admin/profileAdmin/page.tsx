@@ -1,10 +1,10 @@
-import AdminPerfil from '@/components/adminPerfil/adminPerfil'
+import AdminPerfil from '@/views/AdminView/adminPerfil'
 import React from 'react'
 
 const profileAdmin = () => {
   return (
     <div>
-        <AdminPerfil/>
+      <AdminPerfil />
     </div>
   )
 }

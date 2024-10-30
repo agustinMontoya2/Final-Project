@@ -1,5 +1,5 @@
 'use client'
-import FormContact from '@/components/FormContact/FormContact'
+import FormContact from '@/views/FormsViews/FormContact'
 import { useRouter } from 'next/navigation';
 import React, {useEffect } from 'react'
 

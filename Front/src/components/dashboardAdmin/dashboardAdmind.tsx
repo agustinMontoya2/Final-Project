@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import Image from 'next/image'; 
+import Image from 'next/image';
 import Link from 'next/link';
 import ViewReviews from '../../views/viewReviews/viewReviews';
 import ViewUsers from '../../views/viewUsers/viewUsers';
-import AdminPerfil from '../adminPerfil/adminPerfil';
-import FormularioMenu from '../FormAddDish/FormAddDish';
+import AdminPerfil from '../../views/AdminView/adminPerfil';
+import FormularioMenu from '../../views/FormsViews/FormAddDish';
 import ViewOrders from '../../views/viewOrders/viewOrders';
 import ViewReserves from '../../views/viewReserves/viewReserves';
 import ViewDishes from '@/views/viewDishes/viewDishes';

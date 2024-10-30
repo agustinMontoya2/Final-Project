@@ -1,4 +1,4 @@
-import ReservasView from '@/components/MyReservations/miReservas'
+import ReservasView from '@/views/FormsViews/miReservas'
 import React from 'react'
 
 const reservas = () => {

@@ -3,8 +3,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
-import BackButton from '../BackButton/BackButton';
-import Dropdown from '../Dropdowm/Dropdown';
+import BackButton from '../Navbar/BackButton';
+import Dropdown from '../Navbar/Dropdown';
 import Swal from 'sweetalert2';
 import AdmindDashboard from '@/app/admin/page';
 // import DashboardAdmind from '@/app/dashboardAdmin/page';
@@ -12,7 +12,7 @@ import AdmindDashboard from '@/app/admin/page';
 interface UserSession {
     name: string;
 }
-const NavBarXL:React.FC= () => {
+const NavBarXL: React.FC = () => {
     const [userSession, setUserSession] = useState<UserSession | null>(null);
     const router = useRouter();
     const pathname = usePathname();

@@ -1,5 +1,5 @@
 import React/** , { useEffect } */ from 'react'
-import FormularioMenu from '@/components/FormAddDish/FormAddDish'
+import FormularioMenu from '@/views/FormsViews/FormAddDish'
 // import { useRouter } from 'next/navigation';
 import AuthValidation from '@/hooks/AuthValidation';
 
@@ -10,7 +10,7 @@ const AddDish = () => {
     if (esAdmin) {
         return <div> you are not admin, sending you BACK!</div>
     }
-    
+
     // useEffect(() => {
     //     const userSession = localStorage.getItem("userSession");
     //     if (!userSession) {
