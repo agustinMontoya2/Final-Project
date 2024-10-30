@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { Suspense } from "react";
 
 export default function AuthCallback() {
   const router = useRouter();
@@ -44,8 +43,6 @@ export default function AuthCallback() {
   }, [searchParams, router]);
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
       <div>Autenticando...</div>
-    </Suspense>
   );
 }

@@ -1,12 +1,9 @@
 import Image from "next/image";
-import { Suspense } from "react";
+
 
 export default function Off() {
     
     return(
-        <Suspense  fallback={<div>Loading...</div>}>
-
-
         <div className="fixed w-screen h-screen overflow-hidden">
             <div className="absolute inset-0">
                 <Image
@@ -88,6 +85,5 @@ export default function Off() {
                     </div>
             </div>
         </div>
-                    </Suspense>
     )
 }

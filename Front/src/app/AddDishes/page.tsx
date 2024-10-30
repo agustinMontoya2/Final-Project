@@ -1,5 +1,4 @@
-'use client'
-import React, { Suspense } /** , { useEffect } */ from 'react'
+import React/** , { useEffect } */ from 'react'
 import FormularioMenu from '@/components/FormAddDish/FormAddDish'
 // import { useRouter } from 'next/navigation';
 import AuthValidation from '@/hooks/AuthValidation';
@@ -20,13 +19,9 @@ const AddDish = () => {
     // }, [router]);
 
     return (
-        <Suspense  fallback={<div>Loading...</div>}>
-
-
         <div>
             <FormularioMenu />
         </div>
-        </Suspense>
     )
 }
 

@@ -1,3 +1,4 @@
+"use client"
 import { requestResetPassword } from "@/lib/server/auth";
 import { useState } from "react";
 import Swal from "sweetalert2";

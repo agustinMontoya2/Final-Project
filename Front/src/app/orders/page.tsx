@@ -1,8 +1,7 @@
-'use client'
 import OrdersView from '@/components/OrdersView/order';
 import AuthBanned from '@/hooks/AuthBanned';
 import { useRouter } from 'next/navigation';
-import React, { Suspense, useEffect } from 'react';
+import React, {useEffect } from 'react';
 
 const Orders = () => {
     const router = useRouter();
@@ -22,12 +21,9 @@ const Orders = () => {
     }
 
     return (
-        <Suspense  fallback={<div>Cargando...</div>}>
-
         <div>
             <OrdersView />
         </div>
-        </Suspense>
     );
 }
 

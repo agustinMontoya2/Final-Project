@@ -5,7 +5,7 @@ import { formLogin } from '@/lib/server/auth';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useState, Suspense } from 'react';
+import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 
 const Login = () => {
@@ -115,7 +115,6 @@ const Login = () => {
     };
 
     return (
-        <Suspense  fallback={<div>Loading...</div>}>
 
 
         <div className="absolute inset-0 w-full h-auto flex flex-col items-center justify-center bg-primary m-auto lg:w-2/3 2xl:w-1/2 2xl:relative 2xl:h-screen">
@@ -146,7 +145,6 @@ const Login = () => {
             </form>
             <div className='w-full h-20'></div>
         </div>
-                        </Suspense>
     );
 }
 

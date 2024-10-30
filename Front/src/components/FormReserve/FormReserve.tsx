@@ -1,3 +1,4 @@
+"use client"
 import React, { useState, useEffect } from 'react';
 import { IReserve, IUserSession } from '@/interfaces/productoInterface';
 import { formReserve } from '@/lib/server/reservation';

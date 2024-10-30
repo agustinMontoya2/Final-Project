@@ -1,8 +1,7 @@
-'use client'
 import ProfileV from "@/components/Profile/profile";
 import AuthBanned from "@/hooks/AuthBanned";
 import { useRouter } from "next/navigation";
-import React, { Suspense, useEffect } from "react";
+import React, {useEffect } from "react";
 
 const Profile = () => {
     const router = useRouter();
@@ -22,11 +21,9 @@ const Profile = () => {
     }
 
     return (
-        <Suspense  fallback={<div>Loading...</div>}>
         <div>
             <ProfileV />
         </div>
-        </Suspense>
     );
 }
 

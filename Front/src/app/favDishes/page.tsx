@@ -1,7 +1,7 @@
 import FavCard from '@/app/favDishes/favCard';
 import { IProducts } from '@/interfaces/productoInterface';
 import { getFavorities } from '@/lib/server/favorities';
-import React, { Suspense } from 'react';
+import React from 'react';
 
 
 const Fav = async ({ params }: { params: { productsId: string; userId: string } }) => {
@@ -10,7 +10,6 @@ const Fav = async ({ params }: { params: { productsId: string; userId: string } 
     const products: IProducts[] = await getFavorities(params.userId, token); 
 
     return (
-      <Suspense  fallback={<div>Loading...</div>}>
       <div>
         {products.length > 0 ? (
           products.map((product) => (
@@ -20,7 +19,6 @@ const Fav = async ({ params }: { params: { productsId: string; userId: string } 
           <div>No hay productos favoritos.</div>
         )}
       </div>
-    </Suspense>
     );
   } catch (error) {
     return <div>Error al cargar los productos favoritos</div>;

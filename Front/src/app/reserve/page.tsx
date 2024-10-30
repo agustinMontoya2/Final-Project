@@ -1,15 +1,14 @@
-'use client'
 import FormReserve from '@/components/FormReserve/FormReserve';
 import AuthBanned from '@/hooks/AuthBanned';
 import { useRouter } from 'next/navigation';
-import React, { Suspense, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 const Reserve = () => {
   const router = useRouter();
   const esBanneado = AuthBanned();
 
   useEffect(() => {
-    if (esBanneado) return; // No hacer nada si el usuario está baneado
+    if (esBanneado) return; 
 
     const userSession = localStorage.getItem("userSession");
     if (!userSession) {
@@ -22,11 +21,9 @@ const Reserve = () => {
   }
 
   return (
-    
-    <Suspense  fallback={<div>Loading...</div>}>
-      <FormReserve />
-    </Suspense>
-    
+    <div>
+      <FormReserve />  
+    </div>
   );
 }
 

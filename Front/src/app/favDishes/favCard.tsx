@@ -1,7 +1,7 @@
 "use client"
 import { IProducts } from '@/interfaces/productoInterface'
 import Image from 'next/image'
-import React, { Suspense } from 'react'
+import React from 'react'
 
 const FavCard: React.FC<{ favorite: IProducts | { product: IProducts } }> = ({ favorite }) => {
     if (!favorite) {
@@ -13,9 +13,6 @@ const FavCard: React.FC<{ favorite: IProducts | { product: IProducts } }> = ({ f
     const { price, description, image_url, product_name } = product;
 
     return (
-        <Suspense  fallback={<div>Loading...</div>}>
-
-
         <div className="bg-white shadow-md rounded-lg overflow-hidden">
             <div className="relative w-64 h-64">
                 <Image
@@ -32,7 +29,6 @@ const FavCard: React.FC<{ favorite: IProducts | { product: IProducts } }> = ({ f
                 <p className="text-lg font-bold text-blue-600">${price}</p>
             </div>
         </div>
-                    </Suspense>
     );
 }
 
