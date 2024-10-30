@@ -1,6 +1,6 @@
 "use client";
 import { IUser, IUserSession } from "@/interfaces/productoInterface";
-import { editProfile, editProfileImg, getUser } from "@/lib/server/editProfile";
+import { editProfile, editProfileImg, getUser } from "@/Helpers/editProfile";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -61,8 +61,8 @@ const ProfileV = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setEditableData((prevData) => ({
-        ...prevData,
-        [name]: value,
+      ...prevData,
+      [name]: value,
     }));
   };
 
@@ -76,8 +76,8 @@ const ProfileV = () => {
             userData.user.user_id
           );
           const newImgUrl = URL.createObjectURL(profileImgFile);
-          
-          userData.user.user_img = newImgUrl; 
+
+          userData.user.user_img = newImgUrl;
           localStorage.setItem("userSession", JSON.stringify(userData));
           window.dispatchEvent(new Event("userSessionUpdated"));
         }
@@ -97,9 +97,9 @@ const ProfileV = () => {
         });
         handleGetUser();
         setIsEditing(false);
-      } catch  {
+      } catch {
         console.log('error');
-        
+
       }
     } else {
       Swal.fire({
@@ -129,7 +129,7 @@ const ProfileV = () => {
         );
         setUser(response);
         setEditableData(response);
-        setOriginalProfileImg(response.user_img || "/assets/icon/profileblack.png"); 
+        setOriginalProfileImg(response.user_img || "/assets/icon/profileblack.png");
       } catch (error) {
         alert(error);
       }
@@ -153,9 +153,8 @@ const ProfileV = () => {
 
   return (
     <div
-      className={`h-auto bg-white p-6 rounded-lg shadow-lg w-screen max-w-md mx-auto my-48 transition-all duration-1000 ease-in-out ${
-        isEditing ? "max-h-screen" : "max-h-auto"
-      }`}
+      className={`h-auto bg-white p-6 rounded-lg shadow-lg w-screen max-w-md mx-auto my-48 transition-all duration-1000 ease-in-out ${isEditing ? "max-h-screen" : "max-h-auto"
+        }`}
     >
       <div className="w-full flex justify-center items-center">
         <h1 className="text-2xl font-semibold text-center text-gray-800">
@@ -177,7 +176,7 @@ const ProfileV = () => {
             width={100}
             height={100}
             alt="profile"
-            className="object-cover w-full h-full" 
+            className="object-cover w-full h-full"
           />
         ) : (
           <Image
@@ -278,9 +277,8 @@ const ProfileV = () => {
         )}
       </div>
       <div
-        className={`flex justify-between items-center py-4 ${
-          !isAuth0Provider ? "border-b border-gray-200" : ""
-        }`}
+        className={`flex justify-between items-center py-4 ${!isAuth0Provider ? "border-b border-gray-200" : ""
+          }`}
       >
         {isEditing ? (
           <div className="w-full flex justify-between items-center text-gray-600">

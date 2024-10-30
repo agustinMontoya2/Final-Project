@@ -1,11 +1,15 @@
-import React, { Suspense } from "react"
-import Register from "@/components/Register/Register"
-export default function register() {
+import React from "react"
+import RegisterForm from "@/components/Register/Register"
+
+
+
+const Register:React.FC=()=> {
     return (
-        
-            <Suspense fallback={<div>Loading...</div>}>
-          <Register />
-            </Suspense>
-        
+      <div>
+
+          <RegisterForm /> 
+          </div> 
     )
 }
+
+export default Register;

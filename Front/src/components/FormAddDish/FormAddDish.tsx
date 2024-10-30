@@ -4,13 +4,13 @@ import { FormValues, ICategory, IUserSession } from '@/interfaces/productoInterf
 import React from 'react';
 import { editProductImg, postProduct } from '@/Helpers/products.helper';
 import { useRouter } from "next/navigation";
-import { getCategories } from '@/lib/server/Categories';
+import { getCategories } from '@/Helpers/Categories';
 import Image from 'next/image';
 
 const FormularioMenu = () => {
     const router = useRouter();
     const [productImgFile, setProductImgFile] = useState<File | null>(null);
-    const [imagenPreview, setImagePreview]  = useState<string | null>(null);
+    const [imagenPreview, setImagePreview] = useState<string | null>(null);
     const [formValues, setFormValues] = useState<FormValues>({
         product_name: '',
         description: '',
@@ -23,7 +23,7 @@ const FormularioMenu = () => {
     const [token, setToken] = useState<string | null>(null);
     const [userSession, setUserSession] = useState<IUserSession | null>(null);
     const [categories, setCategories] = useState<ICategory[]>([]);
-    const [isDisable, setIsDisable] = useState <boolean>(false)
+    const [isDisable, setIsDisable] = useState<boolean>(false)
 
     useEffect(() => {
         const session = localStorage.getItem('userSession');
@@ -112,7 +112,7 @@ const FormularioMenu = () => {
         try {
             setIsDisable(true);
             const response = await postProduct(token, product);
-            if(response.product_id && productImgFile) {
+            if (response.product_id && productImgFile) {
                 await editProductImg(productImgFile, token, response.product_id);
                 console.log(productImgFile)
                 console.log(response, "producto imagen")
@@ -132,7 +132,7 @@ const FormularioMenu = () => {
             alert("El producto se ha agregado correctamente");
         } catch {
             throw new Error("El pedido no pudo procesarse");
-        }finally{
+        } finally {
             setIsDisable(false);
         }
     };
@@ -215,16 +215,16 @@ const FormularioMenu = () => {
                     </select>
                 </div>
                 <div className="w-4/5 mb-6 relative">
-    <label htmlFor="imagen" className="w-full flex flex-col items-center p-4 bg-gray-100 border-2 border-dashed border-gray-400 rounded-lg cursor-pointer hover:bg-gray-200 transition">
-        <span className="text-gray-600">Click to upload an image</span>
-        {imagenPreview ? (
-            <Image src={imagenPreview} alt="Imagen subida" height={300} width={300} className="w-full h-40 object-cover mt-2" />
-        ) : (
-            <span className="mt-2 text-gray-500 text-sm">No file selected</span>
-        )}
-    </label>
-    <input id="imagen" type="file" onChange={handleFileChange} className="hidden" required />
-</div>
+                    <label htmlFor="imagen" className="w-full flex flex-col items-center p-4 bg-gray-100 border-2 border-dashed border-gray-400 rounded-lg cursor-pointer hover:bg-gray-200 transition">
+                        <span className="text-gray-600">Click to upload an image</span>
+                        {imagenPreview ? (
+                            <Image src={imagenPreview} alt="Imagen subida" height={300} width={300} className="w-full h-40 object-cover mt-2" />
+                        ) : (
+                            <span className="mt-2 text-gray-500 text-sm">No file selected</span>
+                        )}
+                    </label>
+                    <input id="imagen" type="file" onChange={handleFileChange} className="hidden" required />
+                </div>
 
                 <button
                     type="submit"

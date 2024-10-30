@@ -1,3 +1,4 @@
+"use client"
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -5,13 +6,13 @@ import React, { useState, useEffect } from 'react';
 import BackButton from '../BackButton/BackButton';
 import Dropdown from '../Dropdowm/Dropdown';
 import Swal from 'sweetalert2';
-import DashboardAdmind from '@/app/dashboardAdmin/page';
+import AdmindDashboard from '@/app/admin/page';
+// import DashboardAdmind from '@/app/dashboardAdmin/page';
 
 interface UserSession {
     name: string;
 }
-
-export default function NavBarXL() {
+const NavBarXL:React.FC= () => {
     const [userSession, setUserSession] = useState<UserSession | null>(null);
     const router = useRouter();
     const pathname = usePathname();
@@ -57,12 +58,12 @@ export default function NavBarXL() {
     }, [pathname]);
 
     useEffect(() => {
-        const token_auth0 = searchParams.get('token_auth0'); 
+        const token_auth0 = searchParams.get('token_auth0');
 
-        if (token_auth0) { 
-            
+        if (token_auth0) {
+
             localStorage.setItem('authToken', token_auth0);
-            
+
             router.push('/');
         }
     }, [searchParams, router]);
@@ -86,14 +87,14 @@ export default function NavBarXL() {
             <div className="w-full h-auto bg-secondary flex justify-between items-center fixed top-0 z-40">
                 <Link href={"/"} className="h-16 w-1/3 p-2 flex justify-start">
                     <div className='relative h-full w-36'>
-                        <Image src={"/assets/logo-white.png"} alt="logo" layout='fill' objectFit='contain'/>
+                        <Image src={"/assets/logo-white.png"} alt="logo" layout='fill' objectFit='contain' />
                     </div>
                 </Link>
                 <div className='w-1/2 flex justify-around items-center'>
                     <Link className="w-7 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/menu"}>
                         <p className="text-white font-bold hover:text-neutral-300 duration-500">Menú</p>
                     </Link>
-                    <Link  onClick={handleReservation} className="w-7 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/reserve"}>
+                    <Link onClick={handleReservation} className="w-7 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/reserve"}>
                         <p className="text-white font-bold hover:text-neutral-300 duration-500">Reservation</p>
                     </Link>
                     <Dropdown />
@@ -105,7 +106,7 @@ export default function NavBarXL() {
                         )
                     }
                     {
-                        !isAdmin  && ( <DashboardAdmind /> )
+                        !isAdmin && (<AdmindDashboard />)
                     }
                 </div>
             </div>
@@ -115,3 +116,5 @@ export default function NavBarXL() {
         </div>
     );
 }
+
+export default NavBarXL

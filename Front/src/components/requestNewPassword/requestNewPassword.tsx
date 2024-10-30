@@ -1,4 +1,5 @@
-import { requestResetPassword } from "@/lib/server/auth";
+"use client"
+import { requestResetPassword } from "@/Helpers/auth";
 import { useState } from "react";
 import Swal from "sweetalert2";
 
@@ -26,21 +27,21 @@ const RequestNewPassword = () => {
         }
         catch {
             console.log('error');
-            
+
         }
     };
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = event.target;
-            setUserData(prevData => ({
-                ...prevData,
-                [name]: value
-            }))
-            console.log(userData);
+        setUserData(prevData => ({
+            ...prevData,
+            [name]: value
+        }))
+        console.log(userData);
     };
 
-return (
-    <form onSubmit={handleSubmit} className="w-1/3 m-auto h-screen flex flex-col justify-center items-center">
+    return (
+        <form onSubmit={handleSubmit} className="w-1/3 m-auto h-screen flex flex-col justify-center items-center">
             <div className="w-full h-14 mb-6 relative">
                 <input
                     type={'email'}
@@ -62,7 +63,7 @@ return (
                 Send email
             </button>
         </form>
-);
+    );
 }
 
 export default RequestNewPassword

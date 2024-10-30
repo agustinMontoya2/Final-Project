@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { getOrders } from '@/lib/server/order';
-import {  IGetOrder } from '@/interfaces/productoInterface';
+import { getOrders } from '@/Helpers/order';
+import { IGetOrder } from '@/interfaces/productoInterface';
 import Swal from 'sweetalert2';
 
 const OrdersView = () => {
@@ -70,7 +70,7 @@ const OrdersView = () => {
                     ))}
                 </ul>
                 {
-                    orders  && <p className='text-black text-center'>No orders found.</p>
+                    orders && <p className='text-black text-center'>No orders found.</p>
                 }
             </div>
         </div>

@@ -1,15 +1,11 @@
-import ViewUsers from '@/components/viewUsers/viewUsers'
-import React, { Suspense } from 'react'
+import ViewUsers from '@/views/viewUsers/viewUsers'
+import React from 'react'
 
 const profileAdmin = () => {
   return (
-    <Suspense  fallback={<div>Loading...</div>}>
-
-      
     <div>
-        <ViewUsers/>
+      <ViewUsers />
     </div>
-    </Suspense>
   )
 }
 

@@ -2,46 +2,46 @@
 import React from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { IGetOrder} from '@/interfaces/productoInterface';
-import { getAllOrders } from '@/lib/server/order';
+import { IGetOrder } from '@/interfaces/productoInterface';
+import { getAllOrders } from '@/Helpers/order';
 const ViewOrders = () => {
     const [orders, setOrders] = useState<IGetOrder[]>([]);
     const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
 
 
-useEffect(() => {
-    const storedUserData = window.localStorage.getItem("userSession");
-    if (storedUserData) {
-    const parsedData = JSON.parse(storedUserData);
-    if (parsedData && parsedData.user) {
-        setUserId(parsedData.user.user_id);
-        setToken(parsedData.token);
-    }
-    }
-}, []);
+    useEffect(() => {
+        const storedUserData = window.localStorage.getItem("userSession");
+        if (storedUserData) {
+            const parsedData = JSON.parse(storedUserData);
+            if (parsedData && parsedData.user) {
+                setUserId(parsedData.user.user_id);
+                setToken(parsedData.token);
+            }
+        }
+    }, []);
 
-useEffect(() => {
-    if (token && userId) {
-    handleGetOrders();
-    }
-}, [token, userId]);
+    useEffect(() => {
+        if (token && userId) {
+            handleGetOrders();
+        }
+    }, [token, userId]);
 
-    const handleGetOrders =  async ()=>{
+    const handleGetOrders = async () => {
 
         if (token && userId) {
-        try {
-            const ordersData = await getAllOrders(token);
-            console.log(ordersData);
-            
-            if (ordersData) {
-                setOrders(ordersData); 
-            } else {
-            console.warn("No reviews found.");
+            try {
+                const ordersData = await getAllOrders(token);
+                console.log(ordersData);
+
+                if (ordersData) {
+                    setOrders(ordersData);
+                } else {
+                    console.warn("No reviews found.");
+                }
+            } catch (error) {
+                console.error("Error fetching reviews:", error);
             }
-        } catch (error) {
-            console.error("Error fetching reviews:", error);
-        }
         }
     };
 

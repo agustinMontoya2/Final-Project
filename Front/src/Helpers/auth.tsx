@@ -1,4 +1,4 @@
-import { ILogin, IRegister } from "../../interfaces/productoInterface";
+import { ILogin, IRegister } from "../interfaces/productoInterface";
 
 const APIURL = process.env.NEXT_PUBLIC_API_URL
 
@@ -19,9 +19,9 @@ export async function formRegister(userData: IRegister) {
             throw new Error(errorResponse.message || "Registration failed");
         }
     } catch (error: unknown) {
-        if(error instanceof Error) {
+        if (error instanceof Error) {
             throw error;
-        }else{
+        } else {
             throw new Error("An unknow error occurred")
         }
     }
@@ -46,9 +46,9 @@ export async function formLogin(userData: ILogin) {
             throw Error(errorData.message || "Falló el login");
         }
     } catch (error: unknown) {
-        if(error instanceof Error) {
+        if (error instanceof Error) {
             throw error;
-        }else{
+        } else {
             throw new Error("An unknow error occurred")
         }
     }
@@ -71,15 +71,15 @@ export async function requestResetPassword(email: string) {
         }
         const responseData = await response.json();
         return responseData;
-    } catch  {
+    } catch {
         console.log('error');
-        
+
     }
 }
 
-export async function resetPassword(recoverData: {token: string, newPassword: string, confirmPassword: string}) {
+export async function resetPassword(recoverData: { token: string, newPassword: string, confirmPassword: string }) {
     console.log(recoverData);
-    
+
     try {
         const response = await fetch(`${APIURL}/auth/resetPassword`, {
             method: "POST",
@@ -96,9 +96,9 @@ export async function resetPassword(recoverData: {token: string, newPassword: st
             throw Error(errorData || "Falló el login");
         }
     } catch (error: unknown) {
-        if(error instanceof Error) {
+        if (error instanceof Error) {
             throw error;
-        }else{
+        } else {
             throw new Error("An unknow error occurred")
         }
     }

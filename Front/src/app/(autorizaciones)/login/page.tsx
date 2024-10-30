@@ -1,12 +1,18 @@
-import Login from "@/components/Login/Login"
+import LoginForm from "@/components/Login/Login"
 import { UserProvider } from "@auth0/nextjs-auth0/client"
 import React from "react"
 
 
-export default function login() {
+const Login:React.FC=()=> {
     return (
-        <UserProvider>
-            <Login />
-        </UserProvider>
+
+        <>
+            <UserProvider>
+                <LoginForm />
+            </UserProvider>
+        </>
+
     )
 }   
+
+export default Login

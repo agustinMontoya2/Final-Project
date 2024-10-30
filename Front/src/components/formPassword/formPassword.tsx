@@ -1,5 +1,5 @@
 'use client';
-import { resetPassword } from '@/lib/server/auth';
+import { resetPassword } from '@/Helpers/auth';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
@@ -13,7 +13,7 @@ const FormPassword = () => {
     };
     const [showPassword, setShowPassword] = useState(false);
     const [userData, setUserData] = useState(initialState);
-    
+
     useEffect(() => {
         const token = searchParams.get("token");
 
@@ -27,11 +27,11 @@ const FormPassword = () => {
     }, [searchParams, router]);
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = event.target;
-            setUserData(prevData => ({
-                ...prevData,
-                [name]: value
-            }))
-            console.log(userData);
+        setUserData(prevData => ({
+            ...prevData,
+            [name]: value
+        }))
+        console.log(userData);
     };
 
     const ShowPasswordFunction = () => {
@@ -40,19 +40,19 @@ const FormPassword = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if(userData.newPassword === userData.confirmPassword){
-        try {
-            const response = await resetPassword(userData)
-            alert(response.message)
-            //redireccionar a login
-        } catch {
-            //arreglar respuesta de  error
-        console.log("error");
-        
+        if (userData.newPassword === userData.confirmPassword) {
+            try {
+                const response = await resetPassword(userData)
+                alert(response.message)
+                //redireccionar a login
+            } catch {
+                //arreglar respuesta de  error
+                console.log("error");
+
+            }
+        } else {
+            alert("Passwords do not match");
         }
-    }  else{
-        alert("Passwords do not match");
-    }
     }
     return (
         <form onSubmit={handleSubmit} className="w-1/3 h-screen m-auto flex flex-col justify-center items-center">

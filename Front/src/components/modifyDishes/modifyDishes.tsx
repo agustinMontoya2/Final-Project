@@ -5,7 +5,7 @@ import { IProducts, ICategory } from "@/interfaces/productoInterface";
 import Image from "next/image";
 import { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { getCategories } from '@/lib/server/Categories';
+import { getCategories } from '@/Helpers/Categories';
 import Swal from "sweetalert2";
 
 const ModifyDishes = () => {
@@ -23,7 +23,7 @@ const ModifyDishes = () => {
         image_url: '',
         avaliable: true,
         category_id: ''
-    }); 
+    });
     const [productImgFile, setProductImgFile] = useState<File | null>(null);
     const [imagenPreview, setImagePreview] = useState<string | null>(null);
     const [categories, setCategories] = useState<ICategory[]>([]);
@@ -67,7 +67,7 @@ const ModifyDishes = () => {
         setFormValues({
             product_name: product.product_name,
             description: product.description,
-            price: product.price.toString(), 
+            price: product.price.toString(),
             image_url: '',
             avaliable: product.available,
             category_id: product.category.category_id || ''
@@ -83,14 +83,14 @@ const ModifyDishes = () => {
         }
         try {
             const response = await removeProduct(productId, token);
-            
-            
+
+
             Swal.fire({
-                title: response.message, 
+                title: response.message,
                 icon: 'success',
                 timer: 1000,
             });
-            
+
             fetchProducts();
         } catch {
             console.error("Error al eliminar el producto");
@@ -145,8 +145,8 @@ const ModifyDishes = () => {
                 console.error("Selected editProduct is not valid");
                 return;
             }
-            console.log("editado",editProduct);
-            
+            console.log("editado", editProduct);
+
 
             const response = await putProduct(token, selectedProduct.product_id, editProduct); // Asegúrate de que estás pasando el product_id correcto
 
@@ -184,7 +184,7 @@ const ModifyDishes = () => {
                     className="border border-gray-300 rounded-md px-3 py-2 text-gray-700 w-full max-w-md"
                 />
             </div>
-    
+
             <ul className="w-[60%] m-auto space-y-6">
                 {products && Array.isArray(products) && products.length > 0 ? (
                     products
@@ -206,7 +206,7 @@ const ModifyDishes = () => {
                                             onClick={() => handleModify(product)} // Pasa el producto al modificar
                                         >
                                             Edit
-                                            <Image src={'/assets/icon/pencilwhite.png'} width={20} height={20} alt="edit" className="ml-2"/>
+                                            <Image src={'/assets/icon/pencilwhite.png'} width={20} height={20} alt="edit" className="ml-2" />
                                         </button>
                                         <button
                                             className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
@@ -222,7 +222,7 @@ const ModifyDishes = () => {
                     <p>No products found</p>
                 )}
             </ul>
-    
+
             {/* Formulario de modificación */}
             {isFormOpen && (
                 <div className="absolute inset-0 flex items-center justify-center">

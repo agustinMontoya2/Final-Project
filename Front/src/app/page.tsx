@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 export default function Home() {
@@ -30,9 +30,6 @@ export default function Home() {
 
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-
-
       <div>
         <div className="w-full h-40 flex justify-center items-center relative">
           <Image src={"/assets/logo-red.svg"} alt="Club fellini" layout="fill" objectFit="contain" className="w-3/4 h-auto mt-5" />
@@ -69,6 +66,5 @@ export default function Home() {
           }
         </div>
       </div>
-    </Suspense>
   );
 }

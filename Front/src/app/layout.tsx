@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import "./globals.css";
 
-import ConditionalLayouts from "../components/ConditionalLayouts/ConditionalLayouts";
+import "./globals.css";
+import NavBarXL from "@/components/NavBarXL/NavBarXL";
+import Footer from "@/components/footer/Footer";
+
+// import ConditionalLayouts from "../components/ConditionalLayouts/ConditionalLayouts";
+
 
 
 
@@ -30,12 +34,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} flex flex-col justify-between antialiased`}
+        className="flex flex-col min-h-screen justify-between"
       >
         {/* <UserProvider> */}
-          <ConditionalLayouts>
-            {children}
-          </ConditionalLayouts>
+
+
+
+
+
+        {/* <ConditionalLayouts> */}
+        <NavBarXL></NavBarXL>
+        {children}
+        <Footer></Footer>
+        {/* </ConditionalLayouts> */}
+
         {/* </UserProvider> */}
       </body>
     </html>

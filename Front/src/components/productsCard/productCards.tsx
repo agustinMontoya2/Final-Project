@@ -3,8 +3,8 @@ import { IProducts, IFavorities } from "@/interfaces/productoInterface";
 import { getProduct, postReview } from "@/Helpers/products.helper";
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from 'react';
-import { addCart } from "@/lib/server/cart";
-import { addFavorities, getFavorities, removeFavorities } from "@/lib/server/favorities";
+import { addCart } from "@/Helpers/cart";
+import { addFavorities, getFavorities, removeFavorities } from "@/Helpers/favorities";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 
@@ -13,12 +13,12 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
   const [userId, setUserId] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [favorities, setFavorities] = useState<IFavorities>();
-  const [productState, setProductState] = useState<IProducts>({ product_id, product_name, price, description, image_url, category: { category_name: 'some_category' , category_id: "some_id"}, reviews, available: true });
+  const [productState, setProductState] = useState<IProducts>({ product_id, product_name, price, description, image_url, category: { category_name: 'some_category', category_id: "some_id" }, reviews, available: true });
   const [reviewPost, setReviewPost] = useState<{ rate: number; review: string }>({ rate: 0, review: '' });
   const [hoverRating, setHoverRating] = useState<number | null>(null);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  
+
 
   useEffect(() => {
     const storedUserData = JSON.parse(window.localStorage.getItem("userSession") || "{}");
@@ -39,31 +39,31 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
         setFavorities(favoritiesData);
         const product = await getProduct(product_id);
         setProductState(product);
-      } catch  {
+      } catch {
         console.error("Fail to obtain favorites.");
       }
     }
   };
 
   const handleAddToFavorities = async (productId: string, isFavorited: boolean) => {
-    if (!token || !userId) return  Swal.fire({
+    if (!token || !userId) return Swal.fire({
       title: `Log in to save as favorite.`,
       icon: 'info',
       confirmButtonText: 'accept',
       confirmButtonColor: "#1988f0"
-  })
-  try {
-    // Manejo de favoritos con if-else
-    if (isFavorited) {
+    })
+    try {
+      // Manejo de favoritos con if-else
+      if (isFavorited) {
         await removeFavorities(userId, productId, token);
-    } else {
+      } else {
         await addFavorities(userId, productId, token);
+      }
+
+      await fetchFavorities();
+    } catch {
+      console.error("Fail to save favorite.");
     }
-    
-    await fetchFavorities();
-} catch {
-    console.error("Fail to save favorite.");
-}
   };
 
   const handleAddCart = async (productId: string) => {
@@ -72,7 +72,7 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
       icon: 'info',
       confirmButtonText: 'accept',
       confirmButtonColor: "#1988f0"
-  })
+    })
     try {
       await addCart(userId, productId, token);
       Swal.fire({ icon: 'success', title: 'Product added to the cart', toast: true, position: 'top-end', timer: 2500, showConfirmButton: false });
@@ -92,7 +92,7 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
         icon: 'info',
         confirmButtonText: 'accept',
         confirmButtonColor: "#1988f0"
-    })
+      })
       router.push("/login");
       return;
     }
@@ -103,7 +103,7 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
         icon: 'info',
         confirmButtonText: 'accept',
         confirmButtonColor: "#1988f0"
-    })
+      })
       return;
     }
 
@@ -119,7 +119,7 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
         timer: 2500,
         showConfirmButton: false,
         timerProgressBar: true,
-    });
+      });
       setProductState(product);
       setReviewPost({ rate: 0, review: '' });
     } catch (error) {
@@ -199,8 +199,8 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
                         <p className="text-neutral-900 font-semibold">{rev.user.name}</p>
                         <div className="flex ml-2">
                           {[1, 2, 3, 4, 5].map((star) => (
-                          <Image key={star} src={star <= rev.rate ? "/assets/icon/star.png" : "/assets/icon/staroutline.png"} alt={`Star ${star}`} width={24} height={24} />
-                        ))}
+                            <Image key={star} src={star <= rev.rate ? "/assets/icon/star.png" : "/assets/icon/staroutline.png"} alt={`Star ${star}`} width={24} height={24} />
+                          ))}
                         </div>
                       </div>
                       <p className="text-black">{rev.review}</p>

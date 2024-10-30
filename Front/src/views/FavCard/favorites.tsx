@@ -1,9 +1,9 @@
 'use client';
-import { getFavorities, addFavorities, removeFavorities } from '@/lib/server/favorities';
+import { getFavorities, addFavorities, removeFavorities } from '@/Helpers/favorities';
 import { useRouter } from "next/navigation";
 import { IFavorities, IProducts, IUserSession } from "@/interfaces/productoInterface";
 import React, { useEffect, useState } from 'react';
-import { addCart } from "@/lib/server/cart"; 
+import { addCart } from "@/Helpers/cart";
 import Swal from 'sweetalert2';
 import Image from 'next/image';
 
@@ -13,7 +13,7 @@ const FavoritesView: React.FC = () => {
   const [userId, setUserId] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [favorites, setFavorites] = useState<IFavorities | null>(null);
-  
+
   useEffect(() => {
     const storedUserData = window.localStorage.getItem("userSession");
     if (storedUserData) {
@@ -31,7 +31,7 @@ const FavoritesView: React.FC = () => {
       try {
         const reservasData = await getFavorities(userId, token);
         if (reservasData && reservasData.product) {
-          setFavorites(reservasData); 
+          setFavorites(reservasData);
         } else {
           console.warn("No products found in favorites data");
         }
@@ -58,7 +58,7 @@ const FavoritesView: React.FC = () => {
         } else {
           await addFavorities(userId, productId, token);
         }
-        fetchData(); 
+        fetchData();
       } catch {
         console.error("Error al manejar favoritos");
       }
@@ -68,7 +68,7 @@ const FavoritesView: React.FC = () => {
         icon: 'info',
         confirmButtonText: 'accept',
         confirmButtonColor: "#1988f0"
-    })
+      })
     }
   };
 
@@ -84,7 +84,7 @@ const FavoritesView: React.FC = () => {
           timer: 2500,
           showConfirmButton: false,
           timerProgressBar: true,
-      });
+        });
       } catch (error) {
         alert(`Error: ${error instanceof Error ? error.message : error}`);
       }
@@ -94,7 +94,7 @@ const FavoritesView: React.FC = () => {
         icon: 'info',
         confirmButtonText: 'accept',
         confirmButtonColor: "#1988f0"
-    })
+      })
     }
   };
 
@@ -118,7 +118,7 @@ const FavoritesView: React.FC = () => {
                   </div>
                   <div className="w-full h-auto flex justify-between">
                     <button
-                      onClick={() => handleAddToFavorities(product.product_id, favorites.product.some(fav => fav.product_id === product.product_id))} 
+                      onClick={() => handleAddToFavorities(product.product_id, favorites.product.some(fav => fav.product_id === product.product_id))}
                       className="mt-4  bg-secondary text-white font-bold px-2 p-3 rounded-lg hover:bg-red-700 transition duration-300">
                       {favorites.product.some(fav => fav.product_id === product.product_id) ? "Remove " : "Add to Favorites"}
                     </button>

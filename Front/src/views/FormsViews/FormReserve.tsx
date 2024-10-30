@@ -1,6 +1,7 @@
+"use client"
 import React, { useState, useEffect } from 'react';
 import { IReserve, IUserSession } from '@/interfaces/productoInterface';
-import { formReserve } from '@/lib/server/reservation';
+import { formReserve } from '@/Helpers/reservation';
 import Swal from 'sweetalert2';
 
 const ReservationForm: React.FC = () => {
@@ -77,7 +78,7 @@ const ReservationForm: React.FC = () => {
         };
 
         try {
-            await formReserve({...reservationData });
+            await formReserve({ ...reservationData });
             Swal.fire({
                 icon: 'success',
                 title: 'Reservation created',

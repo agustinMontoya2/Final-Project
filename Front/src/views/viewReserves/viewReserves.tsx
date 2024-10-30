@@ -4,44 +4,44 @@ import React from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { IReserve } from '@/interfaces/productoInterface';
-import { getAllReservations, removeReserve } from '@/lib/server/reservation';
+import { getAllReservations, removeReserve } from '@/Helpers/reservation';
 import Swal from 'sweetalert2';
 const ViewReserves = () => {
     const [reserves, setReserves] = useState<IReserve[]>([]);
     const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
 
-useEffect(() => {
-    const storedUserData = window.localStorage.getItem("userSession");
-    if (storedUserData) {
-    const parsedData = JSON.parse(storedUserData);
-    if (parsedData && parsedData.user) {
-        setUserId(parsedData.user.user_id);
-        setToken(parsedData.token);
-    }
-    }
-}, []);
-
-useEffect(() => {
-    if (token && userId) {
-    handleGetReserves();
-    }
-}, [token, userId]);
-
-    const handleGetReserves =  async ()=>{
-        if (token && userId) {
-        try {
-            const reservesData = await getAllReservations(token);
-            console.log(reservesData);
-            
-            if (reservesData) {
-                setReserves(reservesData); 
-            } else {
-            console.warn("No reviews found.");
+    useEffect(() => {
+        const storedUserData = window.localStorage.getItem("userSession");
+        if (storedUserData) {
+            const parsedData = JSON.parse(storedUserData);
+            if (parsedData && parsedData.user) {
+                setUserId(parsedData.user.user_id);
+                setToken(parsedData.token);
             }
-        } catch (error) {
-            console.error("Error fetching reviews:", error);
         }
+    }, []);
+
+    useEffect(() => {
+        if (token && userId) {
+            handleGetReserves();
+        }
+    }, [token, userId]);
+
+    const handleGetReserves = async () => {
+        if (token && userId) {
+            try {
+                const reservesData = await getAllReservations(token);
+                console.log(reservesData);
+
+                if (reservesData) {
+                    setReserves(reservesData);
+                } else {
+                    console.warn("No reviews found.");
+                }
+            } catch (error) {
+                console.error("Error fetching reviews:", error);
+            }
         }
     };
 
@@ -122,7 +122,7 @@ useEffect(() => {
             )}
         </div>
     );
-    
+
 }
 
 export default ViewReserves;

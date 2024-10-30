@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { IUser, IUserSession } from '@/interfaces/productoInterface';
-import { getUsers, banUser, adminUser } from '@/lib/server/users';
+import { getUsers, banUser, adminUser } from '@/Helpers/users';
 import { useRouter } from 'next/navigation';
 import Swal from "sweetalert2";
 
@@ -14,7 +14,7 @@ const ViewUsers = () => {
     const [editableUserId, setEditableUserId] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [userData, setUserData] = useState<IUserSession>();
-    const [profileImg,  setProfileImg] = useState<string | null>(null);
+    const [profileImg, setProfileImg] = useState<string | null>(null);
     const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
@@ -23,7 +23,7 @@ const ViewUsers = () => {
             setUserData(userData);
             const img = localStorage.getItem('profileImg');
             console.log(img);
-            
+
             setProfileImg(img);
         }
     }, []);
@@ -49,21 +49,21 @@ const ViewUsers = () => {
         }
     };
 
-    const handleBan = async (user_id: string ) => {
+    const handleBan = async (user_id: string) => {
         if (token) {
             try {
                 const userToBan = users.find(user => user.user_id === user_id);
                 if (!userToBan) return;
                 const reason = "por puto"
-    
+
                 const response = await banUser(user_id, token, reason);
-    
+
                 Swal.fire({
                     title: userToBan.isBanned ? 'Unbanned user' : 'Banned user',
                     icon: 'success',
                     timer: 1000,
                 });
-    
+
                 fetchUsers();
             } catch (error: any) {
                 console.error("Error al banear/desbanear usuario", error.message);
@@ -74,31 +74,31 @@ const ViewUsers = () => {
     };
 
     const handleAdmin = async (user_id: string) => {
-    if (token) {
-        try {
-            const userToAdmin = users.find(user => user.user_id === user_id);
-            if (!userToAdmin) return;
+        if (token) {
+            try {
+                const userToAdmin = users.find(user => user.user_id === user_id);
+                if (!userToAdmin) return;
 
-            const response = await adminUser(user_id, token);
+                const response = await adminUser(user_id, token);
 
-            Swal.fire({
-                title: userToAdmin.isAdmin ? 'User is no longer Admin' : 'User is now Admin',
-                icon: 'success',
-                timer: 1000,
-            });
+                Swal.fire({
+                    title: userToAdmin.isAdmin ? 'User is no longer Admin' : 'User is now Admin',
+                    icon: 'success',
+                    timer: 1000,
+                });
 
-            fetchUsers();
-        } catch (error: any) {
-            console.error("Error al cambiar rol de admin", error.message);
+                fetchUsers();
+            } catch (error: any) {
+                console.error("Error al cambiar rol de admin", error.message);
+            }
+        } else {
+            console.log("No hay token");
         }
-    } else {
-        console.log("No hay token");
-    }
-};
+    };
     const handleEditClick = (user: IUser) => {
         setIsEditing(true);
         setEditableUserId(user.user_id);
-        
+
     };
 
     // const handleInputChange = (e: any) => {
@@ -168,7 +168,7 @@ const ViewUsers = () => {
     const handleBanUser = async () => {
         if (token && editableUserId && banReason) {
             try {
-                const response = await banUser(editableUserId, token, banReason); 
+                const response = await banUser(editableUserId, token, banReason);
                 alert(response);
                 fetchUsers();
                 setIsBanModalOpen(false);
@@ -229,12 +229,12 @@ const ViewUsers = () => {
                                 </td>
                                 <td className="py-2 px-4 border-b">
                                     <div className="flex justify-evenly">
-                                    <button
-                                        onClick={() => openBanModal(user.user_id)}
-                                        className={`w px-4 py-1 rounded ${user.isBanned ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'} text-white`}
-                                    >
-                                        {user.isBanned ? 'Unban User' : 'Ban User'}
-                                    </button>
+                                        <button
+                                            onClick={() => openBanModal(user.user_id)}
+                                            className={`w px-4 py-1 rounded ${user.isBanned ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'} text-white`}
+                                        >
+                                            {user.isBanned ? 'Unban User' : 'Ban User'}
+                                        </button>
                                         <button
                                             onClick={() => handleAdmin(user.user_id)}
                                             className={`w-36 px-4 py-1 rounded ${user.isAdmin ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'} text-white`}
