@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import jwt, { JwtPayload } from "jsonwebtoken"; // Importar jsonwebtoken
+import { Suspense, useEffect } from "react";
+import { useRouter, useSearchParams,} from "next/navigation";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 export default function AuthCallback() {
   const router = useRouter();
@@ -13,22 +13,22 @@ export default function AuthCallback() {
 
     if (token) {
       try {
-        // Decodificar el token JWT para extraer el payload
+        
         const decodedToken = jwt.decode(token) as JwtPayload | null;
 
         if (decodedToken) {
-          // Crear el objeto de sesión con la información del token
+         
           const userSessionData = {
             user: {
-              user_id: decodedToken.user_id, // ID del usuario
-              name: decodedToken.name, // Nombre del usuario
+              user_id: decodedToken.user_id,
+              name: decodedToken.name, 
               phone: decodedToken.phone,
               address: decodedToken.address,
               user_img: decodedToken.user_img,
-              // Agrega aquí otros campos que necesites.
+             
             },
             email: decodedToken.email,
-            token: token, // Agregar el token también
+            token: token, 
             isAdmin: decodedToken.isAdmin,
             isBanned: decodedToken.isBanned,
           };
@@ -45,5 +45,10 @@ export default function AuthCallback() {
     }
   }, [searchParams, router]);
 
-  return <div>Loading...</div>;
+  return(
+<Suspense  fallback={<div>Loading...</div>}>
+
+    <div>Loading...</div>;
+</Suspense>
+  ) 
 }
