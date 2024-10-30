@@ -32,6 +32,9 @@ export default function dashboardLayout({
                 </Link>
             </div>
             <div className="text-black">
+                <Link href="/admin/reserves"></Link>
+            </div>
+            <div className="text-black">
                 <Link href="/admin/dishes">
                     dishes
                 </Link>

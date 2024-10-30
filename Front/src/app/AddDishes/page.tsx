@@ -3,7 +3,7 @@ import FormularioMenu from '@/views/FormsViews/FormAddDish'
 // import { useRouter } from 'next/navigation';
 import AuthValidation from '@/hooks/AuthValidation';
 
-const AddDish = () => {
+const AddDish:React.FC = () => {
     // const router = useRouter();
     const esAdmin = AuthValidation()
 

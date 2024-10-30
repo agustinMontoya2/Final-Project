@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import WhatsApp from "../WhatsApp/WhatsApp";
-import BackButton from "../Navbar/BackButton";
+import BackButton from "./BackButton";
 
 const NavBar = () => {
     const [isOpen, setIsOpen] = useState(false);
