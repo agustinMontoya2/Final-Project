@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 
 import "./globals.css";
-import NavBarXL from "@/components/NavBarXL/NavBarXL";
+import NavBarXL from "@/components/Navbar/NavBarXL";
 import Footer from "@/components/footer/Footer";
 
 // import ConditionalLayouts from "../components/ConditionalLayouts/ConditionalLayouts";

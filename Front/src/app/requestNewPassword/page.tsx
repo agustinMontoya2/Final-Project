@@ -1,4 +1,4 @@
-import RequestNewPassword from '@/components/requestNewPassword/requestNewPassword'
+import RequestNewPassword from '@/views/FormsViews/requestNewPassword'
 import AuthBanned from '@/hooks/AuthBanned'
 import React from 'react'
 
