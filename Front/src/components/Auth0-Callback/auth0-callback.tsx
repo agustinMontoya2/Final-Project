@@ -8,6 +8,8 @@ export default function AuthCallback() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const FRONTURL = process.env.NEXT_PUBLIC_FRONTEND_URL;
+
   useEffect(() => {
     const token = searchParams.get("token_auth0");
 
@@ -30,7 +32,7 @@ export default function AuthCallback() {
             isBanned: decodedToken.isBanned,
           };
           localStorage.setItem("userSession", JSON.stringify(userSessionData));
-          router.push(process.env.NEXT_PUBLIC_FRONTEND_URL);
+          router.push(FRONTURL);
         } else {
           console.error("El token no se pudo decodificar");
         }
