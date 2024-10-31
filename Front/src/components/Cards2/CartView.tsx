@@ -226,11 +226,11 @@ const CartView = () => {
     };
 
     const handleCouponApply = (e: React.FormEvent) => {
-        e.preventDefault(); // Evita que la página se recargue
+        e.preventDefault(); 
         const couponInput = (e.target as HTMLFormElement).querySelector('input[type="text"]') as HTMLInputElement;
         if (couponInput.value === "FELLINI10OFF" && !discountApplied) {
             setDiscountApplied(true);
-            setShowCouponModal(false); // Cerrar modal al aplicar
+            setShowCouponModal(false); 
         } else {
             alert("Invalid coupon code.");
         }
