@@ -20,7 +20,7 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
     }, [images.length]);
 
     return (
-        <div className="relative w-1/2 m-auto overflow-hidden rounded-lg shadow-lg">
+        <div className="relative w-[60%] m-auto overflow-hidden rounded-lg shadow-lg">
             <div
                 className="flex transition-transform duration-500 ease-in-out"
                 style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
@@ -29,7 +29,7 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
                         key={index}
                         src={image}
                         alt={`Slide ${index + 1}`}
-                        width={800}
+                        width={1500}
                         height={200}
                         className="w-full object-cover"
                     />
