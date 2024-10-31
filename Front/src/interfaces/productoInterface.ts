@@ -165,3 +165,14 @@ export interface IFilter {
   showFavorites: boolean;
   priceOrder: string;
 }
+
+export interface ISales{
+  SaleData:{
+    Dishes:string
+    Reserved_tables: number
+    Orders_made: number
+    Orders_pending: number
+    Orders_cancelled: number
+    Users_total: number
+  }
+}

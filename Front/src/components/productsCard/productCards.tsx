@@ -21,6 +21,8 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
   const hasPurchasedProduct = () => {
     if (typeof window !== "undefined") {
       const purchasedProducts = JSON.parse(localStorage.getItem("purchasedProducts") || "[]");
+      console.log("Prodcutos agregados al array:", purchasedProducts)
+      console.log(product_id)
       return purchasedProducts.includes(product_id);
     }
   };
