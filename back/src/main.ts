@@ -10,7 +10,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: 'https://final-project-blush-gamma.vercel.app', 
+    origin: [
+      'https://final-project-blush-gamma.vercel.app',
+      'http://localhost:4000',
+    ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });

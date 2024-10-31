@@ -18,22 +18,29 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
   const [hoverRating, setHoverRating] = useState<number | null>(null);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
-
+  const hasPurchasedProduct = () => {
+    if (typeof window !== "undefined") {
+      const purchasedProducts = JSON.parse(localStorage.getItem("purchasedProducts") || "[]");
+      console.log("Purchased Productsaaaaaaaaaaaaaaaaaaaaa:", purchasedProducts);
+      console.log("Current Product IDaaaaaaaaaaaaaaaaaaaaaa:", product_id);
+      return purchasedProducts.includes(product_id);
+    }
+  };
 
   useEffect(() => {
-    if (typeof window !== "undefined"){
+    if (typeof window !== "undefined") {
       const storeUserData = window.localStorage.getItem("userSession");
-      if(storeUserData){
-          const parseData = JSON.parse(storeUserData)
-          if(parseData && parseData.user)
-              setUserId(parseData.user.user_id);
-          setToken(parseData.token) 
-    // const storedUserData = JSON.parse(window.localStorage.getItem("userSession") || "{}");
-    // if (storedUserData.user) {
-    //   setUserId(storedUserData.user.user_id);
-    //   setToken(storedUserData.token);
+      if (storeUserData) {
+        const parseData = JSON.parse(storeUserData)
+        if (parseData && parseData.user)
+          setUserId(parseData.user.user_id);
+        setToken(parseData.token)
+        // const storedUserData = JSON.parse(window.localStorage.getItem("userSession") || "{}");
+        // if (storedUserData.user) {
+        //   setUserId(storedUserData.user.user_id);
+        //   setToken(storedUserData.token);
+      }
     }
-   }
   }, []);
 
   useEffect(() => {
@@ -83,9 +90,21 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
     })
     try {
       await addCart(userId, productId, token);
+      saveProductToLocalStorage(productId);
       Swal.fire({ icon: 'success', title: 'Product added to the cart', toast: true, position: 'top-end', timer: 2500, showConfirmButton: false });
     } catch {
       Swal.fire({ icon: 'error', title: 'Error', toast: true, position: 'top-end', timer: 2500, showConfirmButton: false });
+    }
+  };
+
+  const saveProductToLocalStorage = (productId: string) => {
+  if(typeof window !== "undefined"){
+
+    const purchasedProducts = JSON.parse(localStorage.getItem("purchasedProducts") || "[]");
+    if (!purchasedProducts.includes(productId)) {
+      purchasedProducts.push(productId);
+      localStorage.setItem("purchasedProducts", JSON.stringify(purchasedProducts));
+    }
     }
   };
 
@@ -103,7 +122,16 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
       })
       router.push("/login");
       return;
+    } else if (!hasPurchasedProduct()) {
+      Swal.fire({
+        title: "You can only review products you have purchased.",
+        icon: "info",
+        confirmButtonText: "Accept",
+        confirmButtonColor: "#1988f0",
+      });
+      return;
     }
+
 
     if (reviewPost.rate === 0) {
       Swal.fire({
