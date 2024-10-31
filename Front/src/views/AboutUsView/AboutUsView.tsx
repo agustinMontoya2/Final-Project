@@ -10,11 +10,11 @@ const AboutUsView:React.FC = () => {
             <div className="flex flex-wrap">
                 <div className="w-1/2 text-neutral-600 p-10">
                     <p>
-                        Ubicado en el corazón de Rosario, Santa Fe, Club Fellini es más que un bar; es un espacio donde la buena compañía y la cultura se encuentran. Desde nuestra apertura, hemos sido un punto de encuentro para amantes de la música, el arte y la gastronomía, ofreciendo un ambiente acogedor y vibrante que invita a relajarse y disfrutar.<br></br><br></br>
-                        Nuestro bar está diseñado para crear experiencias memorables. Con una cuidada selección de cócteles, cervezas artesanales y una variedad de platos que fusionan lo clásico y lo innovador, cada visita a Club Fellini es una celebración de los sentidos.<br></br><br></br>
-                        Además, nos enorgullece ser un espacio inclusivo y diverso, donde todos son bienvenidos. A lo largo del año, organizamos eventos culturales, noches de música en vivo y exposiciones de artistas locales, fomentando así la creatividad y el talento de nuestra comunidad.<br></br><br></br>
-                        En Club Fellini, creemos en el poder de la conexión humana y la importancia de disfrutar cada momento. Te invitamos a visitarnos y ser parte de nuestra historia, donde cada noche es una nueva oportunidad para crear recuerdos inolvidables.<br></br><br></br>
-                        <b>¡Te esperamos!</b>
+                    Located in the heart of Rosario, Santa Fe, Club Fellini is more than a bar; It is a space where good company and culture meet. Since our opening, we have been a meeting point for lovers of music, art and gastronomy, offering a welcoming and vibrant atmosphere that invites you to relax and enjoy.
+Our bar is designed to create memorable experiences. With a careful selection of cocktails, craft beers and a variety of dishes that fuse the classic and the innovative, each visit to Club Fellini is a celebration of the senses.
+Additionally, we pride ourselves on being an inclusive and diverse space, where everyone is welcome. Throughout the year, we organize cultural events, live music nights and exhibitions by local artists, fostering creativity and talent in our community.
+At Club Fellini, we believe in the power of human connection and the importance of enjoying every moment. We invite you to visit us and be part of our history, where every night is a new opportunity to create unforgettable memories.<br></br><br></br>
+                        <b>We are waiting for you!</b>
                     </p>
                 </div>
                 <div className="w-1/2 flex flex-col items-center  p-10">
