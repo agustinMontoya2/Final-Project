@@ -130,7 +130,9 @@ export interface IOrder {
   userId: string;
   order_type: string;
   payment_method: string;
-  note: string;
+  note?: string;
+  address?: string
+  discount?: number;
 }
 
 export interface IGetOrder {
@@ -146,6 +148,7 @@ export interface IOrderDetail {
   payment_method: string;
   total: string;
   note: string;
+  discount?: number;
   productDetails: IProductsDetails[];
 }
 

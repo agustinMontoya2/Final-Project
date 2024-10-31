@@ -45,29 +45,33 @@ const OrdersView = () => {
     }, [userId, token]);
 
     return (
-        <div className="min-h-screen flex flex-col items-center my-24">
-            <div className="w-full max-w-lg bg-white shadow-md p-6">
+        <div className="min-h-screen flex flex-col items-center my-5">
                 <h1 className="text-2xl font-bold text-black text-center mb-4">Orders</h1>
-                <ul className='space-y-4'>
-                    {orders?.map((order) => (
-                        <li key={order.order_id} className="mb-4 border p-3 rounded-lg bg-gray-50 shadow-sm">
-                            <div className="mb-2">
-                                <span className="block bg-red-100 text-red-600 font-semibold py-1 px-3 rounded-full text-sm">
-                                    Order #{order.order_id}
-                                </span>
-                                <p className="text-sm text-gray-500">Date: {new Date(order.date).toLocaleDateString()}</p>
-                                <p className="text-sm text-gray-500">Status: {order.state}</p>
-                            </div>
-                            <div className="text-sm text-gray-500">
-                                <p><strong>Order Type:</strong> {order.orderDetail.order_type}</p>
-                                <p><strong>Payment Method:</strong> {order.orderDetail.payment_method}</p>
-                                <p><strong>Total:</strong> ${order.orderDetail.total}</p>
-                                {order.orderDetail.note && (
-                                    <p><strong>Note:</strong> {order.orderDetail.note}</p>
-                                )}
-                            </div>
-                        </li>
-                    ))}
+            <div className="w-full  max-w-lg bg-white shadow-md p-6">
+                <ul className='space-y-4 flex flex-col-reverse'>
+                {orders?.map((order) => (
+    <li key={order.order_id} className="mb-4 border p-3 rounded-lg bg-gray-50 shadow-sm">
+        <div className="mb-2">
+            <span className="block bg-red-100 text-red-600 font-semibold py-1 px-3 rounded-full text-sm">
+                Order #{order.order_id}
+            </span>
+            <p className="text-sm text-gray-500">Date: {new Date(order.date).toLocaleDateString()}</p>
+            <p className="text-sm text-gray-500">Status: {order.state}</p>
+        </div>
+        <div className="text-sm text-gray-500">
+            <p><strong>Order Type:</strong> {order.orderDetail.order_type}</p>
+            <p><strong>Payment Method:</strong> {order.orderDetail.payment_method}</p>
+            <p><strong>Total:</strong> ${order.orderDetail.total}</p>
+            {order.orderDetail.discount && (
+                <p><strong>Discount Applied:</strong> ${order.orderDetail.discount}</p>
+            )}
+            {order.orderDetail.note && (
+                <p><strong>Note:</strong> {order.orderDetail.note}</p>
+            )}
+        </div>
+    </li>
+))}
+
                 </ul>
             </div>
             
