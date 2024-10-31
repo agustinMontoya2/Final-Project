@@ -30,7 +30,7 @@ export default function AuthCallback() {
             isBanned: decodedToken.isBanned,
           };
           localStorage.setItem("userSession", JSON.stringify(userSessionData));
-          router.push("http://localhost:4000");
+          router.push(process.env.NEXT_PUBLIC_FRONTEND_URL);
         } else {
           console.error("El token no se pudo decodificar");
         }
