@@ -1,12 +1,12 @@
-'use client'
+import AdminProtection from "@/views/AdminView/adminProtection"
 
-import React from 'react'
+const AdmindDashboard: React.FC = () => {
 
-const AdmindDashboard:React.FC = () => {
-  
+
   return (
     <div className="text-black">
-    <p>Admin</p>
+<AdminProtection/>
+      <p>Admin</p>
     </div>
   )
 }
