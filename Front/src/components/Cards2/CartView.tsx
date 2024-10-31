@@ -22,16 +22,20 @@ const CartView = () => {
     const [note, setNote] = useState<string>("");
     const [deliveryOption, setDeliveryOption] = useState<string>("dine-in");
     const [paymentOption, setPaymentOption] = useState<string>("cash");
+    const [address, setAddress] = useState<string>("");
+    const [showCouponModal, setShowCouponModal] = useState<boolean>(false);
+    const [discountApplied, setDiscountApplied] = useState<boolean>(false);
+    const [totalWithDiscount, setTotalWithDiscount] = useState<number>(0);
     const router = useRouter();
 
     useEffect(() => {
-        if (typeof window !== "undefined"){
+        if (typeof window !== "undefined") {
             const storeUserData = window.localStorage.getItem("userSession");
-            if(storeUserData){
-                const parseData = JSON.parse(storeUserData)
-                if(parseData && parseData.user)
+            if (storeUserData) {
+                const parseData = JSON.parse(storeUserData);
+                if (parseData && parseData.user)
                     setUserId(parseData.user.user_id);
-                setToken(parseData.token)
+                setToken(parseData.token);
             }
         }
     }, []);
@@ -59,6 +63,17 @@ const CartView = () => {
             setTotalCart(0);
         }
     };
+
+    useEffect(() => {
+        if (totalCart > 0) {
+            if (discountApplied) {
+                const discount = totalCart * 0.1;
+                setTotalWithDiscount(totalCart - discount);
+            } else {
+                setTotalWithDiscount(totalCart);
+            }
+        }
+    }, [totalCart, discountApplied]);
 
     const handleDeleteQuantityCart = async (product_detail_id: string) => {
         if (userId && token) {
@@ -105,7 +120,6 @@ const CartView = () => {
         if (token && userId) {
             try {
                 await addCart(userId, productId, token);
-
                 await handleGetCart();
             } catch (error) {
                 alert(`Error: ${error instanceof Error ? error.message : error}`);
@@ -119,13 +133,10 @@ const CartView = () => {
     const handlerMercadoPago = async () => {
         if (token && userId) {
             try {
-                alert(userId)
-                console.log(userId)
                 const data = await PagoMercado(userId, token);
-                console.log("Payment response:", data);
                 if (data && data.init_point) {
                     window.location.href = data.init_point;
-                    handlePostOrder()
+                    handlePostOrder();
                 } else {
                     alert("Error initiating payment with MercadoPago.");
                 }
@@ -135,8 +146,6 @@ const CartView = () => {
             }
         }
     };
-
-
 
     const handlePostOrder = async () => {
         if (!cartItems.productDetail.length) {
@@ -151,20 +160,35 @@ const CartView = () => {
             });
             return;
         }
-
+    
         if (!userId) {
             alert("User ID is missing. Please log in.");
             return;
         }
-
+    
+        if (deliveryOption === "delivery" && !address) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Please enter your delivery address before proceeding.',
+                toast: true,
+                position: 'top-end',
+                timer: 2500,
+                showConfirmButton: false,
+                timerProgressBar: true,
+            });
+            return;
+        }
+    
         if (token && deliveryOption && paymentOption) {
             const orderData: IOrder = {
                 userId: userId,
                 order_type: deliveryOption,
                 payment_method: paymentOption,
                 note,
+                address: deliveryOption === "delivery" ? address : undefined,
+                discount: discountApplied ? totalCart * 0.1 : 0, // Aquí se incluye el descuento
             };
-
+    
             try {
                 const response = await postOrder(orderData, token);
                 if (response) {
@@ -178,9 +202,8 @@ const CartView = () => {
                         showConfirmButton: false,
                         timerProgressBar: true,
                     });
-
                     setNote("");
-                    if (paymentOption === 'Card') {
+                    if (paymentOption === 'card') {
                         await handlerMercadoPago();
                     }
                 } else {
@@ -192,7 +215,6 @@ const CartView = () => {
         }
     };
 
-
     useEffect(() => {
         if (userId && token) {
             handleGetCart();
@@ -203,135 +225,196 @@ const CartView = () => {
         router.push('/menu');
     };
 
+    const handleCouponApply = (e: React.FormEvent) => {
+        e.preventDefault(); 
+        const couponInput = (e.target as HTMLFormElement).querySelector('input[type="text"]') as HTMLInputElement;
+        if (couponInput.value === "FELLINI10OFF" && !discountApplied) {
+            setDiscountApplied(true);
+            setShowCouponModal(false); 
+        } else {
+            alert("Invalid coupon code.");
+        }
+    };
+
+    const modalCupon = () => {
+        return (
+            <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50'>
+                <div className='bg-white rounded-lg p-6 w-96'>
+                    <h2 className='text-lg font-bold text-neutral-800'>Enter your coupon code</h2>
+                    <form onSubmit={handleCouponApply}>
+                        <input type='text' placeholder='Código del cupón' className='text-neutral-800 border outline-none border-gray-300 p-2 rounded mt-2 w-full' />
+                        <div className='mt-4 flex justify-between'>
+                            <button type="button" onClick={() => setShowCouponModal(false)} className='bg-secondary text-white rounded px-4 py-2 hover:bg-red-700'>Cancel</button>
+                            <button type="submit" className='bg-blue-600 text-white rounded px-4 py-2 hover:bg-blue-700'>Apply</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        );
+    };
+    
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen py-8 ">
+        <div className="w-m-auto flex flex-col items-center justify-center min-h-screen py-8 ">
             <h1 className="text-3xl font-bold text-black mb-6">Cart</h1>
             {cartItems?.productDetail.length === 0 ? (
                 <p className="text-lg text-gray-700">Your cart is empty.</p>
             ) : (
-                <div>
-                    <ul className="bg-white shadow-lg rounded-lg w-[99%] max-w-4xl">
+                <div className='md:w-1/2 w-96'>
+                    <ul className="bg-white shadow-lg rounded-lg w-full">
                         {cartItems?.productDetail.map((item) => (
                             <li key={item.product_detail_id} className="flex items-center justify-between p-6 border-b border-gray-300">
                                 <div className="flex items-center">
                                     <Image
                                         src={item.product.image_url}
                                         alt={item.product.product_name}
-                                        width={80}
-                                        height={80}
+                                        width={120}
+                                        height={120}
                                         className="mr-6 rounded-lg object-cover"
                                     />
                                     <div>
                                         <h2 className="text-xl font-semibold text-black">{item.product.product_name}</h2>
-                                        <p className="text-gray-600">Price: <span className="font-bold">${parseFloat(item.subtotal).toFixed(2)}</span></p>
+                                        <p className="text-gray-600">Price: <span className="font-bold">${item.product.price}</span></p>
                                         <p className="text-gray-600">Quantity: <span className="font-bold">{item.quantity}</span></p>
                                     </div>
                                 </div>
                                 <div className="flex space-x-2">
                                     <button
                                         onClick={() => handleDeleteQuantityCart(item.product_detail_id)}
-                                        className="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
+                                        className="w-8 h-8 text-xl flex justify-center items-center bg-red-500 text-white font-bold rounded-lg hover:bg-red-600 transition duration-300"
                                     >
                                         -
                                     </button>
                                     <button
-                                        className="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
+                                        className="w-8 h-8 text-xl flex justify-center items-center bg-red-500 text-white font-bold rounded-lg hover:bg-red-600 transition duration-300"
                                         onClick={() => handleAddCart(item.product.product_id)}
                                     >
                                         +
                                     </button>
                                     <button
                                         onClick={() => handleDeleteProductCart(item.product_detail_id)}
-                                        className="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
+                                        className="text-white font-bold rounded-lg transition duration-300"
                                     >
-                                        Remove
+                                        <Image src={'/assets/icon/trashred.png'} width={30} height={30} alt='trash' />
                                     </button>
                                 </div>
                             </li>
                         ))}
                         <span className="flex justify-between p-6">
-                            <p className="text-lg font-semibold text-black">Total:</p>
-                            <p className="bg-secondary rounded-lg p-2 text-lg font-bold text-white">${totalCart.toFixed(2)}</p>
+                            <div>
+                                <p className="text-lg font-semibold text-black">Total: <span className="font-bold">${totalCart.toFixed(2)}</span></p>
+                                {discountApplied && (
+                                    <p className="text-lg font-semibold text-black">Total after discount: <span className="font-bold text-red-600">${totalWithDiscount.toFixed(2)}</span></p>
+                                )}
+                                {!discountApplied && (
+                                    <p className='text-blue-700 text-sm hover:underline cursor-pointer' onClick={() => setShowCouponModal(true)}>Do you have a coupon?</p>
+                                )}
+                            </div>
                         </span>
                     </ul>
-                    <div className="w-[80%] max-w-4xl mt-6">
+                    <div className="mt-6">
                         <textarea
                             value={note}
                             onChange={(e) => setNote(e.target.value)}
-                            className="w-[125%] h-24 max-h-56 min-h-16 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full h-24 max-h-56 min-h-16 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="Any special instructions or notes?"
                         />
                         <h3 className="mt-6 font-semibold text-lg text-black">Delivery Options</h3>
                         <div className="flex mt-2">
                             <label className="flex items-center text-neutral-800">
                                 <input
-                                    type="checkbox"
+                                    type="radio"
                                     value="dine-in"
                                     checked={deliveryOption === "dine-in"}
-                                    onChange={(e) => setDeliveryOption(e.target.checked ? e.target.value : "")}
+                                    onChange={(e) => {
+                                        setDeliveryOption(e.target.value);
+                                        setAddress("");
+                                    }}
                                     className="mr-2"
                                 />
                                 Take Away
                             </label>
                             <label className="flex items-center text-neutral-800 ml-5">
                                 <input
-                                    type="checkbox"
+                                    type="radio"
                                     value="delivery"
                                     checked={deliveryOption === "delivery"}
-                                    onChange={(e) => setDeliveryOption(e.target.checked ? e.target.value : "")}
+                                    onChange={(e) => {
+                                        setDeliveryOption(e.target.value);
+                                    }}
                                     className="mr-2"
                                 />
                                 Delivery
                             </label>
                         </div>
+
+                        {deliveryOption === "delivery" && (
+                            <div className="mt-4 relative">
+                                <input
+                                    type="text"
+                                    value={address}
+                                    onChange={(e) => setAddress(e.target.value)}
+                                    className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
+                                    required
+                                />
+                                <label
+                                    htmlFor='delivery'
+                                    className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${address ? 'top-[4px] text-xs' : ''}`}
+                                >
+                                    Enter your delivery address
+                                </label>
+                            </div>
+                        )}
+
                         <h3 className="mt-6 font-semibold text-lg text-black">Payment Method</h3>
                         <div className="flex mt-2">
                             <label className="flex items-center text-neutral-800">
                                 <input
-                                    type="checkbox"
+                                    type="radio"
                                     value="cash"
                                     checked={paymentOption === "cash"}
-                                    onChange={(e) => setPaymentOption(e.target.checked ? e.target.value : "")}
+                                    onChange={(e) => setPaymentOption(e.target.value)}
                                     className="mr-2"
                                 />
                                 Cash
                             </label>
                             <label className="flex items-center text-neutral-800 ml-5">
                                 <input
-                                    type="checkbox"
+                                    type="radio"
                                     value="card"
                                     checked={paymentOption === "card"}
-                                    onChange={(e) => setPaymentOption(e.target.checked ? e.target.value : "")}
+                                    onChange={(e) => setPaymentOption(e.target.value)}
                                     className="mr-2"
                                 />
                                 Card
                             </label>
                         </div>
-                        <div className="flex justify-center space-x-4 mt-6">
+                        <div className="w-full flex justify-between mt-6">
                             <button
                                 onClick={handleFinishOrder}
                                 className="bg-secondary text-white font-bold px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
                             >
                                 Continue Shopping
                             </button>
-                            {paymentOption === "card" && (
+                            {paymentOption === "card" ? (
                                 <button
                                     onClick={handlerMercadoPago}
                                     className="bg-blue-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300"
                                 >
-                                    Pay with MercadoPago
+                                    Pay with card
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={handlePostOrder}
+                                    className="bg-green-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300"
+                                >
+                                    Finalize Order
                                 </button>
                             )}
-                            <button
-                                onClick={handlePostOrder}
-                                className="bg-green-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300"
-                            >
-                                Finalize Order
-                            </button>
                         </div>
                     </div>
                 </div>
             )}
+            {showCouponModal && modalCupon()}
         </div>
     );
 }

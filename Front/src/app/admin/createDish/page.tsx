@@ -1,11 +1,10 @@
-
-import FormularioMenu from '@/views/FormsViews/FormAddDish'
+import FormAddDish from '@/views/FormsViews/FormAddDish'
 import React from 'react'
 
 const profileAdmin = () => {
     return (
         <div>
-            <FormularioMenu />
+            <FormAddDish />
         </div>
     )
 }

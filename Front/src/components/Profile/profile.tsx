@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import jwt from "jsonwebtoken";
 
-const ProfileV = () => {
+const Profile = () => {
   const [userData, setUserData] = useState<IUserSession>();
   const [isEditing, setIsEditing] = useState(false);
   const [user, setUser] = useState<IUser>();
@@ -153,8 +153,7 @@ const ProfileV = () => {
 
   return (
     <div
-      className={`h-auto bg-white p-6 rounded-lg shadow-lg w-screen max-w-md mx-auto my-48 transition-all duration-1000 ease-in-out ${isEditing ? "max-h-screen" : "max-h-auto"
-        }`}
+      className={`h-auto p-6 rounded-lg bg-white shadow-lg w-screen max-w-md mx-auto my-48 transition-all duration-1000 ease-in-out ${isEditing ? "max-h-screen" : "max-h-auto"}`}
     >
       <div className="w-full flex justify-center items-center">
         <h1 className="text-2xl font-semibold text-center text-gray-800">
@@ -315,13 +314,13 @@ const ProfileV = () => {
         <div className="w-full flex justify-between">
           <button
             onClick={handleCancelClick}
-            className="w-auto px-3 py-1 bg-neutral-500 rounded-lg mt-3 hover:bg-neutral-400"
+            className="w-auto text-white px-3 py-1 bg-neutral-500 rounded-lg mt-3 hover:bg-neutral-400"
           >
             Cancel
           </button>
           <button
             onClick={handleSaveChanges}
-            className="w-auto px-3 py-1 bg-secondary rounded-lg mt-3 hover:bg-red-700"
+            className="w-auto text-white px-3 py-1 bg-secondary rounded-lg mt-3 hover:bg-red-700"
           >
             Save changes
           </button>
@@ -331,4 +330,4 @@ const ProfileV = () => {
   );
 };
 
-export default ProfileV;
+export default Profile;

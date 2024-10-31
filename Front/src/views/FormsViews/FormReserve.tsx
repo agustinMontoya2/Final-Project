@@ -3,8 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { IReserve, IUserSession } from '@/interfaces/productoInterface';
 import { formReserve } from '@/Helpers/reservation';
 import Swal from 'sweetalert2';
+import { useRouter } from 'next/navigation';
 
 const ReservationForm: React.FC = () => {
+    const router = useRouter()
+
     const initialState: IReserve = {
         user_id: "",
         reservation_id: "",
@@ -91,6 +94,7 @@ const ReservationForm: React.FC = () => {
                 showConfirmButton: false,
                 timerProgressBar: true,
             });
+            router.push("/reservation")
         } catch {
             Swal.fire({
                 icon: 'error',

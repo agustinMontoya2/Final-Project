@@ -63,7 +63,7 @@ useEffect(() => {
     };
 
     return (
-        <div className="p-6 bg-gradient-to-r from-black-50 to-black-50 rounded-lg shadow-lg">
+        <div className=" ">
             {reserves.length > 0 ? (
                 <div>
                     <h2 className="text-3xl font-bold text-center text-black-700 mb-6">Reservations</h2>
@@ -104,7 +104,7 @@ useEffect(() => {
                                         {reserve.status ? (
                                             <button
                                                 onClick={() => handleCancelReserve(reserve.reservation_id)}
-                                                className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-colors"
+                                                className="px-4 py-2 bg-secondary text-white font-semibold rounded-lg hover:bg-red-700 transition-colors"
                                             >
                                                 Cancel Reservation
                                             </button>

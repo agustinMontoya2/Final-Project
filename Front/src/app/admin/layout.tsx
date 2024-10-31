@@ -1,11 +1,13 @@
 "use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function DashboardLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
+    const pathname = usePathname(); // Obtener la ruta actual
     const links = [
         { href: "/admin", label: "Admin" },
         { href: "/admin/users", label: "Users" },
@@ -18,14 +20,16 @@ export default function DashboardLayout({
     ];
 
     return (
-        <div className="min-h-screen bg-gradient-to-r from-gray-50 to-gray-200 p-8 my-24">
+        <div className="min-h-screen p-8">
             <div className="max-w-7xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
-                <nav className="flex flex-wrap justify-center md:justify-between items-center p-6 bg-red-900 text-white shadow-md">
+                <nav className="flex flex-wrap justify-around items-center bg-red-900 text-white shadow-md">
                     {links.map((link) => (
                         <Link
                             href={link.href}
                             key={link.href}
-                            className="px-4 py-2 text-md font-medium hover:bg-red-700 transition-colors duration-300 rounded-md"
+                            className={`px-4 py-2 text-md h-16 w-[12.5%] flex justify-center items-center transition-colors duration-300 rounded-md hover:bg-red-800 ${
+                                pathname === link.href ? "bg-red-700" : ""
+                            }`}
                         >
                             {link.label}
                         </Link>

@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { getCategories } from '@/Helpers/Categories';
 import Image from 'next/image';
 
-const FormularioMenu = () => {
+const FormAddDish = () => {
     const router = useRouter();
     const [productImgFile, setProductImgFile] = useState<File | null>(null);
     const [imagenPreview, setImagePreview] = useState<string | null>(null);
@@ -144,104 +144,87 @@ const FormularioMenu = () => {
     };
 
     return (
-        <div className="absolute inset-0 flex items-center justify-center">
-            <form className="w-11/12 bg-neutral-300 p-6 rounded-lg flex flex-col justify-center items-center" onSubmit={handleSubmit}>
-                <h2 className="w-full text-xl text-center text-neutral-800 font-extrabold">Add dish</h2>
-                <div className="w-4/5 mb-6 relative">
-                    <input
-                        type="text"
-                        name="product_name"
-                        id="name"
-                        placeholder="Name"
-                        value={formValues.product_name}
-                        onChange={handleChange}
-                        className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
-                        required
-                    />
-                    <label
-                        htmlFor="name"
-                        className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${formValues.product_name ? 'top-[4px] text-xs' : ''}`}
-                    >
-                        Name
-                    </label>
-                </div>
-                <div className="w-4/5 mb-6 relative">
-                    <textarea
-                        name="description"
-                        id="description"
-                        placeholder="Description"
-                        value={formValues.description}
-                        onChange={handleChange}
-                        className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
-                        required
-                    />
-                    <label
-                        htmlFor="descripcion"
-                        className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${formValues.description ? 'top-[4px] text-xs' : ''}`}
-                    >
-                        Description
-                    </label>
-                </div>
-                <div className="w-4/5 mb-6 relative">
-                    <input
-                        type="number"
-                        name="price"
-                        id="price"
-                        placeholder="Price"
-                        value={formValues.price}
-                        onChange={handleChange}
-                        className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
-                        required
-                    />
-                    <label
-                        htmlFor="price"
-                        className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${formValues.price ? 'top-[4px] text-xs' : ''}`}
-                    >
-                        Price
-                    </label>
-                </div>
-                <div className="w-4/5 mb-6 relative">
-                    <label htmlFor="categoria" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
-                        Category
-                    </label>
-                    <select
-                        id="categoria"
-                        name="category"
-                        value={formValues.category_id} // Ahora es un string, no un array
-                        onChange={handleChange}
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        required
-                    >
-                        <option value="">Select a category</option>
-                        {categories.map((category) => (
-                            <option key={category.category_id} value={category.category_id.toString()}>
-                                {category.category_name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div className="w-4/5 mb-6 relative">
-                    <label htmlFor="imagen" className="w-full flex flex-col items-center p-4 bg-gray-100 border-2 border-dashed border-gray-400 rounded-lg cursor-pointer hover:bg-gray-200 transition">
-                        <span className="text-gray-600">Click to upload an image</span>
-                        {imagenPreview ? (
-                            <Image src={imagenPreview} alt="Imagen subida" height={300} width={300} className="w-full h-40 object-cover mt-2" />
-                        ) : (
-                            <span className="mt-2 text-gray-500 text-sm">No file selected</span>
-                        )}
-                    </label>
-                    <input id="imagen" type="file" onChange={handleFileChange} className="hidden" required />
-                </div>
-
-                <button
-                    type="submit"
-                    disabled={isDisable}
-                    className="w-4/5 bg-red-600 text-white font-bold py-2 rounded-lg hover:bg-red-700 transition duration-200"
+        <div className="w-2/3 m-auto">
+        <form onSubmit={handleSubmit}>
+            <h2 className="text-xl text-center font-extrabold">Add dish</h2>
+            <div className="mb-6 relative">
+                <input
+                    type="text"
+                    name="product_name"
+                    id="name"
+                    placeholder="Name"
+                    value={formValues.product_name}
+                    onChange={handleChange}
+                    required
+                    className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
+                />
+                <label htmlFor="name" className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${formValues.product_name? 'top-[4px] text-xs' : ''}`}>Name</label>
+            </div>
+            <div className="mb-6 relative">
+                <textarea
+                    name="description"
+                    id="description"
+                    placeholder="Description"
+                    value={formValues.description}
+                    onChange={handleChange}
+                    required
+                    className="min-h-12 max-h-24  text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
+                />
+                <label htmlFor="descripcion" className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${formValues.description? 'top-[4px] text-xs' : ''}`}>Description</label>
+            </div>
+            <div className="mb-6 relative">
+                <input
+                    type="number"
+                    name="price"
+                    id="price"
+                    placeholder="Price"
+                    value={formValues.price}
+                    onChange={handleChange}
+                    required
+                    className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
+                />
+                <label htmlFor="price" className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${formValues.price? 'top-[4px] text-xs' : ''}`}>Price</label>
+            </div>
+            <div className="mb-6 relative">
+                <label htmlFor="categoria" className="block text-sm font-medium">Category</label>
+                <select
+                    id="categoria"
+                    name="category"
+                    value={formValues.category_id}
+                    onChange={handleChange}
+                    required
+                    className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pb-1"
                 >
-                    {isDisable ? "Adding..." : "add Dish..."}
-                </button>
-            </form>
-        </div>
+                    <option value="">Select a category</option>
+                    {categories.map((category) => (
+                        <option key={category.category_id} value={category.category_id.toString()}>
+                            {category.category_name}
+                        </option>
+                    ))}
+                </select>
+            </div>
+            <div className="mb-6 relative">
+                <label htmlFor="imagen" className="flex flex-col items-center p-4 border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-200 transition">
+                    <span>Click to upload an image</span>
+                    {imagenPreview ? (
+                        <Image src={imagenPreview} alt="Imagen subida" height={300} width={300} className="w-full h-40 object-cover mt-2" />
+                    ) : (
+                        <span className="mt-2 text-gray-500 text-sm">No file selected</span>
+                    )}
+                </label>
+                <input id="imagen" type="file" onChange={handleFileChange} className="hidden" accept='image/*' required />
+            </div>
+
+            <button
+                type="submit"
+                disabled={isDisable}
+                className="w-full bg-red-600 text-white font-bold py-2 rounded-lg hover:bg-red-700 transition duration-200"
+            >
+                {isDisable ? "Adding..." : "Add Dish"}
+            </button>
+        </form>
+    </div>
     );
 };
 
-export default FormularioMenu;
+export default FormAddDish;

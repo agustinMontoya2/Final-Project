@@ -1,3 +1,5 @@
+'use client'
+
 import FormWork from "@/views/FormsViews/FormWork"
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react"

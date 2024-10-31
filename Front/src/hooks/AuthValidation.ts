@@ -1,31 +1,33 @@
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+// 'use client'
 
-const AuthValidation = () => {
-  const [authenticated, setAuthenticated] = useState<boolean | null>(null); 
-  const router = useRouter();
+// import { useRouter } from "next/navigation";
+// import { useEffect, useState } from "react";
 
-  useEffect(() => {
-    const userSession = localStorage.getItem("userSession");
+// const AuthValidation = () => {
+//   const [authenticated, setAuthenticated] = useState<boolean | null>(null);
+//   const router = useRouter();
 
-    if (userSession) {
-      const session = JSON.parse(userSession);
-      if (session.isAdmin === true) {
-        setAuthenticated(true);
-      } else {
-        setAuthenticated(false);
-        router.push("/"); 
-      }
-    } else {
-      setAuthenticated(false);
-      router.push("/"); 
-    }
-  }, [router]);
+//   useEffect(() => {
+//     const userSession = localStorage.getItem("userSession");
+
+//     if (userSession) {
+//       const session = JSON.parse(userSession);
+//       if (session.isAdmin === true) {
+//         setAuthenticated(true);
+//       } else {
+//         setAuthenticated(false);
+//         router.push("/");
+//       }
+//     } else {
+//       setAuthenticated(false);
+//       router.push("/");
+//     }
+//   }, [router]);
 
 
-  if (authenticated === null) 
+//   if (authenticated === null)
 
-  return authenticated; 
-};
+//   return true;
+// };
 
-export default AuthValidation;
+// export default AuthValidation;

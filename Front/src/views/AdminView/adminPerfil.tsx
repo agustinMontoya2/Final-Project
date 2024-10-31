@@ -1,12 +1,12 @@
 'use client'
-import ProfileV from '@/components/Profile/profile'
+import Profile from '@/components/Profile/profile'
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 const AdminPerfil = () => {
   const [admin, setAdmin] = useState<boolean>(true);
   const router = useRouter();
-  
+
   useEffect(() => {
     if(typeof window  !== 'undefined'){
 
@@ -28,7 +28,7 @@ useEffect(() => {
 }, [admin]);
 
   return (
-    <ProfileV/>
+    <Profile/>
   )
 }
 

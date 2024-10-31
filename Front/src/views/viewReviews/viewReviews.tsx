@@ -70,7 +70,7 @@ useEffect(() => {
 
 
     return (
-        <div className="w-4/5 m-auto p-6">
+        <div className="w-4/5 m-auto">
             <h2 className="text-3xl font-bold text-center text-black-700 mb-6">Reviews</h2>
             {reviews.length > 0 ? (
                 <div className='h-screen overflow-y-scroll scrollbar-custom'>
