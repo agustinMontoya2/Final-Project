@@ -144,10 +144,10 @@ const FormAddDish = () => {
     };
 
     return (
-        <div className="p-8 bg-white rounded-lg shadow-md">
+        <div className="w-2/3 m-auto">
         <form onSubmit={handleSubmit}>
             <h2 className="text-xl text-center font-extrabold">Add dish</h2>
-            <div className="mb-6">
+            <div className="mb-6 relative">
                 <input
                     type="text"
                     name="product_name"
@@ -156,11 +156,11 @@ const FormAddDish = () => {
                     value={formValues.product_name}
                     onChange={handleChange}
                     required
-                    className="w-full p-2 border rounded-md"
+                    className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
                 />
-                <label htmlFor="name" className="block text-sm">Name</label>
+                <label htmlFor="name" className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${formValues.product_name? 'top-[4px] text-xs' : ''}`}>Name</label>
             </div>
-            <div className="mb-6">
+            <div className="mb-6 relative">
                 <textarea
                     name="description"
                     id="description"
@@ -168,11 +168,11 @@ const FormAddDish = () => {
                     value={formValues.description}
                     onChange={handleChange}
                     required
-                    className="w-full p-2 border rounded-md"
+                    className="min-h-12 max-h-24  text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
                 />
-                <label htmlFor="descripcion" className="block text-sm">Description</label>
+                <label htmlFor="descripcion" className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${formValues.description? 'top-[4px] text-xs' : ''}`}>Description</label>
             </div>
-            <div className="mb-6">
+            <div className="mb-6 relative">
                 <input
                     type="number"
                     name="price"
@@ -181,19 +181,19 @@ const FormAddDish = () => {
                     value={formValues.price}
                     onChange={handleChange}
                     required
-                    className="w-full p-2 border rounded-md"
+                    className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
                 />
-                <label htmlFor="price" className="block text-sm">Price</label>
+                <label htmlFor="price" className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${formValues.price? 'top-[4px] text-xs' : ''}`}>Price</label>
             </div>
-            <div className="mb-6">
-                <label htmlFor="categoria" className="block mb-2 text-sm font-medium">Category</label>
+            <div className="mb-6 relative">
+                <label htmlFor="categoria" className="block text-sm font-medium">Category</label>
                 <select
                     id="categoria"
                     name="category"
                     value={formValues.category_id}
                     onChange={handleChange}
                     required
-                    className="w-full p-2 border rounded-md"
+                    className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pb-1"
                 >
                     <option value="">Select a category</option>
                     {categories.map((category) => (
@@ -203,7 +203,7 @@ const FormAddDish = () => {
                     ))}
                 </select>
             </div>
-            <div className="mb-6">
+            <div className="mb-6 relative">
                 <label htmlFor="imagen" className="flex flex-col items-center p-4 border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-200 transition">
                     <span>Click to upload an image</span>
                     {imagenPreview ? (

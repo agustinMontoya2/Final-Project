@@ -6,6 +6,7 @@ import { IUser, IUserSession } from '@/interfaces/productoInterface';
 import { getUsers, banUser, adminUser } from '@/Helpers/users';
 import { useRouter } from 'next/navigation';
 import Swal from "sweetalert2";
+import Loading from '@/lib/Loading/Loading'
 
 const ViewUsers = () => {
     const router = useRouter();
@@ -16,6 +17,8 @@ const ViewUsers = () => {
     const [userData, setUserData] = useState<IUserSession>();
     const [profileImg, setProfileImg] = useState<string | null>(null);
     const [isEditing, setIsEditing] = useState(false);
+    const [loading, setLoading] = useState(true);
+
 
     // Filtros
     const [statusFilter, setStatusFilter] = useState<string>('all'); // 'all', 'active', 'banned'

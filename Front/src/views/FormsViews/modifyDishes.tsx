@@ -189,7 +189,7 @@ const ModifyDishes = () => {
                 />
             </div>
 
-            <ul className="w-[60%] m-auto space-y-6">
+            <ul className="w-1/2 m-auto space-y-6">
                 {products && Array.isArray(products) && products.length > 0 ? (
                     products
                         .filter(product => product.product_name.toLowerCase().includes(searchTerm.toLowerCase())) // Filtrado por nombre
@@ -198,22 +198,25 @@ const ModifyDishes = () => {
                                 <Image
                                     src={product.image_url}
                                     alt={product.product_name}
-                                    width={100}
-                                    height={100}
+                                    width={120}
+                                    height={120}
                                     className="rounded-md mr-4"
                                 />
-                                <div className="flex-grow">
-                                    <h2 className="text-black text-xl font-semibold">{product.product_name}</h2>
-                                    <div className="mt-2 flex justify-between">
+                                <div className="flex justify-between">
+                                    <div className="w-2/3 h-full ">
+                                        <h2 className="text-black text-xl font-semibold">{product.product_name}</h2>
+                                        <p className="line-clamp-2">{product.description}</p>
+                                    </div>
+                                    <div className="flex flex-col justify-around items-center">
                                         <button
-                                            className="flex bg-secondary px-3 py-1 rounded-md hover:bg-red-700 text-white"
+                                            className="flex bg-neutral-500 w-20 h-8 justify-center items-center px-2 rounded-md hover:bg-neutral-600 text-white"
                                             onClick={() => handleModify(product)} // Pasa el producto al modificar
                                         >
                                             Edit
                                             <Image src={'/assets/icon/pencilwhite.png'} width={20} height={20} alt="edit" className="ml-2" />
                                         </button>
                                         <button
-                                            className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700 text-white"
+                                            className="bg-secondary w-20 h-8 justify-center items-center px-2 rounded-md hover:bg-red-700 text-white"
                                             onClick={() => handleDelete(product.product_id)}
                                         >
                                             Delete
