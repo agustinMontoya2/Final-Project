@@ -63,7 +63,6 @@ const SalesChart: React.FC<{ SaleData: ISales['SaleData'] }> = ({ SaleData }) =>
             },
         ],
     };
-
     const options: ChartOptions<'bar'> = {
         responsive: true,
         plugins: {
