@@ -175,7 +175,7 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
   useEffect(() => adjustHeight(), [reviewPost.review]);
 
   return (
-    <div className="w-full h-screen flex flex-col items-center">
+    <div className="w-full h-screen mt-10 flex flex-col items-center">
       <div className="w-[25%] h-auto flex flex-col items-center p-4 bg-white rounded-lg shadow-xl duration-500 hover:scale-105 relative ">
         <button className="absolute top-2 right-2" onClick={(e) => { e.stopPropagation(); handleAddToFavorities(product_id, favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product_id) ?? false); }}>
           <Image src={favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product_id) ? "/assets/icon/star.png" : "/assets/icon/staroutline.png"} alt="Favorite icon" width={24} height={24} />

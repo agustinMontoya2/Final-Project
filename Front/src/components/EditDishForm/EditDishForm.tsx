@@ -156,10 +156,22 @@ const EditDishForm: React.FC<EditDishFormProps> = ({ selectedProduct, categories
                                 name="avaliable"
                                 checked={formValues.avaliable}
                                 onChange={(e) => setFormValues({ ...formValues, avaliable: e.target.checked })}
-                                className="mr-2"
+                                className="hidden"
                             />
-                            <label htmlFor="avaliable" className="text-neutral-700">Available</label>
+                            <span 
+                                className={`w-5 h-5 border rounded-md flex items-center justify-center cursor-pointer ${formValues.avaliable ? 'bg-green-500' : 'bg-red-500'}`}
+                                onClick={() => setFormValues({ ...formValues, avaliable: !formValues.avaliable })} // Alterna el estado al hacer clic
+                            >
+                                <Image src={`${formValues.avaliable ? '/assets/icon/check.png' : '/assets/icon/cross.png'}`} alt="icon" width={10} height={10} />
+                            </span>
+                            <label 
+                                htmlFor="avaliable" 
+                                className={`ml-2 ${formValues.avaliable ? 'text-green-500' : 'text-red-500'}`}
+                            >
+                                {formValues.avaliable ? 'Available' : 'Not Available'}
+                            </label>
                         </div>
+
                     </div>
                     <div className="w-1/2 flex flex-col justify-center relative p-4">
                         <div className="relative">

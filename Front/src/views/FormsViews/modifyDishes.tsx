@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { getCategories } from '@/Helpers/Categories';
 import Swal from "sweetalert2";
 import EditDishForm from "@/components/EditDishForm/EditDishForm";
+import '../../styles/scrollbar.css'
 
 const ModifyDishes = () => {
     const router = useRouter();
@@ -87,7 +88,7 @@ const ModifyDishes = () => {
     }
 
     return (
-        <div className="h-screen overflow-y-scroll p-5">
+        <div className="h-screen overflow-y-scroll scrollbar-custom p-5">
             <div className="mb-5 text-center">
                 <input
                     type="text"
