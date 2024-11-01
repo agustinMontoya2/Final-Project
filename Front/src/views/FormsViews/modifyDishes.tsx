@@ -1,13 +1,13 @@
 "use client";
 
-import { editProductImg, getProductsDB, putProduct, removeProduct } from "@/Helpers/products.helper";
+import { editProductImg, getProductsDB, removeProduct } from "@/Helpers/products.helper";
 import { IProducts, ICategory } from "@/interfaces/productoInterface";
 import Image from "next/image";
-import { useEffect, useState, ChangeEvent, FormEvent } from "react";
+import { useEffect, useState, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import { getCategories } from '@/Helpers/Categories';
 import Swal from "sweetalert2";
-import '../../styles/scrollbar.css'
+import EditDishForm from "@/components/EditDishForm/EditDishForm";
 
 const ModifyDishes = () => {
     const router = useRouter();
@@ -17,28 +17,17 @@ const ModifyDishes = () => {
     const [token, setToken] = useState<string | null>(null);
     const [selectedProduct, setSelectedProduct] = useState<IProducts | null>(null);
     const [isFormOpen, setIsFormOpen] = useState(false);
-    const [formValues, setFormValues] = useState({
-        product_name: '',
-        description: '',
-        price: '',
-        image_url: '',
-        avaliable: true,
-        category_id: ''
-    });
-    const [productImgFile, setProductImgFile] = useState<File | null>(null);
-    const [imagenPreview, setImagePreview] = useState<string | null>(null);
     const [categories, setCategories] = useState<ICategory[]>([]);
 
     useEffect(() => {
-        if (typeof window  !== 'undefined') {
-
-        const storedUserData = window.localStorage.getItem("userSession");
-        if (storedUserData) {
-            const parsedData = JSON.parse(storedUserData);
-            if (parsedData && parsedData.user) {
-                setToken(parsedData.token);
+        if (typeof window !== 'undefined') {
+            const storedUserData = window.localStorage.getItem("userSession");
+            if (storedUserData) {
+                const parsedData = JSON.parse(storedUserData);
+                if (parsedData && parsedData.user) {
+                    setToken(parsedData.token);
+                }
             }
-        }
         }
         fetchProducts();
         fetchCategories();
@@ -66,17 +55,7 @@ const ModifyDishes = () => {
     };
 
     const handleModify = (product: IProducts) => {
-
         setSelectedProduct(product);
-        setFormValues({
-            product_name: product.product_name,
-            description: product.description,
-            price: product.price.toString(),
-            image_url: '',
-            avaliable: product.available,
-            category_id: product.category.category_id || ''
-        });
-        setImagePreview(product.image_url || '');
         setIsFormOpen(true);
     };
 
@@ -87,98 +66,28 @@ const ModifyDishes = () => {
         }
         try {
             const response = await removeProduct(productId, token);
-
-
             Swal.fire({
                 title: response.message,
                 icon: 'success',
                 timer: 1000,
             });
-
             fetchProducts();
         } catch {
             console.error("Error al eliminar el producto");
         }
     };
-    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
 
-        if (name === "category") {
-            const selectedCategory = categories.find(cat => cat.category_id === value);
-            setFormValues({
-                ...formValues,
-                category_id: selectedCategory?.category_id || '',
-            });
-        } else {
-            setFormValues({
-                ...formValues,
-                [name]: value,
-            });
-        }
+    const closeModal = () => {
+        setIsFormOpen(false);
+        setSelectedProduct(null);
     };
-
-    const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            setProductImgFile(file);
-            const imgUrl = URL.createObjectURL(file);
-            setImagePreview(imgUrl);
-        }
-    };
-
-    const handleSubmit = async (e: FormEvent) => {
-        e.preventDefault();
-
-        if (!token) {
-            console.error("Token is required");
-            return;
-        }
-
-        const editProduct = {
-            product_name: formValues.product_name,
-            description: formValues.description,
-            price: parseFloat(formValues.price),
-            category_id: formValues.category_id,
-            available: formValues.avaliable,
-        };
-
-        console.log("Product data being sent:", editProduct);
-
-        try {
-            if (!selectedProduct || !selectedProduct.product_id) {
-                console.error("Selected editProduct is not valid");
-                return;
-            }
-            console.log("editado", editProduct);
-
-
-            const response = await putProduct(token, selectedProduct.product_id, editProduct); // Asegúrate de que estás pasando el product_id correcto
-
-            if (response.product_id && productImgFile) {
-                await editProductImg(productImgFile, token, response.product_id);
-                console.log(productImgFile);
-            }
-            Swal.fire({
-                title: 'product edited successfully',
-                icon: 'success',
-                timer: 1000,
-            });
-            fetchProducts();
-            setIsFormOpen(false);
-        } catch {
-            console.error("Error al modificar el producto");
-        }
-    };
-    console.log("Token:", token);
-    console.log("Selected Product ID:", selectedProduct?.product_id);
-    console.log("Product data being sent:", products);
 
     if (loading) {
         return <div className="flex flex-col justify-center text-black">Loading menu...</div>;
     }
 
     return (
-        <div className="h-screen overflow-y-scroll p-5 scrollbar-custom">
+        <div className="h-screen overflow-y-scroll p-5">
             <div className="mb-5 text-center">
                 <input
                     type="text"
@@ -192,7 +101,7 @@ const ModifyDishes = () => {
             <ul className="w-1/2 m-auto space-y-6">
                 {products && Array.isArray(products) && products.length > 0 ? (
                     products
-                        .filter(product => product.product_name.toLowerCase().includes(searchTerm.toLowerCase())) // Filtrado por nombre
+                        .filter(product => product.product_name.toLowerCase().includes(searchTerm.toLowerCase()))
                         .map((product) => (
                             <li key={product.product_id} className="flex items-center p-4 bg-white rounded-lg shadow-md">
                                 <Image
@@ -202,15 +111,15 @@ const ModifyDishes = () => {
                                     height={120}
                                     className="rounded-md mr-4"
                                 />
-                                <div className="flex justify-between">
-                                    <div className="w-2/3 h-full ">
+                                <div className="flex justify-between w-full">
+                                    <div className="w-2/3 h-full">
                                         <h2 className="text-black text-xl font-semibold">{product.product_name}</h2>
                                         <p className="line-clamp-2">{product.description}</p>
                                     </div>
                                     <div className="flex flex-col justify-around items-center">
                                         <button
                                             className="flex bg-neutral-500 w-20 h-8 justify-center items-center px-2 rounded-md hover:bg-neutral-600 text-white"
-                                            onClick={() => handleModify(product)} // Pasa el producto al modificar
+                                            onClick={() => handleModify(product)}
                                         >
                                             Edit
                                             <Image src={'/assets/icon/pencilwhite.png'} width={20} height={20} alt="edit" className="ml-2" />
@@ -230,85 +139,15 @@ const ModifyDishes = () => {
                 )}
             </ul>
 
-            {/* Formulario de modificación */}
             {isFormOpen && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                    <form className="w-11/12 bg-neutral-300 p-6 rounded-lg flex flex-col justify-center items-center" onSubmit={handleSubmit}>
-                        <h2 className="w-full text-xl text-center text-neutral-800 font-extrabold">Modify Dish</h2>
-                        <div className="w-4/5 mb-6 relative">
-                            <input
-                                type="text"
-                                name="product_name"
-                                placeholder="Name"
-                                value={formValues.product_name}
-                                onChange={handleChange}
-                                className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
-                                required
-                            />
-                        </div>
-                        <div className="w-4/5 mb-6 relative">
-                            <textarea
-                                name="description"
-                                placeholder="Description"
-                                value={formValues.description}
-                                onChange={handleChange}
-                                className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
-                                required
-                            />
-                        </div>
-                        <div className="w-4/5 mb-6 relative">
-                            <input
-                                type="number"
-                                name="price"
-                                placeholder="Price"
-                                value={formValues.price}
-                                onChange={handleChange}
-                                className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
-                                required
-                            />
-                        </div>
-                        <div className="w-4/5 mb-6 relative">
-                            <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900">Select a category</label>
-                            <select
-                                id="category"
-                                name="category"
-                                value={formValues.category_id}
-                                onChange={handleChange}
-                                className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
-                            >
-                                {categories.map(category => (
-                                    <option key={category.category_id} value={category.category_id}>
-                                        {category.category_name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="w-4/5 mb-6 relative flex items-center">
-                            <input
-                                type="checkbox"
-                                id="avaliable"
-                                name="avaliable"
-                                checked={formValues.avaliable}
-                                onChange={(e) => setFormValues({ ...formValues, avaliable: e.target.checked })}
-                                className="mr-2"
-                            />
-                            <label htmlFor="avaliable" className="text-neutral-700">Disponible</label>
-                        </div>
-                        <div className="w-4/5 mb-6 relative">
-                            <label htmlFor="image" className="block mb-2 text-sm font-medium text-gray-900">Image</label>
-                            <input
-                                type="file"
-                                id="image"
-                                name="imagen"
-                                accept="image/*"
-                                onChange={handleFileChange}
-                                className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
-                            />
-                        </div>
-                        <div className="w-4/5 flex justify-center">
-                            <button type="submit" className="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700">Save changes</button>
-                        </div>
-                    </form>
+                <div className="fixed inset-0 mt-16 flex items-center justify-center bg-black bg-opacity-50">
+                    <EditDishForm
+                        selectedProduct={selectedProduct}
+                        categories={categories}
+                        token={token}
+                        onClose={closeModal}
+                        onUpdate={fetchProducts}
+                    />
                 </div>
             )}
         </div>
