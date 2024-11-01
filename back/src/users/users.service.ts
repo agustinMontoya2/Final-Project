@@ -104,4 +104,8 @@ export class UsersService {
     const user = await this.findOne(user_id);
     return this.usersRepository.adminUser(user);
   }
+
+  async getEmailByUser(user_id: string) {
+    return this.usersRepository.getEmailByUser(user_id);
+  }
 }

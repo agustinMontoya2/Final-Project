@@ -1,5 +1,9 @@
-import ProductFilter from "@/components/Filter/Filter";
-import { IProducts, IProductsDetails } from "@/interfaces/productoInterface";
+// import ProductFilter from "@/components/Filter/Filter";
+import {
+  IProducts,
+  IProductsDetails,
+  IReview,
+} from "@/interfaces/productoInterface";
 
 const APIURL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -7,7 +11,8 @@ export async function getProductsDB(): Promise<IProducts[]> {
   try {
     const res = await fetch(`${APIURL}/products`, {
       next: { revalidate: 60 },
-      // mode: "no-cors",
+      method: "GET",
+      credentials: "include",
     });
     const products: IProducts[] = await res.json();
     return products;
@@ -20,19 +25,19 @@ export async function getProductsDB(): Promise<IProducts[]> {
   }
 }
 
-export async function getProductsById(id: string): Promise<IProducts> {
-  try {
-    const products: IProducts[] = await getProductsDB();
-    const productfiltered = products.find(
-      (product) => product.product_id.toString() === id
-    );
-    console.log(products, productfiltered);
-    if (!productfiltered) throw new Error("No existe el producto");
-    return productfiltered;
-  } catch (error: any) {
-    throw new Error(error);
-  }
-}
+// export async function getProductsById(id: string): Promise<IProducts> {
+//   try {
+//     const products: IProducts[] = await getProductsDB();
+//     const productfiltered = products.find(
+//       (product) => product.product_id.toString() === id
+//     );
+//     console.log(products, productfiltered);
+//     if (!productfiltered) throw new Error("No existe el producto");
+//     return productfiltered;
+//   } catch (error: any) {
+//     throw new Error(error);
+//   }
+// }
 
 export async function getProductsDBdetail(): Promise<IProductsDetails[]> {
   try {
@@ -41,7 +46,7 @@ export async function getProductsDBdetail(): Promise<IProductsDetails[]> {
     });
     const products: IProductsDetails[] = await res.json();
     return products;
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof Error) {
       throw new Error(error.message);
     } else {
@@ -59,7 +64,7 @@ export async function getProduct(product_id: string) {
     console.log(products);
     if (!products) throw new Error("No existe el producto");
     return products;
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof Error) {
       throw new Error(error.message);
     } else {
@@ -72,7 +77,7 @@ export async function postReview(
   user_id: string,
   token: string,
   product_id: string,
-  reviewPost: any
+  reviewPost: Partial<IReview>
 ) {
   try {
     console.log(reviewPost, "este es el console log");
@@ -100,7 +105,7 @@ export async function postReview(
   }
 }
 
-export async function postProduct(token: string, product: {}) {
+export async function postProduct(token: string, product: Partial<IProducts>) {
   try {
     console.log("Product data being sent:", JSON.stringify(product, null, 2)); // Imprimir datos
 
@@ -135,14 +140,14 @@ export async function editProductImg(
 ) {
   try {
     const formData = new FormData();
-    formData.append("image", product_img); 
+    formData.append("image", product_img);
 
     const response = await fetch(`${APIURL}/files/uploadimage/${product_id}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      body: formData, 
+      body: formData,
     });
 
     const result = await response.json();
@@ -151,15 +156,18 @@ export async function editProductImg(
       throw new Error(result.message);
     }
     return result;
-  } catch (error: any) {
-    throw error;
+  } catch {
+    console.log("error");
   }
 }
 
-
-export async function putProduct(token: string,product_id:string, product: {}) {
+export async function putProduct(
+  token: string,
+  product_id: string,
+  product: Partial<IProducts>
+) {
   try {
-    console.log("Product data being sent:", JSON.stringify(product, null, 2)); 
+    console.log("Product data being sent:", JSON.stringify(product, null, 2));
 
     const response = await fetch(`${APIURL}/products/${product_id}`, {
       method: "PUT",
@@ -170,13 +178,12 @@ export async function putProduct(token: string,product_id:string, product: {}) {
       body: JSON.stringify({
         ...product,
       }),
-      
     });
 
     if (!response.ok) {
-      const errorData = await response.json(); 
+      const errorData = await response.json();
       console.error("Error response from server:", errorData);
-      throw new Error("Couldn't update product"); 
+      throw new Error("Couldn't update product");
     }
 
     const data = await response.json();
@@ -192,16 +199,16 @@ export async function removeProduct(productId: string, token: string) {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
 
     if (!response.ok) {
-      const responseText = await response.text(); 
+      const responseText = await response.text();
       throw new Error(`Error: ${responseText}`);
     }
 
-    return { message: "Product removed successfully" }; 
+    return { message: "Product removed successfully" };
   } catch (error: unknown) {
     if (error instanceof Error) {
       throw error;

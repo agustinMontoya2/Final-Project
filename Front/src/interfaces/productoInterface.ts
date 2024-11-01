@@ -61,6 +61,7 @@ export interface IRegister {
 }
 
 export interface IReserve {
+  user_id: string;
   reservation_id: string;
   ubication: string;
   date: string;
@@ -129,7 +130,9 @@ export interface IOrder {
   userId: string;
   order_type: string;
   payment_method: string;
-  note: string;
+  note?: string;
+  address?: string
+  discount?: number;
 }
 
 export interface IGetOrder {
@@ -145,6 +148,7 @@ export interface IOrderDetail {
   payment_method: string;
   total: string;
   note: string;
+  discount?: number;
   productDetails: IProductsDetails[];
 }
 
@@ -160,4 +164,15 @@ export interface IFilter {
   category: string[];
   showFavorites: boolean;
   priceOrder: string;
+}
+
+export interface ISales{
+  SaleData:{
+    Dishes:string
+    Reserved_tables: number
+    Orders_made: number
+    Orders_pending: number
+    Orders_cancelled: number
+    Users_total: number
+  }
 }

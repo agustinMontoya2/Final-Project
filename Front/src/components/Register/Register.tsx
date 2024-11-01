@@ -1,7 +1,7 @@
 'use client';
 
 import { IRegister } from '@/interfaces/productoInterface';
-import { formRegister } from '@/lib/server/auth';
+import { formRegister } from '@/Helpers/auth';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -10,7 +10,7 @@ import Image from 'next/image';
 import registerValidation from '../../Helpers/validateRegister';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-const Register = () => {
+const RegisterForm = () => {
     const [showPassword, setShowPassword] = useState<{ [key in keyof IRegister]?: boolean }>({});
     const togglePasswordVisibility = (field: keyof IRegister) => {
         setShowPassword(prev => ({
@@ -55,13 +55,13 @@ const Register = () => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const validationErrors = registerValidation(userData);
+        registerValidation(userData);
         // arreglar validadores 
         // if (Object.values(validationErrors).some((error) => error)) {
         //     setErrors(validationErrors);
         //     return;
         // }
-        
+
         try {
             const response = await formRegister(userData);
             if (response) {
@@ -72,7 +72,7 @@ const Register = () => {
                 });
                 router.push("/login");
             }
-        } catch (error: any) {
+        } catch (error: unknown) {
             if (error instanceof Error) {
                 Swal.fire({
                     title: 'Error',
@@ -80,7 +80,7 @@ const Register = () => {
                     icon: 'error',
                     timer: 2000,
                 });
-                throw new Error (error.message)
+                throw new Error(error.message)
             } else {
                 Swal.fire({
                     title: 'Error',
@@ -182,4 +182,4 @@ const Register = () => {
     );
 }
 
-export default Register;
+export default RegisterForm;

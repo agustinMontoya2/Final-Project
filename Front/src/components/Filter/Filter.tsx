@@ -2,7 +2,7 @@ import { ProductFilterProps } from "@/interfaces/productoInterface";
 import Image from "next/image";
 import React from "react";
 
-const ProductFilter: React.FC<ProductFilterProps> = ({ filter, setFilter, searchTerm, setSearchTerm }) => {
+const ProductFilter: React.FC<ProductFilterProps> = ({  setFilter, searchTerm, setSearchTerm }) => {
     return (
         <div className="w-[76%] flex justify-between m-auto">
             <div className="flex justify-center mb-4">

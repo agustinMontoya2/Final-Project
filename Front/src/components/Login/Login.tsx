@@ -1,14 +1,14 @@
 'use client';
 
 import { ILogin } from '@/interfaces/productoInterface';
-import { formLogin } from '@/lib/server/auth';
+import { formLogin } from '@/Helpers/auth';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 
-const Login = () => {
+const LoginForm = () => {
     const router = useRouter();
 
     const initialState = {
@@ -28,12 +28,12 @@ const Login = () => {
     };
 
     const handleGoogleLogin = () => {
-        window.location.href =`${process.env.NEXT_PUBLIC_API_URL}/auth/login`;
+        window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/login`;
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-    
+
         try {
             const response = await formLogin(userData);
             if (response && response.user) {
@@ -115,6 +115,8 @@ const Login = () => {
     };
 
     return (
+
+
         <div className="absolute inset-0 w-full h-auto flex flex-col items-center justify-center bg-primary m-auto lg:w-2/3 2xl:w-1/2 2xl:relative 2xl:h-screen">
             <form className="w-11/12 bg-neutral-300 p-6 rounded-lg flex flex-col justify-center items-center" onSubmit={handleSubmit}>
                 <h1 className='w-full text-xl text-center text-neutral-800 font-extrabold'>LOGIN IN FELLINI BAR</h1>
@@ -146,4 +148,4 @@ const Login = () => {
     );
 }
 
-export default Login;
+export default LoginForm;

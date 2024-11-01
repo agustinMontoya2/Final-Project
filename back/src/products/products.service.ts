@@ -44,8 +44,8 @@ export class ProductsService implements OnApplicationBootstrap {
     );
   }
 
-  findAll() {
-    return this.productRepository.getProducts();
+  findAll(page, limit) {
+    return this.productRepository.getProducts(page, limit);
   }
 
   findOne(id: string) {

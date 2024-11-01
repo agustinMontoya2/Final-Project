@@ -1,10 +1,10 @@
 "use client";
-import { IProducts, IFavorities, IUserSession } from "@/interfaces/productoInterface";
+import { IProducts, IFavorities } from "@/interfaces/productoInterface";
 import { getProduct, postReview } from "@/Helpers/products.helper";
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from 'react';
-import { addCart } from "@/lib/server/cart";
-import { addFavorities, getFavorities, removeFavorities } from "@/lib/server/favorities";
+import { addCart } from "@/Helpers/cart";
+import { addFavorities, getFavorities, removeFavorities } from "@/Helpers/favorities";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 
@@ -13,25 +13,33 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
   const [userId, setUserId] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [favorities, setFavorities] = useState<IFavorities>();
-  const [productState, setProductState] = useState<IProducts>({ product_id, product_name, price, description, image_url, category: { category_name: 'some_category' }, reviews, available: true });
+  const [productState, setProductState] = useState<IProducts>({ product_id, product_name, price, description, image_url, category: { category_name: 'some_category', category_id: "some_id" }, reviews, available: true });
   const [reviewPost, setReviewPost] = useState<{ rate: number; review: string }>({ rate: 0, review: '' });
   const [hoverRating, setHoverRating] = useState<number | null>(null);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
-  const [userSession, setUserSession] = useState<IUserSession | null>(null);
 
-  useEffect(() => {
-    const session = localStorage.getItem('userSession');
-    if (session) {
-        const parsedSession = JSON.parse(session);
-        setUserSession(parsedSession);
+  const hasPurchasedProduct = () => {
+    if (typeof window !== "undefined") {
+      const purchasedProducts = JSON.parse(localStorage.getItem("purchasedProducts") || "[]");
+      console.log("Prodcutos agregados al array:", purchasedProducts)
+      console.log(product_id)
+      return purchasedProducts.includes(product_id);
     }
-}, [router]);
+  };
 
   useEffect(() => {
-    const storedUserData = JSON.parse(window.localStorage.getItem("userSession") || "{}");
-    if (storedUserData.user) {
-      setUserId(storedUserData.user.user_id);
-      setToken(storedUserData.token);
+    if (typeof window !== "undefined") {
+      const storeUserData = window.localStorage.getItem("userSession");
+      if (storeUserData) {
+        const parseData = JSON.parse(storeUserData)
+        if (parseData && parseData.user)
+          setUserId(parseData.user.user_id);
+        setToken(parseData.token)
+        // const storedUserData = JSON.parse(window.localStorage.getItem("userSession") || "{}");
+        // if (storedUserData.user) {
+        //   setUserId(storedUserData.user.user_id);
+        //   setToken(storedUserData.token);
+      }
     }
   }, []);
 
@@ -46,23 +54,29 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
         setFavorities(favoritiesData);
         const product = await getProduct(product_id);
         setProductState(product);
-      } catch (error) {
+      } catch {
         console.error("Fail to obtain favorites.");
       }
     }
   };
 
   const handleAddToFavorities = async (productId: string, isFavorited: boolean) => {
-    if (!token || !userId) return  Swal.fire({
+    if (!token || !userId) return Swal.fire({
       title: `Log in to save as favorite.`,
       icon: 'info',
       confirmButtonText: 'accept',
       confirmButtonColor: "#1988f0"
-  })
+    })
     try {
-      isFavorited ? await removeFavorities(userId, productId, token) : await addFavorities(userId, productId, token);
+      // Manejo de favoritos con if-else
+      if (isFavorited) {
+        await removeFavorities(userId, productId, token);
+      } else {
+        await addFavorities(userId, productId, token);
+      }
+
       await fetchFavorities();
-    } catch (error) {
+    } catch {
       console.error("Fail to save favorite.");
     }
   };
@@ -73,12 +87,24 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
       icon: 'info',
       confirmButtonText: 'accept',
       confirmButtonColor: "#1988f0"
-  })
+    })
     try {
       await addCart(userId, productId, token);
+      saveProductToLocalStorage(productId);
       Swal.fire({ icon: 'success', title: 'Product added to the cart', toast: true, position: 'top-end', timer: 2500, showConfirmButton: false });
     } catch {
       Swal.fire({ icon: 'error', title: 'Error', toast: true, position: 'top-end', timer: 2500, showConfirmButton: false });
+    }
+  };
+
+  const saveProductToLocalStorage = (productId: string) => {
+    if (typeof window !== "undefined") {
+
+      const purchasedProducts = JSON.parse(localStorage.getItem("purchasedProducts") || "[]");
+      if (!purchasedProducts.includes(productId)) {
+        purchasedProducts.push(productId);
+        localStorage.setItem("purchasedProducts", JSON.stringify(purchasedProducts));
+      }
     }
   };
 
@@ -93,10 +119,19 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
         icon: 'info',
         confirmButtonText: 'accept',
         confirmButtonColor: "#1988f0"
-    })
+      })
       router.push("/login");
       return;
+    } else if (!hasPurchasedProduct()) {
+      Swal.fire({
+        title: "You can only review products you have purchased.",
+        icon: "info",
+        confirmButtonText: "Accept",
+        confirmButtonColor: "#1988f0",
+      });
+      return;
     }
+
 
     if (reviewPost.rate === 0) {
       Swal.fire({
@@ -104,7 +139,7 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
         icon: 'info',
         confirmButtonText: 'accept',
         confirmButtonColor: "#1988f0"
-    })
+      })
       return;
     }
 
@@ -120,7 +155,7 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
         timer: 2500,
         showConfirmButton: false,
         timerProgressBar: true,
-    });
+      });
       setProductState(product);
       setReviewPost({ rate: 0, review: '' });
     } catch (error) {
@@ -200,8 +235,8 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
                         <p className="text-neutral-900 font-semibold">{rev.user.name}</p>
                         <div className="flex ml-2">
                           {[1, 2, 3, 4, 5].map((star) => (
-                          <Image key={star} src={star <= rev.rate ? "/assets/icon/star.png" : "/assets/icon/staroutline.png"} alt={`Star ${star}`} width={24} height={24} />
-                        ))}
+                            <Image key={star} src={star <= rev.rate ? "/assets/icon/star.png" : "/assets/icon/staroutline.png"} alt={`Star ${star}`} width={24} height={24} />
+                          ))}
                         </div>
                       </div>
                       <p className="text-black">{rev.review}</p>
