@@ -209,7 +209,7 @@ const Cards = () => {
                     <Loading />
                 ) : (
                     <>
-                        <div className="w-1/3 m-auto mb-4 flex items-center border rounded-xl bg-white">
+                        <div className="w-1/3 m-auto mb-4 flex items-center border rounded-xl bg-white text-red-600">
                             <Image
                                 src="/assets/icon/search.png"
                                 alt="Search"
@@ -226,20 +226,20 @@ const Cards = () => {
                             />
                         </div>
                         <div className="flex justify-center mb-4 flex-wrap gap-2">
-                            <button onClick={() => toggleCategory("Beverages")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:text-white ${filters.category.includes("Beverages") ? "bg-red-800 text-white hover:bg-red-800" : ""}`}>Beverages</button>
-                            <button onClick={() => toggleCategory("Main Dishes")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:text-white ${filters.category.includes("Main Dishes") ? "bg-red-800 text-white hover:bg-red-800" : ""}`}>Main Dishes</button>
-                            <button onClick={() => toggleCategory("Appetizers")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:text-white ${filters.category.includes("Appetizers") ? "bg-red-800 text-white hover:bg-red-800" : ""}`}>Appetizers</button>
-                            <button onClick={() => toggleCategory("Sides")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:text-white ${filters.category.includes("Sides") ? "bg-red-800 text-white hover:bg-red-800" : ""}`}>Sides</button>
-                            <button onClick={() => toggleCategory("Desserts")} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:text-white ${filters.category.includes("Desserts") ? "bg-red-800 text-white hover:bg-red-800" : ""}`}>Desserts</button>
+                            <button onClick={() => toggleCategory("Beverages")} className={`font-medium py-1 px-3 rounded ${filters.category.includes("Beverages") ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>Beverages</button>
+                            <button onClick={() => toggleCategory("Main Dishes")} className={`font-medium py-1 px-3 rounded ${filters.category.includes("Main Dishes") ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>Main Dishes</button>
+                            <button onClick={() => toggleCategory("Appetizers")} className={`font-medium py-1 px-3 rounded ${filters.category.includes("Appetizers") ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>Appetizers</button>
+                            <button onClick={() => toggleCategory("Sides")} className={`font-medium py-1 px-3 rounded ${filters.category.includes("Sides") ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>Sides</button>
+                            <button onClick={() => toggleCategory("Desserts")} className={`font-medium py-1 px-3 rounded ${filters.category.includes("Desserts") ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>Desserts</button>
 
-                            <button onClick={() => setFilters({ ...filters, priceOrder: "asc" })} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:text-white ${filters.priceOrder === "asc" ? "bg-red-800 text-white hover:bg-red-800" : ""}`}>
+                            <button onClick={() => setFilters({ ...filters, priceOrder: "asc" })} className={`font-medium py-1 px-3 rounded ${filters.priceOrder === "asc" ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>
                                 Price: Low to High
                             </button>
-                            <button onClick={() => setFilters({ ...filters, priceOrder: "desc" })} className={`bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100 focus:text-white ${filters.priceOrder === "desc" ? "bg-red-800 text-white hover:bg-red-800" : ""}`}>
+                            <button onClick={() => setFilters({ ...filters, priceOrder: "desc" })} className={`font-medium py-1 px-3 rounded ${filters.priceOrder === "desc" ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>
                                 Price: High to Low
                             </button>
 
-                            <button onClick={() => setFilters({ ...filters, showFavorites: !filters.showFavorites })} className="bg-white text-red-600 font-medium py-1 px-3 rounded hover:bg-neutral-100">
+                            <button onClick={() => setFilters({ ...filters, showFavorites: !filters.showFavorites })} className="bg-white text-red-600 hover:bg-neutral-100 font-medium py-1 px-3 rounded">
                                 {filters.showFavorites ? "Watch all" : "Watch favorites"}
                             </button>
                             <button onClick={clearFilters} className="bg-gray-500 text-white font-bold py-1 px-3 rounded hover:bg-gray-600">Clear Filter</button>
