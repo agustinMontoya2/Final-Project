@@ -30,7 +30,7 @@ export class ProductsRepository {
     });
     if (!allProducts) throw new NotFoundException('Products not found');
     const products = allProducts.slice(firstIndex, lastIndex);
-    return products;
+    return allProducts;
   }
   async getAllProducts() {
     const product = await this.productsRepository.find({

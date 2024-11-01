@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateWebsocketDto } from './dto/create-websocket.dto';
 import { UpdateWebsocketDto } from './dto/update-websocket.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -6,14 +11,24 @@ import { Review } from 'src/products/entities/review.entity';
 import { Repository } from 'typeorm';
 import { Product } from 'src/products/entities/product.entity';
 import { User } from 'src/users/entities/user.entity';
+import { ProductsService } from 'src/products/products.service';
+import { WebSocketServer } from '@nestjs/websockets';
+import { Server } from 'http';
 
 @Injectable()
 export class WebsocketService {
+  @WebSocketServer()
+  server: Server;
+
   constructor(
-    @InjectRepository(Review) private reviewRepository: Repository<Review>,
-    @InjectRepository(Product) private productRepository: Repository<Product>,
-    @InjectRepository(User) private userRepository: Repository<User>,
+    @Inject(forwardRef(() => ProductsService))
+    private readonly productsService: ProductsService,
   ) {}
+
+  connection(client) {
+    console.log(`Client connected: ${client.id}`);
+    this.emitAllProducts();
+  }
   create(createWebsocketDto: CreateWebsocketDto) {
     return 'This action adds a new websocket';
   }
@@ -35,17 +50,24 @@ export class WebsocketService {
   }
 
   async addReview(review, user_id, product_id) {
-    const user = await this.userRepository.findOne({ where: { user_id } });
-    const product = await this.productRepository.findOne({
-      where: {
-        product_id,
-      },
-    });
-    if (!user) throw new NotFoundException('User not found');
-    if (!product) throw new NotFoundException('Product not found');
+    // const user = await this.userRepository.findOne({ where: { user_id } });
+    // const product = await this.productRepository.findOne({
+    //   where: {
+    //     product_id,
+    //   },
+    // });
+    // if (!user) throw new NotFoundException('User not found');
+    // if (!product) throw new NotFoundException('Product not found');
 
-    review.user = user;
-    review.product = product;
-    return await this.reviewRepository.save(review);
+    // review.user = user;
+    // review.product = product;
+    return 'await this.reviewRepository.save(review);';
+  }
+
+  async emitAllProducts() {
+    console.log('wmitiendo');
+
+    const products: Product[] = await this.productsService.findAll(1, 10); // Llama al servicio para obtener los productos
+    return products;
   }
 }

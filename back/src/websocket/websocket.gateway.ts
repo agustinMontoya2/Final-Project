@@ -11,6 +11,8 @@ import { WebsocketService } from './websocket.service';
 import { CreateWebsocketDto } from './dto/create-websocket.dto';
 import { UpdateWebsocketDto } from './dto/update-websocket.dto';
 import { Server, Socket } from 'socket.io';
+import { Product } from 'src/products/entities/product.entity';
+import { ProductsService } from 'src/products/products.service';
 
 @WebSocketGateway()
 export class WebsocketGateway
@@ -22,7 +24,7 @@ export class WebsocketGateway
   constructor(private readonly websocketService: WebsocketService) {}
 
   handleConnection(client: Socket) {
-    console.log(`Client connected: ${client.id}`);
+    this.emitAllProducts();
   }
 
   handleDisconnect(client: Socket) {
@@ -34,6 +36,8 @@ export class WebsocketGateway
     @MessageBody() data: any,
     @ConnectedSocket() client: Socket,
   ) {
+    console.log(data);
+
     const { user_id, product_id, review, rate } = data;
     const Review = {
       user_id: data.user_id,
@@ -53,5 +57,10 @@ export class WebsocketGateway
   onlySend(@MessageBody() data: any, @ConnectedSocket() client: Socket) {
     console.log(data);
     client.broadcast.emit('get', data);
+  }
+
+  async emitAllProducts() {
+    const response = await this.websocketService.emitAllProducts();
+    this.server.emit('products', response);
   }
 }
