@@ -28,6 +28,8 @@ const ModifyDishes = () => {
     const [productImgFile, setProductImgFile] = useState<File | null>(null);
     const [imagenPreview, setImagePreview] = useState<string | null>(null);
     const [categories, setCategories] = useState<ICategory[]>([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
 
     useEffect(() => {
         if (typeof window  !== 'undefined') {
@@ -64,6 +66,17 @@ const ModifyDishes = () => {
             console.error("Error fetching categories:", error);
         }
     };
+
+    const paginatedProducts = products
+    .filter(product => product.product_name.toLowerCase().includes(searchTerm.toLowerCase()))
+    .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+    const handlePageChange = (pageNumber: number) => {
+        setCurrentPage(pageNumber);
+    }
+
+    const totalPages = Math.ceil(products.length / itemsPerPage);
+
 
     const handleModify = (product: IProducts) => {
 
@@ -152,7 +165,7 @@ const ModifyDishes = () => {
             console.log("editado", editProduct);
 
 
-            const response = await putProduct(token, selectedProduct.product_id, editProduct); // Asegúrate de que estás pasando el product_id correcto
+            const response = await putProduct(token, selectedProduct.product_id, editProduct);
 
             if (response.product_id && productImgFile) {
                 await editProductImg(productImgFile, token, response.product_id);
@@ -190,127 +203,55 @@ const ModifyDishes = () => {
             </div>
 
             <ul className="w-1/2 m-auto space-y-6">
-                {products && Array.isArray(products) && products.length > 0 ? (
-                    products
-                        .filter(product => product.product_name.toLowerCase().includes(searchTerm.toLowerCase())) // Filtrado por nombre
-                        .map((product) => (
-                            <li key={product.product_id} className="flex items-center p-4 bg-white rounded-lg shadow-md">
-                                <Image
-                                    src={product.image_url}
-                                    alt={product.product_name}
-                                    width={120}
-                                    height={120}
-                                    className="rounded-md mr-4"
-                                />
-                                <div className="flex justify-between">
-                                    <div className="w-2/3 h-full ">
-                                        <h2 className="text-black text-xl font-semibold">{product.product_name}</h2>
-                                        <p className="line-clamp-2">{product.description}</p>
-                                    </div>
-                                    <div className="flex flex-col justify-around items-center">
-                                        <button
-                                            className="flex bg-neutral-500 w-20 h-8 justify-center items-center px-2 rounded-md hover:bg-neutral-600 text-white"
-                                            onClick={() => handleModify(product)} // Pasa el producto al modificar
-                                        >
-                                            Edit
-                                            <Image src={'/assets/icon/pencilwhite.png'} width={20} height={20} alt="edit" className="ml-2" />
-                                        </button>
-                                        <button
-                                            className="bg-secondary w-20 h-8 justify-center items-center px-2 rounded-md hover:bg-red-700 text-white"
-                                            onClick={() => handleDelete(product.product_id)}
-                                        >
-                                            Delete
-                                        </button>
-                                    </div>
+                {paginatedProducts.length > 0 ? (
+                    paginatedProducts.map((product) => (
+                        <li key={product.product_id} className="flex items-center p-4 bg-white rounded-lg shadow-md">
+                            <Image
+                                src={product.image_url}
+                                alt={product.product_name}
+                                width={120}
+                                height={120}
+                                className="rounded-md mr-4"
+                            />
+                            <div className="flex justify-between">
+                                <div className="w-2/3 h-full">
+                                    <h2 className="text-black text-xl font-semibold">{product.product_name}</h2>
+                                    <p className="line-clamp-2">{product.description}</p>
                                 </div>
-                            </li>
-                        ))
+                                <div className="flex flex-col justify-around items-center">
+                                    <button
+                                        className="bg-neutral-500 w-20 h-8 rounded-md hover:bg-neutral-600 text-white"
+                                        onClick={() => handleModify(product)}
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        className="bg-red-600 w-20 h-8 rounded-md hover:bg-red-700 text-white"
+                                        onClick={() => handleDelete(product.product_id)}
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                    ))
                 ) : (
                     <p>No products found</p>
                 )}
             </ul>
 
-            {/* Formulario de modificación */}
-            {isFormOpen && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                    <form className="w-11/12 bg-neutral-300 p-6 rounded-lg flex flex-col justify-center items-center" onSubmit={handleSubmit}>
-                        <h2 className="w-full text-xl text-center text-neutral-800 font-extrabold">Modify Dish</h2>
-                        <div className="w-4/5 mb-6 relative">
-                            <input
-                                type="text"
-                                name="product_name"
-                                placeholder="Name"
-                                value={formValues.product_name}
-                                onChange={handleChange}
-                                className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
-                                required
-                            />
-                        </div>
-                        <div className="w-4/5 mb-6 relative">
-                            <textarea
-                                name="description"
-                                placeholder="Description"
-                                value={formValues.description}
-                                onChange={handleChange}
-                                className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
-                                required
-                            />
-                        </div>
-                        <div className="w-4/5 mb-6 relative">
-                            <input
-                                type="number"
-                                name="price"
-                                placeholder="Price"
-                                value={formValues.price}
-                                onChange={handleChange}
-                                className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
-                                required
-                            />
-                        </div>
-                        <div className="w-4/5 mb-6 relative">
-                            <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900">Select a category</label>
-                            <select
-                                id="category"
-                                name="category"
-                                value={formValues.category_id}
-                                onChange={handleChange}
-                                className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
-                            >
-                                {categories.map(category => (
-                                    <option key={category.category_id} value={category.category_id}>
-                                        {category.category_name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="w-4/5 mb-6 relative flex items-center">
-                            <input
-                                type="checkbox"
-                                id="avaliable"
-                                name="avaliable"
-                                checked={formValues.avaliable}
-                                onChange={(e) => setFormValues({ ...formValues, avaliable: e.target.checked })}
-                                className="mr-2"
-                            />
-                            <label htmlFor="avaliable" className="text-neutral-700">Disponible</label>
-                        </div>
-                        <div className="w-4/5 mb-6 relative">
-                            <label htmlFor="image" className="block mb-2 text-sm font-medium text-gray-900">Image</label>
-                            <input
-                                type="file"
-                                id="image"
-                                name="imagen"
-                                accept="image/*"
-                                onChange={handleFileChange}
-                                className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
-                            />
-                        </div>
-                        <div className="w-4/5 flex justify-center">
-                            <button type="submit" className="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700">Save changes</button>
-                        </div>
-                    </form>
-                </div>
-            )}
+            {/* Paginación */}
+            <div className="flex justify-center mt-4">
+                {[...Array(totalPages)].map((_, index) => (
+                    <button
+                        key={index}
+                        onClick={() => handlePageChange(index + 1)} // Botón para cambiar a la página seleccionada
+                        className={`mx-1 px-4 py-2 border ${currentPage === index + 1 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-black'}`}
+                    >
+                        {index + 1}
+                    </button>
+                ))}
+            </div>
         </div>
     );
 }
