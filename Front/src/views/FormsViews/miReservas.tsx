@@ -1,8 +1,9 @@
 'use client';
-import { getReservations } from '@/Helpers/reservation';
+import { getReservations, removeReserve } from '@/Helpers/reservation';
 import { useRouter } from "next/navigation";
 import { IReserve, IUserSession } from "@/interfaces/productoInterface";
 import React, { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 
 const ReservasView: React.FC = () => {
   const router = useRouter();
@@ -36,6 +37,22 @@ const ReservasView: React.FC = () => {
       }
     }
   };
+
+  const handleCancelReserve = async (reservation_id: string) => {
+    if (token) {
+        try {
+            await removeReserve(reservation_id, token);
+            Swal.fire({
+                title: 'Reservation cancelled',
+                icon: 'success',
+                timer: 1000,
+            });
+            fetchData();
+        } catch (error) {
+            console.error("Error canceling reservation:", error);
+        }
+    }
+};
 
   useEffect(() => {
     const userSession = localStorage.getItem("userSession");
@@ -92,10 +109,20 @@ const ReservasView: React.FC = () => {
             </section>
             <button 
               onClick={() => handleViewMore(reserva)} 
-              className="bg-red-600 text-white font-bold px-4 py-2 rounded-md hover:bg-red-700 transition duration-300"
+              className="bg-blue-600 text-white font-bold px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300 mr-2"
             >
               View More
             </button>
+            {reserva.status ? (
+                  <button
+                  onClick={() => handleCancelReserve(reserva.reservation_id)}
+                  className="px-4 py-2 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700 transition-colors"
+                >
+                  Cancel Reservation
+                  </button>
+                ) : (
+                <span className="text-gray-500">No action available</span>
+            )}
           </div>
         ))
       ) : (
@@ -104,59 +131,51 @@ const ReservasView: React.FC = () => {
         </p>
       )}
 
-{isModalOpen && selectedReservation && (
-  <div className="fixed inset-0 flex items-center justify-center z-50">
-    <div className="fixed inset-0 bg-black opacity-50" onClick={handleCloseModal}></div>
-    <div className="bg-white rounded-lg p-6 shadow-lg z-10 max-w-sm w-full">
-      <h2 className="text-gray-800 text-lg font-semibold mb-2">Reservation Details</h2>
-      
-      <p className="text-gray-600 mb-1">
-        Date:{" "}
-        <span className="font-medium text-gray-800">
-          {new Date(selectedReservation.date).toLocaleDateString()}
-        </span>
-      </p>
-      <p className="text-gray-600 mb-1">
-        Time:{" "}
-        <span className="font-medium text-gray-800">
-          {selectedReservation.time}
-        </span>
-      </p>
-      <p className="text-gray-600 mb-1">
-        Status:{" "}
-        <span className={`font-medium ${selectedReservation.status ? 'text-green-500' : 'text-red-500'}`}>
-          {selectedReservation.status ? "Active reservation" : "Reservation cancelled"}
-        </span>
-      </p>
-      <p className="text-gray-600 mb-1">
-        Number of people:{" "}
-        <span className="font-medium text-gray-800">
-          {selectedReservation.peopleCount != null ? selectedReservation.peopleCount : 0}
-        </span>
-      </p>
-      
-      <section className="mt-4 border-t border-gray-300 pt-4">
-        <h3 className="text-gray-800 font-semibold mb-2">Table Details</h3>
-        {selectedReservation.table && selectedReservation.table.length > 0 ? (
-          selectedReservation.table.map((table) => (
-            <div key={table.table_id} className="mb-2">
-              <p className="text-gray-600">Table Number: <span className="font-medium text-gray-800">{table.table_number}</span></p>
-              <p className="text-gray-600">Location: <span className="font-medium text-gray-800">{table.ubication}</span></p>
-            </div>
-          ))
-        ) : (
-          <p className="text-gray-600">No table information available.</p>
-        )}
-      </section>
-      <button 
-        onClick={handleCloseModal} 
-        className="mt-4 bg-gray-800 text-white font-bold px-4 py-2 rounded-md hover:bg-gray-700 transition duration-300"
-      >
-        Close
-      </button>
-    </div>
-  </div>
-    )}
+      {isModalOpen && selectedReservation && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="fixed inset-0 bg-black opacity-50" onClick={handleCloseModal}></div>
+          <div className="bg-white rounded-lg p-6 shadow-lg z-10 max-w-sm w-full">
+            <h2 className="text-gray-800 text-lg font-semibold mb-2">Reservation Details</h2>
+            <p className="text-gray-600 mb-1">
+              Date:{" "}
+              <span className="font-medium text-gray-800">
+                {new Date(selectedReservation.date).toLocaleDateString()}
+              </span>
+            </p>
+            <p className="text-gray-600 mb-1">
+              Time:{" "}
+              <span className="font-medium text-gray-800">
+                {selectedReservation.time}
+              </span>
+            </p>
+            <p className="text-gray-600 mb-1">
+              Status:{" "}
+              <span className={`font-medium ${selectedReservation.status ? 'text-green-500' : 'text-red-500'}`}>
+                {selectedReservation.status ? "Active reservation" : "Reservation cancelled"}
+              </span>
+            </p>
+            <p className="text-gray-600 mb-1">
+              Number of people:{" "}
+              <span className="font-medium text-gray-800">
+                {selectedReservation.peopleCount != null ? selectedReservation.peopleCount : 0}
+              </span>
+            </p>
+            <section className="mt-4 border-t border-gray-300 pt-4">
+              <h3 className="text-gray-800 font-semibold mb-2">Table Details</h3>
+              {selectedReservation.table && selectedReservation.table.length > 0 ? (
+                selectedReservation.table.map((table) => (
+                  <div key={table.table_id} className="mb-2">
+                    <p className="text-gray-600">Table Number: <span className="font-medium text-gray-800">{table.table_number}</span></p>
+                    <p className="text-gray-600">Location: <span className="font-medium text-gray-800">{table.ubication}</span></p>
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-600">No table information available.</p>
+              )}
+            </section>  
+          </div>
+        </div>
+      )}
     </div>
   );
 };

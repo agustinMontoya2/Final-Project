@@ -70,4 +70,13 @@ export class WebsocketService {
     const products: Product[] = await this.productsService.findAll(1, 10); // Llama al servicio para obtener los productos
     return products;
   }
+
+  // async emitOneProduct(product_id) {
+  //   const product: Product = await this.productsService.findOne(product_id);
+  //   if (product) {
+  //     client.emit('singleProduct', product); // Envía el producto al cliente que hizo la solicitud
+  //   } else {
+  //     client.emit('error', { message: 'Product not found' }); // Envía un mensaje de error si el producto no existe
+  //   }
+  // }
 }

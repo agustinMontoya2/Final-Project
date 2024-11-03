@@ -14,7 +14,16 @@ import { Server, Socket } from 'socket.io';
 import { Product } from 'src/products/entities/product.entity';
 import { ProductsService } from 'src/products/products.service';
 
-@WebSocketGateway()
+@WebSocketGateway({
+  cors: {
+    origin: [
+      'https://final-project-blush-gamma.vercel.app',
+      'http://localhost:4000',
+    ],
+    methods: ['GET', 'POST'],
+    credentials: true, // Si necesitas manejar credenciales
+  },
+})
 export class WebsocketGateway
   implements OnGatewayConnection, OnGatewayDisconnect
 {
@@ -63,4 +72,10 @@ export class WebsocketGateway
     const response = await this.websocketService.emitAllProducts();
     this.server.emit('products', response);
   }
+
+  @SubscribeMessage('getProductById')
+  async handleGetProduct(
+    @MessageBody() productId: string,
+    @ConnectedSocket() client: Socket,
+  ) {}
 }

@@ -69,7 +69,7 @@ export class ProductsService implements OnApplicationBootstrap {
       updateProductDto;
     console.log(updateProductDto);
 
-    const productUpdated = this.productRepository.update(product, {
+    const productUpdated = await this.productRepository.update(product, {
       product_name,
       description,
       price,

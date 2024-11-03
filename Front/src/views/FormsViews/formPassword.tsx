@@ -2,6 +2,7 @@
 import { resetPassword } from '@/Helpers/auth';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 
 const FormPassword = () => {
     const router = useRouter();
@@ -43,11 +44,17 @@ const FormPassword = () => {
         if (userData.newPassword === userData.confirmPassword) {
             try {
                 const response = await resetPassword(userData)
-                alert(response.message)
-                //redireccionar a login
+                Swal.fire({
+                    title: 'Password changed',
+                    icon: 'success',
+                    timer: 1000,
+                });
             } catch {
-                //arreglar respuesta de  error
-                console.log("error");
+                Swal.fire({
+                    title: 'Error changing password',
+                    icon: 'success',
+                    timer: 1000,
+                });
 
             }
         } else {

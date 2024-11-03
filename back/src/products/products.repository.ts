@@ -25,7 +25,7 @@ export class ProductsRepository {
     const lastIndex = firstIndex + limit;
 
     const allProducts = await this.productsRepository.find({
-      relations: ['category', 'reviews'],
+      relations: ['category'],
       // where: { available: true },
     });
     if (!allProducts) throw new NotFoundException('Products not found');
