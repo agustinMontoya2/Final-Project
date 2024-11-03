@@ -6,6 +6,7 @@ import { editProductImg, postProduct } from '@/Helpers/products.helper';
 import { useRouter } from "next/navigation";
 import { getCategories } from '@/Helpers/Categories';
 import Image from 'next/image';
+import Swal from 'sweetalert2';
 
 const FormAddDish = () => {
     const router = useRouter();
@@ -135,9 +136,17 @@ const FormAddDish = () => {
             });
             console.log("Type of category_id:", typeof product.category_id);
 
-            alert("El producto se ha agregado correctamente");
+            Swal.fire({
+                title: 'Dish added successfully',
+                icon: 'success',
+                timer: 1000,
+            });
         } catch {
-            throw new Error("El pedido no pudo procesarse");
+            Swal.fire({
+                title: 'Error adding dish',
+                icon: 'success',
+                timer: 1000,
+            });
         } finally {
             setIsDisable(false);
         }

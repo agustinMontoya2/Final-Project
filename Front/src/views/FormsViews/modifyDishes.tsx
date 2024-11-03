@@ -19,6 +19,8 @@ const ModifyDishes = () => {
     const [selectedProduct, setSelectedProduct] = useState<IProducts | null>(null);
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [categories, setCategories] = useState<ICategory[]>([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -54,6 +56,17 @@ const ModifyDishes = () => {
             console.error("Error fetching categories:", error);
         }
     };
+
+    const paginatedProducts = products
+    .filter(product => product.product_name.toLowerCase().includes(searchTerm.toLowerCase()))
+    .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+    const handlePageChange = (pageNumber: number) => {
+        setCurrentPage(pageNumber);
+    }
+
+    const totalPages = Math.ceil(products.length / itemsPerPage);
+
 
     const handleModify = (product: IProducts) => {
         setSelectedProduct(product);
@@ -134,7 +147,7 @@ const ModifyDishes = () => {
                                     </div>
                                 </div>
                             </li>
-                        ))
+                    ))
                 ) : (
                     <p>No products found</p>
                 )}

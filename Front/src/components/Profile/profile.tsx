@@ -14,11 +14,7 @@ const Profile = () => {
   const [user, setUser] = useState<IUser>();
   const [profileImgFile, setProfileImgFile] = useState<File | null>(null);
   const [imagenPreview, setImagePreview] = useState<string | null>(null);
-
-  const [originalProfileImg, setOriginalProfileImg] = useState<string | null>(
-    null
-  );
-
+  const [originalProfileImg, setOriginalProfileImg] = useState<string | null>(null);
   const [editableData, setEditableData] = useState({
     name: userData?.user?.name || "",
     email: userData?.email || "",

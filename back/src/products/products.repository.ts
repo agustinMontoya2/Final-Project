@@ -20,13 +20,17 @@ export class ProductsRepository {
     private readonly reviewRepository: Repository<Review>,
   ) {}
 
-  async getProducts() {
-    const product = await this.productsRepository.find({
-      relations: ['category', 'reviews'],
+  async getProducts(page, limit) {
+    const firstIndex = (page - 1) * limit;
+    const lastIndex = firstIndex + limit;
+
+    const allProducts = await this.productsRepository.find({
+      relations: ['category'],
       // where: { available: true },
     });
-    if (!product) throw new NotFoundException('Products not found');
-    return product;
+    if (!allProducts) throw new NotFoundException('Products not found');
+    const products = allProducts.slice(firstIndex, lastIndex);
+    return allProducts;
   }
   async getAllProducts() {
     const product = await this.productsRepository.find({

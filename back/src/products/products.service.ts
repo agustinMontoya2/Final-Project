@@ -1,5 +1,7 @@
 import {
   BadRequestException,
+  forwardRef,
+  Inject,
   Injectable,
   NotFoundException,
   OnApplicationBootstrap,
@@ -10,12 +12,16 @@ import { ProductsRepository } from './products.repository';
 import { CategoriesRepository } from 'src/categories/categories.repository';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { IsUUID } from 'class-validator';
+import { WebsocketService } from 'src/websocket/websocket.service';
+import { WebsocketGateway } from 'src/websocket/websocket.gateway';
 
 @Injectable()
 export class ProductsService implements OnApplicationBootstrap {
   constructor(
     private readonly productRepository: ProductsRepository,
     private readonly categoriesRepository: CategoriesRepository,
+    @Inject(forwardRef(() => WebsocketGateway))
+    private readonly websocketGateway: WebsocketGateway,
   ) {}
 
   async onApplicationBootstrap() {
@@ -25,7 +31,7 @@ export class ProductsService implements OnApplicationBootstrap {
   add() {
     return this.productRepository.addProducts();
   }
-  create(createProductDto: CreateProductDto) {
+  async create(createProductDto: CreateProductDto) {
     const {
       product_name,
       description,
@@ -34,7 +40,7 @@ export class ProductsService implements OnApplicationBootstrap {
       image_url,
       available,
     } = createProductDto;
-    return this.productRepository.create(
+    const createdProduct = await this.productRepository.create(
       product_name,
       description,
       price,
@@ -42,10 +48,12 @@ export class ProductsService implements OnApplicationBootstrap {
       image_url,
       available,
     );
+    this.websocketGateway.emitAllProducts();
+    return createdProduct;
   }
 
-  findAll() {
-    return this.productRepository.getProducts();
+  findAll(page, limit) {
+    return this.productRepository.getProducts(page, limit);
   }
 
   findOne(id: string) {
@@ -61,13 +69,15 @@ export class ProductsService implements OnApplicationBootstrap {
       updateProductDto;
     console.log(updateProductDto);
 
-    return this.productRepository.update(product, {
+    const productUpdated = await this.productRepository.update(product, {
       product_name,
       description,
       price,
       category_id,
       available,
     });
+    this.websocketGateway.emitAllProducts();
+    return productUpdated;
   }
 
   async remove(product_id) {
@@ -75,7 +85,9 @@ export class ProductsService implements OnApplicationBootstrap {
       throw new BadRequestException('Product ID not valid');
     const product = await this.productRepository.findOne(product_id);
     if (!product) throw new NotFoundException('Product not found');
-    return this.productRepository.remove(product);
+    const deletedProduct = await this.productRepository.remove(product);
+    this.websocketGateway.emitAllProducts();
+    return deletedProduct;
   }
 
   async addReview(product_id, createReviewDto: CreateReviewDto) {

@@ -16,7 +16,7 @@ const RequestNewPassword = () => {
             const response = await requestResetPassword(userData.email);
             if (response) {
                 Swal.fire({
-                    title: "Password Reset",
+                    title: "Email sent",
                     text: `Check your email for further instructions`,
                     icon: "success",
                     confirmButtonColor: "#1988f0"
@@ -26,8 +26,11 @@ const RequestNewPassword = () => {
             }
         }
         catch {
-            console.log('error');
-
+            Swal.fire({
+                title: "Error to sent email",
+                text: `Try again`,
+                icon: "error",
+            })
         }
     };
 
@@ -37,7 +40,6 @@ const RequestNewPassword = () => {
             ...prevData,
             [name]: value
         }))
-        console.log(userData);
     };
 
     return (

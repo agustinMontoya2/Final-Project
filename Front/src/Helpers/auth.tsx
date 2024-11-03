@@ -55,7 +55,6 @@ export async function formLogin(userData: ILogin) {
 }
 
 export async function requestResetPassword(email: string) {
-    alert(email)
     try {
         const response = await fetch(`${APIURL}/auth/requestResetPassword`, {
             method: "POST",
@@ -65,14 +64,15 @@ export async function requestResetPassword(email: string) {
             body: JSON.stringify({ email })
         })
         if (!response.ok) {
-            // Extraemos el mensaje de error del backend
             const errorData = await response.json();
             throw new Error(errorData.message || 'Error desconocido');
         }
         const responseData = await response.json();
         return responseData;
-    } catch {
-        console.log('error');
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            throw error;
+        }
 
     }
 }

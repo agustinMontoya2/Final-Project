@@ -35,6 +35,8 @@ useEffect(() => {
         if (token && userId) {
         try {
             const reviewsData = await getReviews(token);
+            console.log("este es el console log de reviewsData");
+            
             console.log(reviewsData);
             
             if (reviewsData) {
@@ -75,25 +77,29 @@ useEffect(() => {
             {reviews.length > 0 ? (
                 <div className='h-screen overflow-y-scroll scrollbar-custom'>
                     <ul className="space-y-6">
-                        {reviews.map((review) => (
-                            <li key={review.review_id} className="p-5 border border-gray-300 rounded-lg bg-white shadow-md hover:shadow-xl transition-shadow duration-300">
-                            <p className='text-lg text-gray-800'>Description: {review.review}</p>
-                            <p className='text-gray-600 mt-2'>
-                                Rating:
-                                <span className='font-bold text-yellow-500 ml-1'>{review.rate} ★</span>
-                            </p>
-                            <p className='text-gray-600 mt-2'>Product: <span className='font-semibold text-black-700'>{review.product.product_name}</span></p>
-                            <div className='w-full h-10 flex justify-between items-center flex-row'>
-                                <p className='text-gray-500'>By: <span className='font-semibold text-black-700'>{review.user.name}</span></p>
-                                <button
-                                    onClick={() => handleDeleteReview(review.review_id)}
-                                    className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-                                >
-                                    Delete Review
-                                </button>
-                            </div>
-                        </li>
-                        ))}
+                    {reviews.map((review) => (
+    <li key={review.review_id} className="p-5 border border-gray-300 rounded-lg bg-white shadow-md hover:shadow-xl transition-shadow duration-300 mb-4">
+        <div className='flex justify-between items-start mb-4'>
+            <div className='flex-1'>
+                <p className='text-gray-600 mt-2'>Product: <span className='font-semibold text-black'>{review.product.product_name}</span></p>
+                <p className='text-gray-500'>By: <span className='font-semibold text-black'>{review.user.name}</span></p>
+                <p className='text-gray-600 mt-2'>
+                    Rating:
+                    <span className='font-bold text-yellow-500 ml-1'>{review.rate} ★</span>
+                </p>
+                <p className='text-lg text-gray-800'>Review: {review.review}</p>
+            </div>
+            <div className='ml-4'>
+                <button
+                    onClick={() => handleDeleteReview(review.review_id)}
+                    className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                >
+                    Delete Review
+                </button>
+            </div>
+        </div>
+    </li>
+))}
                     </ul>
                 </div>
             ) : (
