@@ -85,8 +85,15 @@ const CartView = () => {
                     alert("Failed to delete the product from the cart.");
                 }
             } catch (error) {
-                console.error(`Error: ${error instanceof Error ? error.message : error}`);
-                alert(`Error: ${error instanceof Error ? error.message : error}`);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'To remove the product from the cart, press the trash icon',
+                    toast: true,
+                    position: 'top-end',
+                    timer: 2500,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                });
             }
         }
     };
@@ -110,8 +117,15 @@ const CartView = () => {
                     alert("Failed to delete the product from the cart.");
                 }
             } catch (error) {
-                console.error(`Error: ${error instanceof Error ? error.message : error}`);
-                alert(`Error: ${error instanceof Error ? error.message : error}`);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'To remove the product from the cart, press the trash icon',
+                    toast: true,
+                    position: 'top-end',
+                    timer: 2500,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                });
             }
         }
     };
@@ -306,7 +320,9 @@ const CartView = () => {
                                     <p className="text-lg font-semibold text-black">Total after discount: <span className="font-bold text-red-600">${totalWithDiscount.toFixed(2)}</span></p>
                                 )}
                                 {!discountApplied && (
-                                    <p className='text-blue-700 text-sm hover:underline cursor-pointer' onClick={() => setShowCouponModal(true)}>Do you have a coupon?</p>
+                                    <div>
+                                        <p className='text-blue-700 text-sm hover:underline cursor-pointer' onClick={() => setShowCouponModal(true)}>Do you have a coupon?</p>                                    </div>
+                                    
                                 )}
                             </div>
                         </span>
@@ -351,6 +367,7 @@ const CartView = () => {
                             <div className="mt-4 relative">
                                 <input
                                     type="text"
+                                    id='delivery'
                                     value={address}
                                     onChange={(e) => setAddress(e.target.value)}
                                     className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
