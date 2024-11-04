@@ -142,7 +142,6 @@ const SalesBarChart: React.FC<{ SaleData: ISales['SaleData'] }> = ({ SaleData })
 
 
 const GraficoDeTortaPlato: React.FC<{ SaleData: ISales['SaleData'] }> = ({ SaleData }) => {
-
     const dishLabels = Object.keys(SaleData.Dishes);
     const dishData = Object.values(SaleData.Dishes);
 

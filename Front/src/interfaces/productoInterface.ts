@@ -169,6 +169,7 @@ export interface IFilter {
   priceOrder: string;
 }
 
+
 export interface ISales {
   SaleData: {
     Dishes:{ [dishName: string]: number};
