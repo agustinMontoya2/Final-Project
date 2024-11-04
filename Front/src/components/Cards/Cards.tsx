@@ -209,7 +209,7 @@ const Cards = () => {
                     <Loading />
                 ) : (
                     <>
-                        <div className="w-1/3 m-auto mb-4 flex items-center border rounded-xl bg-white text-red-600">
+                        <div className="md:w-1/3 w-4/5 mt-10 md:mt-0 m-auto mb-4 flex items-center border rounded-xl bg-white text-red-600">
                             <Image
                                 src="/assets/icon/search.png"
                                 alt="Search"
@@ -225,7 +225,7 @@ const Cards = () => {
                                 className="border-none rounded-lg outline-none px-2 py-2 text-gray-700 w-full"
                             />
                         </div>
-                        <div className="flex justify-center mb-4 flex-wrap gap-2">
+                        <div className="w-4/5 m-auto flex justify-center mb-4 flex-wrap gap-2">
                             <button onClick={() => toggleCategory("Beverages")} className={`font-medium py-1 px-3 rounded ${filters.category.includes("Beverages") ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>Beverages</button>
                             <button onClick={() => toggleCategory("Main Dishes")} className={`font-medium py-1 px-3 rounded ${filters.category.includes("Main Dishes") ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>Main Dishes</button>
                             <button onClick={() => toggleCategory("Appetizers")} className={`font-medium py-1 px-3 rounded ${filters.category.includes("Appetizers") ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>Appetizers</button>
@@ -245,9 +245,9 @@ const Cards = () => {
                             <button onClick={clearFilters} className="bg-gray-500 text-white font-bold py-1 px-3 rounded hover:bg-gray-600">Clear Filter</button>
                         </div>
 
-                        <Carousel images={images} />
+                        <Carousel images={images}/>
 
-                        <div className="w-[60%] h-auto mt-4 grid grid-cols-1 sm:grid-cols-2 gap-6 justify-evenly m-auto">
+                        <div className="md:w-3/5 w-4/5 h-auto mt-4 grid grid-cols-1 sm:grid-cols-2 gap-6 justify-evenly m-auto">
                             {filteredProducts.map((product) => (
                                 <div key={product.product_id} className="flex items-center shadow-2xl rounded-xl p-4 hover:scale-105 duration-500 bg-primary">
                                     <Link href={`/product/${product.product_id}`}>
