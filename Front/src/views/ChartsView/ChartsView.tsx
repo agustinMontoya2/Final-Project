@@ -77,21 +77,20 @@ const ChartsView = () => {
 
 
     return (
-        <div>
-
-            <h1 className="p-4 text-2xl font-bold">Sell Panel</h1>
-            <div>
-                <button onClick={exportToExcel} className='m-2 bg-secondary rounded-lg p-2 text-white'>Download Sales Data</button>
-            </div>
-            <div className="mt-8">
-
-                <SalesBarChart SaleData={saleData} />
-            </div>
-            <div className="mt-8 flex flex-col items-center justify-center">
-
-                <GraficoDeTortaPlato SaleData={saleData} />
-            </div>
+        <div className="relative">
+        <h3 className="p-4 text-lg flex flex-col justify-center items-center">Sell Panel</h3>
+        <div className="absolute top-4 right-4">
+            <button onClick={exportToExcel} className='m-2 bg-secondary rounded-lg p-2 text-white'>
+                Download Sales Data
+            </button>
         </div>
+        <div className="mt-8">
+            <SalesBarChart SaleData={saleData} />
+        </div>
+        <div className="mt-8 flex flex-col items-center justify-center">
+            <GraficoDeTortaPlato SaleData={saleData} />
+        </div>
+    </div>
     );
 };
 
