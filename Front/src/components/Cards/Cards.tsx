@@ -212,16 +212,16 @@ const Cards = () => {
                     <>
                         <div className="flex flex-col">
                             <div className="w-4/5 flex md:flex-col m-auto">
-                                <div className=" h-10 m-auto flex justify-between mb-4 flex-wrap gap-2 md:hidden">
+                                <div className="w-1/2 h-10 m-auto flex justify-between mb-4 flex-wrap gap-2 md:hidden">
                                     <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="flex items-center bg-white text-red-600 font-medium py-1 px-3 rounded">
                                         Filters
                                         <Image src={'/assets/icon/down.png'} width={20} height={20} alt="down" className="ml-2"/>
                                     </button>
                                     {isDropdownOpen && (
-                                        <div className="absolute  bg-white border rounded-lg z-50 shadow-lg p-3">
+                                        <div className="absolute bg-white border rounded-lg z-20 shadow-lg p-3">
                                             <div className="flex mb-2">
-                                                <Image src={'/assets/icon/crossblack.png'} width={15} height={15} alt="cross"  onClick={() => setIsDropdownOpen(false)}/>
-                                                <p className="text-center font-bold text-neutral-800 ml-6">Filters</p>
+                                                <Image src={'/assets/icon/crossblack.png'} width={15} height={15} alt="cross"  onClick={() => setIsDropdownOpen(false)} className="w-5 h-5"/>
+                                                <span className=" font-bold text-neutral-800 ml-6">Filters</span>
                                             </div>
                                             <hr className="border-neutral-600"/>
                                             <div className="flex flex-col">
@@ -261,7 +261,7 @@ const Cards = () => {
                                         </div>
                                     )}
                                 </div>
-                                <div className="md:w-1/3 w-2/3 mt-10 md:mt-0 m-auto mb-4 flex items-center border rounded-lg bg-white text-red-600">
+                                <div className="md:w-1/3 w-full mt-10 md:mt-0 m-auto mb-4 flex items-center border rounded-lg bg-white text-red-600">
                                     <Image
                                         src="/assets/icon/search.png"
                                         alt="Search"
