@@ -284,6 +284,7 @@ const Cards = () => {
                                 <button onClick={() => toggleCategory("Appetizers")} className={`font-medium py-1 px-3 rounded ${filters.category.includes("Appetizers") ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>Appetizers</button>
                                 <button onClick={() => toggleCategory("Sides")} className={`font-medium py-1 px-3 rounded ${filters.category.includes("Sides") ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>Sides</button>
                                 <button onClick={() => toggleCategory("Desserts")} className={`font-medium py-1 px-3 rounded ${filters.category.includes("Desserts") ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>Desserts</button>
+                                <button onClick={() => toggleCategory("glutenFree")} className={`font-medium py-1 px-3 rounded ${filters.category.includes("glutenFree") ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>Gluten Free</button>
 
                                 <button onClick={() => setFilters({ ...filters, priceOrder: "asc" })} className={`font-medium py-1 px-3 rounded ${filters.priceOrder === "asc" ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>
                                     Price: Low to High
