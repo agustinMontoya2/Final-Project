@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-import WhatsApp from "../WhatsApp/WhatsApp";
+
+import WhatsAppButton from "../WhatsApp/WhatsApp";
 import BackButton from "./BackButton";
 
 const NavBar = () => {
@@ -48,7 +49,7 @@ const NavBar = () => {
                         className={`fixed top-0 right-0 w-1/3 h-full bg-transparentmenu text-white shadow-lg z-10 transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'
                             }`}
                     >
-                        <WhatsApp />
+                        <WhatsAppButton/>
                     </aside>
                 </div>
             </div>
