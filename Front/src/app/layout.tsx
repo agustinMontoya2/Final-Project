@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Suspense } from "react";
 
 import "./globals.css";
 import NavBarXL from "@/components/Navbar/NavBarXL";
+import NavbarMovil from "@/components/Navbar/NavBarMobile"; // Asegúrate de importar el NavbarMovil
 import Footer from "@/components/footer/Footer";
+import BottomNavBar from "@/components/Navbar/BottomNavBar";
 
 const geistSans = localFont({
   src: "../fonts/GeistMonoVF.woff",
@@ -29,18 +30,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className="flex flex-col min-h-screen justify-between"
-      >
-
-<Suspense fallback={<div>Cargando...</div>}>
-        <NavBarXL />
-</Suspense>
+      <body className="flex flex-col min-h-screen justify-between">
+        <div className="hidden md:block">
+          <NavBarXL />
+        </div>
+        <div className="block md:hidden">
+          <NavbarMovil />
+        </div>
         {children}
-        <Footer />
-
+        <div className="block md:hidden">
+          <BottomNavBar />
+        </div>
+          <Footer />
       </body>
     </html>
   );
 }
-

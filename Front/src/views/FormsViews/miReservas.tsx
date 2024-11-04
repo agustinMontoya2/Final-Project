@@ -74,7 +74,7 @@ const ReservasView: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto my-24 p-6  flex flex-col-reverse">
+    <div className="max-w-3xl mx-auto p-6  flex flex-col-reverse">
       {reservas && reservas.length > 0 ? (
         reservas.map((reserva: IReserve) => (
           <div
