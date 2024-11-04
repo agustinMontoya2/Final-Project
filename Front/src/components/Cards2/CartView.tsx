@@ -7,6 +7,7 @@ import { ICart, IOrder } from '@/interfaces/productoInterface';
 import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
 import { PagoMercado } from '@/Helpers/MercadoPago';
+import Link from 'next/link';
 
 const CartView = () => {
     const [cartItems, setCartItems] = useState<ICart>({
@@ -174,12 +175,12 @@ const CartView = () => {
             });
             return;
         }
-    
+
         if (!userId) {
             alert("User ID is missing. Please log in.");
             return;
         }
-    
+
         if (deliveryOption === "delivery" && !address) {
             Swal.fire({
                 icon: 'error',
@@ -192,7 +193,7 @@ const CartView = () => {
             });
             return;
         }
-    
+
         if (token && deliveryOption && paymentOption) {
             const orderData: IOrder = {
                 userId: userId,
@@ -200,13 +201,17 @@ const CartView = () => {
                 payment_method: paymentOption,
                 note,
                 address: deliveryOption === "delivery" ? address : undefined,
-                discount: discountApplied ? totalCart * 0.1 : 0, // Aquí se incluye el descuento
+                discount: discountApplied ? totalCart * 0.1 : 0,
             };
-    
+
             try {
                 const response = await postOrder(orderData, token);
                 if (response) {
                     await handleGetCart();
+                    const purchasedProductIds: string[] = cartItems.productDetail.map(item => item.product.product_id);
+                    const storedProductIds: string[] = JSON.parse(localStorage.getItem('purchasedProductIds') || '[]');
+                    const updatedProductIds: string[] = Array.from(new Set([...storedProductIds, ...purchasedProductIds]));
+                    localStorage.setItem('purchasedProductIds', JSON.stringify(updatedProductIds));
                     Swal.fire({
                         icon: 'success',
                         title: 'Order created',
@@ -240,11 +245,11 @@ const CartView = () => {
     };
 
     const handleCouponApply = (e: React.FormEvent) => {
-        e.preventDefault(); 
+        e.preventDefault();
         const couponInput = (e.target as HTMLFormElement).querySelector('input[type="text"]') as HTMLInputElement;
         if (couponInput.value === "FELLINI10OFF" && !discountApplied) {
             setDiscountApplied(true);
-            setShowCouponModal(false); 
+            setShowCouponModal(false);
         } else {
             alert("Invalid coupon code.");
         }
@@ -266,12 +271,15 @@ const CartView = () => {
             </div>
         );
     };
-    
+
     return (
         <div className="w-full flex flex-col items-center justify-center min-h-screen py-8 ">
             <h1 className="text-3xl font-bold text-black mb-6">Cart</h1>
             {cartItems?.productDetail.length === 0 ? (
+                <div className='flex flex-col items-center'>
                 <p className="text-lg text-gray-700">Your cart is empty.</p>
+                <Link href="/menu" className='text-blue-700 p-4 m-2'>Wanna order something? Don't be shy, get yourself something yummy!</Link>
+                </div>
             ) : (
                 <div className='md:w-[40%] w-96'>
                     <ul className="bg-white shadow-lg rounded-lg w-full">
