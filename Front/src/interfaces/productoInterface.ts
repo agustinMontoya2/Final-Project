@@ -131,7 +131,7 @@ export interface IOrder {
   order_type: string;
   payment_method: string;
   note?: string;
-  address?: string
+  address?: string;
   discount?: number;
 }
 
@@ -166,13 +166,14 @@ export interface IFilter {
   priceOrder: string;
 }
 
-export interface ISales{
-  SaleData:{
-    Dishes:string
-    Reserved_tables: number
-    Orders_made: number
-    Orders_pending: number
-    Orders_cancelled: number
-    Users_total: number
-  }
+export interface ISales {
+  SaleData: {
+    Dishes: string;
+    Reserved_tables: number;
+    Orders_made: number;
+    Orders_pending: number;
+    Orders_cancelled: number;
+    Users_total: number;
+    dates: string[];
+  };
 }

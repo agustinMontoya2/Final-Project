@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -11,32 +11,24 @@ import {
     ChartOptions,
 } from 'chart.js';
 import { ISales } from '@/interfaces/productoInterface';
-import { getProductsSalesDB } from '@/Helpers/salesStatus';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const SalesChart: React.FC<{ SaleData: ISales['SaleData'] }> = ({ SaleData }) => {
-    //const [salesData, setSalesData] = useState<ISales['SaleData'] | null>(null);
-    // useEffect(() => {
-    // const fetchSalesData = async getProductsSalesDB() => {
-    //         try {
-    //             const data = await ();
-    //             setSalesData(data.SaleData); // Guardamos los datos de ventas en el estado
-    //             setLoading(false);
-    //         } catch (error: any) {
-    //             if (error instanceof Error) {
-    //         }
-    //     };
-    //     fetchSalesData();
-    // }, []);
-    // }
+    // Asumiendo que SaleData tiene un array de fechas en 'dates'
+    const salesDates = SaleData.dates.map(dateStr => new Date(dateStr)); // Convertimos las fechas en objetos Date
 
-    // if (!salesData) {
-    //     return <p>No sales data available</p>;
-    // }
+    // Formateamos las fechas al formato "MES dd/mm/yy"
+    const formattedDates = salesDates.map(date =>
+        new Intl.DateTimeFormat('es-ES', {
+            month: 'short', // Muestra el mes abreviado
+            day: '2-digit', 
+            year: 'numeric'
+        }).format(date)
+    );
 
     const data = {
-        labels: ['Metrics'],
+        labels: formattedDates,  // Fechas en el eje Y
         datasets: [
             {
                 label: 'Dishes',
@@ -82,8 +74,27 @@ const SalesChart: React.FC<{ SaleData: ISales['SaleData'] }> = ({ SaleData }) =>
             },
         ],
     };
+
     const options: ChartOptions<'bar'> = {
+        indexAxis: 'y',  // Cambiamos el eje X al Y para mostrar fechas en Y
         responsive: true,
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Cantidad',
+                },
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Mes dd/mm/yy',
+                },
+                ticks: {
+                    autoSkip: false, // Mostrar todas las etiquetas en el eje Y
+                },
+            },
+        },
         plugins: {
             legend: {
                 position: 'top',
@@ -97,6 +108,5 @@ const SalesChart: React.FC<{ SaleData: ISales['SaleData'] }> = ({ SaleData }) =>
 
     return <Bar data={data} options={options} />;
 };
-
 
 export default SalesChart;
