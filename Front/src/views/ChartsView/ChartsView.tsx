@@ -48,41 +48,41 @@ const ChartsView = () => {
     // }
 
 
-    const exportToExcel = () => {
-        const currentMonthIndex = new Date().getMonth();
-        const currentMonthName = getMonthName(currentMonthIndex);
-        const dishesData = Object.entries(saleData.Dishes).map(([dishName, quantity]) => ({
-            Dish: dishName,
-            Quantity: quantity
-        }));
+    // const exportToExcel = () => {
+    //     const currentMonthIndex = new Date().getMonth();
+    //     const currentMonthName = getMonthName(currentMonthIndex);
+    //     const dishesData = Object.entries(saleData.Dishes).map(([dishName, quantity]) => ({
+    //         Dish: dishName,
+    //         Quantity: quantity
+    //     }));
 
-        const worksheet = XLSX.utils.json_to_sheet([
-            {
-                Month: currentMonthName,
-                Reserved_Tables: saleData.Reserved_tables,
-                Orders_Made: saleData.Orders_made,
-                Orders_Pending: saleData.Orders_pending,
-                Orders_Cancelled: saleData.Orders_cancelled,
-                Users_Total: saleData.Users_total,
-            },
-            ...dishesData
-        ]);
+    //     const worksheet = XLSX.utils.json_to_sheet([
+    //         {
+    //             Month: currentMonthName,
+    //             Reserved_Tables: saleData.Reserved_tables,
+    //             Orders_Made: saleData.Orders_made,
+    //             Orders_Pending: saleData.Orders_pending,
+    //             Orders_Cancelled: saleData.Orders_cancelled,
+    //             Users_Total: saleData.Users_total,
+    //         },
+    //         ...dishesData
+    //     ]);
 
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Sales Data");
+    //     const workbook = XLSX.utils.book_new();
+    //     XLSX.utils.book_append_sheet(workbook, worksheet, "Sales Data");
 
 
-        XLSX.writeFile(workbook, `SalesData_${currentMonthName}.xlsx`);
-    };
+    //     XLSX.writeFile(workbook, `SalesData_${currentMonthName}.xlsx`);
+    // };
 
 
     return (
         <div>
 
             <h1 className="p-4 text-2xl font-bold">Sell Panel</h1>
-            <div>
+            {/* <div>
                 <button onClick={exportToExcel} className='m-2 bg-secondary rounded-lg p-2 text-white'>Download Sales Data</button>
-            </div>
+            </div> */}
             <div className="mt-8 ">
               
                 <SalesBarChart SaleData={saleData} />
