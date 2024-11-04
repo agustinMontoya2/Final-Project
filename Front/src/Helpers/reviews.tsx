@@ -12,6 +12,8 @@ export async function getReviews( token: string) {
         const responseText = await response.text(); 
 
         if (response.ok) {
+            console.log(response);
+            
             return JSON.parse(responseText);  
         } else {
             throw new Error(`Error: ${responseText}`);  

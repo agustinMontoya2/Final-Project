@@ -8,12 +8,13 @@ import {
   Delete,
   Put,
   ParseUUIDPipe,
+  Query,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { CreateReviewDto, UpdateReviewDto } from './dto/create-review.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 
 @Controller('products')
 @ApiTags('products')
@@ -23,8 +24,10 @@ export class ProductsController {
   // Product endpoints
 
   @Get()
-  findAll() {
-    return this.productsService.findAll();
+  @ApiQuery({ name: 'page', type: Number, required: false })
+  @ApiQuery({ name: 'limit', type: Number, required: false })
+  findAll(@Query('page') page: number = 1, @Query('limit') limit: number = 10) {
+    return this.productsService.findAll(page, limit);
   }
 
   @Get('add')
