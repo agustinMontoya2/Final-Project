@@ -152,7 +152,7 @@ const ViewUsers = () => {
                         onClick={() => setStatusFilter('all')}
                         className={`px-2 py-1 rounded ${statusFilter === 'all' ? 'bg-red-500 text-white' : 'bg-gray-200'}`}
                     >
-                        All Status
+                        Clean Status
                     </button>
                     <button
                         onClick={() => setStatusFilter('active')}
@@ -188,7 +188,7 @@ const ViewUsers = () => {
                         onClick={() => setRoleFilter('all')}
                         className={`px-2 py-1 rounded ${roleFilter === 'all' ? 'bg-red-500 text-white' : 'bg-gray-200'}`}
                     >
-                        All Roles
+                        Clean Roles
                     </button>
                     <button
                         onClick={() => setRoleFilter('admin')}

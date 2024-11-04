@@ -29,5 +29,6 @@ import { Credential } from 'src/auth/entities/credential.entity';
   ],
   controllers: [OrderController],
   providers: [OrderService, OrderRepository, MailService],
+  exports: [OrderService],
 })
 export class OrderModule {}

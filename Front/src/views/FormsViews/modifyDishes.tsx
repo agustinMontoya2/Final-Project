@@ -99,16 +99,27 @@ const ModifyDishes = () => {
             return;
         }
         try {
+            const result = await Swal.fire({
+                title: 'Are you sure?',
+                text: "This action cannot be undone!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            });
+
+            // Si el usuario confirma, proceder con la eliminación
+            if (result.isConfirmed) {
             const response = await removeProduct(productId, token);
-
-
             Swal.fire({
                 title: response.message,
                 icon: 'success',
                 timer: 1000,
             });
 
-            fetchProducts();
+            fetchProducts();}
         } catch {
             console.error("Error al eliminar el producto");
         }

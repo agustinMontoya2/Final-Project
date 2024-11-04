@@ -67,7 +67,7 @@ export class WebsocketService {
   async emitAllProducts() {
     console.log('wmitiendo');
 
-    const products: Product[] = await this.productsService.findAll(1, 10); // Llama al servicio para obtener los productos
+    const products: Product[] = await this.productsService.findAll(); // Llama al servicio para obtener los productos
     return products;
   }
 
