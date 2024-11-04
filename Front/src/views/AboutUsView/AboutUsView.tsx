@@ -13,7 +13,7 @@ const AboutUsView:React.FC = () => {
                     Our bar is designed to create memorable experiences. With a carefully curated selection of cocktails, craft beers, and a variety of dishes that blend the classic and the innovative, every visit to Club Fellini is a celebration of the senses.<br></br><br></br>
                     Additionally, we take pride in being an inclusive and diverse space where everyone is welcome. Throughout the year, we organize cultural events, live music nights, and exhibitions featuring local artists, thereby fostering creativity and talent within our community.<br></br><br></br>
                     At Club Fellini, we believe in the power of human connection and the importance of enjoying every moment. We invite you to visit us and be a part of our story, where each night is a new opportunity to create unforgettable memories.<br></br><br></br>
-                        <b>"We look forward to seeing you!"</b>
+                        <b>We look forward to seeing you!</b>
                     </p>
                 </div>
                 <div className="w-full md:w-1/2 flex flex-col items-center justify-center mt-5 md:mt-0">
