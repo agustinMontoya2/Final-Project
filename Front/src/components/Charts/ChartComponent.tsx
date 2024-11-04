@@ -18,19 +18,18 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tool
 
 
 const SalesBarChart: React.FC<{ SaleData: ISales['SaleData'] }> = ({ SaleData }) => {
-
     const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth());
-
+    const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth());
 
     useEffect(() => {
         const monthInterval = setInterval(() => {
             const now = new Date().getMonth();
             setCurrentMonth(now);
+            setSelectedMonth(now); // Actualiza el mes seleccionado al mes actual
         }, 1000 * 60 * 60 * 24);
 
         return () => clearInterval(monthInterval);
     }, []);
-
 
     const salesData: { [key: string]: number[] } = {
         Reserved_tables: Array(12).fill(0),
@@ -40,12 +39,12 @@ const SalesBarChart: React.FC<{ SaleData: ISales['SaleData'] }> = ({ SaleData })
         Users_total: Array(12).fill(0),
     };
 
-
-    salesData.Reserved_tables[currentMonth] = SaleData.Reserved_tables;
-    salesData.Orders_made[currentMonth] = SaleData.Orders_made;
-    salesData.Orders_pending[currentMonth] = SaleData.Orders_pending;
-    salesData.Orders_cancelled[currentMonth] = SaleData.Orders_cancelled;
-    salesData.Users_total[currentMonth] = SaleData.Users_total;
+    // Solo llenar los datos para el mes seleccionado
+    salesData.Reserved_tables[selectedMonth] = SaleData.Reserved_tables;
+    salesData.Orders_made[selectedMonth] = SaleData.Orders_made;
+    salesData.Orders_pending[selectedMonth] = SaleData.Orders_pending;
+    salesData.Orders_cancelled[selectedMonth] = SaleData.Orders_cancelled;
+    salesData.Users_total[selectedMonth] = SaleData.Users_total;
 
     const data = {
         labels: [
@@ -91,7 +90,6 @@ const SalesBarChart: React.FC<{ SaleData: ISales['SaleData'] }> = ({ SaleData })
         ],
     };
 
-
     const options: ChartOptions<'bar'> = {
         responsive: true,
         scales: {
@@ -121,7 +119,25 @@ const SalesBarChart: React.FC<{ SaleData: ISales['SaleData'] }> = ({ SaleData })
         },
     };
 
-    return <Bar data={data} options={options} />;
+    const handleMonthChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedMonth(Number(event.target.value));
+    };
+
+    return (
+        <div>
+            <div>
+                <label htmlFor="monthSelect">Select Month: </label>
+                <select id="monthSelect" value={selectedMonth} onChange={handleMonthChange}>
+                    {data.labels.map((label, index) => (
+                        <option key={index} value={index}>
+                            {label}
+                        </option>
+                    ))}
+                </select>
+            </div>
+            <Bar data={data} options={options} />
+        </div>
+    );
 };
 
 
