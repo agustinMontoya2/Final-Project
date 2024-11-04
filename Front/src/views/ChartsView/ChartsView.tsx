@@ -84,11 +84,11 @@ const ChartsView = () => {
                 <button onClick={exportToExcel} className='m-2 bg-secondary rounded-lg p-2 text-white'>Download Sales Data</button>
             </div>
             <div className="mt-8 ">
-                {/* Gráfico de barras */}
+              
                 <SalesBarChart SaleData={saleData} />
             </div>
             <div className="mt-8">
-                {/* Gráfico de torta */}
+                
                 <GraficoDeTortaPlato SaleData={saleData} />
             </div>
 
