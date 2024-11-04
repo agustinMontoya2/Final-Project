@@ -264,7 +264,7 @@ const CartView = () => {
             {cartItems?.productDetail.length === 0 ? (
                 <div className='flex flex-col items-center'>
                 <p className="text-lg text-gray-700">Your cart is empty.</p>
-                <Link href="/menu" className='text-blue-700 p-4 m-2'>Wanna order something? Don't be shy, get yourself something yummy!</Link>
+                <Link href="/menu" className='text-blue-700 p-4 m-2'>Wanna order something? Do not be shy, get yourself something yummy!</Link>
                 </div>
             ) : (
                 <div className='md:w-1/2 w-96'>
