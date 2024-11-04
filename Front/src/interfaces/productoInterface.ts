@@ -169,13 +169,15 @@ export interface IFilter {
   priceOrder: string;
 }
 
+
 export interface ISales {
   SaleData: {
-    Dishes: string;
+    Dishes:{ [dishName: string]: number};
     Reserved_tables: number;
     Orders_made: number;
     Orders_pending: number;
     Orders_cancelled: number;
     Users_total: number;
-  };
+    dates?: string[];
+    };
 }
