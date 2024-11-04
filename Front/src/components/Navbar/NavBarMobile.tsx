@@ -54,7 +54,7 @@ const NavBarMobile = () => {
     }, [router, pathname]);
 
     return (
-        <div className="-mt-10 md:h-16">
+        <div className="h-20">
             {
                 !hidden && (
                     <div>

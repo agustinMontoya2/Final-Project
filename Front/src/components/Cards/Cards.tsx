@@ -26,6 +26,7 @@ const Cards = () => {
     const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
     const [favorities, setFavorities] = useState<IFavorities>();
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
 
     useEffect(() => {
@@ -209,40 +210,93 @@ const Cards = () => {
                     <Loading />
                 ) : (
                     <>
-                        <div className="md:w-1/3 w-4/5 mt-10 md:mt-0 m-auto mb-4 flex items-center border rounded-xl bg-white text-red-600">
-                            <Image
-                                src="/assets/icon/search.png"
-                                alt="Search"
-                                width={20}
-                                height={20}
-                                className="ml-2"
-                            />
-                            <input
-                                type="text"
-                                placeholder="Search dish..."
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                className="border-none rounded-lg outline-none px-2 py-2 text-gray-700 w-full"
-                            />
-                        </div>
-                        <div className="w-4/5 m-auto flex justify-center mb-4 flex-wrap gap-2">
-                            <button onClick={() => toggleCategory("Beverages")} className={`font-medium py-1 px-3 rounded ${filters.category.includes("Beverages") ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>Beverages</button>
-                            <button onClick={() => toggleCategory("Main Dishes")} className={`font-medium py-1 px-3 rounded ${filters.category.includes("Main Dishes") ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>Main Dishes</button>
-                            <button onClick={() => toggleCategory("Appetizers")} className={`font-medium py-1 px-3 rounded ${filters.category.includes("Appetizers") ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>Appetizers</button>
-                            <button onClick={() => toggleCategory("Sides")} className={`font-medium py-1 px-3 rounded ${filters.category.includes("Sides") ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>Sides</button>
-                            <button onClick={() => toggleCategory("Desserts")} className={`font-medium py-1 px-3 rounded ${filters.category.includes("Desserts") ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>Desserts</button>
+                        <div className="flex flex-col">
+                            <div className="w-4/5 flex md:flex-col m-auto">
+                                <div className=" h-10 m-auto flex justify-between mb-4 flex-wrap gap-2 md:hidden">
+                                    <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="flex items-center bg-white text-red-600 font-medium py-1 px-3 rounded">
+                                        Filters
+                                        <Image src={'/assets/icon/down.png'} width={20} height={20} alt="down" className="ml-2"/>
+                                    </button>
+                                    {isDropdownOpen && (
+                                        <div className="absolute  bg-white border rounded-lg z-50 shadow-lg p-3">
+                                            <div className="flex mb-2">
+                                                <Image src={'/assets/icon/crossblack.png'} width={15} height={15} alt="cross"  onClick={() => setIsDropdownOpen(false)}/>
+                                                <p className="text-center font-bold text-neutral-800 ml-6">Filters</p>
+                                            </div>
+                                            <hr className="border-neutral-600"/>
+                                            <div className="flex flex-col">
+                                                <button onClick={() => toggleCategory("Beverages")} className={`font-medium py-1 rounded ${filters.category.includes("Beverages") ? "bg-red-800 text-white" : "bg-white text-red-600"}`}>
+                                                    Beverages
+                                                </button>
+                                                <hr className="border-neutral-600"/>
+                                                <button onClick={() => toggleCategory("Main Dishes")} className={`font-medium py-1 rounded ${filters.category.includes("Main Dishes") ? "bg-red-800 text-white" : "bg-white text-red-600"}`}>
+                                                    Main Dishes
+                                                </button>
+                                                <hr className="border-neutral-600"/>
+                                                <button onClick={() => toggleCategory("Appetizers")} className={`font-medium py-1 rounded ${filters.category.includes("Appetizers") ? "bg-red-800 text-white" : "bg-white text-red-600"}`}>
+                                                    Appetizers
+                                                </button>
+                                                <hr className="border-neutral-600"/>
+                                                <button onClick={() => toggleCategory("Sides")} className={`font-medium py-1 rounded ${filters.category.includes("Sides") ? "bg-red-800 text-white" : "bg-white text-red-600"}`}>
+                                                    Sides
+                                                </button>
+                                                <hr className="border-neutral-600"/>
+                                                <button onClick={() => toggleCategory("Desserts")} className={`font-medium py-1 rounded ${filters.category.includes("Desserts") ? "bg-red-800 text-white" : "bg-white text-red-600"}`}>
+                                                    Desserts
+                                                </button>
+                                                <hr className="border-neutral-600"/>
+                                                <button onClick={() => setFilters({ ...filters, priceOrder: "asc" })} className={`font-medium py-1 rounded ${filters.priceOrder === "asc" ? "bg-red-800 text-white" : "bg-white text-red-600"}`}>
+                                                    Price: Low to High
+                                                </button>
+                                                <hr className="border-neutral-600"/>
+                                                <button onClick={() => setFilters({ ...filters, priceOrder: "desc" })} className={`font-medium py-1 rounded ${filters.priceOrder === "desc" ? "bg-red-800 text-white" : "bg-white text-red-600"}`}>
+                                                    Price: High to Low
+                                                </button>
+                                                <hr className="border-neutral-600"/>
+                                                <button onClick={() => setFilters({ ...filters, showFavorites: !filters.showFavorites })} className="bg-white text-red-600 hover:bg-neutral-100 font-medium py-1 rounded">
+                                                    {filters.showFavorites ? "Watch all" : "Watch favorites"}
+                                                </button>
+                                                <button onClick={clearFilters} className="bg-gray-500 text-white font-bold py-1 px-3 rounded hover:bg-gray-600">Clear Filter</button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="md:w-1/3 w-2/3 mt-10 md:mt-0 m-auto mb-4 flex items-center border rounded-lg bg-white text-red-600">
+                                    <Image
+                                        src="/assets/icon/search.png"
+                                        alt="Search"
+                                        width={20}
+                                        height={20}
+                                        className="ml-2"
+                                    />
+                                    <input
+                                        type="text"
+                                        placeholder="Search dish..."
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                        className="border-none rounded-lg outline-none px-2 py-2 text-gray-700 w-full"
+                                    />
+                                </div>
+                            </div>
+                            <div className="hidden md:flex w-4/5 m-auto justify-center mb-4 flex-wrap gap-2">
+                                <button onClick={() => toggleCategory("Beverages")} className={`font-medium py-1 px-3 rounded ${filters.category.includes("Beverages") ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>Beverages</button>
+                                <button onClick={() => toggleCategory("Main Dishes")} className={`font-medium py-1 px-3 rounded ${filters.category.includes("Main Dishes") ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>Main Dishes</button>
+                                <button onClick={() => toggleCategory("Appetizers")} className={`font-medium py-1 px-3 rounded ${filters.category.includes("Appetizers") ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>Appetizers</button>
+                                <button onClick={() => toggleCategory("Sides")} className={`font-medium py-1 px-3 rounded ${filters.category.includes("Sides") ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>Sides</button>
+                                <button onClick={() => toggleCategory("Desserts")} className={`font-medium py-1 px-3 rounded ${filters.category.includes("Desserts") ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>Desserts</button>
 
-                            <button onClick={() => setFilters({ ...filters, priceOrder: "asc" })} className={`font-medium py-1 px-3 rounded ${filters.priceOrder === "asc" ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>
-                                Price: Low to High
-                            </button>
-                            <button onClick={() => setFilters({ ...filters, priceOrder: "desc" })} className={`font-medium py-1 px-3 rounded ${filters.priceOrder === "desc" ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>
-                                Price: High to Low
-                            </button>
+                                <button onClick={() => setFilters({ ...filters, priceOrder: "asc" })} className={`font-medium py-1 px-3 rounded ${filters.priceOrder === "asc" ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>
+                                    Price: Low to High
+                                </button>
+                                <button onClick={() => setFilters({ ...filters, priceOrder: "desc" })} className={`font-medium py-1 px-3 rounded ${filters.priceOrder === "desc" ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>
+                                    Price: High to Low
+                                </button>
 
-                            <button onClick={() => setFilters({ ...filters, showFavorites: !filters.showFavorites })} className="bg-white text-red-600 hover:bg-neutral-100 font-medium py-1 px-3 rounded">
-                                {filters.showFavorites ? "Watch all" : "Watch favorites"}
-                            </button>
-                            <button onClick={clearFilters} className="bg-gray-500 text-white font-bold py-1 px-3 rounded hover:bg-gray-600">Clear Filter</button>
+                                <button onClick={() => setFilters({ ...filters, showFavorites: !filters.showFavorites })} className="bg-white text-red-600 hover:bg-neutral-100 font-medium py-1 px-3 rounded">
+                                    {filters.showFavorites ? "Watch all" : "Watch favorites"}
+                                </button>
+                                <button onClick={clearFilters} className="bg-gray-500 text-white font-bold py-1 px-3 rounded hover:bg-gray-600">Clear Filter</button>
+                            </div>
                         </div>
 
                         <Carousel images={images}/>
