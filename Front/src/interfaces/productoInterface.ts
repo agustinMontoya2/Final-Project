@@ -98,6 +98,9 @@ export interface IUser {
   address: string;
   isBanned: boolean;
   isAdmin: boolean;
+  credential: {
+    email: string;
+  };
 }
 
 export interface IProductsDetails {
@@ -174,6 +177,5 @@ export interface ISales {
     Orders_pending: number;
     Orders_cancelled: number;
     Users_total: number;
-    dates: string[];
   };
 }

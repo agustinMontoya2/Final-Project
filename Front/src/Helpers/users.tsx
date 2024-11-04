@@ -16,6 +16,7 @@ export async function getUsers( token: string) {
 
         if (response.ok) {
             return JSON.parse(responseText);  
+            
         } else {
             throw new Error(`Error: ${responseText}`);  
         }
