@@ -1,5 +1,5 @@
-import React from 'react';
-import { Bar } from 'react-chartjs-2';
+import React, { useEffect, useState } from 'react';
+import { Bar, Doughnut } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -8,66 +8,82 @@ import {
     Title,
     Tooltip,
     Legend,
+    ArcElement,
     ChartOptions,
 } from 'chart.js';
 import { ISales } from '@/interfaces/productoInterface';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const SalesChart: React.FC<{ SaleData: ISales['SaleData'] }> = ({ SaleData }) => {
-    // Asumiendo que SaleData tiene un array de fechas en 'dates'
-    const salesDates = SaleData.dates.map(dateStr => new Date(dateStr)); // Convertimos las fechas en objetos Date
+ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend);
 
-    // Formateamos las fechas al formato "MES dd/mm/yy"
-    const formattedDates = salesDates.map(date =>
-        new Intl.DateTimeFormat('es-ES', {
-            month: 'short', // Muestra el mes abreviado
-            day: '2-digit', 
-            year: 'numeric'
-        }).format(date)
-    );
+
+const SalesBarChart: React.FC<{ SaleData: ISales['SaleData'] }> = ({ SaleData }) => {
+
+    const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth());
+
+
+    useEffect(() => {
+        const monthInterval = setInterval(() => {
+            const now = new Date().getMonth();
+            setCurrentMonth(now);
+        }, 1000 * 60 * 60 * 24);
+
+        return () => clearInterval(monthInterval);
+    }, []);
+
+
+    const salesData: { [key: string]: number[] } = {
+        Reserved_tables: Array(12).fill(0),
+        Orders_made: Array(12).fill(0),
+        Orders_pending: Array(12).fill(0),
+        Orders_cancelled: Array(12).fill(0),
+        Users_total: Array(12).fill(0),
+    };
+
+
+    salesData.Reserved_tables[currentMonth] = SaleData.Reserved_tables;
+    salesData.Orders_made[currentMonth] = SaleData.Orders_made;
+    salesData.Orders_pending[currentMonth] = SaleData.Orders_pending;
+    salesData.Orders_cancelled[currentMonth] = SaleData.Orders_cancelled;
+    salesData.Users_total[currentMonth] = SaleData.Users_total;
 
     const data = {
-        labels: formattedDates,  // Fechas en el eje Y
+        labels: [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ],
         datasets: [
             {
-                label: 'Dishes',
-                data: [parseFloat(SaleData.Dishes)],
-                backgroundColor: 'rgba(255, 99, 132, 0.6)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1,
-            },
-            {
                 label: 'Reserved Tables',
-                data: [SaleData.Reserved_tables],
+                data: salesData.Reserved_tables,
                 backgroundColor: 'rgba(54, 162, 235, 0.6)',
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1,
             },
             {
                 label: 'Orders Made',
-                data: [SaleData.Orders_made],
+                data: salesData.Orders_made,
                 backgroundColor: 'rgba(75, 192, 192, 0.6)',
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1,
             },
             {
                 label: 'Orders Pending',
-                data: [SaleData.Orders_pending],
+                data: salesData.Orders_pending,
                 backgroundColor: 'rgba(255, 206, 86, 0.6)',
                 borderColor: 'rgba(255, 206, 86, 1)',
                 borderWidth: 1,
             },
             {
                 label: 'Orders Cancelled',
-                data: [SaleData.Orders_cancelled],
+                data: salesData.Orders_cancelled,
                 backgroundColor: 'rgba(153, 102, 255, 0.6)',
                 borderColor: 'rgba(153, 102, 255, 1)',
                 borderWidth: 1,
             },
             {
-                label: 'Users Total',
-                data: [SaleData.Users_total],
+                label: 'Total Clients',
+                data: salesData.Users_total,
                 backgroundColor: 'rgba(255, 159, 64, 0.6)',
                 borderColor: 'rgba(255, 159, 64, 1)',
                 borderWidth: 1,
@@ -75,23 +91,22 @@ const SalesChart: React.FC<{ SaleData: ISales['SaleData'] }> = ({ SaleData }) =>
         ],
     };
 
+    // Opciones del gráfico
     const options: ChartOptions<'bar'> = {
-        indexAxis: 'y',  // Cambiamos el eje X al Y para mostrar fechas en Y
         responsive: true,
         scales: {
             x: {
+                stacked: false,
                 title: {
                     display: true,
-                    text: 'Cantidad',
+                    text: 'Months',
                 },
             },
             y: {
+                stacked: false,
                 title: {
                     display: true,
-                    text: 'Mes dd/mm/yy',
-                },
-                ticks: {
-                    autoSkip: false, // Mostrar todas las etiquetas en el eje Y
+                    text: 'Amount',
                 },
             },
         },
@@ -109,4 +124,51 @@ const SalesChart: React.FC<{ SaleData: ISales['SaleData'] }> = ({ SaleData }) =>
     return <Bar data={data} options={options} />;
 };
 
-export default SalesChart;
+
+const GraficoDeTortaPlato: React.FC<{ SaleData: ISales['SaleData'] }> = ({ SaleData }) => {
+
+    const dishLabels = Object.keys(SaleData.Dishes);
+    const dishData = Object.values(SaleData.Dishes);
+
+    const data = {
+        labels: dishLabels,
+        datasets: [
+            {
+                label: 'Dishes Sold',
+                data: dishData,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(75, 192, 192, 0.6)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(75, 192, 192, 1)',
+                ],
+                borderWidth: 1,
+            },
+        ],
+    };
+
+    const options = {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top' as const,
+            },
+            title: {
+                display: true,
+                text: 'Dishes Sold in the Month',
+            },
+        },
+    };
+
+    return (
+        <div className="w-96 h-96">
+            <Doughnut data={data} options={options} />
+        </div>)
+
+};
+
+export { SalesBarChart, GraficoDeTortaPlato };
