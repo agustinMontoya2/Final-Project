@@ -86,8 +86,15 @@ const CartView = () => {
                     alert("Failed to delete the product from the cart.");
                 }
             } catch (error) {
-                console.error(`Error: ${error instanceof Error ? error.message : error}`);
-                alert(`Error: ${error instanceof Error ? error.message : error}`);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'To remove the product from the cart, press the trash icon',
+                    toast: true,
+                    position: 'top-end',
+                    timer: 2500,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                });
             }
         }
     };
@@ -111,8 +118,15 @@ const CartView = () => {
                     alert("Failed to delete the product from the cart.");
                 }
             } catch (error) {
-                console.error(`Error: ${error instanceof Error ? error.message : error}`);
-                alert(`Error: ${error instanceof Error ? error.message : error}`);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'To remove the product from the cart, press the trash icon',
+                    toast: true,
+                    position: 'top-end',
+                    timer: 2500,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                });
             }
         }
     };
@@ -259,51 +273,53 @@ const CartView = () => {
     };
 
     return (
-        <div className="w-m-auto flex flex-col items-center justify-center min-h-screen py-8 ">
+        <div className="w-full flex flex-col items-center justify-center min-h-screen py-8 ">
             <h1 className="text-3xl font-bold text-black mb-6">Cart</h1>
             {cartItems?.productDetail.length === 0 ? (
                 <div className='flex flex-col items-center'>
-                    <p className="text-lg text-gray-700">Your cart is empty.</p>
-                    <Link href="/menu" className="text-blue-700 p-4 m-2">Wanna order something? Dont be shy, get yourself something yummy!</Link>
+                <p className="text-lg text-gray-700">Your cart is empty.</p>
+                <Link href="/menu" className='text-blue-700 p-4 m-2'>Wanna order something? Do not be shy, get yourself something yummy!</Link>
                 </div>
             ) : (
-                <div className='md:w-1/2 w-96'>
+                <div className='md:w-[40%] w-96'>
                     <ul className="bg-white shadow-lg rounded-lg w-full">
                         {cartItems?.productDetail.map((item) => (
-                            <li key={item.product_detail_id} className="flex items-center justify-between p-6 border-b border-gray-300">
-                                <div className="flex items-center">
+                            <li key={item.product_detail_id} className="w-full m-auto h-36 flex items-center justify-between md:p-8 p-4 border-b border-gray-300">
+                                <div className=" h-36 flex justify-between items-center">
                                     <Image
                                         src={item.product.image_url}
                                         alt={item.product.product_name}
-                                        width={120}
-                                        height={120}
-                                        className="mr-6 rounded-lg object-cover"
+                                        width={140}
+                                        height={140}
+                                        className="rounded-lg object-cover mr-2"
                                     />
                                     <div>
                                         <h2 className="text-xl font-semibold text-black">{item.product.product_name}</h2>
                                         <p className="text-gray-600">Price: <span className="font-bold">${item.product.price}</span></p>
-                                        <p className="text-gray-600">Quantity: <span className="font-bold">{item.quantity}</span></p>
                                     </div>
                                 </div>
-                                <div className="flex space-x-2">
-                                    <button
-                                        onClick={() => handleDeleteQuantityCart(item.product_detail_id)}
-                                        className="w-8 h-8 text-xl flex justify-center items-center bg-red-500 text-white font-bold rounded-lg hover:bg-red-600 transition duration-300"
-                                    >
-                                        -
-                                    </button>
-                                    <button
-                                        className="w-8 h-8 text-xl flex justify-center items-center bg-red-500 text-white font-bold rounded-lg hover:bg-red-600 transition duration-300"
-                                        onClick={() => handleAddCart(item.product.product_id)}
-                                    >
-                                        +
-                                    </button>
+                                <div className="w-1/3 h-36 flex flex-col justify-evenly items-end">
                                     <button
                                         onClick={() => handleDeleteProductCart(item.product_detail_id)}
                                         className="text-white font-bold rounded-lg transition duration-300"
                                     >
                                         <Image src={'/assets/icon/trashred.png'} width={30} height={30} alt='trash' />
                                     </button>
+                                        <div className='w-24 flex items-center bg-neutral-100 border border-neutral-600 '>
+                                            <button
+                                                onClick={() => handleDeleteQuantityCart(item.product_detail_id)}
+                                                className="w-1/3 h-8 text-xl flex justify-center items-center text-neutral-800 font-bold hover:bg-neutral-300 transition duration-300"
+                                            >
+                                                -
+                                            </button>
+                                            <span className="w-1/3 font-bold flex justify-center items-center text-neutral-800">{parseInt(item.quantity, 16)}</span>
+                                            <button
+                                                className="w-1/3 h-8 text-xl flex justify-center items-center text-neutral-800 font-bold hover:bg-neutral-300 transition duration-300"
+                                                onClick={() => handleAddCart(item.product.product_id)}
+                                            >
+                                                +
+                                            </button>
+                                        </div>
                                 </div>
                             </li>
                         ))}
@@ -314,7 +330,9 @@ const CartView = () => {
                                     <p className="text-lg font-semibold text-black">Total after discount: <span className="font-bold text-red-600">${totalWithDiscount.toFixed(2)}</span></p>
                                 )}
                                 {!discountApplied && (
-                                    <p className='text-blue-700 text-sm hover:underline cursor-pointer' onClick={() => setShowCouponModal(true)}>Do you have a coupon?</p>
+                                    <div>
+                                        <p className='text-blue-700 text-sm hover:underline cursor-pointer' onClick={() => setShowCouponModal(true)}>Do you have a coupon?</p>                                    </div>
+                                    
                                 )}
                             </div>
                         </span>
@@ -359,6 +377,7 @@ const CartView = () => {
                             <div className="mt-4 relative">
                                 <input
                                     type="text"
+                                    id='delivery'
                                     value={address}
                                     onChange={(e) => setAddress(e.target.value)}
                                     className="text-neutral-700 bg-transparent border-b-2 border-gray-400 focus:border-red-600 focus:outline-none w-full pt-4 pb-1"
