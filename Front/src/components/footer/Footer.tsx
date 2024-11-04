@@ -6,7 +6,7 @@ const Footer = () => {
     return (
         <footer className="w-full bg-secondary text-white py-2 mt-10">
             <div className="flex flex-row justify-around flex-wrap w-full px-4">
-                <div className="w-3/4 flex flex-wrap justify-around ">
+                <div className="md:w-3/4 w-full flex flex-wrap justify-around ">
                     <h1 className="w-full text-lg font-semibold  flex justify-center">Find us</h1>
                     <Link target='_blank' href={"https://www.google.com/maps/place/Club+Fellini/@-32.9564897,-60.6464365,17z/data=!3m1!4b1!4m6!3m5!1s0x95b7ab0e50048a05:0xe7807dfd0c9e4c81!8m2!3d-32.9564942!4d-60.6438616!16s%2Fg%2F1tfmj_lv?entry=ttu&g_ep=EgoyMDI0MTAxMy4wIKXMDSoASAFQAw%3D%3D"} className="w-auto h-auto p-3 rounded-xl flex flex-col items-center justify-center hover:scale-110 duration-500">
                         <Image src={"/assets/icon/location.png"} alt="" width="40" height="40"></Image>
