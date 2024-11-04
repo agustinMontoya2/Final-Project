@@ -1,0 +1,101 @@
+{
+    "teamMembers": [
+
+
+  {"name": "Jehiel Lederhos",
+    "role": "Frontend Developer",
+    "bio": "Desarrollador frontend en constante aprendizaje, especializado en React y JavaScript. Comencé mi viaje en la programación web este año y disfruto creando experiencias interactivas y funcionales.",
+    "skills": ["React", "JavaScript", "TypeScript", "NEXT.JS", "TAILWIND CSS"],
+    "contact": {
+      "email": "lederhos.jehiel@icloud.com",
+      "linkedin": "https://www.linkedin.com/in/jehiel-lederhos",
+      "github": "https://github.com/JehielLederhos"
+    },
+    "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1730682258/eygv0yspro9easfqetzs.jpg"
+  },
+
+
+    {
+      "name": "Emmanuel Herman Irastorza",
+      "role": "Frontend Developer",
+      "bio": "Apasionado por el diseño de interfaces y la experiencia de usuario, con 3 años de experiencia en React y JavaScript.",
+      "skills": ["React", "JavaScript", "CSS", "HTML"],
+      "contact": {
+        "email": "Emma225h@gmail.com",
+        "linkedin": "https://www.linkedin.com/in/emmanuel-herman-4b3a3b219/",
+        "github": "https://github.com/EHermanIrastorza"
+      },
+    "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1730682467/dcapzhxievd9q55yw48h.png"
+  },
+
+
+    {
+      "name": "Santiago Celis",
+      "role": "Frontend Developer",
+      "bio": "Estoy especializado en el área de Front-End dado que tengo un enfoque perfeccionista y detallista. Me apasiona el desarrollo Front-End por su papel crucial en la presentación y usabilidad de las páginas web",
+      "skills": ["HTML", "CSS", "JAVASCRIPT", "NEXT.JS", "TAILWIND CSS"],
+      "contact": {
+        "email": "santiagocelis2004@gmail.com",
+        "linkedin": "https://www.linkedin.com/in/SantiCelis",
+        "github": "https://github.com/Santi-Celis"
+      },
+    "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1730682591/vw2ditwjzcirpbwe4k5d.jpg"
+  },
+
+
+    {
+        "name": "Agustín Montoya",
+        "role": "Fullstack Developer",
+        "bio": "Desarrollador apasionado por el diseño de arquitecturas escalables y el manejo de bases de datos.",
+        "skills": [
+            "TypeScript",
+            "NestJS",
+            "Express",
+            "TypeORM",
+            "React",
+            "Axios",
+            "PostgreSQL",
+            "MongoDB",
+            "JSON Web Tokens (JWT)",
+            "bcrypt",
+            "Cloudinary",
+            "socket.io"
+          ],
+        "contact": {
+            "email": "agus7montoya@gmail.com",
+            "linkedin": "https://www.linkedin.com/in/agustin-montoya-26083031a",
+            "github": "https://github.com/agustinMontoya2"
+        },
+        "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518903/kwmttiiptetrdymbk0zu.jpg"
+    },
+
+
+    {
+        "name": "Federico Valdez",
+        "role": "Backend Developer",
+        "bio": "Desarrollador backend en crecimiento, apasionado por construir y optimizar soluciones sólidas en entornos de servidor. ",
+        "skills": ["Express.js", "NestJs", "TypeScript", "TypeORM","Node.js"],
+        "contact": {
+          "email": "federico.valdez@hotmail.com",
+          "linkedin":  "https://www.linkedin.com/in/federico-valdez-220562ba",
+          "github": "https://github.com/FedericoValdez"
+        },
+    "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518903/kwmttiiptetrdymbk0zu.jpg"
+  },
+
+
+    {"name": "Juan Pérez",
+    "role": "Frontend Developer",
+    "bio": "Apasionado por el diseño de interfaces y la experiencia de usuario, con 3 años de experiencia en React y JavaScript.",
+    "skills": ["React", "JavaScript", "CSS", "HTML"],
+    "contact": {
+      "email": "juan.perez@example.com",
+      "linkedin": "https://www.linkedin.com/in/juanperez",
+      "github": "https://github.com/jehiel"
+    },
+    "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518903/kwmttiiptetrdymbk0zu.jpg"
+  }
+
+
+    ]
+  }

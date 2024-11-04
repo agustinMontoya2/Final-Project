@@ -24,10 +24,12 @@ const Footer = () => {
                         <Image src={"/assets/icon/facebook.png"} alt="" width="40" height="40"></Image>
                     </Link>
                 </div>
-                <div className='w-full'>
+                <div className="w-full mt-4 flex flex-col items-center">
+                    <Link href="/Team" className="text-sm font-semibold text-white hover:underline">
+                        Meet the Team
+                    </Link>
                     <p className="mt-1 text-xs text-center">
-                        © 2024 C. Fellini.
-                        All right reserved.
+                        © 2024 C. Fellini. All rights reserved.
                     </p>
                 </div>
             </div>
