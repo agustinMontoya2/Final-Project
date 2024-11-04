@@ -5,6 +5,7 @@ import "./globals.css";
 import NavBarXL from "@/components/Navbar/NavBarXL";
 import NavbarMovil from "@/components/Navbar/NavBarMobile"; // Asegúrate de importar el NavbarMovil
 import Footer from "@/components/footer/Footer";
+import BottomNavBar from "@/components/Navbar/BottomNavBar";
 
 const geistSans = localFont({
   src: "../fonts/GeistMonoVF.woff",
@@ -37,7 +38,10 @@ export default function RootLayout({
           <NavbarMovil />
         </div>
         {children}
-        <Footer />
+        <div className="block md:hidden">
+          <BottomNavBar />
+        </div>
+          <Footer />
       </body>
     </html>
   );

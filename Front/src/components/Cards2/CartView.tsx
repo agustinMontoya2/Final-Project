@@ -273,43 +273,45 @@ const CartView = () => {
             {cartItems?.productDetail.length === 0 ? (
                 <p className="text-lg text-gray-700">Your cart is empty.</p>
             ) : (
-                <div className='md:w-1/2 w-96'>
+                <div className='md:w-[40%] w-96'>
                     <ul className="bg-white shadow-lg rounded-lg w-full">
                         {cartItems?.productDetail.map((item) => (
-                            <li key={item.product_detail_id} className="flex items-center justify-between p-6 border-b border-gray-300">
-                                <div className="flex items-center">
+                            <li key={item.product_detail_id} className="w-full m-auto h-36 flex items-center justify-between md:p-8 p-4 border-b border-gray-300">
+                                <div className=" h-36 flex justify-between items-center">
                                     <Image
                                         src={item.product.image_url}
                                         alt={item.product.product_name}
-                                        width={120}
-                                        height={120}
-                                        className="mr-6 rounded-lg object-cover"
+                                        width={140}
+                                        height={140}
+                                        className="rounded-lg object-cover mr-2"
                                     />
                                     <div>
                                         <h2 className="text-xl font-semibold text-black">{item.product.product_name}</h2>
                                         <p className="text-gray-600">Price: <span className="font-bold">${item.product.price}</span></p>
-                                        <p className="text-gray-600">Quantity: <span className="font-bold">{item.quantity}</span></p>
                                     </div>
                                 </div>
-                                <div className="flex space-x-2">
-                                    <button
-                                        onClick={() => handleDeleteQuantityCart(item.product_detail_id)}
-                                        className="w-8 h-8 text-xl flex justify-center items-center bg-red-500 text-white font-bold rounded-lg hover:bg-red-600 transition duration-300"
-                                    >
-                                        -
-                                    </button>
-                                    <button
-                                        className="w-8 h-8 text-xl flex justify-center items-center bg-red-500 text-white font-bold rounded-lg hover:bg-red-600 transition duration-300"
-                                        onClick={() => handleAddCart(item.product.product_id)}
-                                    >
-                                        +
-                                    </button>
+                                <div className="w-1/3 h-36 flex flex-col justify-evenly items-end">
                                     <button
                                         onClick={() => handleDeleteProductCart(item.product_detail_id)}
                                         className="text-white font-bold rounded-lg transition duration-300"
                                     >
                                         <Image src={'/assets/icon/trashred.png'} width={30} height={30} alt='trash' />
                                     </button>
+                                        <div className='w-24 flex items-center bg-neutral-100 border border-neutral-600 '>
+                                            <button
+                                                onClick={() => handleDeleteQuantityCart(item.product_detail_id)}
+                                                className="w-1/3 h-8 text-xl flex justify-center items-center text-neutral-800 font-bold hover:bg-neutral-300 transition duration-300"
+                                            >
+                                                -
+                                            </button>
+                                            <span className="w-1/3 font-bold flex justify-center items-center text-neutral-800">{parseInt(item.quantity, 16)}</span>
+                                            <button
+                                                className="w-1/3 h-8 text-xl flex justify-center items-center text-neutral-800 font-bold hover:bg-neutral-300 transition duration-300"
+                                                onClick={() => handleAddCart(item.product.product_id)}
+                                            >
+                                                +
+                                            </button>
+                                        </div>
                                 </div>
                             </li>
                         ))}
