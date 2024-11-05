@@ -43,6 +43,14 @@ export class OrderController {
   findAll() {
     return this.orderService.findAll();
   }
+  @Get('pending')
+  findPending() {
+    return this.orderService.findPending();
+  }
+  @Get('cancelled')
+  findCancelled() {
+    return this.orderService.findCancelled();
+  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {

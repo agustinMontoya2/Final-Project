@@ -15,5 +15,6 @@ import { MailService } from 'src/mail/mail.service';
   ],
   controllers: [ReservationController],
   providers: [ReservationService, ReservationRepository, MailService],
+  exports: [ReservationService],
 })
 export class ReservationModule {}

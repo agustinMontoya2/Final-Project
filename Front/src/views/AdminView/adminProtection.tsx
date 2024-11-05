@@ -27,7 +27,7 @@ const AdminProtection = () => {
 
   return (
     <div>
-      <h2 className='text-black text-lg underline text-center'> WELCOME ADMIN </h2>
+      <h1 className='text-black text-lg text-center font-blod'> WELCOME ADMIN </h1>
     </div>
   )
 }

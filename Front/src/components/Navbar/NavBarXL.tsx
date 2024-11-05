@@ -6,33 +6,22 @@ import React, { useState, useEffect, Suspense } from 'react';
 import BackButton from './BackButton';
 import Dropdown from './Dropdown';
 import Swal from 'sweetalert2';
-import AdmindDashboard from '@/app/admin/page';
-// import DashboardAdmind from '@/app/dashboardAdmin/page';
 
 interface UserSession {
     name: string;
 }
 const NavBarXL: React.FC = () => {
 
-    
-
     const [userSession, setUserSession] = useState<UserSession | null>(null);
     const router = useRouter();
     const pathname = usePathname();
-    const searchParams = useSearchParams();
     const [isAdmin, setAdmin] = useState<boolean>(false);
-    // const [isBanned, setIsBanned] = useState<boolean>(false);
     const hidden = pathname === "/"
 
     useEffect(() => {
         const storedIsAdmin = localStorage.getItem('isAdmin');
         setAdmin(storedIsAdmin === 'true');
     }, []);
-
-    // useEffect(() => {
-    //     const storedIsBanned = localStorage.getItem('isBanned');
-    //     // setIsBanned(storedIsBanned === 'true');
-    // }, []);
 
     useEffect(() => {
         if (isAdmin && (pathname === '/dashboardAdmin')) {
@@ -42,34 +31,12 @@ const NavBarXL: React.FC = () => {
         }
     }, [pathname, router])
 
-    // useEffect(() => {
-    //     if (isBanned) {
-    //         Swal.fire({
-    //             title: 'Your account has been blocked indefinitely',
-    //             icon: 'warning',
-    //             confirmButtonText: 'accept',
-    //             confirmButtonColor: "#1988f0"
-    //         })
-    //     }
-    // }, [pathname, router])
-
     useEffect(() => {
         const userData = localStorage.getItem('userSession');
         if (userData) {
             setUserSession(JSON.parse(userData));
         }
     }, [pathname]);
-
-    // useEffect(() => {
-    //     const token_auth0 = searchParams.get('token_auth0');
-
-    //     if (token_auth0) {
-
-    //         localStorage.setItem('authToken', token_auth0);
-
-    //         router.push('/');
-    //     }
-    // }, [searchParams, router]);
 
     const handleReservation = () => {
         if (!userSession) {
@@ -101,9 +68,7 @@ const NavBarXL: React.FC = () => {
                     <Link onClick={handleReservation} className="w-7 h-16 flex justify-center items-center hover:drop-shadow-2xl" href={"/reserve"}>
                         <p className="text-white font-bold hover:text-neutral-300 duration-500">Reservation</p>
                     </Link>
-                    {/* <Suspense> */}
                         <Dropdown />
-                    {/* </Suspense> */}
                     {
                         userSession && (
                             <Link className="" href={"/cart"}>
