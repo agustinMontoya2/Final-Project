@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import "./globals.css";
 import NavBarXL from "@/components/Navbar/NavBarXL";
 import Footer from "@/components/footer/Footer";
+import VoiceflowWidget from "@/components/VoiceflowWidget/VoiceflowWidget"; 
 
 const geistSans = localFont({
   src: "../fonts/GeistMonoVF.woff",
@@ -29,18 +30,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className="flex flex-col min-h-screen justify-between"
-      >
-
-<Suspense fallback={<div>Cargando...</div>}>
-        <NavBarXL />
-</Suspense>
+      <body className="flex flex-col min-h-screen justify-between">
+        <Suspense fallback={<div>Cargando...</div>}>
+          <NavBarXL />
+        </Suspense>
         {children}
         <Footer />
-
+        <VoiceflowWidget /> {/* Coloca aquí el componente VoiceflowWidget */}
       </body>
     </html>
   );
 }
-
