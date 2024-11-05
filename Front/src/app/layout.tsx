@@ -13,6 +13,7 @@ const geistSans = localFont({
   variable: "--font-geist-sans",
   weight: "100 900",
 });
+
 const geistMono = localFont({
   src: "../fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
@@ -32,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="flex flex-col min-h-screen justify-between">
-        {/* Navbars según el tamaño de pantalla */}
+
         <div className="hidden md:block">
           <Suspense fallback={<div>Cargando...</div>}>
             <NavBarXL />
@@ -42,18 +43,14 @@ export default function RootLayout({
           <NavbarMovil />
         </div>
 
-        {/* Contenido principal */}
         <main className="flex-grow">{children}</main>
 
-        {/* Footer */}
         <Footer />
 
-        {/* Bottom Navigation en pantallas pequeñas */}
         <div className="block md:hidden">
           <BottomNavBar />
         </div>
 
-        {/* Voiceflow Widget */}
         <VoiceflowWidget />
       </body>
     </html>
