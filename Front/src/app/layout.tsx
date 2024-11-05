@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-
 import "./globals.css";
 import NavBarXL from "@/components/Navbar/NavBarXL";
 import NavbarMovil from "@/components/Navbar/NavBarMobile";
 import Footer from "@/components/footer/Footer";
-import VoiceflowWidget from "@/components/VoiceflowWidget/VoiceflowWidget"; 
+import VoiceflowWidget from "@/components/VoiceflowWidget/VoiceflowWidget";
 import BottomNavBar from "@/components/Navbar/BottomNavBar";
 import { Suspense } from "react";
 
@@ -33,23 +32,29 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="flex flex-col min-h-screen justify-between">
-        <Suspense fallback={<div>Cargando...</div>}>
-          <NavBarXL />
-        </Suspense>
-        {children}
-        <Footer />
-        <VoiceflowWidget /> {/* Coloca aquí el componente VoiceflowWidget */}
+        {/* Navbars según el tamaño de pantalla */}
         <div className="hidden md:block">
-          <NavBarXL />
+          <Suspense fallback={<div>Cargando...</div>}>
+            <NavBarXL />
+          </Suspense>
         </div>
         <div className="block md:hidden">
           <NavbarMovil />
         </div>
-        {children}
+
+        {/* Contenido principal */}
+        <main className="flex-grow">{children}</main>
+
+        {/* Footer */}
+        <Footer />
+
+        {/* Bottom Navigation en pantallas pequeñas */}
         <div className="block md:hidden">
           <BottomNavBar />
         </div>
-          <Footer />
+
+        {/* Voiceflow Widget */}
+        <VoiceflowWidget />
       </body>
     </html>
   );
