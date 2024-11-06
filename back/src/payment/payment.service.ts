@@ -53,7 +53,7 @@ export class PaymentService {
         pending: `${process.env.URL_HOST_FRONT}pending`,
       },
 
-      notification_url: `${process.env.URL_HOST_BACK}payment/webhook`,
+      notification_url: `https://d1ca-81-0-44-130.ngrok-free.app/payment/webhook`,
       metadata: {
         createOrder,
       },
