@@ -1,27 +1,18 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-<<<<<<< HEAD
-import "./globals.css";
-import NavBarXL from "@/components/Navbar/NavBarXL";
-import NavbarMovil from "@/components/Navbar/NavBarMobile";
-import Footer from "@/components/footer/Footer";
-import VoiceflowWidget from "@/components/VoiceflowWidget/VoiceflowWidget";
-import BottomNavBar from "@/components/Navbar/BottomNavBar";
-import { Suspense } from "react";
-=======
-import { Suspense } from "react";
 
 import "./globals.css";
 import NavBarXL from "@/components/Navbar/NavBarXL";
+import NavbarMovil from "@/components/Navbar/NavbarMovil"; // Asegúrate de importar el NavbarMovil
 import Footer from "@/components/footer/Footer";
->>>>>>> 61873f34d2d182d63e05761a398fb60347262ca9
+import BottomNavBar from "@/components/Navbar/BottomNavBar";
+import VoiceflowWidget from "@/components/VoiceflowWidget/VoiceflowWidget";
 
 const geistSans = localFont({
   src: "../fonts/GeistMonoVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
 });
-
 const geistMono = localFont({
   src: "../fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
@@ -41,27 +32,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="flex flex-col min-h-screen justify-between">
-
         <div className="hidden md:block">
-          <Suspense fallback={<div>Cargando...</div>}>
-            <NavBarXL />
-          </Suspense>
+          <NavBarXL />
         </div>
         <div className="block md:hidden">
           <NavbarMovil />
         </div>
-
-        <main className="flex-grow">{children}</main>
-
-        <Footer />
-
+        {children}
         <div className="block md:hidden">
           <BottomNavBar />
         </div>
+          <Footer />
 
-        <VoiceflowWidget />
+          <VoiceflowWidget/>
       </body>
     </html>
   );
 }
-
