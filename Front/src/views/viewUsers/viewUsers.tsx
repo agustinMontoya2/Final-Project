@@ -224,7 +224,7 @@ const ViewUsers = () => {
                                 <td className="py-2 px-4 border-b text-black">{user.name || 'N/A'}</td>
                                 <td className="py-2 px-4 border-b text-black">{user.phone || 'N/A'}</td>
                                 <td className="py-2 px-4 border-b text-black">{user.address || 'N/A'}</td>
-                                <td className="py-2 px-4 border-b text-black">{user.credential?.email || 'N/A'}</td> {/* Email mostrado aquí */}
+                                <td className="py-2 px-4 border-b text-black">{user.credential?.email || 'N/A'}</td> 
                                 <td className={`py-2 px-4 border-b ${user.isBanned ? 'text-red-500' : 'text-green-500'}`}>
                                     {user.isBanned ? 'Banned' : 'Active'}
                                 </td>
