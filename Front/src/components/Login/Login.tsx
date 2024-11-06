@@ -130,11 +130,11 @@ const LoginForm = () => {
                     Login
                 </button>
                 <Link href="/register" className='text-neutral-800 mt-2 hover:underline'>Don&apos;t have an account? Register</Link>
-                <div className="w-1/2 mt-2 flex items-center">
+                <div className="w-full md:w-1/2 mt-2 flex items-center">
                     <button
                         type="button"
                         onClick={handleGoogleLogin}
-                        className="w-full bg-white text-neutral-700 font-bold py-2 rounded-lg flex items-center justify-center hover:bg-neutral-100 transition duration-200"
+                        className="w-4/5 m-auto bg-white text-neutral-700 font-bold py-2 rounded-lg flex items-center justify-center hover:bg-neutral-100 transition duration-200"
                     >
                         <div className='w-auto px-2'>
                             <Image src="/assets/icon/google.png" width={30} height={30} alt="google" className="mr-2" />
