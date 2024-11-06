@@ -13,9 +13,11 @@ import { Product } from 'src/products/entities/product.entity';
 import { OrderDetail } from './entities/orderDetail.entity';
 import { ProductDetail } from 'src/products/entities/productDetail.entity';
 import { UsersRepository } from 'src/users/users.repository';
+import { Console } from 'console';
 
 @Injectable()
 export class OrderRepository {
+  private purchaseOrder: any;
   constructor(
     @InjectRepository(Order) private orderRepository: Repository<Order>,
     @InjectRepository(OrderDetail)
@@ -28,11 +30,14 @@ export class OrderRepository {
   ) {}
 
   async createOrder(user_id, details, note) {
+    console.log('searching user id', user_id);
     const user = await this.userRepository.findOne({
       where: { user_id },
       relations: ['cart', 'cart.productDetail'],
     });
     if (!user || !user.cart) throw new NotFoundException('Cart not found');
+    console.log(user);
+
     console.log(details);
 
     console.log(note);
@@ -53,41 +58,25 @@ export class OrderRepository {
     const order = new Order();
     order.user = user;
     order.date = new Date();
-
     orderDetail.order = order;
+    if (details.payment_method === 'card') {
+      order.state = 'approved';
+    }
     await this.orderRepository.save(order);
     await this.orderDetailRepository.save(orderDetail);
 
-    const orderFinal = await this.orderRepository.findOne({
-      where: { order_id: order.order_id },
-    });
-    const orderDetailFinal = await this.orderDetailRepository.findOne({
-      where: { order_detail_id: orderDetail.order_detail_id },
-      relations: ['productDetails', 'productDetails.product'],
-    });
-
     await this.usersRepository.removeAllCart(user);
-
-    return { message: 'order created successfully' };
+    return { message: 'order created successfully', orderId: order.order_id };
     return cart;
+  }
 
-    // const orderDetail: OrderDetail = new OrderDetail();
-    // orderDetail.order_type = details.order_type;
-    // orderDetail.payment_method = details.payment_method;
-
-    // orderDetail.total = totalPrice;
-
-    // const order: Order = new Order();
-    // order.date = new Date();
-    // order.user = user;
-
-    // orderDetail.order = order;
-
-    // await this.orderRepository.save(order);
-
-    // return 'this.orderRepository.save(order)';
-
-    // // const order = await this.orderRepository.save(createOrderDto);
+  async orderPayment() {
+    const uuidOrder = this.purchaseOrder;
+    console.log(
+      'ORDER REPOSITORY EN FUNCION ORDERPAYMEN VALOR UUID',
+      uuidOrder,
+    );
+    return uuidOrder;
   }
 
   async findOne(user_id) {
@@ -103,18 +92,14 @@ export class OrderRepository {
     if (!order) throw new NotFoundException('Order not found');
     return order;
   }
+
   async findAll() {
     const order = await this.orderRepository.find({
-      relations: [
-        'orderDetail',
-        'orderDetail.productDetails',
-        'orderDetail.productDetails.product',
-      ],
+      relations: ['orderDetail', 'orderDetail.productDetails'],
     });
     if (!order) throw new NotFoundException('Order not found');
     return order;
   }
-
   async findPending() {
     const order = await this.orderRepository.find({
       where: { state: 'pending' },
@@ -132,3 +117,6 @@ export class OrderRepository {
     return order;
   }
 }
+
+
+

@@ -1,19 +1,18 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { OrderRepository } from './order.repository';
-import { isUUID } from 'class-validator';
-import { ProductsRepository } from 'src/products/products.repository';
-import { UsersRepository } from 'src/users/users.repository';
 
 @Injectable()
 export class OrderService {
   constructor(private readonly orderRepository: OrderRepository) {}
 
   create(createOrderDto: CreateOrderDto) {
-    const { userId, order_type, payment_method, note } = createOrderDto;
+    console.log('creating order in service', createOrderDto);
+    console.log(createOrderDto.user_id);
 
+    const { user_id, order_type, payment_method, note } = createOrderDto;
     return this.orderRepository.createOrder(
-      userId,
+      user_id,
       {
         order_type,
         payment_method,
@@ -25,6 +24,7 @@ export class OrderService {
   findAll() {
     return this.orderRepository.findAll();
   }
+
   findPending() {
     return this.orderRepository.findPending();
   }

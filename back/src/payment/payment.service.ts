@@ -1,9 +1,13 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import axios from 'axios';
 import { isUUID } from 'class-validator';
 import { MercadoPagoConfig, Preference } from 'mercadopago';
-import { Cart } from 'src/products/entities/cart.entity';
+import { OrderService } from 'src/order/order.service';
 import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 
@@ -11,11 +15,14 @@ import { Repository } from 'typeorm';
 export class PaymentService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+    private readonly orderService: OrderService,
   ) {}
 
-  async createOrderService(user_id: string) {
+  async createOrderService(user_id: string, createOrder) {
+    console.log('PAYMENT SERVICE ESTA ES LA ORDEN', createOrder);
+
     // Busca el usuario y sus detalles del carrito
-    if(!isUUID) throw new BadRequestException(`${user_id} is not a valid id`)
+    if (!isUUID) throw new BadRequestException(`${user_id} is not a valid id`);
     const user = await this.userRepository.findOne({
       where: { user_id },
       relations: ['cart', 'cart.productDetail', 'cart.productDetail.product'],
@@ -31,7 +38,6 @@ export class PaymentService {
     const client = new MercadoPagoConfig({
       accessToken: process.env.ACCES_TOKEN_PAYMENT,
     });
-
     const body = {
       items: productDetails.map((productDetail) => ({
         id: productDetail.product.product_id,
@@ -43,18 +49,24 @@ export class PaymentService {
 
       back_urls: {
         success: `${process.env.URL_HOST_FRONT}orders`,
-        failure: `${process.env.URL_HOST_FRONT}failure`,
+        failure: `${process.env.URL_HOST_FRONT}cart`,
         pending: `${process.env.URL_HOST_FRONT}pending`,
       },
 
-      notification_url: `${process.env.NGROK}/payment/webhook`,
+      notification_url: `https://d1ca-81-0-44-130.ngrok-free.app/payment/webhook`,
+      metadata: {
+        createOrder,
+      },
     };
     const preference = new Preference(client);
     const result = await preference.create({ body });
+    console.log('PAYMENT SERVICE ESTE ES EL RESULT', result);
+    console.log(result.init_point);
     return { init_point: result.init_point };
   }
 
   async getPaymentDetails(paymentId: string) {
+    console.log('PAYMENT SERVICE ORDER');
     try {
       const response = await axios.get(
         `https://api.mercadopago.com/v1/payments/${paymentId}`,
@@ -64,6 +76,9 @@ export class PaymentService {
           },
         },
       );
+      const status = response.data.status;
+      console.log('VALOR DE STATUS EN PAYMENT SERVICE', status);
+
       return response.data;
     } catch (error) {
       console.error('Error fetching payment details:', error);

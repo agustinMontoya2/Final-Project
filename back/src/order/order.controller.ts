@@ -15,6 +15,7 @@ import { MailService } from 'src/mail/mail.service';
 import { Repository } from 'typeorm';
 import { Credential } from 'src/auth/entities/credential.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Order } from './entities/order.entity';
 
 @Controller('order')
 @ApiTags('order')
@@ -29,27 +30,18 @@ export class OrderController {
   @Post()
   async create(@Body() createOrderDto: CreateOrderDto) {
     const userFind = await this.credentialRepository.findOne({
-      where: { user: { user_id: createOrderDto.userId } },
+      where: { user: { user_id: createOrderDto.user_id } },
     });
 
-    const order = this.orderService.create(createOrderDto);
+    const order = await this.orderService.create(createOrderDto);
 
     await this.mailService.mailConfirm(userFind.email, 'Order');
-
     return order;
   }
 
   @Get()
   findAll() {
     return this.orderService.findAll();
-  }
-  @Get('pending')
-  findPending() {
-    return this.orderService.findPending();
-  }
-  @Get('cancelled')
-  findCancelled() {
-    return this.orderService.findCancelled();
   }
 
   @Get(':id')
