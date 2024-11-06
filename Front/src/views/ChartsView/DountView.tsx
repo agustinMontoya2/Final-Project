@@ -15,7 +15,7 @@ const getMonthName = (monthIndex: number): string => {
 
 
 
-const ChartsView = () => {
+const DountView = () => {
     const [salesData, setSalesData] = useState<ISales | null>(null);
 
     useEffect(() => {
@@ -76,8 +76,8 @@ const ChartsView = () => {
                     Download Sales Data
                 </button>
             </div>
-            <div className="mt-8">
-                <SalesBarChart SaleData={salesData} />
+            <div className="mt-8 flex flex-col items-center justify-center">
+                <GraficoDeTortaPlato SaleData={salesData} />
             </div>
         </div>
     ) : (
@@ -85,4 +85,4 @@ const ChartsView = () => {
     );
 };
 
-export default ChartsView;
+export default DountView;

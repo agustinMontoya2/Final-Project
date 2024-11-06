@@ -17,6 +17,7 @@ export default function DashboardLayout({
         { href: "/admin/dishes", label: "Dishes" },
         { href: "/admin/profileAdmin", label: "Profile" },
         { href: "/admin/createDish", label: "Create Dish" },
+        { href: "/admin/dount", label: "Dount Grapfh" },
     ];
 
     return (
