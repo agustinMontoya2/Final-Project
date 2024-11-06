@@ -243,53 +243,54 @@ const ViewUsers = () => {
                     </button>
                 </div>
             </div>
-    
             {filteredUsers.length > 0 ? (
-                <table className="min-w-full bg-white border border-red-300 shadow-lg">
-                    <thead>
-                        <tr className="bg-red-500 text-white">
-                            <th className="py-2 px-4 border-b">Name</th>
-                            <th className="py-2 px-4 border-b">Phone</th>
-                            <th className="py-2 px-4 border-b">Address</th>
-                            <th className="py-2 px-4 border-b">Email</th>
-                            <th className="py-2 px-4 border-b">Status</th>
-                            <th className="py-2 px-4 border-b">Role</th>
-                            <th className="py-2 px-4 border-b">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredUsers.map((user) => (
-                            <tr key={user.user_id} className="hover:bg-gray-100">
-                                <td className="py-2 px-4 border-b text-black">{user.name || 'N/A'}</td>
-                                <td className="py-2 px-4 border-b text-black">{user.phone || 'N/A'}</td>
-                                <td className="py-2 px-4 border-b text-black">{user.address || 'N/A'}</td>
-                                <td className="py-2 px-4 border-b text-black">{user.credential?.email || 'N/A'}</td>
-                                <td className={`py-2 px-4 border-b ${user.isBanned ? 'text-red-500' : 'text-green-500'}`}>
-                                    {user.isBanned ? 'Banned' : 'Active'}
-                                </td>
-                                <td className={`py-2 px-4 border-b ${!user.isAdmin ? 'text-red-500' : 'text-green-500'}`}>
-                                    {user.isAdmin ? 'Admin' : 'User'}
-                                </td>
-                                <td className="py-2 px-4 border-b">
-                                    <div className="flex justify-evenly">
-                                        <button
-                                            onClick={() => openBanModal(user.user_id)}
-                                            className={`w-36 px-3 py-2 rounded ${user.isBanned ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'} text-white`}
-                                        >
-                                            {user.isBanned ? 'Unban User' : 'Ban User'}
-                                        </button>
-                                        <button
-                                            onClick={() => handleAdmin(user.user_id)}
-                                            className={`w-36 px-2 py-2 rounded ${user.isAdmin ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'} text-white`}
-                                        >
-                                            {user.isAdmin ? 'Unadmin User' : 'Admin User'}
-                                        </button>
-                                    </div>
-                                </td>
+                    <div className="overflow-x-auto w-full mt-6">
+                    <table className="min-w-full bg-white border border-red-300 shadow-lg">
+                        <thead>
+                            <tr className="bg-red-500 text-white">
+                                <th className="py-2 px-4 border-b">Name</th>
+                                <th className="py-2 px-4 border-b">Phone</th>
+                                <th className="py-2 px-4 border-b">Address</th>
+                                <th className="py-2 px-4 border-b">Email</th>
+                                <th className="py-2 px-4 border-b">Status</th>
+                                <th className="py-2 px-4 border-b">Role</th>
+                                <th className="py-2 px-4 border-b">Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {filteredUsers.map((user) => (
+                                <tr key={user.user_id} className="hover:bg-gray-100">
+                                    <td className="py-2 px-4 border-b text-black">{user.name || 'N/A'}</td>
+                                    <td className="py-2 px-4 border-b text-black">{user.phone || 'N/A'}</td>
+                                    <td className="py-2 px-4 border-b text-black">{user.address || 'N/A'}</td>
+                                    <td className="py-2 px-4 border-b text-black">{user.credential?.email || 'N/A'}</td>
+                                    <td className={`py-2 px-4 border-b ${user.isBanned ? 'text-red-500' : 'text-green-500'}`}>
+                                        {user.isBanned ? 'Banned' : 'Active'}
+                                    </td>
+                                    <td className={`py-2 px-4 border-b ${!user.isAdmin ? 'text-red-500' : 'text-green-500'}`}>
+                                        {user.isAdmin ? 'Admin' : 'User'}
+                                    </td>
+                                    <td className="py-2 px-4 border-b">
+                                        <div className="flex justify-evenly">
+                                            <button
+                                                onClick={() => openBanModal(user.user_id)}
+                                                className={`w-36 px-3 py-2 rounded ${user.isBanned ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'} text-white`}
+                                            >
+                                                {user.isBanned ? 'Unban User' : 'Ban User'}
+                                            </button>
+                                            <button
+                                                onClick={() => handleAdmin(user.user_id)}
+                                                className={`w-36 px-2 py-2 rounded ${user.isAdmin ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'} text-white`}
+                                            >
+                                                {user.isAdmin ? 'Unadmin User' : 'Admin User'}
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             ) : (
                 <div className="text-center py-8 text-gray-500">
                     No users found.
