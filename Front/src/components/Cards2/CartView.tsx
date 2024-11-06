@@ -202,6 +202,7 @@ const CartView = () => {
                 note,
                 address: deliveryOption === "delivery" ? address : undefined,
                 discount: discountApplied ? totalCart * 0.1 : 0,
+                date: new Date().toISOString()
             };
 
             try {
@@ -312,7 +313,7 @@ const CartView = () => {
                                             >
                                                 -
                                             </button>
-                                            <span className="w-1/3 font-bold flex justify-center items-center text-neutral-800">{parseInt(item.quantity, 16)}</span>
+                                            <span className="w-1/3 font-bold flex justify-center items-center text-neutral-800">{parseInt(item.quantity, 10)}</span>
                                             <button
                                                 className="w-1/3 h-8 text-xl flex justify-center items-center text-neutral-800 font-bold hover:bg-neutral-300 transition duration-300"
                                                 onClick={() => handleAddCart(item.product.product_id)}

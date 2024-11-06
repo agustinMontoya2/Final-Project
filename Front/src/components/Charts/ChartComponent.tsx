@@ -42,16 +42,33 @@ const SalesBarChart: React.FC<{ SaleData: ISales }> = ({ SaleData }) => {
         Users_total: Array(12).fill(0),
     };
 
+    const getUniqueUsers = (orders: IOrder[], month: number) => {
+        const userSet = new Set<string>();
+        orders.forEach((order) => {
+            if (new Date(order.date).getMonth() === month) {
+                userSet.add(order.userId);
+            }
+        });
+        return userSet.size; 
+    };
+
+    const uniqueUsersMade = getUniqueUsers(SaleData.Orders_made, selectedMonth);
+    const uniqueUsersPending = getUniqueUsers(SaleData.Orders_pending, selectedMonth);
+    const uniqueUsersCancelled = getUniqueUsers(SaleData.Orders_cancelled, selectedMonth);
+
+   
+    const totalUniqueUsers = new Set<string>([
+        ...SaleData.Orders_made.filter(order => new Date(order.date).getMonth() === selectedMonth).map(order => order.userId),
+        ...SaleData.Orders_pending.filter(order => new Date(order.date).getMonth() === selectedMonth).map(order => order.userId),
+        ...SaleData.Orders_cancelled.filter(order => new Date(order.date).getMonth() === selectedMonth).map(order => order.userId),
+    ]);
+    
+    salesData.Users_total[selectedMonth] = totalUniqueUsers.size; 
 
     salesData.Reserved_tables[selectedMonth] = SaleData.Reserved_tables.filter(res => new Date(res.date).getMonth() === selectedMonth).length;
     salesData.Orders_made[selectedMonth] = SaleData.Orders_made.filter(order => new Date(order.date).getMonth() === selectedMonth).length;
     salesData.Orders_pending[selectedMonth] = SaleData.Orders_pending.filter(order => new Date(order.date).getMonth() === selectedMonth).length;
     salesData.Orders_cancelled[selectedMonth] = SaleData.Orders_cancelled.filter(order => new Date(order.date).getMonth() === selectedMonth).length;
-    salesData.Users_total[selectedMonth] = SaleData.Users_total[selectedMonth] ?? 0; 
-
-    console.log(salesData, "aaaaaaaaaaaaaaaaaa")
-    console.log(SaleData, "aaaaaaaaaaaaaaaa")
-
 
     const data = {
         labels: [
