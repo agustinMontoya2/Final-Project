@@ -179,7 +179,7 @@ const CartView = () => {
         note,
         address: deliveryOption === "delivery" ? address : undefined,
         discount: discountApplied ? totalCart * 0.1 : 0,
-        date: new Date().toISOString() 
+        date: new Date().toISOString()
       };
 
       //* LA FUNCION EMPIEZA ACA
@@ -287,9 +287,9 @@ const CartView = () => {
     <div className="w-m-auto flex flex-col items-center justify-center min-h-screen py-8 ">
       <h1 className="text-3xl font-bold text-black mb-6">Cart</h1>
       {cartItems?.productDetail.length === 0 ? (
-        <div className='flex flex-col items-center'>
-        <p className="text-lg text-gray-700">Your cart is empty.</p>
-        <Link href="/menu" className='text-blue-700 p-4 m-2'>Wanna order something? Do not be shy, get yourself something yummy!</Link>
+        <div className='flex flex-col-reverse items-center'>
+          <p className="text-lg text-gray-700">Your cart is empty.</p>
+          <Link href="/menu" className='text-blue-700 p-4 m-2'>Wanna order something? Do not be shy, get yourself something yummy!</Link>
         </div>
       ) : (
         <div className="md:w-1/2 w-96">
@@ -426,9 +426,8 @@ const CartView = () => {
                 />
                 <label
                   htmlFor="delivery"
-                  className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${
-                    address ? "top-[4px] text-xs" : ""
-                  }`}
+                  className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${address ? "top-[4px] text-xs" : ""
+                    }`}
                 >
                   Enter your delivery address
                 </label>
