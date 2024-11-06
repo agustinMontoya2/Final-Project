@@ -5,7 +5,7 @@ import { Column } from 'typeorm';
 
 export class CreateOrderDto {
   @IsString()
-  userId: string;
+  user_id: string;
 
   @IsString()
   order_type: OrderType;

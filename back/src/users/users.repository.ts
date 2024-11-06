@@ -32,15 +32,7 @@ export class UsersRepository {
   ) {}
 
   async getUsers() {
-    const users = await this.userRepository.find({
-      relations: ['credential'],
-    });
-    return users.map(
-      ({ credential: { password, ...userWithoutPassword }, ...user }) => ({
-        ...user,
-        credential: userWithoutPassword, // solo sin la contraseña
-      }),
-    );
+    return await this.userRepository.find();
   }
 
   async getUserById(user_id) {

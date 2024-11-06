@@ -148,7 +148,9 @@ const Profile = () => {
   };
 
   return (
-    <div className={`h-auto p-6 rounded-lg bg-white shadow-lg w-4/5 md:w-screen max-w-md mx-auto my-48 transition-all duration-1000 ease-in-out ${isEditing ? "max-h-screen" : "max-h-auto"}`}>
+    <div
+      className={`h-auto p-6 rounded-lg bg-white shadow-lg w-screen max-w-md mx-auto my-48 transition-all duration-1000 ease-in-out ${isEditing ? "max-h-screen" : "max-h-auto"}`}
+    >
       <div className="w-full flex justify-center items-center">
         <h1 className="text-2xl font-semibold text-center text-gray-800">
           Account details
@@ -186,7 +188,7 @@ const Profile = () => {
         )}
 
         {isEditing && (
-          <div className="absolute inset-0 z-30 m-auto bg-gray-transparent flex justify-center items-center">
+          <div className="absolute inset-0 z-50 m-auto bg-gray-transparent flex justify-center items-center">
             <label
               htmlFor="file-upload"
               className="cursor-pointer flex justify-center items-center"
@@ -219,7 +221,7 @@ const Profile = () => {
               value={editableData.name}
               onChange={handleInputChange}
               placeholder={`${user?.name}`}
-              className="rounded outline-none border-b min-w-56 text-end"
+              className="rounded outline-none border-b min-w-56"
             />
           </div>
         ) : (
@@ -239,7 +241,7 @@ const Profile = () => {
               value={editableData.phone}
               onChange={handleInputChange}
               placeholder={`${user?.phone}`}
-              className="rounded outline-none border-b min-w-56 text-end"
+              className="rounded outline-none border-b min-w-56"
             />
           </div>
         ) : (
@@ -259,7 +261,7 @@ const Profile = () => {
               value={editableData.address}
               onChange={handleInputChange}
               placeholder={`${user?.address}`}
-              className="rounded outline-none border-b min-w-56 text-end"
+              className="rounded outline-none border-b min-w-56"
             />
           </div>
         ) : (

@@ -6,10 +6,25 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from 'src/products/entities/product.entity';
 import { Cart } from 'src/products/entities/cart.entity';
 import { User } from 'src/users/entities/user.entity';
+import { Order } from 'src/order/entities/order.entity';
+import { OrderRepository } from 'src/order/order.repository';
+import { OrderModule } from 'src/order/order.module';
+import { ProductDetail } from 'src/products/entities/productDetail.entity';
+import { OrderDetail } from 'src/order/entities/orderDetail.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Product, Cart, User])],
+  imports: [
+    TypeOrmModule.forFeature([
+      Product,
+      Cart,
+      User,
+      Order,
+      ProductDetail,
+      OrderDetail,
+    ]),
+    OrderModule,
+  ],
   controllers: [PaymentController],
-  providers: [PaymentService, PaymentRepository]
+  providers: [PaymentService, PaymentRepository],
 })
 export class PaymentModule {}

@@ -18,7 +18,14 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
   const [hoverRating, setHoverRating] = useState<number | null>(null);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
-
+  const hasPurchasedProduct = () => {
+    if (typeof window !== "undefined") {
+      const purchasedProducts = JSON.parse(localStorage.getItem("purchasedProducts") || "[]");
+      console.log("Prodcutos agregados al array:", purchasedProducts)
+      console.log(product_id)
+      return purchasedProducts.includes(product_id);
+    }
+  };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -39,15 +46,6 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
   useEffect(() => {
     if (userId && token) fetchFavorities();
   }, [userId, token]);
-
-  const hasPurchasedProduct = () => {
-    if (typeof window !== "undefined") {
-      const purchasedProductIds = JSON.parse(localStorage.getItem("purchasedProductIds") || "[]");
-      console.log("Productos comprados:", purchasedProductIds);
-      return purchasedProductIds.includes(product_id);
-    }
-    return false;
-  };
 
   const fetchFavorities = async () => {
     if (token && userId) {
@@ -92,16 +90,16 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
     })
     try {
       await addCart(userId, productId, token);
+      saveProductToLocalStorage(productId);
       Swal.fire({ icon: 'success', title: 'Product added to the cart', toast: true, position: 'top-end', timer: 2500, showConfirmButton: false });
-      handlePurchase(productId);
     } catch {
       Swal.fire({ icon: 'error', title: 'Error', toast: true, position: 'top-end', timer: 2500, showConfirmButton: false });
     }
   };
 
-
   const saveProductToLocalStorage = (productId: string) => {
     if (typeof window !== "undefined") {
+
       const purchasedProducts = JSON.parse(localStorage.getItem("purchasedProducts") || "[]");
       if (!purchasedProducts.includes(productId)) {
         purchasedProducts.push(productId);
@@ -135,9 +133,6 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
     }
 
 
-
-
-
     if (reviewPost.rate === 0) {
       Swal.fire({
         title: `Please select a rating before submitting.`,
@@ -168,10 +163,6 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
     }
   };
 
-  const handlePurchase = (productId: string) => {
-    saveProductToLocalStorage(productId);
-  };
-
   const handleStarClick = (selectedRate: number) => setReviewPost(prev => ({ ...prev, rate: selectedRate }));
 
   const adjustHeight = () => {
@@ -184,8 +175,8 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
   useEffect(() => adjustHeight(), [reviewPost.review]);
 
   return (
-    <div className="w-full h-screen mt-10 flex flex-col items-center">
-      <div className="w-4/5 mt-10 md:w-1/4 h-auto flex flex-col items-center p-4 bg-white rounded-lg shadow-xl duration-500 hover:scale-105 relative ">
+    <div className="w-full h-screen flex flex-col items-center">
+      <div className="w-[25%] h-auto flex flex-col items-center p-4 bg-white rounded-lg shadow-xl duration-500 hover:scale-105 relative ">
         <button className="absolute top-2 right-2" onClick={(e) => { e.stopPropagation(); handleAddToFavorities(product_id, favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product_id) ?? false); }}>
           <Image src={favorities?.product.some(favoriteProduct => favoriteProduct.product_id === product_id) ? "/assets/icon/star.png" : "/assets/icon/staroutline.png"} alt="Favorite icon" width={24} height={24} />
         </button>
@@ -201,7 +192,7 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
           <Image src="/assets/icon/cart.png" width={20} height={20} alt="Add to Cart" className="inline mr-1" />Add to Cart
         </button>
       </div>
-      <div className="w-4/5 md:w-1/3 h-auto flex justify-center">
+      <div className="w-1/3 h-auto flex justify-center">
         <div className="w-full flex flex-col">
           <h2 className="text-black m-auto font-bold py-3 text-xl">What did you think of our dishes?</h2>
           <div className="w-full flex mb-2">

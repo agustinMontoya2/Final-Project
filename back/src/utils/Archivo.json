@@ -159,14 +159,5 @@
     "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518902/ohws6qhgxvkblayzi6uq.jpg",
     "available": true,
     "category": "Sides"
-  },
-  {
-    "product_name": "Lemon Cheesecake",
-    "price": 80.0,
-    "description": "A velvety, smooth cheesecake infused with the zest and juice of fresh lemons, offering a delightful balance of sweetness and tang. Made with gluten-free ingredients, this dessert is perfect for those seeking a rich, satisfying treat without compromising dietary needs.",
-    "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518902/cheesecake_limon.jpg",
-    "available": true,
-    "category": "glutenFree"
   }
-  
 ]

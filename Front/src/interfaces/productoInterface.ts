@@ -98,9 +98,6 @@ export interface IUser {
   address: string;
   isBanned: boolean;
   isAdmin: boolean;
-  credential: {
-    email: string;
-  };
 }
 
 export interface IProductsDetails {
@@ -130,7 +127,7 @@ export interface ProductFilterProps {
 }
 
 export interface IOrder {
-  userId: string;
+  user_id: string;
   order_type: string;
   payment_method: string;
   note?: string;
@@ -169,15 +166,13 @@ export interface IFilter {
   priceOrder: string;
 }
 
-
 export interface ISales {
   SaleData: {
-    Dishes:{ [dishName: string]: number};
+    Dishes: string;
     Reserved_tables: number;
     Orders_made: number;
     Orders_pending: number;
     Orders_cancelled: number;
     Users_total: number;
-    dates?: string[];
-    };
+  };
 }
