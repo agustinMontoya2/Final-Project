@@ -58,24 +58,19 @@ const NavBarMobile = () => {
             {
                 !hidden && (
                     <div>
-                        <div className="w-full h-auto bg-secondary flex justify-evenly items-center fixed top-0 z-40">
-                            <Link href={""} className="h-20 w-1/2 p-2 flex items-center" onClick={toggleAside}>
-                                <Image src={"/assets/icon/menu.png"} alt="menu" width={45} height={45} />
-                            </Link>
-                            <Link href={"/"} className="h-18 w-1/2 p-2 flex justify-end">
+                        <div className="w-full h-16 bg-secondary flex justify-evenly items-center fixed top-0 z-40">
+                            <Link href={"/"} className="h-18 w-1/2 p-2 flex justify-start">
                                 <Image src={"/assets/logo-white.png"} alt="logo" width={100} height={45} />
+                            </Link>
+                            <Link href={""} className="h-20 w-1/2 p-2 flex items-center justify-end" onClick={toggleAside}>
+                                <Image src={"/assets/icon/menu.png"} alt="menu" width={45} height={45} />
                             </Link>
                             <div>
                                 <aside
-                                    className={`fixed top-0 left-0 w-2/3 h-full overflow-y-auto bg-primary text-white shadow-lg z-10 transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'
+                                    className={`fixed top-0 right-0 w-2/3 h-full overflow-y-auto bg-primary text-white shadow-lg z-10 transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'
                                         }`}>
                                     <div className="h-full flex flex-col justify-between p-4">
                                         <div className="w-full h-14 flex justify-between items-center">
-                                            <div onClick={toggleAside} className="w-14 h-full flex items-center">
-                                                <button>
-                                                    <Image src="/assets/icon/arrow-left.png" alt="menu" width={20} height={20} />
-                                                </button>
-                                            </div>
                                             <div className='w-16 h-16 overflow-hidden rounded-full border-2 border-white'>
                                                 {userSession?.user?.user_img ? (
                                                     <Image src={userSession.user.user_img} width={60} height={60} alt="profile" className="m-auto"/>
@@ -83,26 +78,49 @@ const NavBarMobile = () => {
                                                     <Image src="/assets/icon/profile.png" width={60} height={60} alt="profile" className="m-auto"/>
                                                 )}
                                             </div>
+                                            <div onClick={toggleAside} className="w-14 h-full flex items-center">
+                                                <button>
+                                                    <Image src="/assets/icon/arrow-right.png" alt="menu" width={30} height={30} />
+                                                </button>
+                                            </div>
                                         </div>
                                         <div className="h-full flex flex-col justify-between">
-                                            <div className="mt-6">
-                                                {isAdmin ? (
+                                        <div className="mt-6">
+                                            {userSession ? (
+                                                isAdmin ? (
                                                     <div className="space-y-6">
-                                                        <Link className="w-11/12 m-auto text-left px-5 py-2 flex justify-between bg-neutral-100 rounded-lg" onClick={toggleAside} href={"/admin/users"}>
+                                                        <h2 className="text-center text-neutral-800 text-xl font-bold">Administration panel</h2>
+                                                        <Link className="w-11/12 m-auto text-left px-5 py-2 flex justify-between bg-neutral-100 rounded-lg" onClick={toggleAside} href={"/menu"}>
+                                                            <p className="text-black font-bold text-lg">Menú</p>
+                                                            <Image src={"/assets/icon/carta.png"} width={30} height={30} alt='statistics' />
+                                                        </Link>
+                                                        <Link className="w-11/12 m-auto text-left px-5 py-2 flex justify-between bg-neutral-100 rounded-lg" onClick={toggleAside} href={"/adminMobile/ChartsView"}>
+                                                            <p className="text-black font-bold text-lg">Statistics</p>
+                                                            <Image src={"/assets/icon/Statistics.png"} width={30} height={30} alt='statistics' />
+                                                        </Link>
+                                                        <Link className="w-11/12 m-auto text-left px-5 py-2 flex justify-between bg-neutral-100 rounded-lg" onClick={toggleAside} href={"/adminMobile/users"}>
                                                             <p className="text-black font-bold text-lg">Users</p>
-                                                            <Image src={"/assets/icon/persons.png"} width={30} height={30} alt='' />
+                                                            <Image src={"/assets/icon/persons.png"} width={30} height={30} alt='users' />
                                                         </Link>
-                                                        <Link className="w-11/12 m-auto text-left px-5 py-2 flex justify-between bg-neutral-100 rounded-lg" onClick={toggleAside} href={"/admin/reviews"}>
+                                                        <Link className="w-11/12 m-auto text-left px-5 py-2 flex justify-between bg-neutral-100 rounded-lg" onClick={toggleAside} href={"/adminMobile/reserves"}>
+                                                            <p className="text-black font-bold text-lg">Reserves</p>
+                                                            <Image src={"/assets/icon/timeblack.png"} width={30} height={30} alt='reservations' />
+                                                        </Link>
+                                                        <Link className="w-11/12 m-auto text-left px-5 py-2 flex justify-between bg-neutral-100 rounded-lg" onClick={toggleAside} href={"/adminMobile/orders"}>
+                                                            <p className="text-black font-bold text-lg">Orders</p>
+                                                            <Image src={"/assets/icon/listblack.png"} width={30} height={30} alt='orders' />
+                                                        </Link>
+                                                        <Link className="w-11/12 m-auto text-left px-5 py-2 flex justify-between bg-neutral-100 rounded-lg" onClick={toggleAside} href={"/adminMobile/reviews"}>
                                                             <p className="text-black font-bold text-lg">Reviews</p>
-                                                            <Image src={"/assets/icon/view.png"} width={30} height={30} alt='' />
+                                                            <Image src={"/assets/icon/view.png"} width={30} height={30} alt='reviews' />
                                                         </Link>
-                                                        <Link className="w-11/12 m-auto text-left px-5 py-2 flex justify-between bg-neutral-100 rounded-lg" onClick={toggleAside} href={"/admin/dishes"}>
+                                                        <Link className="w-11/12 m-auto text-left px-5 py-2 flex justify-between bg-neutral-100 rounded-lg" onClick={toggleAside} href={"/adminMobile/dishes"}>
                                                             <p className="text-black font-bold text-lg">Dishes</p>
-                                                            <Image src={"/assets/icon/food.png"} width={30} height={30} alt='' />
+                                                            <Image src={"/assets/icon/food.png"} width={30} height={30} alt='dishes' />
                                                         </Link>
-                                                        <Link className="w-11/12 m-auto text-left px-5 py-2 flex justify-between bg-neutral-100 rounded-lg" onClick={toggleAside} href={"/admin/createDish"}>
+                                                        <Link className="w-11/12 m-auto text-left px-5 py-2 flex justify-between bg-neutral-100 rounded-lg" onClick={toggleAside} href={"/adminMobile/createDish"}>
                                                             <p className="text-black font-bold text-lg">Create Dish</p>
-                                                            <Image src={"/assets/icon/add.png"} width={30} height={30} alt='' />
+                                                            <Image src={"/assets/icon/add.png"} width={30} height={30} alt='add dish' />
                                                         </Link>
                                                         <button
                                                             className="w-11/12 m-auto text-left px-5 text-lg text-black font-bold py-2 flex justify-between bg-neutral-100 rounded-lg"
@@ -113,6 +131,7 @@ const NavBarMobile = () => {
                                                         </button>
                                                     </div>
                                                 ) : (
+                                                    // Si el usuario es un usuario normal (no admin)
                                                     <div className="space-y-6">
                                                         <Link className="w-11/12 m-auto text-left px-5 py-2 flex justify-between bg-neutral-100 rounded-lg" onClick={toggleAside} href={"/profile"}>
                                                             <p className="text-black font-bold text-lg">Profile</p>
@@ -138,12 +157,29 @@ const NavBarMobile = () => {
                                                             <Image src="/assets/icon/logout.png" width={30} height={30} alt='' />
                                                         </button>
                                                     </div>
-                                                )}
-                                                
-                                            </div>
-                                            </div>
-                                            {
-                                                !userSession && (
+                                                )
+                                            ) : (
+                                                <div className="space-y-4">
+                                                    <Link className="w-11/12 m-auto text-left px-5 py-2 flex justify-between bg-neutral-100 rounded-lg" onClick={toggleAside} href={"/aboutus"}>
+                                                        <p className="text-black font-bold text-lg">About us</p>
+                                                        <Image src={"/assets/icon/info.png"} width={30} height={30} alt='' />
+                                                    </Link>
+                                                    <Link className="w-11/12 m-auto text-left px-5 py-2 flex justify-between bg-neutral-100 rounded-lg" onClick={toggleAside} href={"/menu"}>
+                                                        <p className="text-black font-bold text-lg">Menú</p>
+                                                        <Image src={"/assets/icon/carta.png"} width={30} height={30} alt='' />
+                                                    </Link>
+                                                    <Link className="w-11/12 m-auto text-left px-5 py-2 flex justify-between bg-neutral-100 rounded-lg" onClick={toggleAside} href={"/off"}>
+                                                        <p className="text-black font-bold text-lg">50% OFF</p>
+                                                        <Image src={"/assets/icon/percentegeblack.png"} width={30} height={30} alt='' />
+                                                    </Link>
+                                                    <Link className="w-11/12 m-auto text-left px-5 py-2 flex justify-between bg-neutral-100 rounded-lg" onClick={toggleAside} href={"/contact"}>
+                                                        <p className="text-black font-bold text-lg">Contact</p>
+                                                        <Image src={"/assets/icon/contact.png"} width={30} height={30} alt='' />
+                                                    </Link>
+                                                    <Link className="w-11/12 m-auto text-left px-5 py-2 flex justify-between bg-neutral-100 rounded-lg" onClick={toggleAside} href={"/work"}>
+                                                        <p className="text-black font-bold text-lg">Work with us</p>
+                                                        <Image src={"/assets/icon/cheff.png"} width={30} height={30} alt='' />
+                                                    </Link>
                                                     <div className="h-1/4 flex items-center justify-center">
                                                         <Link href={"/login"} onClick={toggleAside}>
                                                             <span className="text-neutral-500 font-extrabold text-xl mr-4">Login</span>
@@ -153,8 +189,11 @@ const NavBarMobile = () => {
                                                             <span className="text-neutral-500 font-extrabold text-xl ml-4">Register</span>
                                                         </Link>
                                                     </div>
-                                                )
-                                            }
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+
                                             <div className="flex flex-row flex-wrap w-full ">
                                                 <div className="md:w-3/4 w-full flex flex-wrap justify-evenly ">
                                                     <h1 className="w-full text-lg text-neutral-800 font-semibold  flex justify-center">Find us</h1>
@@ -181,14 +220,14 @@ const NavBarMobile = () => {
                                     </div>
                                 </aside>
                                 <aside onClick={toggleAside}
-                                    className={`fixed top-0 right-0 w-1/3 h-full bg-transparentmenu text-white shadow-lg z-10 transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'
+                                    className={`fixed top-0 left-0 w-1/3 h-full bg-transparentmenu text-white shadow-lg z-10 transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'
                                         }`}
                                 >
                                     <WhatsApp />
                                 </aside>
                             </div>
                         </div>
-                        <div className='w-10 mt-24 -mb-32  cursor-pointer z-30 fixed'>
+                        <div className='w-10 mt-20 -mb-32  cursor-pointer z-30 fixed'>
                             <BackButton />
                         </div>
                     </div>
