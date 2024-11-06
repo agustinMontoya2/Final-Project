@@ -94,7 +94,7 @@ const ReservationForm: React.FC = () => {
                 showConfirmButton: false,
                 timerProgressBar: true,
             });
-            router.push("/reservation")
+            router.push("/reservations")
         } catch {
             Swal.fire({
                 icon: 'error',

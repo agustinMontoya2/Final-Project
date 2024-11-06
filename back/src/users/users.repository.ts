@@ -32,7 +32,13 @@ export class UsersRepository {
   ) {}
 
   async getUsers() {
-    return await this.userRepository.find();
+    const users = await this.userRepository.find({ relations: ['credential'] });
+    return users.map((user) => ({
+      ...user,
+      credential: {
+        email: user.credential.email, // Incluir solo el email
+      },
+    }));
   }
 
   async getUserById(user_id) {
