@@ -177,7 +177,8 @@ const CartView = () => {
         payment_method: paymentOption,
         note,
         address: deliveryOption === "delivery" ? address : undefined,
-        discount: discountApplied ? totalCart * 0.1 : 0, 
+        discount: discountApplied ? totalCart * 0.1 : 0,
+        date: new Date().toISOString() 
       };
 
       //* LA FUNCION EMPIEZA ACA

@@ -11,6 +11,9 @@ import { ReservationModule } from './reservation/reservation.module';
 import { JwtModule } from '@nestjs/jwt';
 import { FileUploadModule } from './fileUpload/fileUpload.module';
 import { PaymentModule } from './payment/payment.module';
+import { WebsocketModule } from './websocket/websocket.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -37,8 +40,9 @@ import { PaymentModule } from './payment/payment.module';
       },
     }),
     PaymentModule,
+    WebsocketModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

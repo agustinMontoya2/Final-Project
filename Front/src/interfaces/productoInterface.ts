@@ -131,11 +131,15 @@ export interface ProductFilterProps {
 
 export interface IOrder {
   user_id: string;
+  date: string;
   order_type: string;
   payment_method: string;
   note?: string;
   address?: string;
   discount?: number;
+  orderDetail?: {
+    productDetails: IProductsDetails[];
+  };
 }
 
 export interface IGetOrder {
@@ -169,15 +173,12 @@ export interface IFilter {
   priceOrder: string;
 }
 
-
 export interface ISales {
-  SaleData: {
-    Dishes:{ [dishName: string]: number};
-    Reserved_tables: number;
-    Orders_made: number;
-    Orders_pending: number;
-    Orders_cancelled: number;
-    Users_total: number;
-    dates?: string[];
-    };
+  Users_total: number[];
+  Reserved_tables: IReserve[];
+  Orders_made: IOrder[];
+  Orders_pending: IOrder[];
+  Orders_cancelled: IOrder[];
+  dates?: string[];
+  Dishes: { [key: string]: number };
 }
