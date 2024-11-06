@@ -208,18 +208,19 @@ const CartView = () => {
             setNote("");
           }
         } else {
-          Swal.fire({
-            icon: "success",
-            title: "Failed to create order",
-            toast: true,
-            position: "top-end",
-            timer: 2500,
-            showConfirmButton: false,
-            timerProgressBar: true,
-          });
+          // Swal.fire({
+          //   icon: "success",
+          //   title: "Failed to create order",
+          //   toast: true,
+          //   position: "top-end",
+          //   timer: 2500,
+          //   showConfirmButton: false,
+          //   timerProgressBar: true,
+          // });
+          console.log("Invalid payment option");
         }
       } catch (error) {
-        alert(`Error: ${error instanceof Error ? error.message : error}`);
+        throw new Error(`Error: ${error instanceof Error ? error.message : error}`);
       }
     }
   };
