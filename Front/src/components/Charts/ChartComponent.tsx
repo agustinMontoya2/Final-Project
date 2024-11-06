@@ -159,22 +159,20 @@ const generateRandomColor = () => {
 };
 
 const generateRandomBorderColor = () => {
-    const r = (20);
-    const g = (20);
-    const b = (20);
+    const r = 20;
+    const g = 20;
+    const b = 20;
     return `rgba(${r}, ${g}, ${b}, 1)`; // For border color
 };
 
-
 const generateDishesData = (orders: IOrder[]): { [key: string]: number } => {
     return orders.reduce((acc, order) => {
-        if (order.orderDetail) { 
+        if (order.orderDetail) {
             order.orderDetail.productDetails.forEach((detail) => {
                 const productName = detail.product?.product_name;
-                const quantity = parseFloat(detail.quantity); 
+                const quantity = parseFloat(detail.quantity);
 
                 if (productName) {
-                    
                     acc[productName] = (acc[productName] || 0) + quantity;
                 }
             });
@@ -184,39 +182,24 @@ const generateDishesData = (orders: IOrder[]): { [key: string]: number } => {
 };
 
 const GraficoDeTortaPlato: React.FC<{ SaleData: ISales }> = ({ SaleData }) => {
-    const dishData = generateDishesData(SaleData.Orders_made || []);
-    const dishLabels = Object.keys(dishData);
-    const dishValues = Object.values(dishData);
+    const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
 
-    // Generate a unique color for each dish
+    // Generate dish data from orders
+    const allDishesData = generateDishesData(SaleData.Orders_made || []);
+    const allDishLabels = Object.keys(allDishesData);
+    const allDishValues = Object.values(allDishesData);
+
+    // Apply filter if a product is selected
+    const filteredDishData = selectedProduct
+        ? { [selectedProduct]: allDishesData[selectedProduct] }
+        : allDishesData;
+
+    const dishLabels = Object.keys(filteredDishData);
+    const dishValues = Object.values(filteredDishData);
+
+    // Generate colors
     const backgroundColors = dishLabels.map(() => generateRandomColor());
     const borderColors = dishLabels.map(() => generateRandomBorderColor());
-
-    /*
-    // Alternatively, use predefined colors (uncomment if needed)
-    const predefinedColors = [
-        'rgba(255, 99, 132, 0.6)',
-        'rgba(54, 162, 235, 0.6)',
-        'rgba(75, 192, 192, 0.6)',
-        'rgba(255, 206, 86, 0.6)',
-        'rgba(153, 102, 255, 0.6)',
-        'rgba(255, 159, 64, 0.6)',
-        // Add more colors if needed
-    ];
-
-    const predefinedBorderColors = [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)',
-        // Add more border colors if needed
-    ];
-
-    const backgroundColors = dishLabels.map((_, index) => predefinedColors[index % predefinedColors.length]);
-    const borderColors = dishLabels.map((_, index) => predefinedBorderColors[index % predefinedBorderColors.length]);
-    */
 
     const data = {
         labels: dishLabels,
@@ -224,8 +207,8 @@ const GraficoDeTortaPlato: React.FC<{ SaleData: ISales }> = ({ SaleData }) => {
             {
                 label: 'Dishes Sold',
                 data: dishValues,
-                backgroundColor: backgroundColors, 
-                borderColor: borderColors, 
+                backgroundColor: backgroundColors,
+                borderColor: borderColors,
                 borderWidth: 0.5,
             },
         ],
@@ -244,12 +227,36 @@ const GraficoDeTortaPlato: React.FC<{ SaleData: ISales }> = ({ SaleData }) => {
         },
     };
 
+    // Handle product filter change
+    const handleProductFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const value = e.target.value;
+        setSelectedProduct(value !== '' ? value : null); // If '' is selected, clear the filter
+    };
+
     return (
-        <div className="w-96 h-96">
-            <Doughnut data={data} options={options} />
+        <div className="w-full h-full flex flex-row ">
+        <div className="mb-4">
+                <label htmlFor="productFilter">Filter by Product: </label>
+                <select
+                    id="productFilter"
+                    value={selectedProduct || ''}
+                    onChange={handleProductFilterChange}
+                >
+                    <option value="">All Products</option>
+                    {allDishLabels.map((productName, index) => (
+                        <option key={index} value={productName}>
+                            {productName}
+                        </option>
+                    ))}
+                </select>
+            </div>
+            <div className="w-2/4 h-2/4">
+                <Doughnut data={data} options={options} />
+            </div>
         </div>
     );
 };
+
 
 
 export { SalesBarChart, GraficoDeTortaPlato };
