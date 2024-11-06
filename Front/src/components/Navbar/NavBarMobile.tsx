@@ -222,6 +222,9 @@ const NavBarMobile = () => {
                                                         <Image src={"/assets/icon/facebookblack.png"} alt="" width="40" height="40"></Image>
                                                     </Link>
                                                 </div>
+                                                <Link href="/Team" className="text-sm font-semibold text-blue-700 m-auto underline">
+                                                    Meet the Team
+                                                </Link>
                                                 <div className='w-full'>
                                                     <p className="mt-1 text-xs text-black text-center">
                                                         © 2024 C. Fellini.

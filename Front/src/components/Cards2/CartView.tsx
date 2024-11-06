@@ -96,7 +96,10 @@ const CartView = () => {
         console.error(
           `Error: ${error instanceof Error ? error.message : error}`
         );
-        alert(`Error: ${error instanceof Error ? error.message : error}`);
+        Swal.fire({
+          title: 'To remove a product from the cart, click the trash icon',
+          icon: 'error',
+        });
       }
     }
   };
@@ -123,7 +126,10 @@ const CartView = () => {
         console.error(
           `Error: ${error instanceof Error ? error.message : error}`
         );
-        alert(`Error: ${error instanceof Error ? error.message : error}`);
+        Swal.fire({
+          title: 'To remove a product from the cart, click the trash icon',
+          icon: 'error',
+        });
       }
     }
   };

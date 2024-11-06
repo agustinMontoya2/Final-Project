@@ -43,7 +43,7 @@ const RequestNewPassword = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="w-1/3 m-auto h-screen flex flex-col justify-center items-center">
+        <form onSubmit={handleSubmit} className="w-4/5 md:w-1/3 m-auto h-screen flex flex-col justify-center items-center">
             <div className="w-full h-14 mb-6 relative">
                 <input
                     type={'email'}

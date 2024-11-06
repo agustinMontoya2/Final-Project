@@ -56,11 +56,6 @@ const RegisterForm = () => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         registerValidation(userData);
-        // arreglar validadores 
-        // if (Object.values(validationErrors).some((error) => error)) {
-        //     setErrors(validationErrors);
-        //     return;
-        // }
 
         try {
             const response = await formRegister(userData);
