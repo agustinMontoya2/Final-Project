@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react';
-import { SalesBarChart, GraficoDeTortaPlato } from '@/components/Charts/ChartComponent';
+import  SalesBarChart from '@/components/Charts/ChartComponent';
 import { ISales } from '@/interfaces/productoInterface';
 import * as XLSX from 'xlsx';
 import { getProductsSalesDB } from '@/Helpers/salesStatus';

@@ -276,4 +276,4 @@ const GraficoDeTortaPlato: React.FC<{ SaleData: ISales }> = ({ SaleData }) => {
 
 
 
-export { SalesBarChart, GraficoDeTortaPlato };
+export default SalesBarChart

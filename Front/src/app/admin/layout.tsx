@@ -17,7 +17,6 @@ export default function DashboardLayout({
         { href: "/admin/dishes", label: "Dishes" },
         { href: "/admin/profileAdmin", label: "Profile" },
         { href: "/admin/createDish", label: "Create Dish" },
-        { href: "/admin/dount", label: "Dount Grapfh" },
     ];
 
     return (
@@ -28,9 +27,8 @@ export default function DashboardLayout({
                         <Link
                             href={link.href}
                             key={link.href}
-                            className={`px-4 py-2 text-md h-20 w-[12.5%] flex justify-center items-center transition-colors duration-300 rounded-md ${
-                                pathname === link.href ? "bg-red-700" : ""
-                            }`}
+                            className={`px-4 py-2 text-md h-20 w-[12.5%] flex justify-center items-center transition-colors duration-300 rounded-md ${pathname === link.href ? "bg-red-700" : ""
+                                }`}
                         >
                             {link.label}
                         </Link>
