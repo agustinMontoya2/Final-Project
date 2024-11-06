@@ -130,7 +130,7 @@ export interface ProductFilterProps {
 }
 
 export interface IOrder {
-  userId: string;
+  user_id: string;
   order_type: string;
   payment_method: string;
   note?: string;
