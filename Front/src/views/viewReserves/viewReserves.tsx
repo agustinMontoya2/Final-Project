@@ -48,20 +48,32 @@ useEffect(() => {
     const handleCancelReserve = async (reservation_id: string) => {
         if (token) {
             try {
+                const result = await Swal.fire({
+                    title: 'Are you sure?',
+                    text: "This action cannot be undone!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, cancel it!',
+                    cancelButtonText: 'No, no cancel'
+                });
+    
+                // Si el usuario confirma, proceder con la eliminación
+                if (result.isConfirmed) {
                 await removeReserve(reservation_id, token);
                 Swal.fire({
                     title: 'Reservation cancelled',
                     icon: 'success',
                     timer: 1000,
                 });
-                handleGetReserves();
+                handleGetReserves();}
                 // setReserves((prevReserves) => prevReserves.filter((reserve) => reserve.reservation_id !== reservation_id));
             } catch (error) {
                 console.error("Error canceling reservation:", error);
             }
         }
     };
-
     return (
         <div className=" ">
             {reserves.length > 0 ? (

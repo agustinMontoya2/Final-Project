@@ -5,7 +5,6 @@ export async function PagoMercado(
   token: string,
   createOrder: any
 ) {
-  alert("pago mercado");
   try {
     const response = await fetch(`${APIURL}/payment/createorder/${userId}`, {
       method: "POST",

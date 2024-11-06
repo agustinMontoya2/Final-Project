@@ -25,6 +25,13 @@ export class OrderService {
     return this.orderRepository.findAll();
   }
 
+  findPending() {
+    return this.orderRepository.findPending();
+  }
+  findCancelled() {
+    return this.orderRepository.findCancelled();
+  }
+
   findOne(id) {
     return this.orderRepository.findOne(id);
   }

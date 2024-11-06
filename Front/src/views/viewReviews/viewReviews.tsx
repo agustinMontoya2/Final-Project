@@ -52,6 +52,19 @@ useEffect(() => {
     const handleDeleteReview = async (review_id: string)=> {
         if (token && userId) {
         try {
+            const result = await Swal.fire({
+                title: 'Are you sure?',
+                text: "This action cannot be undone!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            });
+
+            // Si el usuario confirma, proceder con la eliminación
+            if (result.isConfirmed) {
             const deleteReview = await removeReviews(review_id, token);
             Swal.fire({
                 icon: 'error',
@@ -62,12 +75,13 @@ useEffect(() => {
                 showConfirmButton: false,
                 timerProgressBar: true,
             });
-        handleGetReviews()
+        handleGetReviews()}
         } catch (error) {
             alert(error)
         }
     }
-}
+
+    }
 
 const filteredReviews = reviews.filter(review =>
     review.product.product_name.toLowerCase().includes(searchTerm.toLowerCase())

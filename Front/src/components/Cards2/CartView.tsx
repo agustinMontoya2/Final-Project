@@ -206,7 +206,15 @@ const CartView = () => {
             setNote("");
           }
         } else {
-          alert("Failed to create the order.");
+          Swal.fire({
+            icon: "success",
+            title: "Failed to create order",
+            toast: true,
+            position: "top-end",
+            timer: 2500,
+            showConfirmButton: false,
+            timerProgressBar: true,
+          });
         }
       } catch (error) {
         alert(`Error: ${error instanceof Error ? error.message : error}`);

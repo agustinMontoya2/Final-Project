@@ -100,4 +100,23 @@ export class OrderRepository {
     if (!order) throw new NotFoundException('Order not found');
     return order;
   }
+  async findPending() {
+    const order = await this.orderRepository.find({
+      where: { state: 'pending' },
+      relations: ['orderDetail', 'orderDetail.productDetails'],
+    });
+    if (!order) throw new NotFoundException('Order not found');
+    return order;
+  }
+  async findCancelled() {
+    const order = await this.orderRepository.find({
+      where: { state: 'cancelled' },
+      relations: ['orderDetail', 'orderDetail.productDetails'],
+    });
+    if (!order) throw new NotFoundException('Order not found');
+    return order;
+  }
 }
+
+
+
