@@ -152,7 +152,7 @@ const ViewUsers = () => {
                         onClick={() => setStatusFilter('all')}
                         className={`px-2 py-1 rounded ${statusFilter === 'all' ? 'bg-red-500 text-white' : 'bg-gray-200'}`}
                     >
-                        Clean Status
+                        All Status
                     </button>
                     <button
                         onClick={() => setStatusFilter('active')}
@@ -188,7 +188,7 @@ const ViewUsers = () => {
                         onClick={() => setRoleFilter('all')}
                         className={`px-2 py-1 rounded ${roleFilter === 'all' ? 'bg-red-500 text-white' : 'bg-gray-200'}`}
                     >
-                        Clean Roles
+                        All Roles
                     </button>
                     <button
                         onClick={() => setRoleFilter('admin')}
@@ -204,7 +204,7 @@ const ViewUsers = () => {
                     </button>
                 </div>
             </div>
-    
+
             {filteredUsers.length > 0 ? (
                 <table className="min-w-full bg-white border border-red-300 shadow-lg">
                     <thead>
@@ -212,7 +212,6 @@ const ViewUsers = () => {
                             <th className="py-2 px-4 border-b">Name</th>
                             <th className="py-2 px-4 border-b">Phone</th>
                             <th className="py-2 px-4 border-b">Address</th>
-                            <th className="py-2 px-4 border-b">Email</th> {/* Columna de email agregada */}
                             <th className="py-2 px-4 border-b">Status</th>
                             <th className="py-2 px-4 border-b">Role</th>
                             <th className="py-2 px-4 border-b">Actions</th>
@@ -224,7 +223,6 @@ const ViewUsers = () => {
                                 <td className="py-2 px-4 border-b text-black">{user.name || 'N/A'}</td>
                                 <td className="py-2 px-4 border-b text-black">{user.phone || 'N/A'}</td>
                                 <td className="py-2 px-4 border-b text-black">{user.address || 'N/A'}</td>
-                                <td className="py-2 px-4 border-b text-black">{user.credential?.email || 'N/A'}</td> {/* Email mostrado aquí */}
                                 <td className={`py-2 px-4 border-b ${user.isBanned ? 'text-red-500' : 'text-green-500'}`}>
                                     {user.isBanned ? 'Banned' : 'Active'}
                                 </td>
@@ -233,18 +231,18 @@ const ViewUsers = () => {
                                 </td>
                                 <td className="py-2 px-4 border-b">
                                     <div className="flex justify-evenly">
-                                    <button
-            onClick={() => openBanModal(user.user_id)}
-            className={`w-36 px-3 py-2 rounded ${user.isBanned ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'} text-white`}
-        >
-            {user.isBanned ? 'Unban User' : 'Ban User'}
-        </button>
-        <button
-            onClick={() => handleAdmin(user.user_id)}
-            className={`w-36 px-2 py-2 rounded ${user.isAdmin ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'} text-white`}
-        >
-            {user.isAdmin ? 'Unadmin User' : 'Admin User'}
-        </button>
+                                        <button
+                                            onClick={() => openBanModal(user.user_id)}
+                                            className={`w px-4 py-1 rounded ${user.isBanned ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'} text-white`}
+                                        >
+                                            {user.isBanned ? 'Unban User' : 'Ban User'}
+                                        </button>
+                                        <button
+                                            onClick={() => handleAdmin(user.user_id)}
+                                            className={`w-36 px-4 py-1 rounded ${user.isAdmin ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'} text-white`}
+                                        >
+                                            {user.isAdmin ? 'Unadmin User' : 'Admin User'}
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -254,7 +252,7 @@ const ViewUsers = () => {
             ) : (
                 <p className="text-gray-500 text-center">No users found.</p>
             )}
-    
+
             {isBanModalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="w-1/3 bg-white p-5 rounded shadow-lg">

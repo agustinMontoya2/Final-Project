@@ -21,12 +21,12 @@ export class ProductsRepository {
   ) {}
 
   async getProducts() {
-    const allProducts = await this.productsRepository.find({
-      relations: ['category'],
+    const product = await this.productsRepository.find({
+      relations: ['category', 'reviews'],
       // where: { available: true },
     });
-    if (!allProducts) throw new NotFoundException('Products not found');
-    return allProducts;
+    if (!product) throw new NotFoundException('Products not found');
+    return product;
   }
   async getAllProducts() {
     const product = await this.productsRepository.find({
@@ -57,7 +57,7 @@ export class ProductsRepository {
       product.image_url =
         element.image_url.length !== 0
           ? element.image_url
-          : 'https://res.cloudinary.com/dxpxzcj2i/image/upload/v1724243935/gvmpxhbyz3rvdsvnhvhm.webp';
+          : 'https://res.cloudinary.com/dpnhtxzv3/image/upload/v1730847626/yu0eqanztugvb5mmgzah.png';
       product.category = category;
 
       await this.productsRepository

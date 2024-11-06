@@ -12,8 +12,7 @@ const ViewReviews = () => {
     const [reviews, setReviews] = useState<IReview[]>([]);
     const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
-    const [searchTerm, setSearchTerm] = useState<string>("");
-
+    const [searchTerm, setSearchTerm] = useState<string>('');
 
 
 useEffect(() => {
@@ -38,8 +37,6 @@ useEffect(() => {
         if (token && userId) {
         try {
             const reviewsData = await getReviews(token);
-            console.log("este es el console log de reviewsData");
-            
             console.log(reviewsData);
             
             if (reviewsData) {
@@ -55,19 +52,6 @@ useEffect(() => {
     const handleDeleteReview = async (review_id: string)=> {
         if (token && userId) {
         try {
-            const result = await Swal.fire({
-                title: 'Are you sure?',
-                text: "This action cannot be undone!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'Cancel'
-            });
-
-            // Si el usuario confirma, proceder con la eliminación
-            if (result.isConfirmed) {
             const deleteReview = await removeReviews(review_id, token);
             Swal.fire({
                 icon: 'error',
@@ -78,7 +62,7 @@ useEffect(() => {
                 showConfirmButton: false,
                 timerProgressBar: true,
             });
-        handleGetReviews()}
+        handleGetReviews()
         } catch (error) {
             alert(error)
         }

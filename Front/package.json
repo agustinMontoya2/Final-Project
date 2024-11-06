@@ -29,8 +29,7 @@
     "resend": "^4.0.0",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.14.3",
-    "uuid": "^10.0.0",
-    "xlsx": "^0.18.5"
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@iconify/tailwind": "^1.1.3",

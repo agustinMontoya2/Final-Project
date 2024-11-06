@@ -1,7 +1,11 @@
-
 const APIURL = process.env.NEXT_PUBLIC_API_URL;
 
-export async function PagoMercado(userId: string, token: string) {
+export async function PagoMercado(
+  userId: string,
+  token: string,
+  createOrder: any
+) {
+  alert("pago mercado");
   try {
     const response = await fetch(`${APIURL}/payment/createorder/${userId}`, {
       method: "POST",
@@ -9,6 +13,7 @@ export async function PagoMercado(userId: string, token: string) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify(createOrder),
     });
     console.log(response);
     if (!response.ok) {
@@ -18,6 +23,7 @@ export async function PagoMercado(userId: string, token: string) {
     }
 
     const data = await response.json();
+
     return data;
   } catch (error: unknown) {
     console.log(error);

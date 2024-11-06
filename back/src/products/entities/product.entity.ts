@@ -27,7 +27,11 @@ export class Product {
   @Column({ type: 'text' })
   description: string;
 
-  @Column({ type: 'text', default: '' })
+  @Column({
+    type: 'text',
+    default:
+      'https://res.cloudinary.com/dpnhtxzv3/image/upload/v1730847626/yu0eqanztugvb5mmgzah.png',
+  })
   image_url: string;
 
   // Relación ManyToOne con Category

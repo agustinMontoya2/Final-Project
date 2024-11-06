@@ -1,14 +1,8 @@
-'use client'
-
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 
 const Footer = () => {
-    const pathname = usePathname()
-
-    const hidden = pathname === '/'
     return (
         <footer className="w-full bg-secondary text-white py-2 mt-10">
             <div className="flex flex-row justify-around flex-wrap w-full px-4">

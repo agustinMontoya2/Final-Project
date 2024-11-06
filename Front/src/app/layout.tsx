@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+<<<<<<< HEAD
 import "./globals.css";
 import NavBarXL from "@/components/Navbar/NavBarXL";
 import NavbarMovil from "@/components/Navbar/NavBarMobile";
@@ -7,6 +8,13 @@ import Footer from "@/components/footer/Footer";
 import VoiceflowWidget from "@/components/VoiceflowWidget/VoiceflowWidget";
 import BottomNavBar from "@/components/Navbar/BottomNavBar";
 import { Suspense } from "react";
+=======
+import { Suspense } from "react";
+
+import "./globals.css";
+import NavBarXL from "@/components/Navbar/NavBarXL";
+import Footer from "@/components/footer/Footer";
+>>>>>>> 61873f34d2d182d63e05761a398fb60347262ca9
 
 const geistSans = localFont({
   src: "../fonts/GeistMonoVF.woff",
@@ -56,3 +64,4 @@ export default function RootLayout({
     </html>
   );
 }
+

@@ -27,6 +27,6 @@ import { Credential } from 'src/auth/entities/credential.entity';
   ],
   controllers: [UsersController],
   providers: [UsersService, UsersRepository, MailService],
-  exports: [UsersRepository, UsersService],
+  exports: [UsersRepository],
 })
 export class UsersModule {}
