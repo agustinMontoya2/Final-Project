@@ -4,7 +4,7 @@ const APIURL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function getProductsSalesDB(): Promise<ISales> {
   try {
-    const res = await fetch(`${APIURL}/products`, {
+    const res = await fetch(`${APIURL}/app`, {
       next: { revalidate: 60 },
       method: "GET",
       credentials: "include",

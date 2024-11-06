@@ -67,7 +67,7 @@ export interface IReserve {
   date: string;
   table: {
     table_id: string;
-    table_number: string;
+    table_number: number;
     ubication: string;
   }[];
   time: string;
@@ -108,6 +108,7 @@ export interface IProductsDetails {
   quantity: string;
   subtotal: string;
   product: IProducts;
+
 }
 
 export interface ICart {
@@ -131,11 +132,15 @@ export interface ProductFilterProps {
 
 export interface IOrder {
   userId: string;
+  date:string,
   order_type: string;
   payment_method: string;
   note?: string;
   address?: string;
   discount?: number;
+  orderDetail?: {
+    productDetails: IProductsDetails[]; 
+  };
 }
 
 export interface IGetOrder {
@@ -171,13 +176,11 @@ export interface IFilter {
 
 
 export interface ISales {
-  SaleData: {
-    Dishes:{ [dishName: string]: number};
-    Reserved_tables: number;
-    Orders_made: number;
-    Orders_pending: number;
-    Orders_cancelled: number;
-    Users_total: number;
+    Users_total: number[];
+    Reserved_tables: IReserve[];
+    Orders_made: IOrder[];
+    Orders_pending: IOrder[];
+    Orders_cancelled: IOrder[];
     dates?: string[];
+    Dishes: { [key: string]: number }
     };
-}
