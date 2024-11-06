@@ -1,9 +1,9 @@
-"use client";
-import React, { useEffect } from 'react';
+"use client"
+import React, { useEffect, useState } from 'react';
 import { SalesBarChart, GraficoDeTortaPlato } from '@/components/Charts/ChartComponent';
 import { ISales } from '@/interfaces/productoInterface';
 import * as XLSX from 'xlsx';
-
+import { getProductsSalesDB } from '@/Helpers/salesStatus';
 
 const getMonthName = (monthIndex: number): string => {
     const monthNames = [
@@ -14,34 +14,24 @@ const getMonthName = (monthIndex: number): string => {
 };
 
 
-const ChartsView = () => {
-    //const [salesData, setSalesData] = useState<ISales['SaleData'] | null>(null);
-    const saleData: ISales['SaleData'] = {
-        Dishes: {
-            "fideos con salsa": 20,
-            "lentejas": 15,
-            "canelones": 10,
-        },
-        Reserved_tables: 120,
-        Orders_made: 300,
-        Orders_pending: 50,
-        Orders_cancelled: 20,
-        Users_total: 1000,
-    };
 
-    // useEffect(() => {
-    // const fetchSalesData = async getProductsSalesDB() => {
-    //         try {
-    //             const data = await ();
-    //             setSalesData(data.SaleData); // Guardamos los datos de ventas en el estado
-    //             setLoading(false);
-    //         } catch (error: any) {
-    //             if (error instanceof Error) {
-    //         }
-    //     };
-    //     fetchSalesData();
-    // }, []);
-    // }
+const ChartsView = () => {
+    const [salesData, setSalesData] = useState<ISales | null>(null);
+
+    useEffect(() => {
+        const fetchSalesData = async () => {
+            try {
+                const data = await getProductsSalesDB();
+                console.log('Fetched sales data:', data);
+                setSalesData(data);
+            } catch (error: any) {
+                if (error instanceof Error) {
+                    console.error('Error fetching sales data:', error.message);
+                }
+            }
+        };
+        fetchSalesData();
+    }, []);
 
     // if (!salesData) {
     //     return <p>No sales data available</p>;
@@ -49,36 +39,36 @@ const ChartsView = () => {
 
 
     const exportToExcel = () => {
+        if (!salesData) return;
+    
         const currentMonthIndex = new Date().getMonth();
         const currentMonthName = getMonthName(currentMonthIndex);
-        const dishesData = Object.entries(saleData.Dishes).map(([dishName, quantity]) => ({
+    
+        const dishesData = Object.entries(salesData.Dishes).map(([dishName, quantity]) => ({
             Dish: dishName,
             Quantity: quantity
         }));
-
-
-        
+    
         const worksheet = XLSX.utils.json_to_sheet([
             {
                 Month: currentMonthName,
-                Reserved_Tables: saleData.Reserved_tables,
-                Orders_Made: saleData.Orders_made,
-                Orders_Pending: saleData.Orders_pending,
-                Orders_Cancelled: saleData.Orders_cancelled,
-                Users_Total: saleData.Users_total,
+                Reserved_Tables: salesData.Reserved_tables.length,  
+                Orders_Made: salesData.Orders_made.length,          
+                Orders_Pending: salesData.Orders_pending.length,   
+                Orders_Cancelled: salesData.Orders_cancelled.length, 
+                Users_Total: salesData.Users_total.length,          
             },
             ...dishesData
         ]);
-
+    
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Sales Data");
-
-
+    
         XLSX.writeFile(workbook, `SalesData_${currentMonthName}.xlsx`);
     };
+    console.log("salesData", salesData)
 
-
-    return (
+    return salesData ?(
         <div className="flex flex-col">
             <h3 className="p-4 text-lg flex flex-col justify-center items-center text-neutral-800">Sell Panel</h3>
             <div className="m-auto">
@@ -87,13 +77,14 @@ const ChartsView = () => {
                 </button>
             </div>
             <div className="mt-8">
-                <SalesBarChart SaleData={saleData} />
+                <SalesBarChart SaleData={salesData} />
             </div>
             <div className="mt-8 flex flex-col items-center justify-center">
-                <GraficoDeTortaPlato SaleData={saleData} />
+                <GraficoDeTortaPlato SaleData={salesData} />
             </div>
         </div>
-    );
+    ): (
+        <p>No sales data available</p>);
 };
 
 export default ChartsView;
