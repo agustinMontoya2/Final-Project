@@ -94,12 +94,13 @@ const FormAddDish = () => {
         e.preventDefault();
 
         if (!token) {
-            console.error("Token is required");
+            Swal.fire("Token is required", "Please log in to submit a dish.", "error");
             return;
         }
 
-        if (!formValues.category_id || typeof formValues.category_id !== 'string') {
-            console.error("Invalid category_id");
+        // Validación de campos requeridos
+        if (!formValues.product_name || !formValues.description || !formValues.price || !formValues.category_id || !productImgFile) {
+            Swal.fire("Missing fields", "Please fill in all required fields.", "warning");
             return;
         }
 
@@ -107,24 +108,18 @@ const FormAddDish = () => {
             product_name: formValues.product_name,
             description: formValues.description,
             price: parseFloat(formValues.price),
-            // image_url: formValues.image_url ? formValues.image_url.name : "",
             category_id: formValues.category_id,
-            // reviews: [],
             available: formValues.avaliable,
         };
-        console.log("Type of category_id:", typeof product.category_id);
-
-        console.log("Product data being sent:", product)
 
         try {
             setIsDisable(true);
             const response = await postProduct(token, product);
             if (response.product_id && productImgFile) {
                 await editProductImg(productImgFile, token, response.product_id);
-                console.log(productImgFile)
-                console.log(response, "producto imagen")
             }
-            console.log(response);
+
+            // Limpiar el formulario
             setFormValues({
                 product_name: '',
                 description: '',
@@ -132,20 +127,19 @@ const FormAddDish = () => {
                 image_url: "",
                 avaliable: true,
                 category_id: '',
-
             });
-            console.log("Type of category_id:", typeof product.category_id);
 
             Swal.fire({
                 title: 'Dish added successfully',
                 icon: 'success',
                 timer: 1000,
             });
-        } catch {
+
+        } catch (error) {
             Swal.fire({
                 title: 'Error adding dish',
-                icon: 'success',
-                timer: 1000,
+                text: 'There was an issue adding the dish. Please try again.',
+                icon: 'error',
             });
         } finally {
             setIsDisable(false);
