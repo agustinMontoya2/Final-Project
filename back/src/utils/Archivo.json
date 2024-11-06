@@ -1,8 +1,7 @@
-
 [
   {
     "product_name": "Bruschetta",
-    "price": 120.0,
+    "price": 125.0,
     "description": "Crispy toasted bread topped with a fresh mix of diced tomatoes, garlic, and basil, drizzled with olive oil. A perfect light appetizer.",
     "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518903/kwmttiiptetrdymbk0zu.jpg",
     "available": true,
@@ -10,7 +9,7 @@
   },
   {
     "product_name": "Mozzarella Sticks",
-    "price": 150.0,
+    "price": 160.0,
     "description": "Golden, crispy breaded mozzarella sticks served with a tangy marinara dipping sauce. Perfect for sharing or enjoying solo.",
     "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518904/pugqjjvoa6kxlxn7tipw.jpg",
     "available": true,
@@ -18,7 +17,7 @@
   },
   {
     "product_name": "Chicken Wings",
-    "price": 220.0,
+    "price": 230.0,
     "description": "Spicy buffalo wings, crispy on the outside and juicy on the inside, served with a side of ranch dip to cool down the heat.",
     "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518903/n5riavupqvy69sklvvcs.jpg",
     "available": true,
@@ -26,23 +25,71 @@
   },
   {
     "product_name": "Stuffed Mushrooms",
-    "price": 140.0,
+    "price": 145.0,
     "description": "Baked mushrooms stuffed with a rich mix of cream cheese, garlic, and herbs, providing a delicious and savory bite.",
     "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518904/hcsshfmor7vx3fkps6do.jpg",
     "available": true,
     "category": "Appetizers"
   },
   {
+    "product_name": "Caprese Skewers",
+    "price": 110.0,
+    "description": "Fresh mozzarella, cherry tomatoes, and basil on skewers with a balsamic drizzle. A refreshing starter.",
+    "image_url": "",
+    "available": true,
+    "category": "Appetizers"
+  },
+  {
+    "product_name": "Garlic Shrimp",
+    "price": 180.0,
+    "description": "Sautéed shrimp in garlic and butter, served with a lemon wedge for a burst of freshness.",
+    "image_url": "",
+    "available": true,
+    "category": "Appetizers"
+  },
+  {
+    "product_name": "Deviled Eggs",
+    "price": 70.0,
+    "description": "Classic deviled eggs with a creamy yolk filling and a hint of paprika for spice.",
+    "image_url": "",
+    "available": true,
+    "category": "Appetizers"
+  },
+  {
+    "product_name": "Mini Meatballs",
+    "price": 140.0,
+    "description": "Juicy mini meatballs in a marinara sauce, topped with fresh basil. A flavorful bite.",
+    "image_url": "",
+    "available": true,
+    "category": "Appetizers"
+  },
+  {
+    "product_name": "Spinach Artichoke Dip",
+    "price": 130.0,
+    "description": "Warm spinach and artichoke dip served with toasted bread for dipping.",
+    "image_url": "",
+    "available": true,
+    "category": "Appetizers"
+  },
+  {
+    "product_name": "Spring Rolls",
+    "price": 120.0,
+    "description": "Crispy spring rolls filled with veggies and served with a tangy dipping sauce.",
+    "image_url": "",
+    "available": true,
+    "category": "Appetizers"
+  },
+  {
     "product_name": "Steak",
-    "price": 350.0,
-    "description": "Tender and juicy grilled steak, perfectly seasoned, and served with a side of creamy mashed potatoes and sautÃ©ed vegetables.",
+    "price": 360.0,
+    "description": "Tender and juicy grilled steak, perfectly seasoned, and served with a side of creamy mashed potatoes and sautéed vegetables.",
     "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518904/yoiwlklaht0fqzifc4sw.jpg",
     "available": true,
     "category": "Main Dishes"
   },
   {
     "product_name": "Grilled Chicken",
-    "price": 280.0,
+    "price": 290.0,
     "description": "Succulent grilled chicken breast seasoned with herbs, served with roasted vegetables and a light lemon butter sauce.",
     "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518903/euyxh5l81m8lume1xgwv.jpg",
     "available": true,
@@ -50,7 +97,7 @@
   },
   {
     "product_name": "Spaghetti Bolognese",
-    "price": 200.0,
+    "price": 210.0,
     "description": "Classic Italian pasta with a rich and hearty meat sauce, topped with parmesan cheese and served with a side of garlic bread.",
     "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518904/jr2agpoxpnmdmmloaigg.jpg",
     "available": true,
@@ -58,9 +105,57 @@
   },
   {
     "product_name": "Salmon",
-    "price": 320.0,
+    "price": 330.0,
     "description": "Perfectly grilled salmon fillet served with a tangy lemon butter sauce, accompanied by steamed vegetables and wild rice.",
     "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518904/mk8faaeznulqqetg7nlw.jpg",
+    "available": true,
+    "category": "Main Dishes"
+  },
+  {
+    "product_name": "Vegetable Stir-Fry",
+    "price": 190.0,
+    "description": "Assorted vegetables stir-fried in a light soy sauce with hints of ginger. Served with steamed rice.",
+    "image_url": "",
+    "available": true,
+    "category": "Main Dishes"
+  },
+  {
+    "product_name": "Beef Tacos",
+    "price": 160.0,
+    "description": "Soft tortillas filled with seasoned beef, fresh lettuce, and pico de gallo, served with a side of salsa.",
+    "image_url": "",
+    "available": true,
+    "category": "Main Dishes"
+  },
+  {
+    "product_name": "Lamb Chops",
+    "price": 380.0,
+    "description": "Grilled lamb chops seasoned with rosemary and served with mashed potatoes and green beans.",
+    "image_url": "",
+    "available": true,
+    "category": "Main Dishes"
+  },
+  {
+    "product_name": "Pasta Primavera",
+    "price": 220.0,
+    "description": "Pasta tossed with fresh vegetables in a light garlic and olive oil sauce.",
+    "image_url": "",
+    "available": true,
+    "category": "Main Dishes"
+  },
+  {
+    "product_name": "Shrimp Scampi",
+    "price": 250.0,
+    "description": "Shrimp sautéed in garlic butter sauce served over linguine with fresh parsley.",
+    "image_url": "",
+    "available": true,
+    "category": "Main Dishes"
+  },
+  {
+    "product_name": "Vegetable Lasagna",
+    "price": 230.0,
+    "description": "Layers of pasta, cheese, and vegetables in a savory marinara sauce. A hearty vegetarian option.",
+    "image_url": "",
     "available": true,
     "category": "Main Dishes"
   },
@@ -91,73 +186,298 @@
   {
     "product_name": "Orange Juice",
     "price": 70.0,
-    "description": "Freshly squeezed orange juice, full of vitamins and flavor, perfect for any meal or as a refreshing drink.",
-    "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518904/pbjejy7tivp7zv5wvwdw.jpg",
+    "description": "Freshly squeezed orange juice with no added sugar. A naturally refreshing drink full of vitamin C.",
+    "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518904/qdqcqe5depgpuywjnnzr.jpg",
     "available": true,
     "category": "Beverages"
   },
   {
-    "product_name": "Chocolate Cake",
-    "price": 110.0,
-    "description": "Rich, moist chocolate cake layered with creamy chocolate ganache. A treat for chocolate lovers.",
-    "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518903/lqmsmhdkcu9eipmpezjw.jpg",
+    "product_name": "Sparkling Water",
+    "price": 55.0,
+    "description": "Bubbly sparkling water with a refreshing taste. Perfect for pairing with any meal.",
+    "image_url": "",
     "available": true,
-    "category": "Desserts"
+    "category": "Beverages"
   },
   {
-    "product_name": "Cheesecake",
-    "price": 140.0,
-    "description": "Classic New York-style cheesecake with a buttery graham cracker crust and a smooth, creamy filling.",
-    "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518903/cmc2hxgfiszn4y9i4srt.jpg",
+    "product_name": "Espresso",
+    "price": 40.0,
+    "description": "Strong and rich espresso with a bold taste. A classic pick-me-up.",
+    "image_url": "",
     "available": true,
-    "category": "Desserts"
+    "category": "Beverages"
   },
   {
-    "product_name": "Ice Cream",
+    "product_name": "Latte",
+    "price": 75.0,
+    "description": "Creamy latte with steamed milk and a shot of espresso. Perfect for any coffee lover.",
+    "image_url": "",
+    "available": true,
+    "category": "Beverages"
+  },
+  {
+    "product_name": "Green Tea",
+    "price": 50.0,
+    "description": "Refreshing green tea brewed with care, providing a light and healthy beverage option.",
+    "image_url": "",
+    "available": true,
+    "category": "Beverages"
+  },
+  {
+    "product_name": "Milkshake",
     "price": 90.0,
-    "description": "Vanilla ice cream served with a rich chocolate sauce or caramel drizzle, perfect for cooling down on a hot day.",
-    "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518903/vztctkqdkl9jn5qxxkx9.jpg",
+    "description": "Creamy milkshake available in chocolate, vanilla, or strawberry flavors. A treat for any sweet tooth.",
+    "image_url": "",
+    "available": true,
+    "category": "Beverages"
+  },
+  {
+    "product_name": "Herbal Tea",
+    "price": 50.0,
+    "description": "Calming herbal tea with a mix of natural herbs for a soothing experience.",
+    "image_url": "",
+    "available": true,
+    "category": "Beverages"
+  },
+  {
+    "product_name": "Red Velvet Cake",
+    "price": 110.0,
+    "description": "A slice of moist red velvet cake with a layer of rich cream cheese frosting.",
+    "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518903/nyxoyck7umckfpmdpgwo.jpg",
     "available": true,
     "category": "Desserts"
   },
   {
     "product_name": "Brownie",
-    "price": 130.0,
-    "description": "Warm, fudgy brownie served with a scoop of vanilla ice cream and drizzled with chocolate sauce.",
-    "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518902/w6omip5820vdj6yzeqjc.jpg",
+    "price": 90.0,
+    "description": "Warm, gooey chocolate brownie with a crisp top and soft center. Perfect for chocolate lovers.",
+    "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518904/i9ylai8lgqhckxhgdm9d.jpg",
     "available": true,
     "category": "Desserts"
   },
   {
+    "product_name": "Cheesecake",
+    "price": 120.0,
+    "description": "Classic cheesecake with a buttery graham cracker crust and a creamy filling.",
+    "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518904/uv7dxszicrfnxsqgfp2f.jpg",
+    "available": true,
+    "category": "Desserts"
+  },
+  {
+    "product_name": "Apple Pie",
+    "price": 105.0,
+    "description": "Homemade apple pie with a flaky crust and cinnamon-spiced apple filling.",
+    "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518903/cfz0opbzivys5guoycbp.jpg",
+    "available": true,
+    "category": "Desserts"
+  },
+  {
+    "product_name": "Chocolate Mousse",
+    "price": 100.0,
+    "description": "Smooth and creamy chocolate mousse topped with whipped cream and chocolate shavings.",
+    "image_url": "",
+    "available": true,
+    "category": "Desserts"
+  },
+  {
+    "product_name": "Tiramisu",
+    "price": 115.0,
+    "description": "Classic Italian tiramisu with layers of mascarpone and coffee-soaked ladyfingers.",
+    "image_url": "",
+    "available": true,
+    "category": "Desserts"
+  },
+  {
+    "product_name": "Ice Cream Sundae",
+    "price": 95.0,
+    "description": "Vanilla ice cream with chocolate sauce, whipped cream, and a cherry on top.",
+    "image_url": "",
+    "available": true,
+    "category": "Desserts"
+  },
+  {
+    "product_name": "Fruit Tart",
+    "price": 110.0,
+    "description": "Delicate pastry tart filled with custard and topped with fresh seasonal fruits.",
+    "image_url": "",
+    "available": true,
+    "category": "Desserts"
+  },
+  {
+    "product_name": "Banoffee Pie",
+    "price": 105.0,
+    "description": "A delightful pie made with layers of banana, cream, and toffee on a graham cracker crust.",
+    "image_url": "",
+    "available": true,
+    "category": "Desserts"
+  },
+  {
+    "product_name": "Panna Cotta",
+    "price": 110.0,
+    "description": "Italian dessert with a silky, smooth texture served with a berry sauce.",
+    "image_url": "",
+    "available": true,
+    "category": "Desserts"
+  },
+{
     "product_name": "French Fries",
-    "price": 60.0,
-    "description": "Golden, crispy fries seasoned with salt. The perfect side to any main dish or enjoyed on their own.",
-    "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518903/zfgppn5ignozrdxyqljc.jpg",
-    "available": true,
-    "category": "Sides"
-  },
-  {
-    "product_name": "Onion Rings",
     "price": 70.0,
-    "description": "Crispy battered onion rings fried to perfection, served with a dipping sauce on the side.",
-    "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518904/vpyhr36rpaxpmcwfruwq.jpg",
+    "description": "Classic crispy French fries served with a side of ketchup.",
+    "image_url": "",
     "available": true,
     "category": "Sides"
   },
   {
-    "product_name": "Mashed Potatoes",
+    "product_name": "Sweet Potato Fries",
     "price": 80.0,
-    "description": "Creamy mashed potatoes made with butter and a hint of garlic. A comforting and flavorful side.",
-    "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518904/yocm90yddupu6iohbe6w.jpg",
+    "description": "Sweet potato fries with a light seasoning, perfect for a healthier choice.",
+    "image_url": "",
     "available": true,
     "category": "Sides"
   },
   {
     "product_name": "Coleslaw",
     "price": 50.0,
-    "description": "Freshly shredded cabbage mixed with a creamy, tangy dressing. The perfect balance of crunch and flavor.",
-    "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518902/ohws6qhgxvkblayzi6uq.jpg",
+    "description": "Freshly made coleslaw with cabbage, carrots, and a tangy dressing.",
+    "image_url": "",
     "available": true,
     "category": "Sides"
+  },
+  {
+    "product_name": "Mashed Potatoes",
+    "price": 65.0,
+    "description": "Creamy mashed potatoes, a comforting classic.",
+    "image_url": "",
+    "available": true,
+    "category": "Sides"
+  },
+  {
+    "product_name": "Baked Potato",
+    "price": 75.0,
+    "description": "Baked potato with a crispy skin, served with butter and sour cream.",
+    "image_url": "",
+    "available": true,
+    "category": "Sides"
+  },
+  {
+    "product_name": "Grilled Asparagus",
+    "price": 85.0,
+    "description": "Grilled asparagus with a touch of olive oil and sea salt.",
+    "image_url": "",
+    "available": true,
+    "category": "Sides"
+  },
+  {
+    "product_name": "Garlic Bread",
+    "price": 40.0,
+    "description": "Toasted garlic bread with a crispy crust.",
+    "image_url": "",
+    "available": true,
+    "category": "Sides"
+  },
+  {
+    "product_name": "Steamed Vegetables",
+    "price": 60.0,
+    "description": "Assorted steamed vegetables, lightly seasoned.",
+    "image_url": "",
+    "available": true,
+    "category": "Sides"
+  },
+  {
+    "product_name": "Corn on the Cob",
+    "price": 50.0,
+    "description": "Fresh corn on the cob, steamed and lightly salted.",
+    "image_url": "",
+    "available": true,
+    "category": "Sides"
+  },
+  {
+    "product_name": "Onion Rings",
+    "price": 75.0,
+    "description": "Crispy onion rings served with a side of dipping sauce.",
+    "image_url": "",
+    "available": true,
+    "category": "Sides"
+  },
+  {
+    "product_name": "Quinoa Salad",
+    "price": 120.0,
+    "description": "Fresh quinoa salad with cucumber, tomato, and a lemon dressing.",
+    "image_url": "",
+    "available": true,
+    "category": "Gluten Free"
+  },
+  {
+    "product_name": "Roasted Cauliflower",
+    "price": 100.0,
+    "description": "Oven-roasted cauliflower with a touch of garlic and olive oil.",
+    "image_url": "",
+    "available": true,
+    "category": "Gluten Free"
+  },
+  {
+    "product_name": "Stuffed Peppers",
+    "price": 135.0,
+    "description": "Bell peppers stuffed with a seasoned rice and vegetable mixture.",
+    "image_url": "",
+    "available": true,
+    "category": "Gluten Free"
+  },
+  {
+    "product_name": "Zucchini Noodles",
+    "price": 110.0,
+    "description": "Zucchini spirals served with a light marinara sauce.",
+    "image_url": "",
+    "available": true,
+    "category": "Gluten Free"
+  },
+  {
+    "product_name": "Grilled Portobello Mushrooms",
+    "price": 120.0,
+    "description": "Grilled Portobello mushrooms with a balsamic glaze.",
+    "image_url": "",
+    "available": true,
+    "category": "Gluten Free"
+  },
+  {
+    "product_name": "Kale Chips",
+    "price": 70.0,
+    "description": "Crispy kale chips seasoned with sea salt.",
+    "image_url": "",
+    "available": true,
+    "category": "Gluten Free"
+  },
+  {
+    "product_name": "Baked Zucchini Fries",
+    "price": 90.0,
+    "description": "Zucchini slices baked to perfection with a light seasoning.",
+    "image_url": "",
+    "available": true,
+    "category": "Gluten Free"
+  },
+  {
+    "product_name": "Avocado Salad",
+    "price": 125.0,
+    "description": "Fresh avocado salad with tomatoes, onions, and a lime dressing.",
+    "image_url": "",
+    "available": true,
+    "category": "Gluten Free"
+  },
+  {
+    "product_name": "Chia Pudding",
+    "price": 80.0,
+    "description": "Creamy chia seed pudding with coconut milk and a hint of vanilla.",
+    "image_url": "",
+    "available": true,
+    "category": "Gluten Free"
+  },
+  {
+    "product_name": "Grilled Chicken Salad",
+    "price": 140.0,
+    "description": "Grilled chicken served on a bed of mixed greens, perfect for a light and healthy meal.",
+    "image_url": "",
+    "available": true,
+    "category": "Gluten Free"
   }
 ]
+
