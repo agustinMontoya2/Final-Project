@@ -46,7 +46,7 @@ const SalesBarChart: React.FC<{ SaleData: ISales }> = ({ SaleData }) => {
         const userSet = new Set<string>();
         orders.forEach((order) => {
             if (new Date(order.date).getMonth() === month) {
-                userSet.add(order.userId);
+                userSet.add(order.user_id);
             }
         });
         return userSet.size; 
@@ -58,9 +58,9 @@ const SalesBarChart: React.FC<{ SaleData: ISales }> = ({ SaleData }) => {
 
    
     const totalUniqueUsers = new Set<string>([
-        ...SaleData.Orders_made.filter(order => new Date(order.date).getMonth() === selectedMonth).map(order => order.userId),
-        ...SaleData.Orders_pending.filter(order => new Date(order.date).getMonth() === selectedMonth).map(order => order.userId),
-        ...SaleData.Orders_cancelled.filter(order => new Date(order.date).getMonth() === selectedMonth).map(order => order.userId),
+        ...SaleData.Orders_made.filter(order => new Date(order.date).getMonth() === selectedMonth).map(order => order.user_id),
+        ...SaleData.Orders_pending.filter(order => new Date(order.date).getMonth() === selectedMonth).map(order => order.user_id),
+        ...SaleData.Orders_cancelled.filter(order => new Date(order.date).getMonth() === selectedMonth).map(order => order.user_id),
     ]);
     
     salesData.Users_total[selectedMonth] = totalUniqueUsers.size; 
