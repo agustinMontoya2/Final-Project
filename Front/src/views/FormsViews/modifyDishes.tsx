@@ -116,17 +116,24 @@ const ModifyDishes = () => {
 
     return (
         <div className="h-screen overflow-y-scroll scrollbar-custom p-5">
-            <div className="mb-5 text-center">
+            <div className="md:w-1/3 w-11/12 mt-10 md:mt-0 m-auto mb-4 flex items-center border rounded-lg bg-white text-red-600">
+                <Image
+                    src="/assets/icon/search.png"
+                    alt="Search"
+                    width={20}
+                    height={20}
+                    className="ml-2"
+                />
                 <input
                     type="text"
                     placeholder="Search dish..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="border border-gray-300 rounded-md px-3 py-2 text-gray-700 w-full max-w-md"
+                    className="border-none rounded-lg outline-none px-2 py-2 text-gray-700 w-full"
                 />
             </div>
 
-            <ul className="w-1/2 m-auto space-y-6">
+            <ul className="w-11/12 md:w-1/2 m-auto space-y-6">
                 {products && Array.isArray(products) && products.length > 0 ? (
                     products
                         .filter(product => product.product_name.toLowerCase().includes(searchTerm.toLowerCase()))
@@ -141,10 +148,10 @@ const ModifyDishes = () => {
                                 />
                                 <div className="flex justify-between w-full">
                                     <div className="w-2/3 h-full">
-                                        <h2 className="text-black text-xl font-semibold">{product.product_name}</h2>
-                                        <p className="line-clamp-2">{product.description}</p>
+                                        <h2 className="text-black text-lg md:text-xl font-semibold">{product.product_name}</h2>
+                                        <p className="text-neutral-800 line-clamp-2">{product.description}</p>
                                     </div>
-                                    <div className="flex flex-col justify-around items-center">
+                                    <div className="hidden md:flex flex-col justify-around items-center">
                                         <button
                                             className="flex bg-neutral-500 w-20 h-8 justify-center items-center px-2 rounded-md hover:bg-neutral-600 text-white"
                                             onClick={() => handleModify(product)}
@@ -157,6 +164,20 @@ const ModifyDishes = () => {
                                             onClick={() => handleDelete(product.product_id)}
                                         >
                                             Delete
+                                        </button>
+                                    </div>
+                                    <div className="md:hidden flex flex-col justify-around items-center">
+                                        <button
+                                            className="flex w-10 h-10 justify-center items-center px-2 rounded-md"
+                                            onClick={() => handleModify(product)}
+                                        >
+                                            <Image src={'/assets/icon/pencildark.png'} width={20} height={20} alt="edit" className="ml-2" />
+                                        </button>
+                                        <button
+                                            className="w-10 h-10 justify-center items-center px-2 rounded-md"
+                                            onClick={() => handleDelete(product.product_id)}
+                                        >
+                                            <Image src={'/assets/icon/trashred.png'} width={30} height={30} alt="trash"/>
                                         </button>
                                     </div>
                                 </div>

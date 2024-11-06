@@ -149,7 +149,7 @@ const FormAddDish = () => {
     return (
         <div className="w-2/3 m-auto">
         <form onSubmit={handleSubmit}>
-            <h2 className="text-xl text-center font-extrabold">Add dish</h2>
+            <h2 className="text-xl text-neutral-800 text-center font-extrabold">Add dish</h2>
             <div className="mb-6 relative">
                 <input
                     type="text"
@@ -189,7 +189,7 @@ const FormAddDish = () => {
                 <label htmlFor="price" className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${formValues.price? 'top-[4px] text-xs' : ''}`}>Price</label>
             </div>
             <div className="mb-6 relative">
-                <label htmlFor="categoria" className="block text-sm font-medium">Category</label>
+                <label htmlFor="categoria" className="block text-sm font-medium text-neutral-800">Category</label>
                 <select
                     id="categoria"
                     name="category"
@@ -207,8 +207,8 @@ const FormAddDish = () => {
                 </select>
             </div>
             <div className="mb-6 relative">
-                <label htmlFor="imagen" className="flex flex-col items-center p-4 border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-200 transition">
-                    <span>Click to upload an image</span>
+                <label htmlFor="imagen" className="flex flex-col items-center p-4 border-2 border-dashed border-neutral-800 rounded-lg cursor-pointer hover:bg-gray-200 transition">
+                    <span className='text-neutral-800'>Click to upload an image</span>
                     {imagenPreview ? (
                         <Image src={imagenPreview} alt="Imagen subida" height={300} width={300} className="w-full h-40 object-cover mt-2" />
                     ) : (

@@ -9,7 +9,7 @@ export default function DashboardLayout({
 }) {
     const pathname = usePathname(); // Obtener la ruta actual
     const links = [
-        { href: "/admin", label: "Admin" },
+        { href: "/admin", label: "Statistics" },
         { href: "/admin/users", label: "Users" },
         { href: "/admin/reviews", label: "Reviews" },
         { href: "/admin/orders", label: "Orders" },
@@ -27,7 +27,7 @@ export default function DashboardLayout({
                         <Link
                             href={link.href}
                             key={link.href}
-                            className={`px-4 py-2 text-md h-16 w-[12.5%] flex justify-center items-center transition-colors duration-300 rounded-md hover:bg-red-800 ${
+                            className={`px-4 py-2 text-md h-20 w-[12.5%] flex justify-center items-center transition-colors duration-300 rounded-md ${
                                 pathname === link.href ? "bg-red-700" : ""
                             }`}
                         >

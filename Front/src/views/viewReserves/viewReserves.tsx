@@ -77,8 +77,8 @@ useEffect(() => {
     return (
         <div className=" ">
             {reserves.length > 0 ? (
-                <div>
-                    <h2 className="text-3xl font-bold text-center text-black-700 mb-6">Reservations</h2>
+                <div className='w-11/12 m-auto overflow-x-scroll overflow-hidden'>
+                    <h2 className="text-3xl font-bold text-center text-black-700 mb-6 text-neutral-800">Reservations</h2>
                     <table className="w-full text-left border border-gray-300 bg-white shadow-md rounded-lg">
                         <thead className="bg-indigo-100">
                             <tr>
@@ -94,7 +94,7 @@ useEffect(() => {
                             {reserves.map((reserve) => (
                                 <tr key={reserve.reservation_id} className="hover:bg-indigo-50 transition-colors">
                                     <td className="p-3 border-b text-gray-800">{new Date(reserve.date).toLocaleDateString('sv-SE')}</td>
-                                    <td className="p-3 border-b text-black-600 font-semibold">{reserve.time}hs</td>
+                                    <td className="p-3 border-b text-black-600 font-semibold text-neutral-700">{reserve.time}hs</td>
                                     <td className="p-3 border-b text-gray-800">
                                         <span className={`font-semibold ${reserve.status ? 'text-green-600' : 'text-red-600'}`}>
                                             {reserve.status ? "Active" : "Cancelled"}

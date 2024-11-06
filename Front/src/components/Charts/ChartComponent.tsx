@@ -125,9 +125,9 @@ const SalesBarChart: React.FC<{ SaleData: ISales['SaleData'] }> = ({ SaleData })
 
     return (
         <div>
-            <div>
+            <div className='text-neutral-800 m-auto'>
                 <label htmlFor="monthSelect">Select Month: </label>
-                <select id="monthSelect" value={selectedMonth} onChange={handleMonthChange}>
+                <select id="monthSelect" value={selectedMonth} onChange={handleMonthChange} className='outline-none bg-transparent'>
                     {data.labels.map((label, index) => (
                         <option key={index} value={index}>
                             {label}
