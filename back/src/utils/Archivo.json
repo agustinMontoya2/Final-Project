@@ -405,7 +405,7 @@
     "description": "Fresh quinoa salad with cucumber, tomato, and a lemon dressing.",
     "image_url": "",
     "available": true,
-    "category": "Gluten Free"
+    "category": "glutenFree"
   },
   {
     "product_name": "Roasted Cauliflower",
@@ -413,7 +413,7 @@
     "description": "Oven-roasted cauliflower with a touch of garlic and olive oil.",
     "image_url": "",
     "available": true,
-    "category": "Gluten Free"
+    "category": "glutenFree"
   },
   {
     "product_name": "Stuffed Peppers",
@@ -421,7 +421,7 @@
     "description": "Bell peppers stuffed with a seasoned rice and vegetable mixture.",
     "image_url": "",
     "available": true,
-    "category": "Gluten Free"
+    "category": "glutenFree"
   },
   {
     "product_name": "Zucchini Noodles",
@@ -429,7 +429,7 @@
     "description": "Zucchini spirals served with a light marinara sauce.",
     "image_url": "",
     "available": true,
-    "category": "Gluten Free"
+    "category": "glutenFree"
   },
   {
     "product_name": "Grilled Portobello Mushrooms",
@@ -437,7 +437,7 @@
     "description": "Grilled Portobello mushrooms with a balsamic glaze.",
     "image_url": "",
     "available": true,
-    "category": "Gluten Free"
+    "category": "glutenFree"
   },
   {
     "product_name": "Kale Chips",
@@ -445,7 +445,7 @@
     "description": "Crispy kale chips seasoned with sea salt.",
     "image_url": "",
     "available": true,
-    "category": "Gluten Free"
+    "category": "glutenFree"
   },
   {
     "product_name": "Baked Zucchini Fries",
@@ -453,7 +453,7 @@
     "description": "Zucchini slices baked to perfection with a light seasoning.",
     "image_url": "",
     "available": true,
-    "category": "Gluten Free"
+    "category": "glutenFree"
   },
   {
     "product_name": "Avocado Salad",
@@ -461,7 +461,7 @@
     "description": "Fresh avocado salad with tomatoes, onions, and a lime dressing.",
     "image_url": "",
     "available": true,
-    "category": "Gluten Free"
+    "category": "glutenFree"
   },
   {
     "product_name": "Chia Pudding",
@@ -469,7 +469,7 @@
     "description": "Creamy chia seed pudding with coconut milk and a hint of vanilla.",
     "image_url": "",
     "available": true,
-    "category": "Gluten Free"
+    "category": "glutenFree"
   },
   {
     "product_name": "Grilled Chicken Salad",
@@ -477,7 +477,7 @@
     "description": "Grilled chicken served on a bed of mixed greens, perfect for a light and healthy meal.",
     "image_url": "",
     "available": true,
-    "category": "Gluten Free"
+    "category": "glutenFree"
   }
 ]
 
