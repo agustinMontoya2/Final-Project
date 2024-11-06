@@ -10,9 +10,9 @@ export const typeOrmConfig = async (
   username: configService.get('DB_USERNAME') || 'postgres',
   password: configService.get('DB_PASSWORD') || 'jehiel123',
   database: configService.get('DB_NAME') || 'fellini_database',
-  logging: true,
+  logging: false,
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/migrations/*{.ts,.js}'],
   synchronize: true,
-  dropSchema: true,
+  dropSchema: false,
 });
