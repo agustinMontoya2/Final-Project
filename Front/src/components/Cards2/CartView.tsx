@@ -287,7 +287,7 @@ const CartView = () => {
     <div className="w-m-auto flex flex-col items-center justify-center min-h-screen py-8 ">
       <h1 className="text-3xl font-bold text-black mb-6">Cart</h1>
       {cartItems?.productDetail.length === 0 ? (
-        <div className='flex flex-col-reverse items-center'>
+        <div className='flex flex-col items-center'>
           <p className="text-lg text-gray-700">Your cart is empty.</p>
           <Link href="/menu" className='text-blue-700 p-4 m-2'>Wanna order something? Do not be shy, get yourself something yummy!</Link>
         </div>
