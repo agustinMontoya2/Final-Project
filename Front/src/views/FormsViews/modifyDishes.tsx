@@ -34,7 +34,7 @@ const ModifyDishes = () => {
         }
         fetchProducts();
         fetchCategories();
-    }, [router]);
+    }, [router]); 
 
     const fetchProducts = async () => {
         setLoading(true);
