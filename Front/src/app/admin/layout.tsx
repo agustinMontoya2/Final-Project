@@ -9,7 +9,7 @@ export default function DashboardLayout({
 }) {
     const pathname = usePathname(); // Obtener la ruta actual
     const links = [
-        { href: "/admin", label: "Admin" },
+        { href: "/admin", label: "Statistics" },
         { href: "/admin/users", label: "Users" },
         { href: "/admin/reviews", label: "Reviews" },
         { href: "/admin/orders", label: "Orders" },
