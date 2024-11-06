@@ -58,7 +58,7 @@ const RequestNewPassword = () => {
                     htmlFor={"email"}
                     className={`absolute left-0 top-4 transition-all duration-200 text-gray-600 ${userData.email ? 'top-[4px] text-xs' : ''}`}
                 >
-                    Ingresa tu email
+                    Enter your email
                 </label>
             </div>
             <button type="submit" className="w-full bg-secondary text-white font-bold py-2 rounded-lg hover:bg-red-700 transition duration-200">
