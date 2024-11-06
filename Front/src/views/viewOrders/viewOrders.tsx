@@ -46,10 +46,10 @@ useEffect(() => {
     };
 
     return (
-        <div className='w-4/5 m-auto mt-5'>
+        <div className=' md:w-4/5 md:m-auto mt-10 md:mt-5'>
             {orders.length > 0 ? (
-                <div>
-                    <h2 className="text-3xl font-bold text-center text-black-900 mb-6">Orders</h2>
+                <div className='w-full md:w-full'>
+                    <h2 className="text-3xl font-bold text-center text-black-900 mb-6 text-neutral-800">Orders</h2>
                     <table className="w-full text-left border border-gray-300 bg-white shadow-md rounded-lg">
                         <thead className="bg-indigo-100">
                             <tr>
