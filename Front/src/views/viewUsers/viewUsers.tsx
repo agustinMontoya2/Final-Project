@@ -19,9 +19,9 @@ const ViewUsers = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    // Filtros
-    const [statusFilter, setStatusFilter] = useState<string>('all'); // 'all', 'active', 'banned'
-    const [roleFilter, setRoleFilter] = useState<string>('all'); // 'all', 'admin', 'user'
+
+    const [statusFilter, setStatusFilter] = useState<string>('all'); 
+    const [roleFilter, setRoleFilter] = useState<string>('all'); 
 
     useEffect(() => {
         if (typeof window !== 'undefined' && window.localStorage) {
@@ -60,7 +60,7 @@ const ViewUsers = () => {
             try {
                 const userToBan = users.find(user => user.user_id === user_id);
                 if (!userToBan) return;
-                const reason = "por puto";
+                const reason = "no reason provided";
 
                 await banUser(user_id, token, reason);
                 Swal.fire({
@@ -128,11 +128,21 @@ const ViewUsers = () => {
                 setIsBanModalOpen(false);
                 setBanReason('');
                 setEditableUserId(null);
+
+                Swal.fire({
+                    title: 'Action completed',
+                    icon: 'success',
+                    timer: 1000,
+                });
             } catch (error: any) {
                 console.error("Error al banear usuario", error.message);
             }
         } else {
-            alert("Please provide a reason for banning.");
+            Swal.fire({
+                    title: 'Please provide a reason',
+                    icon: 'error',
+                    timer: 1000,
+                });
         }
     };
 
@@ -157,7 +167,7 @@ const ViewUsers = () => {
                             type="text"
                             value={banReason}
                             onChange={(e) => setBanReason(e.target.value)}
-                            placeholder="Enter ban reason"
+                            placeholder="Enter reason"
                             className="border px-4 py-2 mb-4 w-full text-neutral-600"
                         />
                         
