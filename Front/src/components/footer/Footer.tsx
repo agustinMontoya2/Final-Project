@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 const Footer = () => {
     return (
-        <footer className="w-full bg-secondary text-white py-2 mt-10">
+        <footer className="hidden md:block w-full bg-secondary text-white py-2 mt-10">
             <div className="flex flex-row justify-around flex-wrap w-full px-4">
                 <div className="w-3/4 flex flex-wrap justify-around ">
                     <h1 className="w-full text-lg font-semibold  flex justify-center">Find us</h1>

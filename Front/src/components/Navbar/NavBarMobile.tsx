@@ -62,9 +62,18 @@ const NavBarMobile = () => {
                             <Link href={"/"} className="h-18 w-1/2 p-2 flex justify-start">
                                 <Image src={"/assets/logo-white.png"} alt="logo" width={100} height={45} />
                             </Link>
-                            <Link href={""} className="h-20 w-1/2 p-2 flex items-center justify-end" onClick={toggleAside}>
-                                <Image src={"/assets/icon/menu.png"} alt="menu" width={45} height={45} />
-                            </Link>
+                            <div className="h-16 w-1/2 p-2 space-x-5 flex items-center justify-end">
+                                {
+                                    userSession && (
+                                        <Link className="" href={"/cart"}>
+                                            <Image src={"/assets/icon/cart.png"} width={40} height={40} alt='cart' />
+                                        </Link>
+                                    )
+                                }
+                                <Link href={""} className="" onClick={toggleAside}>
+                                    <Image src={"/assets/icon/menu.png"} alt="menu" width={45} height={45} />
+                                </Link>
+                            </div>
                             <div>
                                 <aside
                                     className={`fixed top-0 right-0 w-2/3 h-full overflow-y-auto bg-primary text-white shadow-lg z-10 transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'
@@ -131,8 +140,11 @@ const NavBarMobile = () => {
                                                         </button>
                                                     </div>
                                                 ) : (
-                                                    // Si el usuario es un usuario normal (no admin)
                                                     <div className="space-y-6">
+                                                        <Link className="w-11/12 m-auto text-left px-5 py-2 flex justify-between bg-neutral-100 rounded-lg" onClick={toggleAside} href={"/menu"}>
+                                                            <p className="text-black font-bold text-lg">Menú</p>
+                                                            <Image src={"/assets/icon/carta.png"} width={30} height={30} alt='statistics' />
+                                                        </Link>
                                                         <Link className="w-11/12 m-auto text-left px-5 py-2 flex justify-between bg-neutral-100 rounded-lg" onClick={toggleAside} href={"/profile"}>
                                                             <p className="text-black font-bold text-lg">Profile</p>
                                                             <Image src={"/assets/icon/personblack.png"} width={30} height={30} alt='' />

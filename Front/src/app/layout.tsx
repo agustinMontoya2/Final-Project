@@ -3,10 +3,10 @@ import localFont from "next/font/local";
 
 import "./globals.css";
 import NavBarXL from "@/components/Navbar/NavBarXL";
-import NavbarMovil from "@/components/Navbar/NavbarMovil"; // Asegúrate de importar el NavbarMovil
 import Footer from "@/components/footer/Footer";
 import BottomNavBar from "@/components/Navbar/BottomNavBar";
 import VoiceflowWidget from "@/components/VoiceflowWidget/VoiceflowWidget";
+import NavBarMobile from "@/components/Navbar/NavBarMobile";
 
 const geistSans = localFont({
   src: "../fonts/GeistMonoVF.woff",
@@ -36,7 +36,7 @@ export default function RootLayout({
           <NavBarXL />
         </div>
         <div className="block md:hidden">
-          <NavbarMovil />
+          <NavBarMobile />
         </div>
         {children}
         <div className="block md:hidden">

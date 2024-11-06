@@ -149,7 +149,7 @@ const Profile = () => {
 
   return (
     <div
-      className={`h-auto p-6 rounded-lg bg-white shadow-lg w-screen max-w-md mx-auto my-48 transition-all duration-1000 ease-in-out ${isEditing ? "max-h-screen" : "max-h-auto"}`}
+      className={`h-auto p-6 rounded-lg bg-white shadow-lg w-4/5 md:w-screen max-w-md mx-auto my-48 transition-all duration-1000 ease-in-out ${isEditing ? "max-h-screen" : "max-h-auto"}`}
     >
       <div className="w-full flex justify-center items-center">
         <h1 className="text-2xl font-semibold text-center text-gray-800">

@@ -197,7 +197,7 @@ const CartView = () => {
             await handleGetCart();
             Swal.fire({
               icon: "success",
-              title: "Order created",
+              title: "Thank you for your purchase!",
               toast: true,
               position: "top-end",
               timer: 2500,
@@ -282,7 +282,7 @@ const CartView = () => {
   };
 
   return (
-    <div className="w-m-auto flex flex-col items-center justify-center min-h-screen py-8 ">
+    <div className="w-m-auto flex flex-col items-center justify-center md:min-h-screen py-8 ">
       <h1 className="text-3xl font-bold text-black mb-6">Cart</h1>
       {cartItems?.productDetail.length === 0 ? (
         <p className="text-lg text-gray-700">Your cart is empty.</p>
@@ -307,35 +307,34 @@ const CartView = () => {
                       {item.product.product_name}
                     </h2>
                     <p className="text-gray-600">
-                      Price:{" "}
-                      <span className="font-bold">${item.product.price}</span>
+                      Price:
+                      <span className="font-bold"> ${item.product.price}</span>
                     </p>
-                    <p className="text-gray-600">
-                      Quantity:{" "}
-                      <span className="font-bold">{item.quantity}</span>
-                    </p>
+                    <div className="w-24 flex justify-center border text-lg text-neutral-800">
+                      <button
+                        onClick={() =>
+                          handleDeleteQuantityCart(item.product_detail_id)
+                        }
+                        className="w-1/3 flex justify-center hover:bg-neutral-200"
+                      >
+                        -
+                      </button>
+                      <span className="w-1/3 flex justify-center font-bold">{parseInt(item.quantity)}</span>
+                      <button
+                        className="w-1/3 flex justify-center hover:bg-neutral-200"
+                        onClick={() => handleAddCart(item.product.product_id)}
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
                 </div>
                 <div className="flex space-x-2">
                   <button
                     onClick={() =>
-                      handleDeleteQuantityCart(item.product_detail_id)
-                    }
-                    className="w-8 h-8 text-xl flex justify-center items-center bg-red-500 text-white font-bold rounded-lg hover:bg-red-600 transition duration-300"
-                  >
-                    -
-                  </button>
-                  <button
-                    className="w-8 h-8 text-xl flex justify-center items-center bg-red-500 text-white font-bold rounded-lg hover:bg-red-600 transition duration-300"
-                    onClick={() => handleAddCart(item.product.product_id)}
-                  >
-                    +
-                  </button>
-                  <button
-                    onClick={() =>
                       handleDeleteProductCart(item.product_detail_id)
                     }
-                    className="text-white font-bold rounded-lg transition duration-300"
+                    className="text-white font-bold w-16 rounded-lg transition duration-300"
                   >
                     <Image
                       src={"/assets/icon/trashred.png"}
@@ -376,7 +375,7 @@ const CartView = () => {
             <textarea
               value={note}
               onChange={(e) => setNote(e.target.value)}
-              className="w-full h-24 max-h-56 min-h-16 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full h-24 max-h-56 min-h-16 p-3 border border-gray-300 text-neutral-800 rounded-lg focus:outline-red-600"
               placeholder="Any special instructions or notes?"
             />
             <h3 className="mt-6 font-semibold text-lg text-black">

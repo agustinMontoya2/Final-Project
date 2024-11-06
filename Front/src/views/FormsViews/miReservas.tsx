@@ -74,12 +74,13 @@ const ReservasView: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto my-24 p-6  flex flex-col-reverse">
+    <div className="w-3xl flex flex-col justify-center">
+      <h1 className='text-neutral-800 text-center text-3xl font-bold my-5'>Scheduled reservations</h1>
       {reservas && reservas.length > 0 ? (
         reservas.map((reserva: IReserve) => (
           <div
             key={reserva.reservation_id}
-            className="bg-white p-6 rounded-lg shadow-lg mb-6 transition-transform transform hover:scale-105 hover:shadow-xl"
+            className="w-1/2 m-auto bg-white p-6 rounded-lg shadow-lg mb-6 transition-transform transform hover:scale-105 hover:shadow-xl"
           >
             <section className="border-b border-gray-300 pb-4 mb-4">
               <p className="text-gray-600 mb-1">
@@ -107,12 +108,6 @@ const ReservasView: React.FC = () => {
                 </span>
               </p>
             </section>
-            <button 
-              onClick={() => handleViewMore(reserva)} 
-              className="bg-blue-600 text-white font-bold px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300 mr-2"
-            >
-              View More
-            </button>
             {reserva.status ? (
                   <button
                   onClick={() => handleCancelReserve(reserva.reservation_id)}
@@ -123,6 +118,12 @@ const ReservasView: React.FC = () => {
                 ) : (
                 <span className="text-gray-500">No action available</span>
             )}
+            <button 
+              onClick={() => handleViewMore(reserva)} 
+              className="bg-blue-600 text-white font-bold px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300 ml-2"
+            >
+              View More
+            </button>
           </div>
         ))
       ) : (
@@ -170,7 +171,7 @@ const ReservasView: React.FC = () => {
                   </div>
                 ))
               ) : (
-                <p className="text-gray-600">No table information available.</p>
+                <p className="text-gray-600">You do not have scheduled reservations</p>
               )}
             </section>  
           </div>

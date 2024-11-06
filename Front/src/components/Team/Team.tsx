@@ -13,7 +13,7 @@ const Team = () => {
     };
 
     return (
-        <div className="bg-gray-50 py-12">
+        <div className="p-6">
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Meet the Team</h2>
             <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12">
                 Meet the brilliant minds behind our project. Each member brings a unique skill set and passion to make this a success.
