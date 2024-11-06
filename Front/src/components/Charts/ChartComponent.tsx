@@ -155,14 +155,14 @@ const generateRandomColor = () => {
     const r = Math.floor(Math.random() * 255);
     const g = Math.floor(Math.random() * 255);
     const b = Math.floor(Math.random() * 255);
-    return `rgba(${r}, ${g}, ${b}, 0.6)`; // For background color
+    return `rgba(${r}, ${g}, ${b}, 0.6)`; 
 };
 
 const generateRandomBorderColor = () => {
     const r = 20;
     const g = 20;
     const b = 20;
-    return `rgba(${r}, ${g}, ${b}, 1)`; // For border color
+    return `rgba(${r}, ${g}, ${b}, 1)`; 
 };
 
 const generateDishesData = (orders: IOrder[]): { [key: string]: number } => {
@@ -184,12 +184,12 @@ const generateDishesData = (orders: IOrder[]): { [key: string]: number } => {
 const GraficoDeTortaPlato: React.FC<{ SaleData: ISales }> = ({ SaleData }) => {
     const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
 
-    // Generate dish data from orders
+   
     const allDishesData = generateDishesData(SaleData.Orders_made || []);
     const allDishLabels = Object.keys(allDishesData);
     const allDishValues = Object.values(allDishesData);
 
-    // Apply filter if a product is selected
+    
     const filteredDishData = selectedProduct
         ? { [selectedProduct]: allDishesData[selectedProduct] }
         : allDishesData;
@@ -227,10 +227,10 @@ const GraficoDeTortaPlato: React.FC<{ SaleData: ISales }> = ({ SaleData }) => {
         },
     };
 
-    // Handle product filter change
+    
     const handleProductFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const value = e.target.value;
-        setSelectedProduct(value !== '' ? value : null); // If '' is selected, clear the filter
+        setSelectedProduct(value !== '' ? value : null);
     };
 
     return (
