@@ -35,7 +35,7 @@ export class OrderController {
 
     const order = await this.orderService.create(createOrderDto);
 
-    await this.mailService.mailConfirm(userFind.email, 'Order');
+    // await this.mailService.mailConfirm(userFind.email, 'Order');
     return order;
   }
 
