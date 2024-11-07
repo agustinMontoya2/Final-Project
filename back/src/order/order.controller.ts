@@ -20,23 +20,12 @@ import { Order } from './entities/order.entity';
 @Controller('order')
 @ApiTags('order')
 export class OrderController {
-  constructor(
-    private readonly orderService: OrderService,
-    private readonly mailService: MailService,
-    @InjectRepository(Credential)
-    private readonly credentialRepository: Repository<Credential>,
-  ) {}
+  constructor(private readonly orderService: OrderService) {}
 
   @Post()
   async create(@Body() createOrderDto: CreateOrderDto) {
-    const userFind = await this.credentialRepository.findOne({
-      where: { user: { user_id: createOrderDto.user_id } },
-    });
-
     const order = await this.orderService.create(createOrderDto);
-    console.log("order created");
-
-    await this.mailService.mailConfirm(userFind.email, 'Order');
+    console.log('order created');
     return order;
   }
 

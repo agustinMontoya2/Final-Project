@@ -4,12 +4,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Order } from 'src/order/entities/order.entity';
 import { Repository } from 'typeorm';
 import { OrderService } from 'src/order/order.service';
+import { MailService } from 'src/mail/mail.service';
 
 @Controller('payment')
 export class PaymentController {
   constructor(
     private readonly createOrderService: PaymentService,
     private readonly orderService: OrderService,
+    private readonly mailService: MailService,
   ) {}
 
   @Post('/createorder/:id')
@@ -37,6 +39,18 @@ export class PaymentController {
         if (paymentDetails.status === 'approved') {
           const order = await this.orderService.create(
             paymentDetails.metadata.create_order,
+          );
+        }
+        console.log('verificando el status del pago', paymentDetails.status);
+
+        if (
+          paymentDetails.status === 'rejected' ||
+          paymentDetails.status === 'cancelled'
+        ) {
+          console.log('pago cancelado', paymentDetails.metadata.email);
+
+          await this.mailService.mailPaymentCancel(
+            paymentDetails.metadata.email,
           );
         }
         return paymentDetails;

@@ -25,8 +25,14 @@ export class PaymentService {
     if (!isUUID) throw new BadRequestException(`${user_id} is not a valid id`);
     const user = await this.userRepository.findOne({
       where: { user_id },
-      relations: ['cart', 'cart.productDetail', 'cart.productDetail.product'],
+      relations: [
+        'cart',
+        'cart.productDetail',
+        'cart.productDetail.product',
+        'credential',
+      ],
     });
+    console.log('user', user);
 
     if (!user) throw new NotFoundException('User not found');
 
@@ -56,6 +62,7 @@ export class PaymentService {
       notification_url: `${process.env.URL_HOST_BACK}payment/webhook`,
       metadata: {
         createOrder,
+        email: user.credential.email,
       },
     };
     const preference = new Preference(client);

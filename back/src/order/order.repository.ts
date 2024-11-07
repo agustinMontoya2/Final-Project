@@ -14,6 +14,7 @@ import { OrderDetail } from './entities/orderDetail.entity';
 import { ProductDetail } from 'src/products/entities/productDetail.entity';
 import { UsersRepository } from 'src/users/users.repository';
 import { Console } from 'console';
+import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class OrderRepository {
@@ -27,6 +28,7 @@ export class OrderRepository {
     @InjectRepository(ProductDetail)
     private productDetailRepository: Repository<ProductDetail>,
     private readonly usersRepository: UsersRepository,
+    private readonly mailService: MailService,
   ) {}
 
   async createOrder(user_id, details, note) {
@@ -66,6 +68,8 @@ export class OrderRepository {
     await this.orderDetailRepository.save(orderDetail);
 
     await this.usersRepository.removeAllCart(user);
+    const userFind = await this.usersRepository.getEmailByUser(user_id);
+    await this.mailService.mailConfirm(userFind, 'Order');
     return { message: 'order created successfully', orderId: order.order_id };
     return cart;
   }
@@ -117,6 +121,3 @@ export class OrderRepository {
     return order;
   }
 }
-
-
-

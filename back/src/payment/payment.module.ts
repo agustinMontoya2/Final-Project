@@ -11,6 +11,7 @@ import { OrderRepository } from 'src/order/order.repository';
 import { OrderModule } from 'src/order/order.module';
 import { ProductDetail } from 'src/products/entities/productDetail.entity';
 import { OrderDetail } from 'src/order/entities/orderDetail.entity';
+import { MailService } from 'src/mail/mail.service';
 
 @Module({
   imports: [
@@ -25,6 +26,6 @@ import { OrderDetail } from 'src/order/entities/orderDetail.entity';
     OrderModule,
   ],
   controllers: [PaymentController],
-  providers: [PaymentService, PaymentRepository],
+  providers: [PaymentService, PaymentRepository, MailService],
 })
 export class PaymentModule {}

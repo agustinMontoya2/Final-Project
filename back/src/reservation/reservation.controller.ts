@@ -40,9 +40,9 @@ export class ReservationController {
       relations: ['user'],
     });
 
-    // if (user) {
-    //   await this.mailService.mailConfirm(user.email, 'Reservation');
-    // }
+    if (user) {
+      await this.mailService.mailConfirm(user.email, 'Reservation');
+    }
 
     return this.reservationService.createReservationService(
       createReservationDto,
