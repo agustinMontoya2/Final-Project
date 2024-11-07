@@ -24,7 +24,10 @@ const BottomNavBar = () => {
     }, [pathname]);
 
     return (
-        <div>
+        <>
+        {
+            userSession && (
+                <div>
             {
             !hidden && (
                 <div>
@@ -68,6 +71,10 @@ const BottomNavBar = () => {
             )
         }
         </div>
+            )
+        }
+        </>
+        
     );
 
 };

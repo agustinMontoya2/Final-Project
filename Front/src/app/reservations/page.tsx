@@ -4,7 +4,7 @@ import React from 'react'
 const reservas = () => {
 
   return (
-    <div>
+    <div className='h-screen'>
       < ReservasView />
     </div>
   )

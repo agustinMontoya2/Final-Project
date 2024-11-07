@@ -49,20 +49,25 @@ const FormPassword = () => {
                     icon: 'success',
                     timer: 1000,
                 });
+                router.push('/login')
             } catch {
                 Swal.fire({
                     title: 'Error changing password',
-                    icon: 'success',
+                    icon: 'error',
                     timer: 1000,
                 });
 
             }
         } else {
-            alert("Passwords do not match");
+            Swal.fire({
+                title: 'Passwords do not match',
+                icon: 'error',
+                timer: 1000,
+            });
         }
     }
     return (
-        <form onSubmit={handleSubmit} className="w-1/3 h-screen m-auto flex flex-col justify-center items-center">
+        <form onSubmit={handleSubmit} className="w-4/5 md:w-1/3 h-screen m-auto flex flex-col justify-center items-center">
             <div className="w-full mb-6 relative">
                 <input
                     type={showPassword ? 'text' : 'password'}

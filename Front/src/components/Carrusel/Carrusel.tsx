@@ -20,7 +20,7 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
     }, [images.length]);
 
     return (
-        <div className="relative w-[60%] m-auto overflow-hidden rounded-lg shadow-lg">
+        <div className="relative w-4/5 md:w-[60%] m-auto overflow-hidden rounded-lg shadow-lg">
             <div
                 className="flex transition-transform duration-500 ease-in-out"
                 style={{ transform: `translateX(-${currentIndex * 100}%)` }}>

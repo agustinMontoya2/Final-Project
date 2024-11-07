@@ -20,7 +20,7 @@ const ModifyDishes = () => {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [categories, setCategories] = useState<ICategory[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 10;
+    const itemsPerPage = 15; // Cambiado a 15
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -58,15 +58,14 @@ const ModifyDishes = () => {
     };
 
     const paginatedProducts = products
-    .filter(product => product.product_name.toLowerCase().includes(searchTerm.toLowerCase()))
-    .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+        .filter(product => product.product_name.toLowerCase().includes(searchTerm.toLowerCase()))
+        .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
     const handlePageChange = (pageNumber: number) => {
         setCurrentPage(pageNumber);
     }
 
     const totalPages = Math.ceil(products.length / itemsPerPage);
-
 
     const handleModify = (product: IProducts) => {
         setSelectedProduct(product);
@@ -90,16 +89,16 @@ const ModifyDishes = () => {
                 cancelButtonText: 'Cancel'
             });
 
-            // Si el usuario confirma, proceder con la eliminación
             if (result.isConfirmed) {
-            const response = await removeProduct(productId, token);
-            Swal.fire({
-                title: response.message,
-                icon: 'success',
-                timer: 1000,
-            });
+                const response = await removeProduct(productId, token);
+                Swal.fire({
+                    title: response.message,
+                    icon: 'success',
+                    timer: 1000,
+                });
 
-            fetchProducts();}
+                fetchProducts();
+            }
         } catch {
             console.error("Error al eliminar el producto");
         }
@@ -134,59 +133,70 @@ const ModifyDishes = () => {
             </div>
 
             <ul className="w-11/12 md:w-1/2 m-auto space-y-6">
-                {products && Array.isArray(products) && products.length > 0 ? (
-                    products
-                        .filter(product => product.product_name.toLowerCase().includes(searchTerm.toLowerCase()))
-                        .map((product) => (
-                            <li key={product.product_id} className="flex items-center p-4 bg-white rounded-lg shadow-md">
-                                <Image
-                                    src={product.image_url}
-                                    alt={product.product_name}
-                                    width={120}
-                                    height={120}
-                                    className="rounded-md mr-4"
-                                />
-                                <div className="flex justify-between w-full">
-                                    <div className="w-2/3 h-full">
-                                        <h2 className="text-black text-lg md:text-xl font-semibold">{product.product_name}</h2>
-                                        <p className="text-neutral-800 line-clamp-2">{product.description}</p>
-                                    </div>
-                                    <div className="hidden md:flex flex-col justify-around items-center">
-                                        <button
-                                            className="flex bg-neutral-500 w-20 h-8 justify-center items-center px-2 rounded-md hover:bg-neutral-600 text-white"
-                                            onClick={() => handleModify(product)}
-                                        >
-                                            Edit
-                                            <Image src={'/assets/icon/pencilwhite.png'} width={20} height={20} alt="edit" className="ml-2" />
-                                        </button>
-                                        <button
-                                            className="bg-secondary w-20 h-8 justify-center items-center px-2 rounded-md hover:bg-red-700 text-white"
-                                            onClick={() => handleDelete(product.product_id)}
-                                        >
-                                            Delete
-                                        </button>
-                                    </div>
-                                    <div className="md:hidden flex flex-col justify-around items-center">
-                                        <button
-                                            className="flex w-10 h-10 justify-center items-center px-2 rounded-md"
-                                            onClick={() => handleModify(product)}
-                                        >
-                                            <Image src={'/assets/icon/pencildark.png'} width={20} height={20} alt="edit" className="ml-2" />
-                                        </button>
-                                        <button
-                                            className="w-10 h-10 justify-center items-center px-2 rounded-md"
-                                            onClick={() => handleDelete(product.product_id)}
-                                        >
-                                            <Image src={'/assets/icon/trashred.png'} width={30} height={30} alt="trash"/>
-                                        </button>
-                                    </div>
+                {paginatedProducts && Array.isArray(paginatedProducts) && paginatedProducts.length > 0 ? (
+                    paginatedProducts.map((product) => (
+                        <li key={product.product_id} className="flex items-center p-4 bg-white rounded-lg shadow-md">
+                            <Image
+                                src={product.image_url}
+                                alt={product.product_name}
+                                width={120}
+                                height={120}
+                                className="rounded-md mr-4"
+                            />
+                            <div className="flex justify-between w-full">
+                                <div className="w-2/3 h-full">
+                                    <h2 className="text-black text-lg md:text-xl font-semibold">{product.product_name}</h2>
+                                    <p className="text-neutral-800 line-clamp-2">{product.description}</p>
                                 </div>
-                            </li>
+                                <div className="hidden md:flex flex-col justify-around items-center">
+                                    <button
+                                        className="flex bg-neutral-500 w-20 h-8 justify-center items-center px-2 rounded-md hover:bg-neutral-600 text-white"
+                                        onClick={() => handleModify(product)}
+                                    >
+                                        Edit
+                                        <Image src={'/assets/icon/pencilwhite.png'} width={20} height={20} alt="edit" className="ml-2" />
+                                    </button>
+                                    <button
+                                        className="bg-secondary w-20 h-8 justify-center items-center px-2 rounded-md hover:bg-red-700 text-white"
+                                        onClick={() => handleDelete(product.product_id)}
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
                     ))
                 ) : (
                     <p>No products found</p>
                 )}
             </ul>
+
+            {/* Paginación */}
+            <div className="flex justify-center mt-4">
+                <button 
+                    onClick={() => handlePageChange(currentPage - 1)} 
+                    disabled={currentPage === 1}
+                    className="px-4 py-2 mx-2 bg-gray-300 rounded-lg"
+                >
+                    Prev
+                </button>
+                {Array.from({ length: totalPages }, (_, index) => (
+                    <button
+                        key={index + 1}
+                        onClick={() => handlePageChange(index + 1)}
+                        className={`px-4 py-2 mx-2 rounded-lg ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                    >
+                        {index + 1}
+                    </button>
+                ))}
+                <button 
+                    onClick={() => handlePageChange(currentPage + 1)} 
+                    disabled={currentPage === totalPages}
+                    className="px-4 py-2 mx-2 bg-gray-300 rounded-lg"
+                >
+                    Next
+                </button>
+            </div>
 
             {isFormOpen && (
                 <div className="fixed inset-0 mt-16 flex items-center justify-center bg-black bg-opacity-50">

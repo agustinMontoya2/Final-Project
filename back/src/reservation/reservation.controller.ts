@@ -34,14 +34,15 @@ export class ReservationController {
   async createReservationController(
     @Body() createReservationDto: CreateReservationDto,
   ) {
+    console.log(createReservationDto);
     const user = await this.credentialRepository.findOne({
       where: { user: { user_id: createReservationDto.user_id } },
       relations: ['user'],
     });
 
-    if (user) {
-      await this.mailService.mailConfirm(user.email, 'Reservation');
-    }
+    // if (user) {
+    //   await this.mailService.mailConfirm(user.email, 'Reservation');
+    // }
 
     return this.reservationService.createReservationService(
       createReservationDto,

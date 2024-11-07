@@ -18,14 +18,7 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
   const [hoverRating, setHoverRating] = useState<number | null>(null);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const hasPurchasedProduct = () => {
-    if (typeof window !== "undefined") {
-      const purchasedProducts = JSON.parse(localStorage.getItem("purchasedProducts") || "[]");
-      console.log("Prodcutos agregados al array:", purchasedProducts)
-      console.log(product_id)
-      return purchasedProducts.includes(product_id);
-    }
-  };
+
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -46,6 +39,15 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
   useEffect(() => {
     if (userId && token) fetchFavorities();
   }, [userId, token]);
+
+  const hasPurchasedProduct = () => {
+    if (typeof window !== "undefined") {
+      const purchasedProductIds = JSON.parse(localStorage.getItem("purchasedProductIds") || "[]");
+      console.log("Productos comprados:", purchasedProductIds);
+      return purchasedProductIds.includes(product_id);
+    }
+    return false;
+  };
 
   const fetchFavorities = async () => {
     if (token && userId) {
@@ -90,16 +92,16 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
     })
     try {
       await addCart(userId, productId, token);
-      saveProductToLocalStorage(productId);
       Swal.fire({ icon: 'success', title: 'Product added to the cart', toast: true, position: 'top-end', timer: 2500, showConfirmButton: false });
+      handlePurchase(productId);
     } catch {
       Swal.fire({ icon: 'error', title: 'Error', toast: true, position: 'top-end', timer: 2500, showConfirmButton: false });
     }
   };
 
+
   const saveProductToLocalStorage = (productId: string) => {
     if (typeof window !== "undefined") {
-
       const purchasedProducts = JSON.parse(localStorage.getItem("purchasedProducts") || "[]");
       if (!purchasedProducts.includes(productId)) {
         purchasedProducts.push(productId);
@@ -133,6 +135,9 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
     }
 
 
+
+
+
     if (reviewPost.rate === 0) {
       Swal.fire({
         title: `Please select a rating before submitting.`,
@@ -161,6 +166,10 @@ const ProductCards: React.FC<IProducts> = ({ product_id, price, description, ima
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handlePurchase = (productId: string) => {
+    saveProductToLocalStorage(productId);
   };
 
   const handleStarClick = (selectedRate: number) => setReviewPost(prev => ({ ...prev, rate: selectedRate }));

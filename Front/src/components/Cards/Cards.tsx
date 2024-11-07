@@ -27,6 +27,8 @@ const Cards = () => {
     const [token, setToken] = useState<string | null>(null);
     const [favorities, setFavorities] = useState<IFavorities>();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10; // Cambiado a 15
 
 
     useEffect(() => {
@@ -202,6 +204,15 @@ const Cards = () => {
         "/assets/saturday.jpeg",
     ];
 
+    const paginatedProducts = products
+        .filter(product => product.product_name.toLowerCase().includes(searchTerm.toLowerCase()))
+        .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+    const handlePageChange = (pageNumber: number) => {
+        setCurrentPage(pageNumber);
+    }
+
+    const totalPages = Math.ceil(products.length / itemsPerPage);
 
     return (
         <div className="pt-5 rounded-lg">
@@ -220,8 +231,8 @@ const Cards = () => {
                                     {isDropdownOpen && (
                                         <div className="absolute bg-white border rounded-lg z-20 shadow-lg p-3">
                                             <div className="flex mb-2">
-                                                <Image src={'/assets/icon/crossblack.png'} width={15} height={15} alt="cross"  onClick={() => setIsDropdownOpen(false)} className="w-5 h-5"/>
-                                                <span className=" font-bold text-neutral-800 ml-6">Filters</span>
+                                                <Image src={'/assets/icon/crossblack.png'} width={15} height={15} alt="cross" onClick={() => setIsDropdownOpen(false)} className="w-5 h-5"/>
+                                                <span className="font-bold text-neutral-800 ml-6">Filters</span>
                                             </div>
                                             <hr className="border-neutral-600"/>
                                             <div className="flex flex-col">
@@ -285,25 +296,25 @@ const Cards = () => {
                                 <button onClick={() => toggleCategory("Sides")} className={`font-medium py-1 px-3 rounded ${filters.category.includes("Sides") ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>Sides</button>
                                 <button onClick={() => toggleCategory("Desserts")} className={`font-medium py-1 px-3 rounded ${filters.category.includes("Desserts") ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>Desserts</button>
                                 <button onClick={() => toggleCategory("glutenFree")} className={`font-medium py-1 px-3 rounded ${filters.category.includes("glutenFree") ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>Gluten Free</button>
-
+    
                                 <button onClick={() => setFilters({ ...filters, priceOrder: "asc" })} className={`font-medium py-1 px-3 rounded ${filters.priceOrder === "asc" ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>
                                     Price: Low to High
                                 </button>
                                 <button onClick={() => setFilters({ ...filters, priceOrder: "desc" })} className={`font-medium py-1 px-3 rounded ${filters.priceOrder === "desc" ? "bg-red-800 text-white hover:bg-red-800" : "bg-white text-red-600 hover:bg-neutral-100"}`}>
                                     Price: High to Low
                                 </button>
-
+    
                                 <button onClick={() => setFilters({ ...filters, showFavorites: !filters.showFavorites })} className="bg-white text-red-600 hover:bg-neutral-100 font-medium py-1 px-3 rounded">
                                     {filters.showFavorites ? "Watch all" : "Watch favorites"}
                                 </button>
                                 <button onClick={clearFilters} className="bg-gray-500 text-white font-bold py-1 px-3 rounded hover:bg-gray-600">Clear Filter</button>
                             </div>
                         </div>
-
+    
                         <Carousel images={images}/>
-
+    
                         <div className="md:w-3/5 w-4/5 h-auto mt-4 grid grid-cols-1 sm:grid-cols-2 gap-6 justify-evenly m-auto">
-                            {filteredProducts.map((product) => (
+                            {paginatedProducts.map((product) => (
                                 <div key={product.product_id} className="flex items-center shadow-2xl rounded-xl p-4 hover:scale-105 duration-500 bg-primary">
                                     <Link href={`/product/${product.product_id}`}>
                                         <div className="relative w-36 flex justify-center items-center">
@@ -340,14 +351,12 @@ const Cards = () => {
                                                 />
                                             </button>
                                         </div>
-                                        <p className="text-black text-sm line-clamp-2 mb-2">
-                                            <b>Description:</b> {product.description}
-                                        </p>
-                                        <div className="w-full flex justify-between items-center">
-                                            <p className="text-black text-sm"><b>Price:</b> ${product.price}</p>
+                                        <p className="text-black text-sm line-clamp-2...">{product.description}</p>
+                                        <div className="mt-2">
+                                            <span className="text-black text-lg font-semibold">{product.price} USD</span>
 
                                             <button
-                                                className="bg-secondary px-3 py-1 rounded-md hover:bg-red-700"
+                                                className="bg-secondary px-3 ml-24 py-1 rounded-md hover:bg-red-700"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     handleAddCart(product.product_id);
@@ -360,11 +369,35 @@ const Cards = () => {
                                 </div>
                             ))}
                         </div>
+    
+                        <div className="flex justify-center mt-4 py-3 pb-20">
+                            <button 
+                                onClick={() => handlePageChange(currentPage - 1)} 
+                                disabled={currentPage === 1} 
+                                className="px-4 py-2 bg-red-600 text-white rounded mr-2">
+                                Prev
+                            </button>
+                            {[...Array(totalPages)].map((_, index) => (
+                                <button 
+                                    key={index} 
+                                    onClick={() => handlePageChange(index + 1)} 
+                                    className={`px-4 py-2 rounded ${currentPage === index + 1 ? 'bg-red-600 text-white' : 'bg-white text-red-600'}`}>
+                                    {index + 1}
+                                </button>
+                            ))}
+                            <button 
+                                onClick={() => handlePageChange(currentPage + 1)} 
+                                disabled={currentPage === totalPages} 
+                                className="px-4 py-2 bg-red-600 text-white rounded ml-2">
+                                Next
+                            </button>
+                        </div>
                     </>
                 )
             }
         </div>
     );
+    
 };
 
 export default Cards;

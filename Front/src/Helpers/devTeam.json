@@ -19,7 +19,7 @@
       "name": "Emmanuel Herman Irastorza",
       "role": "Frontend Developer",
       "bio": "Apasionado por el diseño de interfaces y la experiencia de usuario, con 3 años de experiencia en React y JavaScript.",
-      "skills": ["React", "JavaScript", "CSS", "HTML"],
+      "skills": ["React", "JavaScript", "CSS", "HTML", "Typescript", "express", "ChartJs", "Tailwind", "NextJS", "SQL"],
       "contact": {
         "email": "Emma225h@gmail.com",
         "linkedin": "https://www.linkedin.com/in/emmanuel-herman-4b3a3b219/",
@@ -82,20 +82,18 @@
         },
     "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518903/kwmttiiptetrdymbk0zu.jpg"
   },
-
-
-    {"name": "Juan Pérez",
-    "role": "Frontend Developer",
-    "bio": "Apasionado por el diseño de interfaces y la experiencia de usuario, con 3 años de experiencia en React y JavaScript.",
-    "skills": ["React", "JavaScript", "CSS", "HTML"],
+  {
+    "name": "Facundo Martínez",
+    "role": "Desarrollador Backend Junior",
+    "bio": "Desarrollador backend en constante aprendizaje, apasionado por crear y optimizar soluciones eficientes y escalables. Con experiencia en la implementación de APIs y manejo de bases de datos.",  
+    "skills": ["Node.js", "JavaScript", "TypeScript", "SQL", "NestJS", "TypeORM"],
     "contact": {
-      "email": "juan.perez@example.com",
-      "linkedin": "https://www.linkedin.com/in/juanperez",
-      "github": "https://github.com/jehiel"
+      "email": "facumar04@hotmail.com",
+      "linkedin": "www.linkedin.com/in/facundo-martinez-b650a8231",
+      "github": "https://github.com/FacundoMartinezX"
     },
-    "image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518903/kwmttiiptetrdymbk0zu.jpg"
-  }
-
+"image_url": "https://res.cloudinary.com/dpnhtxzv3/image/upload/v1729518903/kwmttiiptetrdymbk0zu.jpg"
+}
 
     ]
   }

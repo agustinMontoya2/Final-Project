@@ -10,7 +10,7 @@ export default function VoiceflowWidget() {
     script.async = true;
     script.onload = () => {
       if (window.voiceflow && window.voiceflow.chat) {
-        window.voiceflow.chat.load({
+          window.voiceflow.chat.load({
           verify: { projectID: '672114eb10df1f272c34aa90' },
           url: 'https://general-runtime.voiceflow.com/',
           versionID: 'production',

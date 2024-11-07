@@ -127,7 +127,12 @@ const Profile = () => {
         setEditableData(response);
         setOriginalProfileImg(response.user_img || "/assets/icon/profileblack.png");
       } catch (error) {
-        alert(error);
+        Swal.fire({
+          title: "user not found, please try again",
+          icon: "error",
+          confirmButtonText: "accept",
+          confirmButtonColor: "#1988f0",
+        });
       }
     } else {
       Swal.fire({
@@ -149,7 +154,7 @@ const Profile = () => {
 
   return (
     <div
-      className={`h-auto p-6 rounded-lg bg-white shadow-lg w-screen max-w-md mx-auto my-48 transition-all duration-1000 ease-in-out ${isEditing ? "max-h-screen" : "max-h-auto"}`}
+      className={`h-auto p-6 rounded-lg bg-white shadow-lg w-4/5 md:w-screen max-w-md mx-auto my-48 transition-all duration-1000 ease-in-out ${isEditing ? "max-h-screen" : "max-h-auto"}`}
     >
       <div className="w-full flex justify-center items-center">
         <h1 className="text-2xl font-semibold text-center text-gray-800">

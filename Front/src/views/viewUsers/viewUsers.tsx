@@ -19,9 +19,9 @@ const ViewUsers = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    // Filtros
-    const [statusFilter, setStatusFilter] = useState<string>('all'); // 'all', 'active', 'banned'
-    const [roleFilter, setRoleFilter] = useState<string>('all'); // 'all', 'admin', 'user'
+
+    const [statusFilter, setStatusFilter] = useState<string>('all'); 
+    const [roleFilter, setRoleFilter] = useState<string>('all'); 
 
     useEffect(() => {
         if (typeof window !== 'undefined' && window.localStorage) {
@@ -60,7 +60,7 @@ const ViewUsers = () => {
             try {
                 const userToBan = users.find(user => user.user_id === user_id);
                 if (!userToBan) return;
-                const reason = "por puto";
+                const reason = "no reason provided";
 
                 await banUser(user_id, token, reason);
                 Swal.fire({
@@ -128,11 +128,21 @@ const ViewUsers = () => {
                 setIsBanModalOpen(false);
                 setBanReason('');
                 setEditableUserId(null);
+
+                Swal.fire({
+                    title: 'Action completed',
+                    icon: 'success',
+                    timer: 1000,
+                });
             } catch (error: any) {
                 console.error("Error al banear usuario", error.message);
             }
         } else {
-            alert("Please provide a reason for banning.");
+            Swal.fire({
+                    title: 'Please provide a reason',
+                    icon: 'error',
+                    timer: 1000,
+                });
         }
     };
 
@@ -145,23 +155,63 @@ const ViewUsers = () => {
     return (
         <div className="w-full container mx-auto p-4">
             <h2 className="text-3xl font-bold text-center text-neutral-800 mb-4">User List</h2>
+
+            {isBanModalOpen && (
+                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50">
+                    <div className="bg-white p-6 rounded-lg shadow-xl w-96">
+                        <h2 className="text-2xl font-semibold mb-4 text-neutral-800">
+                            {editableUserId && users.find(user => user.user_id === editableUserId)?.isBanned ? 'Unban User' : 'Ban User'}
+                        </h2>
+                        
+                        <input
+                            type="text"
+                            value={banReason}
+                            onChange={(e) => setBanReason(e.target.value)}
+                            placeholder="Enter reason"
+                            className="border px-4 py-2 mb-4 w-full text-neutral-600"
+                        />
+                        
+                        <div className="flex justify-between">
+                            <button
+                                onClick={() => setIsBanModalOpen(false)}
+                                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                            >
+                                Close
+                            </button>
+
+                            <button
+                                onClick={handleBanUser}
+                                className={`px-4 py-2 rounded text-white ${
+                                    users.find(user => user.user_id === editableUserId)?.isBanned
+                                        ? 'bg-green-500 hover:bg-green-600'
+                                        : 'bg-red-500 hover:bg-red-600'
+                                }`}
+                            >
+                                {users.find(user => user.user_id === editableUserId)?.isBanned ? 'Unban User' : 'Ban User'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            
             <div className='w-full h-auto flex items-center flex-col md:flex-row justify-center space-y-3 md:mb-4'>
                 <div className="w-full md:w-1/3 h-auto flex justify-center items-center gap-4">
                     <button
                         onClick={() => setStatusFilter('all')}
-                        className={`px-2 py-1 rounded text-neutral-800 ${statusFilter === 'all' ? 'bg-red-500 text-white' : 'bg-gray-200'}`}
+                        className={`px-2 py-1 rounded text-neutral-800 ${statusFilter === 'all' ? 'bg-red-500 text-white' : 'bg-white'}`}
                     >
                         Clean Status
                     </button>
                     <button
                         onClick={() => setStatusFilter('active')}
-                        className={`px-2 py-1 rounded text-neutral-800 ${statusFilter === 'active' ? 'bg-red-500 text-white' : 'bg-gray-200'}`}
+                        className={`px-2 py-1 rounded text-neutral-800 ${statusFilter === 'active' ? 'bg-green-500 text-white' : 'bg-white'}`}
                     >
                         Active
                     </button>
                     <button
                         onClick={() => setStatusFilter('banned')}
-                        className={`px-2 py-1 rounded text-neutral-800 ${statusFilter === 'banned' ? 'bg-red-500 text-white' : 'bg-gray-200'}`}
+                        className={`px-2 py-1 rounded text-neutral-800 ${statusFilter === 'banned' ? 'bg-red-500 text-white' : 'bg-white'}`}
                     >
                         Banned
                     </button>
@@ -185,71 +235,72 @@ const ViewUsers = () => {
                 <div className="w-full md:w-1/3 flex justify-center items-center gap-4">
                     <button
                         onClick={() => setRoleFilter('all')}
-                        className={`px-2 py-1 rounded text-neutral-800 ${roleFilter === 'all' ? 'bg-red-500 text-white' : 'bg-gray-200'}`}
+                        className={`px-2 py-1 rounded text-neutral-800 ${roleFilter === 'all' ? 'bg-red-500 text-white' : 'bg-white'}`}
                     >
                         Clean Roles
                     </button>
                     <button
                         onClick={() => setRoleFilter('admin')}
-                        className={`px-2 py-1 rounded text-neutral-800 ${roleFilter === 'admin' ? 'bg-red-500 text-white' : 'bg-gray-200'}`}
+                        className={`px-2 py-1 rounded text-neutral-800 ${roleFilter === 'admin' ? 'bg-green-500 text-white' : 'bg-white'}`}
                     >
                         Admin
                     </button>
                     <button
                         onClick={() => setRoleFilter('user')}
-                        className={`px-2 py-1 rounded text-neutral-800 ${roleFilter === 'user' ? 'bg-red-500 text-white' : 'bg-gray-200'}`}
+                        className={`px-2 py-1 rounded text-neutral-800 ${roleFilter === 'user' ? 'bg-red-500 text-white' : 'bg-white'}`}
                     >
                         User
                     </button>
                 </div>
             </div>
-    
             {filteredUsers.length > 0 ? (
-                <table className="min-w-full bg-white border border-red-300 shadow-lg">
-                    <thead>
-                        <tr className="bg-red-500 text-white">
-                            <th className="py-2 px-4 border-b">Name</th>
-                            <th className="py-2 px-4 border-b">Phone</th>
-                            <th className="py-2 px-4 border-b">Address</th>
-                            <th className="py-2 px-4 border-b">Email</th>
-                            <th className="py-2 px-4 border-b">Status</th>
-                            <th className="py-2 px-4 border-b">Role</th>
-                            <th className="py-2 px-4 border-b">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredUsers.map((user) => (
-                            <tr key={user.user_id} className="hover:bg-gray-100">
-                                <td className="py-2 px-4 border-b text-black">{user.name || 'N/A'}</td>
-                                <td className="py-2 px-4 border-b text-black">{user.phone || 'N/A'}</td>
-                                <td className="py-2 px-4 border-b text-black">{user.address || 'N/A'}</td>
-                                <td className="py-2 px-4 border-b text-black">{user.credential?.email || 'N/A'}</td>
-                                <td className={`py-2 px-4 border-b ${user.isBanned ? 'text-red-500' : 'text-green-500'}`}>
-                                    {user.isBanned ? 'Banned' : 'Active'}
-                                </td>
-                                <td className={`py-2 px-4 border-b ${!user.isAdmin ? 'text-red-500' : 'text-green-500'}`}>
-                                    {user.isAdmin ? 'Admin' : 'User'}
-                                </td>
-                                <td className="py-2 px-4 border-b">
-                                    <div className="flex justify-evenly">
-                                        <button
-                                            onClick={() => openBanModal(user.user_id)}
-                                            className={`w-36 px-3 py-2 rounded ${user.isBanned ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'} text-white`}
-                                        >
-                                            {user.isBanned ? 'Unban User' : 'Ban User'}
-                                        </button>
-                                        <button
-                                            onClick={() => handleAdmin(user.user_id)}
-                                            className={`w-36 px-2 py-2 rounded ${user.isAdmin ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'} text-white`}
-                                        >
-                                            {user.isAdmin ? 'Unadmin User' : 'Admin User'}
-                                        </button>
-                                    </div>
-                                </td>
+                    <div className="overflow-x-auto w-full mt-6">
+                    <table className="min-w-full bg-white border border-red-300 shadow-lg">
+                        <thead>
+                            <tr className="bg-red-500 text-white">
+                                <th className="py-2 px-4 border-b">Name</th>
+                                <th className="py-2 px-4 border-b">Phone</th>
+                                <th className="py-2 px-4 border-b">Address</th>
+                                <th className="py-2 px-4 border-b">Email</th>
+                                <th className="py-2 px-4 border-b">Status</th>
+                                <th className="py-2 px-4 border-b">Role</th>
+                                <th className="py-2 px-4 border-b">Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {filteredUsers.map((user) => (
+                                <tr key={user.user_id} className="hover:bg-gray-100">
+                                    <td className="py-2 px-4 border-b text-black">{user.name || 'N/A'}</td>
+                                    <td className="py-2 px-4 border-b text-black">{user.phone || 'N/A'}</td>
+                                    <td className="py-2 px-4 border-b text-black">{user.address || 'N/A'}</td>
+                                    <td className="py-2 px-4 border-b text-black">{user.credential?.email || 'N/A'}</td>
+                                    <td className={`py-2 px-4 border-b ${user.isBanned ? 'text-red-500' : 'text-green-500'}`}>
+                                        {user.isBanned ? 'Banned' : 'Active'}
+                                    </td>
+                                    <td className={`py-2 px-4 border-b ${!user.isAdmin ? 'text-red-500' : 'text-green-500'}`}>
+                                        {user.isAdmin ? 'Admin' : 'User'}
+                                    </td>
+                                    <td className="py-2 px-4 border-b">
+                                        <div className="flex justify-evenly">
+                                            <button
+                                                onClick={() => openBanModal(user.user_id)}
+                                                className={`w-36 px-3 py-2 rounded ${user.isBanned ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'} text-white`}
+                                            >
+                                                {user.isBanned ? 'Unban User' : 'Ban User'}
+                                            </button>
+                                            <button
+                                                onClick={() => handleAdmin(user.user_id)}
+                                                className={`w-36 px-2 py-2 rounded ${user.isAdmin ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'} text-white`}
+                                            >
+                                                {user.isAdmin ? 'Unadmin User' : 'Admin User'}
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             ) : (
                 <div className="text-center py-8 text-gray-500">
                     No users found.
@@ -257,7 +308,6 @@ const ViewUsers = () => {
             )}
         </div>
     );
-    
 };
 
 export default ViewUsers;
