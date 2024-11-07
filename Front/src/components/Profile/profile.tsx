@@ -127,7 +127,12 @@ const Profile = () => {
         setEditableData(response);
         setOriginalProfileImg(response.user_img || "/assets/icon/profileblack.png");
       } catch (error) {
-        alert(error);
+        Swal.fire({
+          title: "user not found, please try again",
+          icon: "error",
+          confirmButtonText: "accept",
+          confirmButtonColor: "#1988f0",
+        });
       }
     } else {
       Swal.fire({
