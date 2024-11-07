@@ -204,9 +204,7 @@ const Cards = () => {
         "/assets/saturday.jpeg",
     ];
 
-    const paginatedProducts = products
-        .filter(product => product.product_name.toLowerCase().includes(searchTerm.toLowerCase()))
-        .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+    const paginatedProducts = filteredProducts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
     const handlePageChange = (pageNumber: number) => {
         setCurrentPage(pageNumber);
