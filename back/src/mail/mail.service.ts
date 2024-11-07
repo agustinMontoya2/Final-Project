@@ -48,18 +48,21 @@ export class MailService {
   async mailWelcome(to: string, userName: string) {
     const emailContent = `
       <div style="font-family: Arial, sans-serif; color: #333;">
-        <h2>Welcome to Club Fellini Bar, ${userName}!</h2>
-        <p>Dear ${userName},</p>
-        <p>Thank you for registering with Club Fellini Bar, your destination for great dining and convenience!</p>
-        <p>At Club Fellini, you can make table reservations, order delicious meals for delivery or take-away, and enjoy our varied menu with options for breakfast, lunch, snacks, and dinner.</p>
-        <p>Whether you prefer dining indoors or outdoors, paying with cash or card, we’re here to provide a seamless experience.</p>
-        <p>To get started, you can <a href="https://final-project-blush-gamma.vercel.app/login" style="color: #1a73e8;">log in to your account here</a> and explore our offerings.</p>
-        <p>If you have any questions or need assistance, feel free to reach out to us. We're here to make your Club Fellini experience enjoyable and easy.</p>
-        <br>
-        <p>Best regards,</p>
-        <p><strong>The Club Fellini Bar Team</strong></p>
-        <p><em>Your place for memorable meals and convenient dining.</em></p>
-      </div>
+    <h2>Welcome to Club Fellini Bar, ${userName}!</h2>
+    <p>Dear ${userName},</p>
+    <p>Thank you for registering with Club Fellini Bar, your destination for great dining and convenience!</p>
+    <p>At Club Fellini, you can make table reservations, order delicious meals for delivery or take-away, and enjoy our varied menu with options for breakfast, lunch, snacks, and dinner.</p>
+    <p>Whether you prefer dining indoors or outdoors, paying with cash or card, we’re here to provide a seamless experience.</p>
+    <p>As a special welcome, here’s a <strong>10% discount code</strong> for your first order:</p>
+    <p style="font-size: 18px; color: #1a73e8; font-weight: bold;">FELLINI10OFF</p>
+    <p>To use it, simply apply the code at checkout when placing your order!</p>
+    <p>To get started, you can <a href="https://final-project-blush-gamma.vercel.app/login" style="color: #1a73e8;">log in to your account here</a> and explore our offerings.</p>
+    <p>If you have any questions or need assistance, feel free to reach out to us. We're here to make your Club Fellini experience enjoyable and easy.</p>
+    <br>
+    <p>Best regards,</p>
+    <p><strong>The Club Fellini Bar Team</strong></p>
+    <p><em>Your place for memorable meals and convenient dining.</em></p>
+</div>
     `;
     const msg = {
       to,
