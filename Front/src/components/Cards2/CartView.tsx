@@ -379,14 +379,7 @@ const CartView = () => {
                     </span>
                   </p>
                 )}
-                {!discountApplied && (
-                  <p
-                    className="text-blue-700 text-sm hover:underline cursor-pointer"
-                    onClick={() => setShowCouponModal(true)}
-                  >
-                    Do you have a coupon?
-                  </p>
-                )}
+                
               </div>
             </span>
           </ul>
