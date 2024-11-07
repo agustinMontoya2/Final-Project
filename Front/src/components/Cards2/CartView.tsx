@@ -39,7 +39,8 @@ const CartView = () => {
       const storeUserData = window.localStorage.getItem("userSession");
       if (storeUserData) {
         const parseData = JSON.parse(storeUserData);
-        if (parseData && parseData.user) setUserId(parseData.user.user_id);
+        if (parseData && parseData.user) 
+        setUserId(parseData.user.user_id);
         setToken(parseData.token);
       }
     }
@@ -187,6 +188,7 @@ const CartView = () => {
         discount: discountApplied ? totalCart * 0.1 : 0,
         date: new Date().toISOString()
       };
+      
 
       //* LA FUNCION EMPIEZA ACA
       try {
@@ -200,8 +202,13 @@ const CartView = () => {
         }
         if (paymentOption === "cash") {
           const response = await postOrder(orderData, token);
+   
           if (response) {
             await handleGetCart();
+            const purchasedProductIds: string[] = cartItems.productDetail.map(item => item.product.product_id);
+            const storedProductIds: string[] = JSON.parse(localStorage.getItem('purchasedProductIds') || '[]');
+            const updatedProductIds: string[] = Array.from(new Set([...storedProductIds, ...purchasedProductIds]));
+            localStorage.setItem('purchasedProductIds', JSON.stringify(updatedProductIds));
             Swal.fire({
               icon: "success",
               title: "Thank you for your purchase!",
@@ -254,6 +261,7 @@ const CartView = () => {
       alert("Invalid coupon code.");
     }
   };
+
 
   const modalCupon = () => {
     return (
