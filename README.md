@@ -12,8 +12,11 @@ Gestión de productos y pedidos: Los administradores pueden gestionar productos 
 Pagos en línea: Integración con un sistema de pagos para realizar pagos seguros.
 Notificaciones en tiempo real: El personal del restaurante y los usuarios reciben actualizaciones instantáneas sobre el estado de los pedidos.
 Carga de imágenes: Los administradores pueden subir imágenes de los productos para su visualización en el menú.
+
 🛠️ Instalación
+
 Clona el repositorio:
+
 
 git clone https://github.com/agustinMontoya2/Final-Project.git
 
@@ -21,6 +24,7 @@ cd Final-Project
 
 
 Instala las dependencias:
+
 
 npm install
 Configura las variables de entorno en un archivo .env. 
