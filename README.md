@@ -1,4 +1,5 @@
 🥂 Restaurante Fellini
+
 Bienvenido al proyecto Restaurante Fellini, una plataforma completa de administración y gestión para restaurantes. Este sistema permite a los usuarios explorar el menú, realizar pedidos, y realizar pagos en línea, mientras que el personal del restaurante puede gestionar órdenes en tiempo real.
 
 📋 Índice
