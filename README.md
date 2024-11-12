@@ -15,13 +15,14 @@ Carga de imágenes: Los administradores pueden subir imágenes de los productos 
 🛠️ Instalación
 Clona el repositorio:
 
-git clone https://github.com/tu_usuario/fellini-restaurant.git
-cd fellini-restaurant
+git clone https://github.com/agustinMontoya2/Final-Project.git
+cd Final-Project
 
 Instala las dependencias:
 
 npm install
-Configura las variables de entorno en un archivo .env. Asegúrate de agregar los datos de configuración para la base de datos, autenticación, pagos, etc.
+Configura las variables de entorno en un archivo .env. 
+Asegúrate de agregar los datos de configuración para la base de datos, autenticación, pagos, etc.
 
 📞 Contacto
 Para cualquier duda o consulta sobre el proyecto, puedes contactarnos:
